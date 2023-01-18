@@ -6,13 +6,14 @@ import java.util.Optional;
 
 import com.a608.modac.model.Article;
 import com.a608.modac.model.ArticleRepository;
+import com.a608.modac.model.ArticleRequest;
 
 public class ArticleServiceImpl implements ArticleService {
 
 	private ArticleRepository articleRepository;
 
 	@Override
-	public void registArticle(long usersSeq, long todosSeq, int publicType, String filepath) {
+	public void registArticle(ArticleRequest.Regist registDto) {
 
 		// ================================
 		// TodoRepository를 import해서 todosSeq로 검색

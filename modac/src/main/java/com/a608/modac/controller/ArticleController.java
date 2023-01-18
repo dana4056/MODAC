@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.a608.modac.model.Article;
+import com.a608.modac.model.ArticleRequest;
 import com.a608.modac.service.ArticleService;
 
 @RestController
@@ -29,8 +30,8 @@ public class ArticleController {
 
     // 게시글 작성 (POST)
     @PostMapping("/article")
-    public ResponseEntity<String> createArticle(long usersSeq,long todosSeq, int publicType, String filepath) {
-        articleService.registArticle(usersSeq, todosSeq, publicType, filepath);
+    public ResponseEntity<String> createArticle(ArticleRequest.Regist registDto) {
+        articleService.registArticle(registDto);
         return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
     }
 
