@@ -1,7 +1,7 @@
 <script setup>
-import TodoListTitle from "../domains/TodoList/TodoListTitle.vue";
-import TodoList from "../domains/TodoList/TodoList.vue";
-import TodoForm from "../domains/TodoList/TodoForm.vue";
+import TodoListTitle from "../domains/Room/Todo/TodoListTitle.vue";
+import TodoList from "../domains/Room/Todo/TodoList.vue";
+import TodoForm from "../domains/Room/Todo/TodoForm.vue";
 </script>
 
 <template>
