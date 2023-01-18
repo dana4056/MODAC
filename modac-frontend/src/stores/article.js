@@ -7,10 +7,12 @@ export const useTodoStore = defineStore("article", () => {
   const userId = ref(null);
   const backendServerUrl = ref("localhost");
 
+  // 백이랑 연결 되면 삭제 예정
   const addArticleItem = (inputarticleItem) => {
     console.log(inputarticleItem);
     articles.push(inputarticleItem);
   };
+  // 
 
   const getArticleList = () => {
     console.log(2);
