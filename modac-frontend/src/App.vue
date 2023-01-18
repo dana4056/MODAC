@@ -4,7 +4,8 @@
   <header>
     <nav>
       <RouterLink to="/todoList">투두 리스트</RouterLink><br />
-      <RouterLink to="/studyRoom">스터디 룸</RouterLink>
+      <RouterLink to="/studyRoom">스터디 룸</RouterLink><br />
+      <RouterLink to="/test">Test View</RouterLink>
     </nav>
   </header>
 
