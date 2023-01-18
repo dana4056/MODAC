@@ -59,7 +59,7 @@ function fetchAccessToken(){
 }
 
 // 액세스 토큰(access_token)으로 사용자 정보 요청
-function fetchUser(){ 
+function fetchUser(){
     const GITHUB_API_SERVER = "https://api.github.com"
     const headers={
         "Authorization" : "Bearer "+ store.access_token,
