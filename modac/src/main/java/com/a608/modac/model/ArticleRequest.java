@@ -8,9 +8,9 @@ import lombok.Setter;
 public class ArticleRequest {
 	@Getter
 	@AllArgsConstructor
-	public class Regist {
-		private final long usersSeq;
-		private final long categoriesSeq;
+	public class Register {
+		private final Long usersSeq;
+		private final Long categoriesSeq;
 		private final int publicType;
 		private final String filepath;
 	}

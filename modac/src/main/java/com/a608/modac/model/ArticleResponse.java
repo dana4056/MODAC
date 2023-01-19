@@ -11,7 +11,7 @@ public class ArticleResponse {
 	@Setter
 	@AllArgsConstructor
 	public class Info {
-		private final long seq;
+		private final Long seq;
 		private final String title;
 		private final String filepath;
 		private final String registedTime;
@@ -19,7 +19,7 @@ public class ArticleResponse {
 		private final int viewCount;
 		private final int commentCount;
 		private final String totalSecond;
-		private final long usersSeq;
-		private final long categoriesSeq;
+		private final Long usersSeq;
+		private final Long categoriesSeq;
 	}
 }

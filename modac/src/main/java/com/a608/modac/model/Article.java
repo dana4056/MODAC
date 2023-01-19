@@ -16,7 +16,7 @@ import lombok.Getter;
 public class Article {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long seq;
+	private Long seq;
 
 	@Column(name="title")
 	private String title;
@@ -43,14 +43,14 @@ public class Article {
 	private String totalSecond;
 
 	@Column(name="users_seq")
-	private long usersSeq;
+	private Long usersSeq;
 
 	@Column(name="categories_seq")
-	private long categoriesSeq;
+	private Long categoriesSeq;
 
 	@Builder
-	public Article(long seq, String title, String filepath, String registedTime, int publicType, int viewCount,
-		int likeCount, int commentCount, String totalSecond, long usersSeq, long categoriesSeq) {
+	public Article(Long seq, String title, String filepath, String registedTime, int publicType, int viewCount,
+		int likeCount, int commentCount, String totalSecond, Long usersSeq, Long categoriesSeq) {
 		this.seq = seq;
 		this.title = title;
 		this.filepath = filepath;
