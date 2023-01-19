@@ -1,10 +1,10 @@
 <template>
   <div>
     <h1 class="my_color my_size">Hi my Name is</h1>
-    {{ articles }}
+    {{ computedArticleList }}
     <ArticleListItem
         class="article-item"
-        v-for="(article, index) in articles"
+        v-for="(article, index) in computedArticleList"
         :key="index"
         :article="article"
         />
@@ -22,14 +22,17 @@
 import "./ArticleList.css"
 import ArticleListItem from "./ArticleListItem.vue"
 import { useTodoStore } from "../../stores/article";
-import { ref } from "vue"
+import { ref, computed } from "vue"
 const store = useTodoStore();
-const articles = store.articles
 const test = ref("")
-// store에 저장된 함수 불러오기
+// store에서 불러 와야 할 아이들
+const computedArticleList = computed(() => {
+  return store.articles
+})
+
+// 화면 생성 시 실행되어야 할 함수
 store.getArticleList()
-store.createArticleListItem()
-store.addArticleItem()  //삭제 예정
+
 </script>
 
 <style>

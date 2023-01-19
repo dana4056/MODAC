@@ -1,11 +1,12 @@
 <template>
   <div>
-    <h1>여기는 폼</h1>
+      <form action=""><input type="text"><button></button>
+      <ArticleEditor/></form>
   </div>
 </template>
 
 <script setup>
-
+import ArticleEditor from "./ArticleEditor.vue"
 </script>
 
 <style>

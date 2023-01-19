@@ -10,5 +10,14 @@ module.exports = {
   ],
   parserOptions: {
     ecmaVersion: 'latest'
-  }
+  },
+  // 줄 맨 끝에 ~ 표시되는 걸 없앨 수 있는 코드
+  rules: {
+    'prettier/prettier': [
+        'error',
+        {
+            endOfLine: 'auto',
+        },
+    ],
+  },
 }
