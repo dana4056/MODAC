@@ -7,6 +7,8 @@ export const useTodoStore = defineStore("todo", () => {
   const userId = ref(null);
   const backendServerUrl = ref("localhost");
 
+  let access_token = ref(""); // github access token
+
   const addTodoItem = (inputTodoItem) => {
     console.log(inputTodoItem);
     todos.push(inputTodoItem);
@@ -45,5 +47,6 @@ export const useTodoStore = defineStore("todo", () => {
     backendServerUrl,
     getTodoList,
     createTodoListItem,
+    access_token
   };
 });
