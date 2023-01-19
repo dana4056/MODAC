@@ -12,7 +12,7 @@ const store = useTodoStore();
 // const todos = store.todos;
 const todos = ref([]);
 
-store.getTodoList();
+// store.getTodoList();
 </script>
 
 <style lang=""></style>
