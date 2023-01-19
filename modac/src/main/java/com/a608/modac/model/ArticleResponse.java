@@ -8,13 +8,12 @@ import lombok.Setter;
 
 public class ArticleResponse {
 	@Getter
-	@Setter
 	@AllArgsConstructor
-	public class Info {
+	public class readArticleResponse {
 		private final Long seq;
 		private final String title;
 		private final String filepath;
-		private final String registedTime;
+		private final String registeredTime;
 		private final int publicType;
 		private final int viewCount;
 		private final int commentCount;
