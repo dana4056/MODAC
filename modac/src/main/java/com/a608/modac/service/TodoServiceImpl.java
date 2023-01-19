@@ -32,8 +32,7 @@ public class TodoServiceImpl implements TodoService{
 
 	@Override
 	public void saveTodo(final TodoRequest todoRequest) {
-		final Todo save = todoRepository.save(todoRequest.toEntity());
-		final Long seq = save.getSeq();// 저장한 Todo 번호 반환.
+		todoRepository.save(todoRequest.toEntity());
 	} // todo 작성.
 
 	@Override
