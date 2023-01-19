@@ -8,12 +8,14 @@ export const useTodoStore = defineStore("todo", () => {
   const backendServerUrl = ref("localhost");
 
   const addTodoItem = (inputTodoItem) => {
+    console.log("inputTodoItem");
     console.log(inputTodoItem);
     todos.push(inputTodoItem);
+    // todos.getTodoList();
   };
 
   const getTodoList = () => {
-    console.log(2);
+    console.log("getTodoList 실행");
     axios({
       method: "get",
       url: `${backendServerUrl}/todo/list`,
@@ -22,6 +24,7 @@ export const useTodoStore = defineStore("todo", () => {
       },
     })
       .then((res) => {
+        console.log("res.data : ");
         console.log(res.data);
         todos.value = res.data;
       })
@@ -33,7 +36,7 @@ export const useTodoStore = defineStore("todo", () => {
   const createTodoListItem = () => {
     console.log("post request 실행");
     axios({
-      methods: "post",
+      methods: 'post',
       url: `${backendServerUrl}/todo`,
       data: {},
     });
