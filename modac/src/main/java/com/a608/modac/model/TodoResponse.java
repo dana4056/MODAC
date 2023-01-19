@@ -8,14 +8,14 @@ public class TodoResponse {
     private String title;
     private Byte status;
     private String totalSecond;
-    private Long categorySeq;
+    private Long categoriesSeq;
 
     public TodoResponse(Todo todo){
         this.seq = todo.getSeq();
         this.title = todo.getTitle();
         this.status = todo.getStatus();
         this.totalSecond = todo.getTotalSecond();
-        this.categorySeq = todo.getCategorySeq();
+        this.categoriesSeq = todo.getCategoriesSeq();
     }
 
 }

@@ -2,8 +2,6 @@ package com.a608.modac.controller;
 
 import java.util.List;
 
-import javax.websocket.server.PathParam;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -32,7 +30,7 @@ public class TodoController {
 
 	@GetMapping("/list")
 	public ResponseEntity<List<TodoResponse>> findTodosByUserSeq(@RequestParam final Long userSeq){
-		final List<TodoResponse> todosByUserSeq = todoService.findTodosByUserSeq(userSeq);
+		final List<TodoResponse> todosByUserSeq = todoService.findTodosByUsersSeq(userSeq);
 
 		return new ResponseEntity<>(todosByUserSeq, HttpStatus.OK);
 	}
@@ -55,7 +53,7 @@ public class TodoController {
 	@PutMapping
 	public ResponseEntity<List<TodoResponse>> updateTodo(@RequestBody TodoRequest todoRequest){
 		todoService.updateTodo(todoRequest);
-		final List<TodoResponse> todosByUserSeq = todoService.findTodosByUserSeq(todoRequest.getSeq());
+		final List<TodoResponse> todosByUserSeq = todoService.findTodosByUsersSeq(todoRequest.getSeq());
 
 		return new ResponseEntity<>(todosByUserSeq, HttpStatus.OK);
 	}
