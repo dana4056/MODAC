@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import TodoListView from "../views/TodoListView.vue";
 import StudyRoomView from "../views/StudyRoomView.vue";
+import TestView from "@/views/TestView.vue";
 
 import GithubTest from "../views/GithubTest.vue";
 import GithubTest2 from "../views/GithubTest2.vue";

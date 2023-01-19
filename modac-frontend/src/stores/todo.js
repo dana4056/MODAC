@@ -10,12 +10,12 @@ export const useTodoStore = defineStore("todo", () => {
   let access_token = ref(""); // github access token
 
   const addTodoItem = (inputTodoItem) => {
-    console.log(inputTodoItem);
+    // console.log(inputTodoItem);
     todos.push(inputTodoItem);
   };
 
   const getTodoList = () => {
-    console.log(2);
+    // console.log(2);
     axios({
       method: "get",
       url: `${backendServerUrl}/todo/list`,
