@@ -2,11 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
-.custom_title {
+/* .custom_title {
   color: orange;
   font-style: italic;
-}
+} */
 
-.my_title {
+/* .my_title {
   @apply text-3xl font-bold underline;
+} */
+
+input {
+  border: 1px solid;
 }

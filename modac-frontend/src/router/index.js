@@ -1,7 +1,8 @@
 import { createRouter, createWebHistory } from "vue-router";
 import TodoListView from "../views/TodoListView.vue";
 import StudyRoomView from "../views/StudyRoomView.vue";
-
+import ArticleView from "../views/ArticleView.vue";
+import TestView from "@/views/TestView.vue";
 import GithubTest from "../views/GithubTest.vue";
 import GithubTest2 from "../views/GithubTest2.vue";
 import GithubTest3 from "../views/GithubTest3.vue";
@@ -21,6 +22,11 @@ const router = createRouter({
       component: StudyRoomView,
     },
     {
+      path: "/article",
+      name: "article",
+      component: ArticleView,
+    },
+    {
       path: "/before",
       name: "before",
       component: GithubTest,
@@ -34,7 +40,7 @@ const router = createRouter({
       path: "/commit/:user/:repo",
       name: "commit",
       component: GithubTest3,
-    }
+    },
   ],
 });
 
