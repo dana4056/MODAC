@@ -12,10 +12,10 @@ import lombok.Getter;
 
 @Getter
 @Entity
-@Table(name = "Articles")
+@Table(name = "articles")
 public class Article {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long seq;
 
 	@Column(name="title")
@@ -24,8 +24,8 @@ public class Article {
 	@Column(name="filepath")
 	private String filepath;
 
-	@Column(name="registed_time")
-	private String registedTime;
+	@Column(name="registered_time")
+	private String registeredTime;
 
 	@Column(name="public_type")
 	private int publicType;
@@ -49,12 +49,12 @@ public class Article {
 	private Long categoriesSeq;
 
 	@Builder
-	public Article(Long seq, String title, String filepath, String registedTime, int publicType, int viewCount,
+	public Article(Long seq, String title, String filepath, String registeredTime, int publicType, int viewCount,
 		int likeCount, int commentCount, String totalSecond, Long usersSeq, Long categoriesSeq) {
 		this.seq = seq;
 		this.title = title;
 		this.filepath = filepath;
-		this.registedTime = registedTime;
+		this.registeredTime = registeredTime;
 		this.publicType = publicType;
 		this.viewCount = viewCount;
 		this.likeCount = likeCount;
