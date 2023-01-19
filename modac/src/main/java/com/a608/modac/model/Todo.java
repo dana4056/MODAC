@@ -22,7 +22,7 @@ public class Todo {
     private Long seq;
 
     @Column(name="users_seq")
-    private Long userSeq;
+    private Long usersSeq;
 
     @Column(name = "title")
     private String title;
@@ -34,16 +34,16 @@ public class Todo {
     private String totalSecond;
 
     @Column(name = "categories_seq")
-    private Long categorySeq;
+    private Long categoriesSeq;
 
     @Builder
-    public Todo(Long seq, Long userSeq, String title, Byte status, String totalSecond, Long categorySeq) {
+    public Todo(final Long seq, final Long usersSeq, final String title, final Byte status, final String totalSecond, final Long categoriesSeq) {
         this.seq = seq;
-        this.userSeq = userSeq;
+        this.usersSeq = usersSeq;
         this.title = title;
         this.status = status;
         this.totalSecond = totalSecond;
-        this.categorySeq = categorySeq;
+        this.categoriesSeq = categoriesSeq;
     }
 
     public Todo() {
