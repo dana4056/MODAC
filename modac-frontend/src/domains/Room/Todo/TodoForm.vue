@@ -1,7 +1,8 @@
 <template lang="">
   <div>
-    <!-- <p>할 일을 입력하세요 :</p> -->
+
     <form @submit.prevent="submitTodoHandler(newTodo)">
+      <!-- Todo title input -->
       <div>
         <label for="input1">Todo 제목 :</label>
         <input
@@ -14,20 +15,21 @@
         />
       </div>
 
+      <!-- Todo categories_seq dropdown -->
       <div>
         <label for="select-item">Todo 카테고리 :</label>
 
         <div class="relative">
           <select
             class="w-full border px-4 pr-8 py-2 rounded focus:border-blue-500 focus:shadow-outline outline-none appearance-none"
-            id="category"
-            v-model="newTodo.category"
+            id="categories_seq"
+            v-model="newTodo.categories_seq"
           >
-            <option value="algorithm" selected="selected">알고리즘</option>
-            <option value="CS">CS</option>
-            <option value="programming">개발</option>
-            <option value="product management">기획</option>
-            <option value="ect">기타</option>
+            <option value=0 selected="selected">알고리즘</option>
+            <option value=1>CS</option>
+            <option value=2>개발</option>
+            <option value=3>기획</option>
+            <option value=4>기타</option>
           </select>
 
           <div
@@ -46,6 +48,7 @@
         </div>
       </div>
 
+      <!-- Submit button -->
       <div class="flex items-center justify-between">
         <button
           class="bg-blue-600 hover:bg-black text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
@@ -63,13 +66,22 @@ import { ref } from "vue";
 import { useTodoStore } from "../../../stores/todo";
 const newTodo = ref({
   title: "",
-  category: "algorithm",
+  categories_seq: 0,
 });
 const store = useTodoStore();
 
 const submitTodoHandler = (newTodo) => {
-  store.addTodoItem(newTodo);
-  newTodo.value.title = ''
+  store.addTodoItem({
+    "users_seq" : 1,
+    "title" : newTodo.title, 
+    "categories_seq" : Number(newTodo.categories_seq),
+    "status" : 0
+    // "completed" : false,
+    });
+
+  // todo 입력 후 입력칸을 초기화해주기 위함 
+  newTodo.title = "";
+  newTodo.categories_seq = 0;
 }
 // const buttonClickHandler = () => {
 //   const document.querySelector("#dropdownMenuButton1")
