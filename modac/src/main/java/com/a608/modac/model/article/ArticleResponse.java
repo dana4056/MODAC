@@ -1,4 +1,4 @@
-package com.a608.modac.model;
+package com.a608.modac.model.article;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,18 +8,17 @@ import lombok.Setter;
 
 public class ArticleResponse {
 	@Getter
-	@Setter
 	@AllArgsConstructor
-	public class Info {
-		private final long seq;
+	public class readArticleResponse {
+		private final Long seq;
 		private final String title;
 		private final String filepath;
-		private final String registedTime;
+		private final String registeredTime;
 		private final int publicType;
 		private final int viewCount;
 		private final int commentCount;
 		private final String totalSecond;
-		private final long usersSeq;
-		private final long categoriesSeq;
+		private final Long usersSeq;
+		private final Long categoriesSeq;
 	}
 }

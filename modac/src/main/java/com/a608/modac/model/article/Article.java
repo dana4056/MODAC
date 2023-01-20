@@ -1,4 +1,4 @@
-package com.a608.modac.model;
+package com.a608.modac.model.article;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,11 +12,11 @@ import lombok.Getter;
 
 @Getter
 @Entity
-@Table(name = "Articles")
+@Table(name = "articles")
 public class Article {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long seq;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long seq;
 
 	@Column(name="title")
 	private String title;
@@ -24,8 +24,8 @@ public class Article {
 	@Column(name="filepath")
 	private String filepath;
 
-	@Column(name="registed_time")
-	private String registedTime;
+	@Column(name="registered_time")
+	private String registeredTime;
 
 	@Column(name="public_type")
 	private int publicType;
@@ -43,18 +43,18 @@ public class Article {
 	private String totalSecond;
 
 	@Column(name="users_seq")
-	private long usersSeq;
+	private Long usersSeq;
 
 	@Column(name="categories_seq")
-	private long categoriesSeq;
+	private Long categoriesSeq;
 
 	@Builder
-	public Article(long seq, String title, String filepath, String registedTime, int publicType, int viewCount,
-		int likeCount, int commentCount, String totalSecond, long usersSeq, long categoriesSeq) {
+	public Article(Long seq, String title, String filepath, String registeredTime, int publicType, int viewCount,
+		int likeCount, int commentCount, String totalSecond, Long usersSeq, Long categoriesSeq) {
 		this.seq = seq;
 		this.title = title;
 		this.filepath = filepath;
-		this.registedTime = registedTime;
+		this.registeredTime = registeredTime;
 		this.publicType = publicType;
 		this.viewCount = viewCount;
 		this.likeCount = likeCount;

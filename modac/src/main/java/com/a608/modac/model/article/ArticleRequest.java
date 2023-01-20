@@ -1,4 +1,4 @@
-package com.a608.modac.model;
+package com.a608.modac.model.article;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,9 +8,9 @@ import lombok.Setter;
 public class ArticleRequest {
 	@Getter
 	@AllArgsConstructor
-	public class Regist {
-		private final long usersSeq;
-		private final long categoriesSeq;
+	public class createArticleRequest {
+		private final Long usersSeq;
+		private final Long todosSeq;
 		private final int publicType;
 		private final String filepath;
 	}
