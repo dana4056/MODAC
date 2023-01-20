@@ -2,9 +2,9 @@ package com.a608.modac.service;
 
 import java.util.List;
 
-import com.a608.modac.model.Article;
-import com.a608.modac.model.ArticleRequest;
-import com.a608.modac.model.TodoResponse;
+import com.a608.modac.model.article.Article;
+import com.a608.modac.model.article.ArticleRequest;
+import com.a608.modac.model.todo.TodoResponse;
 
 public interface ArticleService {
 	// 게시글 등록

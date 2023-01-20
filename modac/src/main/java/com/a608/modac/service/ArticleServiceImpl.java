@@ -10,11 +10,11 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
-import com.a608.modac.model.Article;
-import com.a608.modac.model.ArticleRepository;
-import com.a608.modac.model.ArticleRequest;
-import com.a608.modac.model.TodoRepository;
-import com.a608.modac.model.TodoResponse;
+import com.a608.modac.model.article.Article;
+import com.a608.modac.model.article.ArticleRepository;
+import com.a608.modac.model.article.ArticleRequest;
+import com.a608.modac.model.todo.TodoRepository;
+import com.a608.modac.model.todo.TodoResponse;
 
 @Service
 public class ArticleServiceImpl implements ArticleService {

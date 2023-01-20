@@ -1,16 +1,16 @@
-package com.a608.modac.model;
+package com.a608.modac.model.user;
 
 import lombok.Getter;
 
 @Getter
-public class TodoResponse {
+public class UserResponse {
     private Long seq;
     private String title;
     private Byte status;
     private String totalSecond;
     private Long categoriesSeq;
 
-    public TodoResponse(Todo todo){
+    public UserResponse(User todo){
         this.seq = todo.getSeq();
         this.title = todo.getTitle();
         this.status = todo.getStatus();

@@ -1,13 +1,9 @@
 package com.a608.modac.service;
 
-import com.a608.modac.model.Todo;
-import com.a608.modac.model.TodoRepository;
-import com.a608.modac.model.TodoRequest;
-import com.a608.modac.model.TodoResponse;
+import com.a608.modac.model.todo.TodoRequest;
+import com.a608.modac.model.todo.TodoResponse;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 public interface TodoService {
 	void deleteTodo(final Long seq); // todo 삭제

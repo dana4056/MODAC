@@ -1,4 +1,4 @@
-package com.a608.modac.model;
+package com.a608.modac.model.todo;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

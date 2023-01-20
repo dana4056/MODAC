@@ -1,4 +1,4 @@
-package com.a608.modac.model;
+package com.a608.modac.model.todo;
 
 import lombok.Getter;
 

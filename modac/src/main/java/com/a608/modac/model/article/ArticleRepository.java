@@ -1,4 +1,4 @@
-package com.a608.modac.model;
+package com.a608.modac.model.article;
 
 import java.util.List;
 

@@ -6,10 +6,10 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import com.a608.modac.model.Todo;
-import com.a608.modac.model.TodoRepository;
-import com.a608.modac.model.TodoRequest;
-import com.a608.modac.model.TodoResponse;
+import com.a608.modac.model.todo.Todo;
+import com.a608.modac.model.todo.TodoRepository;
+import com.a608.modac.model.todo.TodoRequest;
+import com.a608.modac.model.todo.TodoResponse;
 
 @Service
 public class TodoServiceImpl implements TodoService{

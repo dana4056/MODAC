@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.a608.modac.model.Article;
-import com.a608.modac.model.ArticleRequest;
-import com.a608.modac.model.TodoResponse;
+import com.a608.modac.model.article.Article;
+import com.a608.modac.model.article.ArticleRequest;
+import com.a608.modac.model.todo.TodoResponse;
 import com.a608.modac.service.ArticleService;
 import com.a608.modac.service.TodoService;
 

@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.a608.modac.model.TodoRequest;
-import com.a608.modac.model.TodoResponse;
+import com.a608.modac.model.todo.TodoRequest;
+import com.a608.modac.model.todo.TodoResponse;
 import com.a608.modac.service.TodoService;
 
 @RestController
