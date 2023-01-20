@@ -1,9 +1,11 @@
 <template>
     <div id="wrap">
         
-        <!-- <h2>하이ㅣㅣ깃헙 로그인 완료 </h2> -->
         <h1>{{userName}}님의 저장소 목록</h1>
 
+        <h2>저장소 새로 생성</h2>
+        <RouterLink :to="`/createRepo/${userName}`">create reposiroty</RouterLink>
+        <h2>저장소 선택</h2>
         <div @click="writeCommitMSG(userName, el.name)" v-for="el of repoEL" :key="el.id" class="repoEl">
             <h2><strong>{{ el.name }}</strong></h2>
             <p>{{ el.description }}</p>
@@ -24,10 +26,15 @@ import router from "../router/index"
 // ======================= 변수 모음 =============================
 let repoEL = ref([]);
 let userName = ref("");
+const GITHUB_API_SERVER = "https://api.github.com"
+const GITHUB_AUTH_TOKEN_SERVER = "https://github.com/login/oauth/access_token";
+const CLIENT_ID = "afaeda1b95f27932a431";
+const CLIENT_SECRETS = "e65b2850d9fc7e5de605817950d2b6e1454179ff";
 
 const store = useTodoStore();
 
-//이거는 일단 axios를 모듈화할지 안할지 모르겠어서 그냥 axios 바로 임포트해서 객체 생성함
+
+
 const http = axios.create({
     headers: {
         "Content-Type": "application/json;charset=utf-8",
@@ -38,9 +45,6 @@ const http = axios.create({
 
 // 인가코드(code)로 액세스 토큰 요청 후 받아와 저장(access_token)
 function fetchAccessToken(){
-    const GITHUB_AUTH_TOKEN_SERVER = "https://github.com/login/oauth/access_token";
-    const CLIENT_ID = "afaeda1b95f27932a431";
-    const CLIENT_SECRETS = "aec761c51a6ac87040a4cf40304b3413809355e9";
     const code = new URL(window.location.href).searchParams.get("code");
     
     const ACCESS_TOKEN_URL = `${GITHUB_AUTH_TOKEN_SERVER}?client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRETS}&code=${code}`;
@@ -48,8 +52,9 @@ function fetchAccessToken(){
     http.post(ACCESS_TOKEN_URL)
     .then((response) => {
         // *************** DB에도 저장해줘야함 **************
+        console.log(response)
         store.access_token = response.data.access_token
-        // console.log(store.access_token)
+        console.log(store.access_token)
     })
     .then(()=>{ 
         fetchUser();
@@ -60,11 +65,11 @@ function fetchAccessToken(){
 
 // 액세스 토큰(access_token)으로 사용자 정보 요청
 function fetchUser(){
-    const GITHUB_API_SERVER = "https://api.github.com"
     const headers={
         "Authorization" : "Bearer "+ store.access_token,
         "Accept": "application/vnd.github+json"
     }
+
 
     http.get(GITHUB_API_SERVER + "/user", {headers})
     .then((response) => {
@@ -76,9 +81,9 @@ function fetchUser(){
 
 // 액세스 토큰(access_token)으로 유저 레포 정보 요청
 function fetchRepoList(){ 
-    const GITHUB_API_SERVER = "https://api.github.com"
     const headers={
-        "Authorization" : "Bearer "+ store.access_token
+        "Authorization" : "Bearer "+ store.access_token,
+        "Accept": "application/vnd.github+json"
     }
 
     http.get(GITHUB_API_SERVER + "/user/repos", {headers})
@@ -94,11 +99,11 @@ function fetchRepoList(){
             };
 
             repoEL.value.push(el);
-            // repoEL.push(el);
         });
     })
     .catch((err) => console.log(err));
 }
+
 
 function writeCommitMSG(user, repo){
     router.push(`/commit/${user}/${repo}`)
@@ -106,6 +111,9 @@ function writeCommitMSG(user, repo){
 
 
 // ========================== 여기부터 로직 ==========================
+// if(!store.access_token){
+
+// }
 fetchAccessToken();  
 
 </script>
