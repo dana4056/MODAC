@@ -1,11 +1,8 @@
 <template>
     <div id="wrap">
-        <p>file 이름을 작성해주세요</p>
-        <input v-model="title" type="text">
-
-        <p>commit message를 작성해주세요</p>
-        <textarea v-model="commitMSG"></textarea>
-        <button @click="commitToRepo">commit to remote repository</button>
+        <div v-for="file, index in files" :key="index">
+            <a :href="file.html_url">{{ file.name }}</a>
+        </div>
     </div>
 </template>
     
@@ -14,10 +11,8 @@ import axios from "axios";
 import {useTodoStore} from "../stores/todo.js"
 import {ref} from "vue";
 import { useRoute } from 'vue-router'
-import router from "../router/index"
 
-let title="";
-let commitMSG = "";
+let files = ref([]);
 
 const store = useTodoStore();
 const route = useRoute();
@@ -30,30 +25,32 @@ const http = axios.create({
 });
 
 
-
-function commitToRepo(){
-    alert("msg:"+commitMSG);
+function fetchRepo(){
     const GITHUB_API_SERVER = "https://api.github.com"
-    const user = route.params.user;
+    const owner = route.params.user;
     const repo = route.params.repo;
 
     const headers={
         "Authorization" : "Bearer "+ store.access_token
     }
 
-    const body = {
-        "message": commitMSG,
-        "content":  "bXkgbmV3IGZpbGUgY29udGVudHM="
-    }
-
-    http.put(GITHUB_API_SERVER + `/repos/${user}/${repo}/contents/${title}`, body, {headers})
+    http.get(GITHUB_API_SERVER + `/repos/${owner}/${repo}/contents`, {headers})
     .then((response) => {
-        alert("원격저장소에 정상적으로 Commit 되었습니다 :->")
-        router.push(`/repo/${user}/${repo}`)
+        response.data.forEach(element => {
+            let el = {
+                name: element.name,
+                html_url: element.html_url
+            };
+
+            files.value.push(el);
+        });
+
+        console.log(files.value)
     })
     .catch((err) => console.log(err));
-
 }
+
+fetchRepo();
 
 </script>
 
