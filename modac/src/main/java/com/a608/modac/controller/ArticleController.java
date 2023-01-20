@@ -69,5 +69,4 @@ public class ArticleController {
         articleService.deleteArticleBySeq(seq);
         return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
     }
-
 }

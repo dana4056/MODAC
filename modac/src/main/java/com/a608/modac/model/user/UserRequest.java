@@ -4,22 +4,19 @@ import lombok.Getter;
 
 @Getter
 public class UserRequest {
-    private Long seq;
-    private Long usersSeq;
-    private Long categoriesSeq;
-    private String title;
-    private Byte status;
-    private String totalSecond;
+	private Long seq;
+	private String id;
+	private String nickname;
+	private String email;
+	private String password;
 
-    public User toEntity() {
-        return User.builder()
-                .seq(seq)
-                .usersSeq(usersSeq)
-                .categoriesSeq(categoriesSeq)
-                .title(title)
-                .status(status)
-                .totalSecond(totalSecond)
-                .build();
-    }
-
+	public User toEntity(){
+		return User.builder()
+			.seq(seq)
+			.id(id)
+			.nickname(nickname)
+			.email(email)
+			.password(password)
+			.build();
+	}
 }
