@@ -33,7 +33,7 @@ public class Comment {
 	private Long usersSeq;
 
 	@Builder
-	public Comment(Long seq, String content, LocalDateTime registeredTime, Long articlesSeq, Long usersSeq) {
+	public Comment(final Long seq, final String content, final LocalDateTime registeredTime, final Long articlesSeq, final Long usersSeq) {
 		this.seq = seq;
 		this.content = content;
 		this.registeredTime = registeredTime;
