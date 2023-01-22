@@ -9,11 +9,15 @@ import javax.persistence.Table;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.hibernate.annotations.DynamicInsert;
 
 @Getter
 @Entity
 @ToString
+@DynamicInsert	//not null인 컬럼에 데이터 저장 안해줄때 자동으로 default값으로 매핑해줌
+@NoArgsConstructor
 @Table(name = "users")
 public class User {
 
@@ -39,11 +43,11 @@ public class User {
 	@Column(name = "total_second")
 	private Long totalSecond; //인생 총 공부시간
 
-	@Column(name = "memberships_seq")
-	private Long membershipsSeq;
+	@Column(name = "membership_grade")
+	private String membershipGrade;
 
 	@Builder
-	public User(Long seq, String id, String nickname, String email, String password, String singleTheme, Long totalSecond, Long membershipsSeq) {
+	public User(Long seq, String id, String nickname, String email, String password, String singleTheme, Long totalSecond, String membershipGrade) {
 		this.seq = seq;
 		this.id = id;
 		this.nickname = nickname;
@@ -51,10 +55,7 @@ public class User {
 		this.password = password;
 		this.singleTheme = singleTheme;
 		this.totalSecond = totalSecond;
-		this.membershipsSeq = membershipsSeq;
-	}
-
-	public User() {
+		this.membershipGrade = membershipGrade;
 	}
 
 	public void updateUser(String nickname, String email){

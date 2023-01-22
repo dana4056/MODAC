@@ -5,6 +5,11 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface UserRepository  extends JpaRepository<User, Long> {
+    User findUserBySeq(Long seq);
 
+    User findUserByEmail(String email);
 
+    User findUserByNickname(String nick);
+
+    User findUserById(String id);
 }

@@ -11,7 +11,7 @@ public class UserResponse {
 	private String email;
 	private String singleTheme;
 	private Long totalSecond;
-	private Long membershipsSeq;
+	private String membershipGrade;
 
 	public UserResponse(User user){
 		this.seq = user.getSeq();
@@ -20,6 +20,6 @@ public class UserResponse {
 		this.email = user.getEmail();
 		this.singleTheme = user.getSingleTheme();
 		this.totalSecond = user.getTotalSecond();
-		this.membershipsSeq = user.getMembershipsSeq();
+		this.membershipGrade = user.getMembershipGrade();
 	}
 }
