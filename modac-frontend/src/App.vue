@@ -3,10 +3,15 @@ import NavbarTop from './components/NavbarTop.vue';
 </script>
 
 <template>
-  <div>
+  <div id="header">
     <NavbarTop/>
   </div>
-  <RouterView/>
+  <div id="body">
+    <RouterView/>
+  </div>
+  <div id="footer">
+  </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+</style>

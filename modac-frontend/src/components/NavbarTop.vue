@@ -1,13 +1,13 @@
 <template>
 <div class="navigation">
-            <nav>
-              <ul class="nav-type">
-                <RouterLink id="routerlink" to="/todoList">투두 리스트</RouterLink>
-                <RouterLink id="routerlink" to="/studyRoom">스터디 룸</RouterLink>
-                <RouterLink id="routerlink" to="/before">깃헙 연동 테스트</RouterLink>
-              </ul>
-            </nav>
-          </div>
+  <nav>
+    <ul class="menu-bar">
+      <li><RouterLink id="routerlink" to="/todoList">Todo List</RouterLink></li>
+      <li><RouterLink id="routerlink" to="/studyRoom">Study Room</RouterLink></li>
+      <li><RouterLink id="routerlink" to="/before">Github</RouterLink></li>
+    </ul>
+  </nav>
+</div>
 </template>
 
 <script setup>
@@ -20,6 +20,6 @@ function show() {
 }
 </script>
 
-<style>
-@import '@/components/NavbarTop.css'
+<style lang='scss' scoped>
+@import '@/components/NavbarTop.scss'
 </style>
