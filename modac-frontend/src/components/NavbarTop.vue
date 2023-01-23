@@ -2,9 +2,9 @@
 <div class="navigation">
   <nav>
     <ul class="menu-bar">
-      <li><RouterLink id="routerlink" to="/todoList">Todo List</RouterLink></li>
-      <li><RouterLink id="routerlink" to="/studyRoom">Study Room</RouterLink></li>
-      <li><RouterLink id="routerlink" to="/before">Github</RouterLink></li>
+      <RouterLink id="routerlink" to="/todoList">Todo List</RouterLink>
+      <RouterLink id="routerlink" to="/studyRoom">Study Room</RouterLink>
+      <RouterLink id="routerlink" to="/before">Github</RouterLink>
     </ul>
   </nav>
 </div>
