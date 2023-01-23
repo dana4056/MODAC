@@ -35,10 +35,10 @@
 
 #loginwrapper {
   background: #50a3a2;
-  background: -webkit-linear-gradient(top left,#50a3a2 0%,#53e3a6 100%);
-  background: -moz-linear-gradient(top left,#50a3a2 0%,#53e3a6 100%);
-  background: -o-linear-gradient(top left,#50a3a2 0%,#53e3a6 100%);
-  background: linear-gradient(to bottom right,#50a3a2 0%,#53e3a6 100%);
+  background: -webkit-linear-gradient(top,#00145C 0%,pink 160%);
+  background: -moz-linear-gradient(top,#00145C 0%,pink 160%);
+  background: -o-linear-gradient(top,#00145C 0%,pink 160%);
+  background: linear-gradient(to bottom,#00145C 0%,pink 160%);
   position: absolute;
   top: 50%;
   left: 0;
@@ -90,7 +90,7 @@
 #loginform input:focus {
   background-color: white;
   width: 300px;
-  color: #53e3a6;
+  color: #00145C;
 }
 #loginform button {
   appearance: none;
@@ -98,7 +98,7 @@
   background-color: white;
   border: 0;
   padding: 10px 15px;
-  color: #53e3a6;
+  color: #00145C;
   border-radius: 3px;
   width: 250px;
   cursor: pointer;
@@ -114,7 +114,7 @@
   background-color: white;
   border: 0;
   padding: 10px 15px;
-  color: #53e3a6;
+  color: #00145C;
   border-radius: 3px;
   width: 250px;
   cursor: pointer;
@@ -133,6 +133,7 @@
   z-index: 1;
 }
 .bg-bubbles li {
+  /* border-radius: 50%; */
   position: absolute;
   list-style: none;
   display: block;
@@ -218,4 +219,79 @@
   100% {
     transform: translateY(-700px) rotate(600deg);
 }
+}
+
+/* 배경에 별 반짝이기 */
+
+@keyframes slide-transparency {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+.animate-opacity {
+  animation-name: slide-transparency;
+  animation-iteration-count: infinite;
+}
+.freq-5 {
+  animation-duration: 5s;
+}
+.freq-6 {
+  animation-duration: 6.33s;
+}
+.freq-7 {
+  animation-duration: 7s;
+}
+.freq-8 {
+  animation-duration: 8.88s;
+}
+.freq-9 {
+  animation-duration: 9s;
+}
+.freq-10 {
+  animation-duration: 10.17s;
+}
+.delay-2 {
+  animation-delay: 1.33s;
+}
+.delay-4 {
+  animation-delay: 2.11s;
+}
+.z-1,
+.z-2,
+.z-3 {
+  position: absolute;
+  width: 150vw;
+  height: 150vw;
+  left: -50vw;
+  top: -50vw;
+  transform-origin: center;
+}
+.tile {
+  overflow: hidden;
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-repeat: repeat;
+  background-size: 512px 512px;
+}
+.top-left {
+  background-image: url("../../assets/stars/topleft.png");
+}
+.top-right {
+  background-image: url("../../assets/stars/topright.png");
+}
+.bottom-left {
+  background-image: url("../../assets/stars/bottomleft.png");
+}
+.bottom-right {
+  background-image: url("../../assets/stars/bottomright.png");
 }
