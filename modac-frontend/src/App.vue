@@ -1,7 +1,11 @@
-<script setup></script>
+<script setup>
+import Login from './domains/User/Login.vue';
+
+</script>
 
 <template>
   <header>
+    <Login/>
     <nav>
       <RouterLink to="/todoList">투두 리스트</RouterLink><br />
       <RouterLink to="/studyRoom">스터디 룸</RouterLink><br />

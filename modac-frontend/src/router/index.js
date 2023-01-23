@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
+import Login from "../views/TodoListView.vue";
 import TodoListView from "../views/TodoListView.vue";
 import StudyRoomView from "../views/StudyRoomView.vue";
 import ArticleView from "../views/ArticleView.vue";
@@ -11,6 +12,11 @@ import GithubTest3 from "../views/GithubTest3.vue";
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
+    {
+      path: "/",
+      name: "Login",
+      component: Login,
+    },
     {
       path: "/todolist",
       name: "todolist",
