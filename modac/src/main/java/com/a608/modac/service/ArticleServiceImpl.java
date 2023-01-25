@@ -13,6 +13,9 @@ import com.a608.modac.model.article.Article;
 import com.a608.modac.model.article.ArticleRepository;
 import com.a608.modac.model.article.ArticleRequest;
 import com.a608.modac.model.article.ArticleResponse;
+import com.a608.modac.model.article.Like;
+import com.a608.modac.model.article.LikeId;
+import com.a608.modac.model.article.LikeRepository;
 import com.a608.modac.model.todo.Todo;
 import com.a608.modac.model.todo.TodoRepository;
 
@@ -25,9 +28,13 @@ public class ArticleServiceImpl implements ArticleService {
 	@Resource(name = "todoRepository")
 	private final TodoRepository todoRepository;
 
-	public ArticleServiceImpl(ArticleRepository articleRepository, TodoRepository todoRepository) {
+	@Resource(name = "likeRepository")
+	private final LikeRepository likeRepository;
+
+	public ArticleServiceImpl(ArticleRepository articleRepository, TodoRepository todoRepository, LikeRepository likeRepository) {
 		this.articleRepository = articleRepository;
 		this.todoRepository = todoRepository;
+		this.likeRepository = likeRepository;
 	}
 
 	// 게시글 저장
@@ -55,5 +62,27 @@ public class ArticleServiceImpl implements ArticleService {
 	@Override
 	public void deleteArticleBySeq(final Long seq) {
 		articleRepository.deleteById(seq);
+	}
+
+
+	// 게시글-유저 좋아요 관계 추가
+	@Override
+	public void createLike(final Long articlesSeq, final Long usersSeq) {
+		LikeId likeId = new LikeId(articlesSeq, usersSeq);
+		likeRepository.save(Like.builder().likeId(likeId).build());
+	}
+
+	// 게시글-유저 좋아요 관계 삭제
+	@Override
+	public void deleteLike(final Long articlesSeq, final Long usersSeq) {
+		LikeId likeId = new LikeId(articlesSeq, usersSeq);
+		likeRepository.deleteById(likeId);
+	}
+
+	// 게시글-유저 좋아요 관계 개수 조회
+	@Override
+	public Long countLike(final Long articlesSeq, final Long usersSeq) {
+		LikeId likeId = new LikeId(articlesSeq, usersSeq);
+		return likeRepository.countByLikeId(likeId);
 	}
 }

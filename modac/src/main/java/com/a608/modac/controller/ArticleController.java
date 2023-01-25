@@ -42,20 +42,40 @@ public class ArticleController {
 
     // 사용자 게시글 전체 조회 (GET)
     @GetMapping("/list")
-    public ResponseEntity<List<ArticleResponse>> selectAllArticle(@RequestParam final Long usersSeq) {
+    public ResponseEntity<List<ArticleResponse>> selectAllArticle(@RequestParam("users_seq") final Long usersSeq) {
         return new ResponseEntity<List<ArticleResponse>>(articleService.readArticleByUsersSeq(usersSeq), HttpStatus.OK);
     }
 
     // 게시글 조회 (GET)
     @GetMapping
-    public ResponseEntity<ArticleResponse> selectArticle(@RequestParam final Long seq) {
+    public ResponseEntity<ArticleResponse> selectArticle(@RequestParam("seq") final Long seq) {
         return new ResponseEntity<ArticleResponse>(articleService.readArticleBySeq(seq), HttpStatus.OK);
     }
 
     // 게시글 삭제 (DELETE)
     @DeleteMapping
-    public ResponseEntity<String> removeArticle(@RequestParam final Long seq) {
+    public ResponseEntity<String> removeArticle(@RequestParam("seq") final Long seq) {
         articleService.deleteArticleBySeq(seq);
         return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+    }
+
+    @PostMapping("/like")
+    // 게시글-유저 좋아요 관계 추가
+    public ResponseEntity<String> createLike(@RequestParam("articles_seq") final Long articlesSeq, @RequestParam("users_seq") final Long usersSeq){
+        articleService.createLike(articlesSeq, usersSeq);
+        return new ResponseEntity<>(SUCCESS, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/like")
+    // 게시글-유저 좋아요 관계 삭제
+    public ResponseEntity<String> deleteLike(@RequestParam("articles_seq") final Long articlesSeq, @RequestParam("users_seq") final Long usersSeq){
+        articleService.deleteLike(articlesSeq, usersSeq);
+        return new ResponseEntity<>(SUCCESS, HttpStatus.OK);
+    }
+
+    @GetMapping("/like")
+    // 게시글-유저 좋아요 관계 개수 조회
+    public ResponseEntity<Long> countLike(@RequestParam("articles_seq") final Long articlesSeq, @RequestParam("users_seq") final Long usersSeq){
+        return new ResponseEntity<>(articleService.countLike(articlesSeq, usersSeq), HttpStatus.OK);
     }
 }

@@ -53,8 +53,8 @@ public class Article {
 	private Long categoriesSeq;
 
 	@Builder
-	public Article(Long seq, String title, String filepath, LocalDateTime registeredTime, int publicType, int viewCount,
-		int likeCount, int commentCount, String totalSecond, Long usersSeq, Long categoriesSeq) {
+	public Article(final Long seq, final String title, final String filepath, final LocalDateTime registeredTime, final int publicType, final int viewCount,
+		final int likeCount, final int commentCount, final String totalSecond, final Long usersSeq, final Long categoriesSeq) {
 		this.seq = seq;
 		this.title = title;
 		this.filepath = filepath;
