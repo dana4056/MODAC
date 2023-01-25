@@ -1,10 +1,7 @@
 <template lang="">
+  <input type="checkbox" v-model="updateTodoItem.completed" @click="clickCompleteTodoItem"/>
   <div @click="showFullTodo">
-
-    <input type="checkbox" v-model="completed" @click="clickCompleteTodoItem()"/>
-    
     <!-- Todo가 한 줄을 넘어가면 말줄임표(...)으로 표시되도록 함 -->
-    <!-- 전체를 보고 싶다면 해당 Todo 영역을 클릭 -->
     <div
       v-if="ellipsisState"
       style="
@@ -12,25 +9,33 @@
       white-space: nowrap;
       overflow: hidden;">
     Todo : [{{ props.todo.title }}]</div>
-    <div v-else @click="showFullTodo()">  Todo : [{{ props.todo.title }}]  </div>
+    <!-- 전체를 보고 싶다면 해당 Todo 영역을 클릭 -->
+    <div v-else @click="showFullTodo">  Todo : [{{ props.todo.title }}]  </div>
 
-    Category :  [{{ props.todo.categories_seq }}]<br>( {{ props.todo.seq + 1 }}번째 Todo ) <br>
+    <div>
+      Category :  [{{ props.todo.categories_seq }}]
+    </div>
+    <div>
+      ( {{ props.todo.seq + 1 }}번째 Todo )
+    </div>
     
     <!-- timer test -->
     <div id="clock">
       <span class="time">{{ time }}</span>
     </div>
 
-    <button v-if="props.todo.status == 1" @click="playPauseTodoItem()">[⏸ 멈춤]</button>
-    <button v-else @click="playPauseTodoItem()">[⏩ 재생]</button>
+    <button v-if="props.todo.status == 1" @click="playPauseTodoItem">[⏸ 멈춤]</button>
+    <button v-else @click="playPauseTodoItem">[⏩ 재생]</button>
 
-    <button @click="deleteTodoItem()">[❌삭제]</button>
-    <button @click="openUpdateTodo()">[✏수정]</button>
+    <button @click="deleteTodoItem">[❌삭제]</button>
+    <button @click="openUpdateTodo">[✏수정]</button>
+    <button @click="printUpdateTodoItem">[updateTodoItem 출력]</button>
+    <button @click="printPropsItem">[Props.todo 출력]</button>
 
     <div v-if="updateState">
       <br>=======================
       <div>
-        <form @submit.prevent="updateTodo(updateTodoItem)">
+        <form @submit.prevent="updateTodo">
         <!-- Todo title input -->
         <div>
           <label for="input1">Todo 제목 :</label>
@@ -111,11 +116,46 @@ import { useTodoStore } from "../../../stores/todo";
 import { ref } from "vue";
 const store = useTodoStore();
 let msTime = ref(0);
+let time = ref('00:00:00.000');
 
 const props = defineProps({
   todo : Object,
-  seq : Number
+  nowPlay : Number,
 });
+
+const emits = defineEmits(['nowPlay']);
+
+// const nowPlayUpdate = (index) => {
+//   emits('nowPlay', index);
+// }
+const nowPlayUpdate = (seq) => {
+  emits('nowPlay', seq);
+}
+
+// const todo = ref([]);
+// const todo = reactive([]);
+// const seq = ref(props.todo.seq);
+
+let updateTodoItem = {
+  // seq: seq.value,
+  seq: props.todo.seq,
+  users_seq: props.todo.users_seq,
+  title: props.todo.title,
+  categories_seq: props.todo.categories_seq,
+  status: props.todo.status,
+  total_second: String(msTime.value),
+  // index: props.index,
+  index: store.todos.indexOf(props.todo),
+  completed: false,
+  time : time,
+};
+
+const printUpdateTodoItem = () => {
+  console.log(updateTodoItem);
+}
+const printPropsItem = () => {
+  console.log(props.todo);
+}
 
 // status 변화 시
 // 0 -> 1 : 멈춤 -> 재생 [재생 버튼 클릭 시]
@@ -126,80 +166,98 @@ const props = defineProps({
 // 2 -> 1 : 완료 -> 재생 & 완료 해제 [완료 중에 재생 버튼 클릭 시]
 
 // completed = 할일 완료 여부
-const completed = ref(false);
-// const beforeCompleted = ref(props.todo.status);
+// const completed = ref(false);
 
 const clickCompleteTodoItem = () => {
   // 할일 완료하기
-  if (!completed.value) {
-    completed.value = true;
-    props.todo.status = 2;
-    // 타이머 정지 코드 필요
+  if (!updateTodoItem.completed) {
+    updateTodoItem.completed = true;
+    updateTodoItem.status = 2;
     stop();
   } 
   // 할일 완료 해제하기
   else {
-    completed.value = false;
-    props.todo.status = 0;
+    updateTodoItem.completed = false;
+    updateTodoItem.status = 0;
   }
+  updateTodo();
 }
 
 // 타이머 재생 / 멈춤 버튼
 const playPauseTodoItem = () => {
   // 멈춰있는 상태 -> 재생 (0 -> 1)
-  if (props.todo.status == 0) {
-    props.todo.status = 1;
+  if (updateTodoItem.status == 0) {
+    updateTodoItem.status = 1;
     start();
   }
 
   // 할일 완료 상태 -> 완료 해제 & 재생 (2 -> 1)  
-  else if (props.todo.status == 2) {
-    completed.value = false;
-    props.todo.status = 1;
+  else if (updateTodoItem.status == 2) {
+    updateTodoItem.completed = false;
+    updateTodoItem.status = 1;
     start();
   }
 
-  else if (props.todo.status == 1) {
+  else if (updateTodoItem.status == 1) {
     // 재생되고 있는 상태 -> 멈춤 (1 -> 0)
-    if (completed.value == false) {
-      props.todo.status = 0;
+    if (updateTodoItem.completed == false) {
+      updateTodoItem.status = 0;
     }
     // 재생되고 있는 상태 -> 완료 체크 (1 -> 2)
-    else if (completed.value == true) {
-      completed.value = true;
-      props.todo.status = 2;
+    else if (updateTodoItem.completed == true) {
+      updateTodoItem.completed = true;
+      updateTodoItem.status = 2;
     }
     stop();
   }
+  updateTodo();
 }
 
 const deleteTodoItem = () => {
-  store.deleteTodoItem(props.seq);
+  // console.log("delete props.todo");
+  // console.log(props.todo);
+  store.deleteTodoItem(props.todo);
+  // store.deleteTodoItem(updateTodoItem.seq);
 }
+
 let updateState = ref(false);
 const openUpdateTodo = () => {
   updateState.value = !updateState.value;
 }
 
-const updateTodoItem = ref({
-  seq: props.seq,
-  title: props.todo.title,
-  categories_seq: props.todo.categories_seq,
-  status: props.todo.status,
-  total_second: String(msTime.value),
-});
+const updateTodo = () => {
 
-const updateTodo = (changeTodoItem) => {
+  //   // updateTodoItem.index = props.index;
+  // updateTodoItem = {
+  //   // seq: seq.value,
+  //   seq: props.todo.seq,
+  //   users_seq: props.todo.users_seq,
+  //   title: props.todo.title,
+  //   categories_seq: props.todo.categories_seq,
+  //   status: props.todo.status,
+  //   total_second: String(msTime.value),
+  //   index: props.index,
+  //   completed: updateTodoItem.completed,
+  //   time : time,
+  // };
+
+  // console.log("now updateTodoItem : ");
+  // console.log(updateTodoItem);
+
   store.updateTodoItem({
-    "seq": Number(changeTodoItem.seq),
-    "users_seq" : 0,
-    "categories_seq" : Number(changeTodoItem.categories_seq),
-    "title" : changeTodoItem.title, 
-    "completed" : completed,
-    "status" : props.todo.status,
+    "seq": Number(updateTodoItem.seq),
+    "users_seq" : Number(updateTodoItem.users_seq),
+    "categories_seq" : Number(updateTodoItem.categories_seq),
+    "title" : updateTodoItem.title,
+    "status" : updateTodoItem.status,
     "total_second" : String(msTime.value),
-    });
-  openUpdateTodo();
+    "index" : store.todos.indexOf(props.todo),
+  });  
+
+  if (updateState.value == true) {
+    openUpdateTodo();
+  }
+  
 }
 
 // 말줄임표로 열고 닫기
@@ -208,15 +266,14 @@ const showFullTodo = () => {
   ellipsisState.value = !ellipsisState.value;
 }
 
-
 // timer test
-let time = ref('00:00:00.000');
 
 var timeBegan = null, 
 timeStopped = null, 
 stoppedDuration = 0, 
 started = null, 
 running = false;
+
 
 const start = () => {
   if(running) return;
@@ -232,34 +289,19 @@ const start = () => {
 
   started = setInterval(clockRunning, 10);	
   running = true;
+
+  nowPlayUpdate(updateTodoItem.seq);
 }
 
 const stop = () => {
   running = false;
   timeStopped = new Date();
   clearInterval(started);
-  // console.log(msTime.value);
 
-  const updateTodoItem = {
-    seq: props.seq,
-    users_seq: props.todo.users_seq,
-    title: props.todo.title,
-    categories_seq: props.todo.categories_seq,
-    status: props.todo.status,
-    total_second: String(msTime.value),
-  }
-
-  store.updateTodoItem({
-  "seq": Number(updateTodoItem.seq),
-  "users_seq" : 0,
-  "categories_seq" : Number(updateTodoItem.categories_seq),
-  "title" : updateTodoItem.title, 
-  "completed" : completed,
-  "status" : props.todo.status,
-  "total_second" : String(msTime.value),
-  });
+  nowPlayUpdate(-1);
 }
 
+// 일단은 넣어두지 않은 기능
 const reset = () => {
   running = false;
   clearInterval(started);
