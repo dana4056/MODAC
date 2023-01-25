@@ -1,19 +1,17 @@
 <script setup>
-import Login from './domains/User/Login.vue';
-
+import NavbarTop from './components/NavbarTop.vue';
 </script>
 
 <template>
-  <header>
-    <Login/>
-    <nav>
-      <RouterLink to="/todoList">투두 리스트</RouterLink><br />
-      <RouterLink to="/studyRoom">스터디 룸</RouterLink><br />
-      <RouterLink to="/before">깃헙 연동 테스트</RouterLink>
-    </nav>
-  </header>
-
-  <RouterView />
+  <div id="header">
+    <NavbarTop/>
+  </div>
+  <div id="body">
+    <RouterView/>
+  </div>
+  <div id="footer">
+  </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+</style>
