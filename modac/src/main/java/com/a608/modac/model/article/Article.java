@@ -1,5 +1,7 @@
 package com.a608.modac.model.article;
 
+import java.time.LocalDateTime;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,9 +11,11 @@ import javax.persistence.Table;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.ToString;
 
 @Getter
 @Entity
+@ToString
 @Table(name = "articles")
 public class Article {
 	@Id
@@ -25,7 +29,7 @@ public class Article {
 	private String filepath;
 
 	@Column(name="registered_time")
-	private String registeredTime;
+	private LocalDateTime registeredTime;
 
 	@Column(name="public_type")
 	private int publicType;
@@ -49,8 +53,8 @@ public class Article {
 	private Long categoriesSeq;
 
 	@Builder
-	public Article(Long seq, String title, String filepath, String registeredTime, int publicType, int viewCount,
-		int likeCount, int commentCount, String totalSecond, Long usersSeq, Long categoriesSeq) {
+	public Article(final Long seq, final String title, final String filepath, final LocalDateTime registeredTime, final int publicType, final int viewCount,
+		final int likeCount, final int commentCount, final String totalSecond, final Long usersSeq, final Long categoriesSeq) {
 		this.seq = seq;
 		this.title = title;
 		this.filepath = filepath;
