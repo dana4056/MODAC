@@ -1,5 +1,6 @@
-package com.a608.modac.model.follow;
+package com.a608.modac.repository;
 
+import com.a608.modac.model.follow.Follow;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,12 +1,12 @@
 package com.a608.modac.service;
 
 import com.a608.modac.model.chatting.ChatRoom;
-import com.a608.modac.model.chatting.ChatRoomRepository;
+import com.a608.modac.repository.ChatRoomRepository;
 import com.a608.modac.model.follow.Follow;
-import com.a608.modac.model.follow.FollowRepository;
+import com.a608.modac.repository.FollowRepository;
 import com.a608.modac.model.follow.FollowRequest;
 import com.a608.modac.model.user.User;
-import com.a608.modac.model.user.UserRepository;
+import com.a608.modac.repository.UserRepository;
 import com.a608.modac.model.user.UserRequest;
 import com.a608.modac.model.user.UserResponse;
 import org.springframework.stereotype.Service;

@@ -4,6 +4,9 @@ import lombok.*;
 
 import javax.persistence.*;
 
+import com.a608.modac.model.chatting.ChatRoom;
+import com.a608.modac.model.user.User;
+
 @Getter
 @Entity
 @ToString
@@ -17,13 +20,16 @@ public class Follow {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long seq;
 
-    @Column(name = "from_seq")
-    private Long fromSeq;
+    @ManyToOne
+    @JoinColumn(name = "from_seq")
+    private User fromUser;
 
-    @Column(name = "to_seq")
-    private Long toSeq;
+    @ManyToOne
+    @JoinColumn(name = "to_seq")
+    private User toUser;
 
-    @Column(name = "chat_rooms_seq")
-    private Long chatRoomSeq;
+    @ManyToOne
+    @JoinColumn(name = "chat_rooms_seq")
+    private ChatRoom chatRoom;
 
 }

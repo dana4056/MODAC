@@ -7,9 +7,14 @@ import lombok.ToString;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.GenerationType;
 import javax.persistence.Column;
+
+import com.a608.modac.model.category.Category;
+import com.a608.modac.model.user.User;
 
 @Getter
 @Entity
@@ -21,8 +26,9 @@ public class Todo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long seq;
 
-    @Column(name="users_seq")
-    private Long usersSeq;
+    @ManyToOne
+    @JoinColumn(name="users_seq")
+    private User user;
 
     @Column(name = "title")
     private String title;
@@ -33,17 +39,18 @@ public class Todo {
     @Column(name = "total_second")
     private String totalSecond;
 
-    @Column(name = "categories_seq")
-    private Long categoriesSeq;
+    @ManyToOne
+    @JoinColumn(name = "categories_seq")
+    private Category category;
 
     @Builder
-    public Todo(final Long seq, final Long usersSeq, final String title, final Byte status, final String totalSecond, final Long categoriesSeq) {
+    public Todo(final Long seq, final User user, final String title, final Byte status, final String totalSecond, final Category category) {
         this.seq = seq;
-        this.usersSeq = usersSeq;
+        this.user = user;
         this.title = title;
         this.status = status;
         this.totalSecond = totalSecond;
-        this.categoriesSeq = categoriesSeq;
+        this.category = category;
     }
 
     public Todo() {

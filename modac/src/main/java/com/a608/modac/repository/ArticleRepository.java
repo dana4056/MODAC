@@ -1,7 +1,8 @@
-package com.a608.modac.model.article;
+package com.a608.modac.repository;
 
 import java.util.List;
 
+import com.a608.modac.model.article.Article;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

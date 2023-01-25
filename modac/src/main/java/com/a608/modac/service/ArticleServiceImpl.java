@@ -2,7 +2,6 @@ package com.a608.modac.service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
@@ -10,14 +9,14 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.a608.modac.model.article.Article;
-import com.a608.modac.model.article.ArticleRepository;
+import com.a608.modac.repository.ArticleRepository;
 import com.a608.modac.model.article.ArticleRequest;
 import com.a608.modac.model.article.ArticleResponse;
 import com.a608.modac.model.article.Like;
 import com.a608.modac.model.article.LikeId;
-import com.a608.modac.model.article.LikeRepository;
+import com.a608.modac.repository.LikeRepository;
 import com.a608.modac.model.todo.Todo;
-import com.a608.modac.model.todo.TodoRepository;
+import com.a608.modac.repository.TodoRepository;
 
 @Service
 public class ArticleServiceImpl implements ArticleService {

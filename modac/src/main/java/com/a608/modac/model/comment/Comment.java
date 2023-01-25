@@ -7,7 +7,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import com.a608.modac.model.article.Article;
+import com.a608.modac.model.user.User;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -26,19 +31,21 @@ public class Comment {
 	@Column(name="registered_time")
 	private LocalDateTime registeredTime;
 
-	@Column(name="article_seq")
-	private Long articlesSeq;
+	@ManyToOne
+	@JoinColumn(name="article_seq")
+	private Article article;
 
-	@Column(name="users_seq")
-	private Long usersSeq;
+	@ManyToOne
+	@JoinColumn(name="users_seq")
+	private User user;
 
 	@Builder
-	public Comment(final Long seq, final String content, final LocalDateTime registeredTime, final Long articlesSeq, final Long usersSeq) {
+	public Comment(final Long seq, final String content, final LocalDateTime registeredTime, final Article article, final User user) {
 		this.seq = seq;
 		this.content = content;
 		this.registeredTime = registeredTime;
-		this.articlesSeq = articlesSeq;
-		this.usersSeq = usersSeq;
+		this.article = article;
+		this.user = user;
 	}
 
 	public Comment() {

@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.Builder;
@@ -12,6 +14,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.hibernate.annotations.DynamicInsert;
+
+import com.a608.modac.model.membership.Membership;
 
 @Getter
 @Entity
@@ -43,11 +47,12 @@ public class User {
 	@Column(name = "total_second")
 	private Long totalSecond; //인생 총 공부시간
 
-	@Column(name = "membership_grade")
-	private String membershipGrade;
+	@ManyToOne
+	@JoinColumn(name = "membership_grade")
+	private Membership membership;
 
 	@Builder
-	public User(Long seq, String id, String nickname, String email, String password, String singleTheme, Long totalSecond, String membershipGrade) {
+	public User(Long seq, String id, String nickname, String email, String password, String singleTheme, Long totalSecond, Membership membership) {
 		this.seq = seq;
 		this.id = id;
 		this.nickname = nickname;
@@ -55,7 +60,7 @@ public class User {
 		this.password = password;
 		this.singleTheme = singleTheme;
 		this.totalSecond = totalSecond;
-		this.membershipGrade = membershipGrade;
+		this.membership = membership;
 	}
 
 	public void updateUser(String nickname, String email){

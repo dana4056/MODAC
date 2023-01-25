@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import com.a608.modac.model.comment.Comment;
-import com.a608.modac.model.comment.CommentRepository;
+import com.a608.modac.repository.CommentRepository;
 import com.a608.modac.model.comment.CommentRequest;
 import com.a608.modac.model.comment.CommentResponse;
 

@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import com.a608.modac.model.todo.Todo;
-import com.a608.modac.model.todo.TodoRepository;
+import com.a608.modac.repository.TodoRepository;
 import com.a608.modac.model.todo.TodoRequest;
 import com.a608.modac.model.todo.TodoResponse;
 

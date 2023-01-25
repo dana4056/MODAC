@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.a608.modac.model.guest.Guest;
 import com.a608.modac.model.guest.GuestPK;
-import com.a608.modac.model.guest.GuestRepository;
+import com.a608.modac.repository.GuestRepository;
 import com.a608.modac.model.guest.GuestRequest;
 import com.a608.modac.model.guest.GuestResponse;
 

@@ -7,7 +7,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import com.a608.modac.model.category.Category;
+import com.a608.modac.model.user.User;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -46,15 +51,17 @@ public class Article {
 	@Column(name="total_second")
 	private String totalSecond;
 
-	@Column(name="users_seq")
-	private Long usersSeq;
+	@ManyToOne
+	@JoinColumn(name="users_seq")
+	private User user;
 
-	@Column(name="categories_seq")
-	private Long categoriesSeq;
+	@ManyToOne
+	@JoinColumn(name="categories_seq")
+	private Category category;
 
 	@Builder
 	public Article(final Long seq, final String title, final String filepath, final LocalDateTime registeredTime, final int publicType, final int viewCount,
-		final int likeCount, final int commentCount, final String totalSecond, final Long usersSeq, final Long categoriesSeq) {
+		final int likeCount, final int commentCount, final String totalSecond, final User user, final Category category) {
 		this.seq = seq;
 		this.title = title;
 		this.filepath = filepath;
@@ -64,8 +71,8 @@ public class Article {
 		this.likeCount = likeCount;
 		this.commentCount = commentCount;
 		this.totalSecond = totalSecond;
-		this.usersSeq = usersSeq;
-		this.categoriesSeq = categoriesSeq;
+		this.user = user;
+		this.category = category;
 	}
 
 	public Article() {

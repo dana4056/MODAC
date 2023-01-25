@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import com.a608.modac.model.room.Room;
-import com.a608.modac.model.room.RoomRepository;
+import com.a608.modac.repository.RoomRepository;
 import com.a608.modac.model.room.RoomResponse;
 
 @Service
