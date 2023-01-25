@@ -1,0 +1,4 @@
+.study_room_wrapper_flex {
+  @apply flex flex-row;
+  @apply bg-gray-700;
+}
