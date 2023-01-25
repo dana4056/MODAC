@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
-import Login from "../views/TodoListView.vue";
+import Login from "../domains/User/Login.vue";
+import SignUp from "../domains/User/SignUp.vue";
 import TodoListView from "../views/TodoListView.vue";
 import StudyRoomView from "../views/StudyRoomView.vue";
 import ArticleView from "../views/ArticleView.vue";
@@ -15,9 +16,14 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path: "/",
-      name: "Login",
+      path: "/login",
+      name: "login",
       component: Login,
+    },
+    {
+      path: "/signup",
+      name: "signup",
+      component: SignUp,
     },
     {
       path: "/todolist",
