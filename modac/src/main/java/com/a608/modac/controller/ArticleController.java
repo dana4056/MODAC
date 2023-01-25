@@ -8,12 +8,14 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.a608.modac.model.article.Article;
 import com.a608.modac.model.article.ArticleRequest;
+import com.a608.modac.model.article.ArticleResponse;
 import com.a608.modac.model.todo.TodoResponse;
 import com.a608.modac.service.ArticleService;
 import com.a608.modac.service.TodoService;
@@ -26,47 +28,54 @@ public class ArticleController {
     private static final String FAIL = "fail";
 
     private final ArticleService articleService;
-    private final TodoService todoService;
 
-    public ArticleController(ArticleService articleService, TodoService todoService) {
+    public ArticleController(ArticleService articleService) {
         this.articleService = articleService;
-        this.todoService = todoService;
     }
 
     // 게시글 작성 (POST)
-    @PostMapping("/article")
-    public ResponseEntity<String> createArticle(ArticleRequest.createArticleRequest registerDto) {
-        // usersSeq로 Todo List 조회
-        List<TodoResponse> todoList = todoService.findTodosByUsersSeq(registerDto.getUsersSeq());
-
-        // todosSeq와 일치하는 todo를 전달
-        for(TodoResponse todoResponse : todoList) {
-            if(todoResponse.getSeq() == registerDto.getTodosSeq()){
-                articleService.createArticle(registerDto, todoResponse);
-                return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
-            }
-        }
-
-        // 일치하는 todo가 없으면 실패
-        return new ResponseEntity<String>(FAIL, HttpStatus.OK);
+    @PostMapping
+    public ResponseEntity<String> createArticle(@RequestBody final ArticleRequest articleRequest) {
+        articleService.createArticle(articleRequest);
+        return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
     }
 
     // 사용자 게시글 전체 조회 (GET)
-    @GetMapping("/article/list")
-    public ResponseEntity<List<Article>> selectAllArticle(@RequestParam Long usersSeq) {
-        return new ResponseEntity<List<Article>>(articleService.readArticleByUsersSeq(usersSeq), HttpStatus.OK);
+    @GetMapping("/list")
+    public ResponseEntity<List<ArticleResponse>> selectAllArticle(@RequestParam("users_seq") final Long usersSeq) {
+        return new ResponseEntity<List<ArticleResponse>>(articleService.readArticleByUsersSeq(usersSeq), HttpStatus.OK);
     }
 
     // 게시글 조회 (GET)
-    @GetMapping("/article/")
-    public ResponseEntity<Article> selectArticle(@PathVariable Long seq) {
-        return new ResponseEntity<Article>(articleService.readArticleBySeq(seq), HttpStatus.OK);
+    @GetMapping
+    public ResponseEntity<ArticleResponse> selectArticle(@RequestParam("seq") final Long seq) {
+        return new ResponseEntity<ArticleResponse>(articleService.readArticleBySeq(seq), HttpStatus.OK);
     }
 
     // 게시글 삭제 (DELETE)
-    @DeleteMapping("/article")
-    public ResponseEntity<String> removeArticle(Long seq) {
+    @DeleteMapping
+    public ResponseEntity<String> removeArticle(@RequestParam("seq") final Long seq) {
         articleService.deleteArticleBySeq(seq);
         return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+    }
+
+    @PostMapping("/like")
+    // 게시글-유저 좋아요 관계 추가
+    public ResponseEntity<String> createLike(@RequestParam("articles_seq") final Long articlesSeq, @RequestParam("users_seq") final Long usersSeq){
+        articleService.createLike(articlesSeq, usersSeq);
+        return new ResponseEntity<>(SUCCESS, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/like")
+    // 게시글-유저 좋아요 관계 삭제
+    public ResponseEntity<String> deleteLike(@RequestParam("articles_seq") final Long articlesSeq, @RequestParam("users_seq") final Long usersSeq){
+        articleService.deleteLike(articlesSeq, usersSeq);
+        return new ResponseEntity<>(SUCCESS, HttpStatus.OK);
+    }
+
+    @GetMapping("/like")
+    // 게시글-유저 좋아요 관계 개수 조회
+    public ResponseEntity<Long> countLike(@RequestParam("articles_seq") final Long articlesSeq, @RequestParam("users_seq") final Long usersSeq){
+        return new ResponseEntity<>(articleService.countLike(articlesSeq, usersSeq), HttpStatus.OK);
     }
 }
