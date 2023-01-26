@@ -1,31 +1,49 @@
 <template lang="">
-  <div>
-    <br>
-    <div style="text-align:right;"><br>
-      <button @click="sendArticle" style="">[TIL 작성하러 가기 ➡]</button>
-    </div>
+  <div class="w-full h-full flex flex-col-reverse justify-between">
 
-    <div v-for="todo in todos" :key="todo.seq">
-      {{ todo }}
-    </div>
+    <div style="display:flex;
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 0px;
+                gap: 7px;
 
-    <p>======</p>
+                flex: none;
+                order: 1;
+                align-self: stretch;
+                flex-grow: 1;
+                white-space: nowrap;
+                overflow: auto;
+                word-break:break-all;
+                height: 60vh;"
+                :class="$style.scrollBar">
+      <div v-for="todo in todos" :key="todo.seq" class="w-full">
+        <TodoListItem :todo="todo" @nowPlay="nowPlay" :id="`todo_` + todo.seq" ref="TodoListItemComponent" />
+      </div>
 
-    <div v-for="todo in todos" :key="todo.seq">
-      <TodoListItem :todo="todo" @nowPlay="nowPlay"/>
-      <!-- <TodoListItem :todo="todo"/> -->
     </div>
+      <div style="text-align:right;"><br>
+        <button @click="sendArticle" 
+        class="text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
+          오늘 공부 정리하기
+        </button>
+      </div>
+
   </div>
 </template>
 
 <script setup>
 import { useTodoStore } from "../../../stores/todo";
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import TodoListItem from "./TodoListItem.vue";
 
 const store = useTodoStore();
 const todos = ref([]);
 todos.value = store.todos;
+
+const TodoListItemComponent = ref();
+// onMounted(() => {
+//   TodoListItemComponent.value.stop();
+// })
 
 let nowPlayState = -1;
 const nowPlay = (index) => {
@@ -33,6 +51,16 @@ const nowPlay = (index) => {
   if (nowPlayState != -1) {
     // 기존에 재생중이던 seq를 가진 props로 stop 명령 보내기
     // todos[nowPlayState].stop();
+    // const prevPlay = document.getElementById(`todo_` + nowPlayState);
+    // stop.value.stop();
+    console.log("===========");
+    // console.log(todos.value);
+    // console.log(nowPlayState);
+    // console.log(todos.value[nowPlayState]);
+    // // console.log(todos.value[nowPlayState]);
+    // TodoListItemComponent.value.stop();
+    console.log("===========");
+    // todos.value[nowPlayState].stop();
   }
 
   nowPlayState = index;
@@ -81,4 +109,6 @@ const sendArticle = () => {
 }
 </script>
 
-<style lang=""></style>
+<style module>
+  @import "./TodoList.css";
+</style>
