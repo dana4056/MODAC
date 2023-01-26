@@ -1,4 +1,12 @@
 .study_room_wrapper_flex {
   @apply flex flex-row;
-  @apply bg-gray-700;
+  @apply bg-gray-100;
+}
+
+.hidden_ {
+  visibility: hidden;
+}
+
+.block_ {
+  visibility: visible;
 }

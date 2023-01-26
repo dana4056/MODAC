@@ -3,4 +3,17 @@
   @apply bg-gray-200 text-gray-900;
   @apply min-h-screen;
   @apply opacity-60;
+  @apply flex flex-row;
+}
+
+.hidden_component {
+  @apply hidden;
+}
+
+.flex_11_12 {
+  @apply basis-11/12;
+}
+
+.flex_1_12 {
+  @apply basis-1/12;
 }
