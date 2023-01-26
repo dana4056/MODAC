@@ -9,9 +9,9 @@ import java.util.List;
 @Repository
 public interface FollowRepository extends JpaRepository<Follow, Long> {
 
-    Follow findFollowByFromSeqAndToSeq(Long fromSeq, Long toSeq);
+    Follow findFollowByFromUser_SeqAndToUser_Seq(Long fromSeq, Long toSeq);
 
-    List<Follow> findAllByFromSeq(Long seq);
+    List<Follow> findAllByFromUser_Seq(Long seq);
 
-    List<Follow> findAllByToSeq(Long seq);
+    List<Follow> findAllByToUser_Seq(Long seq);
 }

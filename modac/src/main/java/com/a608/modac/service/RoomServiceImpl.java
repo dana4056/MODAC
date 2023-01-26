@@ -3,22 +3,27 @@ package com.a608.modac.service;
 import static com.a608.modac.model.room.RoomRequest.*;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
 import com.a608.modac.model.room.Room;
+import com.a608.modac.model.user.User;
 import com.a608.modac.repository.RoomRepository;
 import com.a608.modac.model.room.RoomResponse;
+import com.a608.modac.repository.UserRepository;
 
 @Service
 public class RoomServiceImpl implements RoomService{
 
 	private final RoomRepository roomRepository;
+	private final UserRepository userRepository;
 
-	public RoomServiceImpl(RoomRepository roomRepository) {
+	public RoomServiceImpl(RoomRepository roomRepository, UserRepository userRepository) {
 		this.roomRepository = roomRepository;
+		this.userRepository = userRepository;
 	}
 
 	@Override
@@ -42,7 +47,8 @@ public class RoomServiceImpl implements RoomService{
 
 	@Override
 	public void createRoom(final CreateRoomRequest createRoomRequest) {
-		roomRepository.save(createRoomRequest.toEntity());
+		User user = userRepository.findById(createRoomRequest.getUserSeq()).orElseThrow(NoSuchElementException::new);
+		roomRepository.save(createRoomRequest.toEntity(user));
 	}
 
 	@Override

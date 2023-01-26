@@ -13,12 +13,15 @@ import javax.persistence.Table;
 import javax.persistence.GenerationType;
 import javax.persistence.Column;
 
+import org.hibernate.annotations.DynamicInsert;
+
 import com.a608.modac.model.category.Category;
 import com.a608.modac.model.user.User;
 
 @Getter
 @Entity
 @ToString
+@DynamicInsert
 @Table(name = "todos")
 public class Todo {
 
@@ -40,7 +43,7 @@ public class Todo {
     private String totalSecond;
 
     @ManyToOne
-    @JoinColumn(name = "categories_seq")
+    @JoinColumn(name = "categories_name")
     private Category category;
 
     @Builder

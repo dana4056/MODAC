@@ -29,10 +29,10 @@ public class Comment {
 	private String content;
 
 	@Column(name="registered_time")
-	private LocalDateTime registeredTime;
+	private String registeredTime;
 
 	@ManyToOne
-	@JoinColumn(name="article_seq")
+	@JoinColumn(name="articles_seq")
 	private Article article;
 
 	@ManyToOne
@@ -40,7 +40,7 @@ public class Comment {
 	private User user;
 
 	@Builder
-	public Comment(final Long seq, final String content, final LocalDateTime registeredTime, final Article article, final User user) {
+	public Comment(final Long seq, final String content, final String registeredTime, final Article article, final User user) {
 		this.seq = seq;
 		this.content = content;
 		this.registeredTime = registeredTime;

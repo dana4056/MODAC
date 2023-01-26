@@ -13,13 +13,13 @@ public class ArticleResponse {
 	private Long seq;
 	private String title;
 	private String filepath;
-	private LocalDateTime registeredTime;
-	private int publicType;
-	private int viewCount;
-	private int commentCount;
+	private String registeredTime;
+	private Byte publicType;
+	private Integer viewCount;
+	private Integer commentCount;
 	private String totalSecond;
 	private Long usersSeq;
-	private Long categoriesSeq;
+	private String categoryName;
 
 	public ArticleResponse(Article article) {
 		this.seq = article.getSeq();
@@ -30,8 +30,8 @@ public class ArticleResponse {
 		this.viewCount = article.getViewCount();
 		this.commentCount = article.getCommentCount();
 		this.totalSecond = article.getTotalSecond();
-		this.usersSeq = article.getUsersSeq();
-		this.categoriesSeq = article.getCategoriesSeq();
+		this.usersSeq = article.getUser().getSeq();
+		this.categoryName = article.getCategory().getName();
 	}
 
 }

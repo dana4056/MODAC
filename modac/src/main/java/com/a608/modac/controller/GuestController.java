@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +18,7 @@ import com.a608.modac.model.guest.GuestRequest;
 import com.a608.modac.model.guest.GuestResponse;
 import com.a608.modac.service.GuestService;
 
+@CrossOrigin(origins = { "*" })
 @RestController
 @RequestMapping("/guest")
 public class GuestController {
@@ -37,18 +39,16 @@ public class GuestController {
 	@GetMapping("/{usersSeq}/{roomsSeq}")
 	public ResponseEntity<GuestResponse> findMyRoom(@PathVariable("usersSeq") final Long usersSeq,
 		@PathVariable("roomsSeq") final Long roomsSeq){
-		final GuestPK guestPk = GuestPK.builder().usersSeq(usersSeq).roomsSeq(roomsSeq).build();
-		final GuestResponse myRoom = guestService.findMyRoom(guestPk);
 
+		final GuestResponse myRoom = guestService.findMyRoom(usersSeq, roomsSeq);
 		return new ResponseEntity<>(myRoom, HttpStatus.OK);
 	}
 
 	@DeleteMapping("/{usersSeq}/{roomsSeq}")
 	public ResponseEntity<Void> deleteTodo(@PathVariable("usersSeq") final Long usersSeq,
 		@PathVariable("roomsSeq") final Long roomsSeq){
-		final GuestPK guestPk = GuestPK.builder().usersSeq(usersSeq).roomsSeq(roomsSeq).build();
-		guestService.deleteGuestInfo(guestPk);
 
+		guestService.deleteGuestInfo(usersSeq, roomsSeq);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 

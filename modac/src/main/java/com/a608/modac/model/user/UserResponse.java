@@ -20,6 +20,6 @@ public class UserResponse {
 		this.email = user.getEmail();
 		this.singleTheme = user.getSingleTheme();
 		this.totalSecond = user.getTotalSecond();
-		this.membershipGrade = user.getMembershipGrade();
+		this.membershipGrade = user.getMembership().getGrade();
 	}
 }

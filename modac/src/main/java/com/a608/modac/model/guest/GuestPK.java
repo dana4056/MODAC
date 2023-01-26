@@ -4,6 +4,11 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
+import com.a608.modac.model.room.Room;
+import com.a608.modac.model.user.User;
 
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -15,15 +20,18 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode
 @Embeddable
 public class GuestPK implements Serializable {
-	@Column(name = "users_seq")
-	private Long usersSeq;
-	@Column(name = "rooms_seq")
-	private Long roomsSeq;
+	@ManyToOne
+	@JoinColumn(name = "users_seq")
+	private User user;
+
+	@ManyToOne
+	@JoinColumn(name = "rooms_seq")
+	private Room room;
 
 	@Builder
-	public GuestPK(final Long usersSeq, final Long roomsSeq) {
-		this.usersSeq = usersSeq;
-		this.roomsSeq = roomsSeq;
+	public GuestPK(final User user, final Room room) {
+		this.user = user;
+		this.room = room;
 	}
 
 }

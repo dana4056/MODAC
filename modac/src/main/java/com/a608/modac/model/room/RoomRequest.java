@@ -1,6 +1,7 @@
 package com.a608.modac.model.room;
 
 import lombok.Getter;
+import com.a608.modac.model.user.User;
 
 public class RoomRequest {
 	@Getter
@@ -13,7 +14,7 @@ public class RoomRequest {
 		private String invitationCode;
 		private Long userSeq;
 
-		public Room toEntity(){
+		public Room toEntity(User user){
 			return Room.builder()
 				.title(title)
 				.description(description)
@@ -21,7 +22,7 @@ public class RoomRequest {
 				.multiTheme(multiTheme)
 				.publicType(publicType)
 				.invitationCode(invitationCode)
-				.usersSeq(userSeq)
+				.user(user)
 				.build();
 		}
 	}

@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface GuestRepository extends JpaRepository<Guest, GuestPK> {
-	List<Guest> findGuestByGuestPK_UsersSeq(final Long userSeq);
+	List<Guest> findGuestsByGuestPK_User_Seq(final Long usersSeq);
 
 }

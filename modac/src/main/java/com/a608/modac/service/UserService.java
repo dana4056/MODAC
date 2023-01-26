@@ -9,9 +9,9 @@ import com.a608.modac.model.user.UserResponse;
 
 public interface UserService {
 
-	void saveUser(final UserRequest userRequest);	// 회원 가입
+	UserResponse saveUser(final UserRequest userRequest);	// 회원 가입
 
-	void updateUser(final Long seq, final UserRequest userRequest); // 회원 수정 (닉네임, 이메일)
+	UserResponse updateUser(final Long seq, final UserRequest userRequest); // 회원 수정 (닉네임, 이메일)
 
 	void updatePassword(final Long seq, final String password);		// 회원 수정 (비밀번호 수정)
 
@@ -26,6 +26,8 @@ public interface UserService {
 	boolean checkAvailableNick(final String nick);	// 닉네임 중복확인
 
 	boolean checkAvailableId(final String id);		// 아이디 중복확인
+	
+	boolean checkAvailableEmail(final String email);// 이메일 중복확인
 
 	boolean login(UserRequest userRequest);			// 로그인
 	

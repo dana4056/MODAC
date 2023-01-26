@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,6 +17,7 @@ import com.a608.modac.model.comment.CommentRequest;
 import com.a608.modac.model.comment.CommentResponse;
 import com.a608.modac.service.CommentService;
 
+@CrossOrigin(origins = { "*" })
 @RestController
 @RequestMapping("/comment")
 public class CommentController {

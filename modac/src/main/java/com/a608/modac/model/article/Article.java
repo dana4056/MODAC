@@ -34,19 +34,19 @@ public class Article {
 	private String filepath;
 
 	@Column(name="registered_time")
-	private LocalDateTime registeredTime;
+	private String registeredTime;
 
 	@Column(name="public_type")
-	private int publicType;
+	private Byte publicType;
 
 	@Column(name="view_count")
-	private int viewCount;
+	private Integer viewCount;
 
 	@Column(name="like_count")
-	private int likeCount;
+	private Integer likeCount;
 
 	@Column(name="comment_count")
-	private int commentCount;
+	private Integer commentCount;
 
 	@Column(name="total_second")
 	private String totalSecond;
@@ -60,8 +60,8 @@ public class Article {
 	private Category category;
 
 	@Builder
-	public Article(final Long seq, final String title, final String filepath, final LocalDateTime registeredTime, final int publicType, final int viewCount,
-		final int likeCount, final int commentCount, final String totalSecond, final User user, final Category category) {
+	public Article(final Long seq, final String title, final String filepath, final String registeredTime, final Byte publicType, final Integer viewCount,
+		final Integer likeCount, final Integer commentCount, final String totalSecond, final User user, final Category category) {
 		this.seq = seq;
 		this.title = title;
 		this.filepath = filepath;

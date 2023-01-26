@@ -9,13 +9,13 @@ import lombok.Getter;
 public class CommentResponse {
 	private Long seq; // 댓글 번호
 	private String content; // 댓글 내용
-	private LocalDateTime registeredTime; // 댓글 작성 시간
+	private String registeredTime; // 댓글 작성 시간
 	private Long usersSeq; // 댓글 작성자 번호
 
 	public CommentResponse(Comment comment) {
 		this.seq = comment.getSeq();
 		this.content = comment.getContent();
 		this.registeredTime = comment.getRegisteredTime();
-		this.usersSeq = comment.getUsersSeq();
+		this.usersSeq = comment.getUser().getSeq();
 	}
 }

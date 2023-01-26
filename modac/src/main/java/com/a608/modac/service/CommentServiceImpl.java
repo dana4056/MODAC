@@ -1,27 +1,41 @@
 package com.a608.modac.service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import com.a608.modac.model.article.Article;
 import com.a608.modac.model.comment.Comment;
+import com.a608.modac.model.user.User;
+import com.a608.modac.repository.ArticleRepository;
 import com.a608.modac.repository.CommentRepository;
 import com.a608.modac.model.comment.CommentRequest;
 import com.a608.modac.model.comment.CommentResponse;
+import com.a608.modac.repository.UserRepository;
 
 @Service
 public class CommentServiceImpl implements CommentService {
-	private CommentRepository commentRepository;
+	final private CommentRepository commentRepository;
+	final private ArticleRepository articleRepository;
+	final private UserRepository userRepository;
 
-	public CommentServiceImpl(CommentRepository commentRepository) {
+	public CommentServiceImpl(CommentRepository commentRepository, ArticleRepository articleRepository,
+		UserRepository userRepository) {
 		this.commentRepository = commentRepository;
+		this.articleRepository = articleRepository;
+		this.userRepository = userRepository;
 	}
 
 	// 댓글 작성
 	@Override
 	public void createComment(final CommentRequest commentRequest) {
-		commentRepository.save(commentRequest.toEntity());
+
+		Article article = articleRepository.findById(commentRequest.getArticlesSeq()).orElseThrow(NoSuchElementException::new);
+		User user = userRepository.findById(commentRequest.getUsersSeq()).orElseThrow(NoSuchElementException::new);
+		commentRepository.save(commentRequest.toEntity(article, user));
+
 	}
 
 	// 댓글 삭제
@@ -33,7 +47,7 @@ public class CommentServiceImpl implements CommentService {
 	// 댓글 목록조회
 	@Override
 	public List<CommentResponse> readCommentByArticlesSeq(final Long articlesSeq) {
-		final List<Comment> findComment = commentRepository.findCommentsByArticlesSeq(articlesSeq);
+		final List<Comment> findComment = commentRepository.findCommentsByArticle_Seq(articlesSeq);
 		return findComment.stream().map(CommentResponse::new).collect(Collectors.toList());
 	}
 }

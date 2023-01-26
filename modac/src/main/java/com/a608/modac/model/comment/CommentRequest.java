@@ -1,5 +1,8 @@
 package com.a608.modac.model.comment;
 
+import com.a608.modac.model.article.Article;
+import com.a608.modac.model.user.User;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -9,10 +12,10 @@ public class CommentRequest {
 	private Long usersSeq;
 	private String content;
 
-	public Comment toEntity() {
+	public Comment toEntity(Article article, User user) {
 		return Comment.builder()
-			.articlesSeq(articlesSeq)
-			.usersSeq(usersSeq)
+			.article(article)
+			.user(user)
 			.content(content)
 			.build();
 	}
