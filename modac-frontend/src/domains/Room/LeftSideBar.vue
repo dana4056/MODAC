@@ -1,17 +1,9 @@
 <script setup>
-import { useRoomStore } from "@/stores/room";
-
-const store = useRoomStore();
+import LeftSideBarContent from "./LeftSideBarContent.vue";
 </script>
 
 <template>
-  <div :class="$style.left_side_bar">
-    <LeftSideBarContent :class="flex_11_12" />
-    <SideBarToggleButton
-      :class="flex_1_12"
-      @click="store.toggleLeftSideBar"
-    ></SideBarToggleButton>
-  </div>
+  <LeftSideBarContent :class="$style.left_side_bar" />
 </template>
 
 <style lang="css" module>

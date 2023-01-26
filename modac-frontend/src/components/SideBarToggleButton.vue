@@ -1,7 +1,11 @@
 <script setup></script>
 
 <template>
-  <div></div>
+  <button :class="$style.button_style">
+    <slot></slot>
+  </button>
 </template>
 
-<style lang="css" module></style>
+<style lang="css" module>
+@import "./SideBarToggleButton.module.css";
+</style>

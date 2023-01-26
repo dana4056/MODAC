@@ -1,7 +1,9 @@
 <script setup></script>
 
 <template>
-  <div>leftsidebarcontent</div>
+  <div>
+    <slot></slot>
+  </div>
 </template>
 
 <style lang="css" module></style>
