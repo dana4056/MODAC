@@ -6,7 +6,6 @@
   font-weight: 300;
   font-family: 'Source Sans Pro', sans-serif;
   color: white;
-  font-weight: 300;
 }
 #loginbody ::-webkit-input-placeholder {
   font-family: 'Source Sans Pro', sans-serif;
@@ -35,6 +34,8 @@
 
 #loginwrapper {
   display: flex;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
   background: #50a3a2;
   background: -webkit-linear-gradient(top,#00145C 0%,pink 160%);
@@ -53,7 +54,7 @@
 #logincontainer {
   max-width: 600px;
   margin: 0 auto;
-  padding: 80px 0;
+  padding: 40px 0;
   text-align: center;
 }
 #logincontainer h1 {
@@ -107,21 +108,7 @@
 #loginform button:hover {
   background-color: #f5f7f9;
 }
-#signupButton {
-  appearance: none;
-  outline: 0;
-  background-color: white;
-  border: 0;
-  padding: 10px 15px;
-  color: #00145C;
-  border-radius: 3px;
-  width: 250px;
-  cursor: pointer;
-  font-size: 18px;
-  transition-duration: 0.25s;
-}#signupButton:hover {
-  background-color: #f5f7f9;
-}
+
 .bg-bubbles {
   position: absolute;
   top: 0;
@@ -278,7 +265,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-repeat: repeat;
+  /* background-repeat: repeat; */
 }
 .top-left {
   background-image: url("../../assets/stars/topleft.png");
@@ -291,4 +278,100 @@
 }
 .bottom-right {
   background-image: url("../../assets/stars/bottomright.png");
+}
+
+
+/* input-form */
+
+.input-form {
+  width: 100%;
+  float: left;
+  position: relative;
+  margin-bottom: 10px;
+}
+
+.input-form input[type="text"],
+.input-form input[type="password"] {
+  width: 100%;
+  height: 50px;
+  line-height: 1;
+  padding: 2px 15px 0 105px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+.input-form input[type="text"]:hover, .input-form input[type="text"]:focus,
+.input-form input[type="password"]:hover,
+.input-form input[type="password"]:focus {
+  border: 2px solid #000;
+}
+
+.input-form input[type="text"].error,
+.input-form input[type="password"].error {
+  border-radius: 0;
+  border: none;
+  border-bottom: 1px solid #EE4B55;
+}
+
+.input-form input[type="text"].complete,
+.input-form input[type="password"].complete {
+  border-radius: 0;
+  border: none;
+  border-bottom: 1px solid #3893A8;
+}
+
+.input-form input[type="text"].disabled,
+.input-form input[type="password"].disabled {
+  background: #eee;
+  color: #333;
+  font-weight: 600;
+}
+
+.input-form input[type="text"].disabled:hover, .input-form input[type="text"].disabled:focus,
+.input-form input[type="password"].disabled:hover,
+.input-form input[type="password"].disabled:focus {
+  border: 1px solid #000;
+}
+
+.input-form label {
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  /* color: #000; */
+  font-weight: 600;
+  font-size: 0.857em;
+}
+
+/* .input-form h4 {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  word-wrap: normal;
+} */
+
+.input-form .error-text {
+  width: 100%;
+  float: left;
+  color: #EE4B55;
+  margin-top: 3px;
+}
+
+#social-login {
+  @apply flex justify-center space-x-4 mt-8 mb-8 z-40
+}
+
+.options {
+  @apply flex justify-center mb-8 space-x-4 z-40
+}
+.wrap {
+    width: 100%;
+    float: left;
+}
+
+.sns-body{
+  font-weight: 300;
+  font-family: 'Source Sans Pro', sans-serif;
+  width: 600px;
+  margin: 0px;
+  z-index: 4;
 }

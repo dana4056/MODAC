@@ -3,27 +3,33 @@
     <div id="signup-wrapper">
       <div id="signup-container">
         <h1>회원 가입</h1>
-        
-        <form id="signup">
-          <input type="text" placeholder="ID">
-          <input type="text" placeholder="Nickname">
-          <input type="text" placeholder="E-mail">
+
+        <form id="signup-form">
+          <span class="input-with-doublecheck">
+            <input type="text" placeholder="ID">
+          </span>
+          <span class="input-with-doublecheck">
+            <input type="text" placeholder="Nickname">
+          </span>
+          <span class="input-with-doublecheck">
+            <input type="text" placeholder="E-mail">
+          </span>
           <input type="password" placeholder="Password">
-          <button type="submit" id="signup--button">Sign Up</button>
+          <button type="submit" id="submit-button">Sign Up</button>
         </form>
       </div>
       
       <ul class="bg-bubbles">
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
       </ul>
     </div>
   </div>
@@ -51,8 +57,9 @@
   
 <script setup>
 
+
 </script>
 
 <style>
-/* @import './SignUp.css' */
+@import './SignUp.css'
 </style>

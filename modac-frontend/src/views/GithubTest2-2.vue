@@ -72,7 +72,7 @@ function writeCommitMSG(repo){
 }
 input, textarea{
     margin: 0 auto;
-    display: block;
+    /* display: block; */
     border: 1px gray solid;
 }
 button{
