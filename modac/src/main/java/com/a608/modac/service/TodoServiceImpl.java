@@ -27,7 +27,36 @@ public class TodoServiceImpl implements TodoService{
 		this.userRepository = userRepository;
 		this.categoryRepository = categoryRepository;
 	}
+	@Override
+	public TodoResponse saveTodo(final TodoRequest todoRequest) {
 
+		User user = userRepository.findById(todoRequest.getUsersSeq()).orElseThrow(NoSuchElementException::new);
+		Category category = categoryRepository.findById(todoRequest.getCategoriesName())
+			.orElseThrow(NoSuchElementException::new);
+
+		Todo save = todoRepository.save(todoRequest.toEntity(user, category));
+
+		return new TodoResponse(save);
+	} // todo 작성.
+
+	@Override
+	public TodoResponse findTodo(final Long seq) {
+		Todo todo = todoRepository.findById(seq).orElseThrow(NoSuchElementException::new);
+		return new TodoResponse(todo);
+	}
+
+	@Override
+	public TodoResponse updateTodo(final Long seq, final TodoRequest todoRequest){
+		Todo findTodo = todoRepository.findById(seq).orElseThrow(NoSuchElementException::new);
+		findTodo.updateTodo(todoRequest.getTitle(), todoRequest.getStatus(), todoRequest.getTotalSecond());
+
+		Todo save = todoRepository.save(findTodo);
+
+		return new TodoResponse(save);
+	} // todo 수정 (내용, 상태, 시간)
+
+
+	@Override
 	public void deleteTodo(final Long seq) {
 		todoRepository.deleteById(seq);
 	} // todo 삭제
@@ -38,23 +67,6 @@ public class TodoServiceImpl implements TodoService{
 		return findTodos.stream().map(TodoResponse::new).collect(Collectors.toList());
 	} // todo 목록조회
 
-	@Override
-	public void saveTodo(final TodoRequest todoRequest) {
 
-		User user = userRepository.findById(todoRequest.getUsersSeq()).orElseThrow(NoSuchElementException::new);
-		Category category = categoryRepository.findById(todoRequest.getCategoriesName())
-			.orElseThrow(NoSuchElementException::new);
-
-		final Todo save = todoRepository.save(todoRequest.toEntity(user, category));
-		final Long seq = save.getSeq();// 저장한 Todo 번호 반환.
-
-	} // todo 작성.
-
-	@Override
-	public void updateTodo(final TodoRequest todoRequest){
-		final Optional<Todo> findTodo = todoRepository.findById(todoRequest.getSeq());
-		findTodo.ifPresent(todo -> todo.updateTodo(todoRequest.getTitle(), todoRequest.getStatus(), todoRequest.getTotalSecond()));
-		todoRepository.save(findTodo.get());
-	} // todo 수정 (내용, 상태, 시간)
 
 }

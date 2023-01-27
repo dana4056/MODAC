@@ -100,16 +100,14 @@ public class UserController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
-	@GetMapping	//Follow 객체가 아니라 UserResponse 리스트가 나오도록 수정쓰
-	public ResponseEntity<?> findFollowingList(@RequestParam("following") Long seq){
-		List<Follow> list = userService.findFollowingList(seq);
+	@GetMapping						// 특정 회원의 팔로잉 혹은 팔로워 회원 목록 조회
+	public ResponseEntity<?> findFollowingList(@RequestParam("filter") String filter, @RequestParam("user") Long seq){
+		List<Follow> list = null;
+		if(filter.equals("following")){
+			list = userService.findFollowingList(seq);
+		}else if(filter.equals("follower")){
+			list = userService.findFollowerList(seq);
+		}
 		return new ResponseEntity<List<Follow>>(list, HttpStatus.OK);
 	}
-
-//	@GetMapping	//Follow 객체가 아니라 UserResponse 리스트가 나오도록 수정쓰
-//	public ResponseEntity<?> findFollowerList(@RequestParam("follower") Long seq){
-//		List<Follow> list = userService.findFollowerList(seq);
-//		return new ResponseEntity<List<Follow>>(list, HttpStatus.OK);
-//	}
-
 }

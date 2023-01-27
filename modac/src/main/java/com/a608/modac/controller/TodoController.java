@@ -21,7 +21,7 @@ import com.a608.modac.service.TodoService;
 
 @CrossOrigin(origins = { "*" })
 @RestController
-@RequestMapping("/todo")
+@RequestMapping("/todos")
 public class TodoController {
 
 	private final TodoService todoService;
@@ -30,20 +30,23 @@ public class TodoController {
 		this.todoService = todoService;
 	}
 
-	@GetMapping("/list")
-	public ResponseEntity<List<TodoResponse>> findTodosByUserSeq(@RequestParam final Long userSeq){
-		final List<TodoResponse> todosByUserSeq = todoService.findTodosByUsersSeq(userSeq);
+	@PostMapping					// Todo 등록
+	public ResponseEntity<?> saveTodo(@RequestBody final TodoRequest todoRequest){
+		TodoResponse todoResponse = todoService.saveTodo(todoRequest);
 
-		return new ResponseEntity<>(todosByUserSeq, HttpStatus.OK);
+		return new ResponseEntity<TodoResponse>(todoResponse, HttpStatus.OK);
 	}
 
-	@PostMapping
-	public ResponseEntity<Void> saveTodo(@RequestBody final TodoRequest todoRequest){
-		todoService.saveTodo(todoRequest);
-
-		return new ResponseEntity<>(HttpStatus.OK);
+	@GetMapping	("/{seq}")					// Todo 한개 조회
+	public ResponseEntity<TodoResponse> findTodo(@PathVariable final Long seq){
+		TodoResponse todo = todoService.findTodo(seq);
+		return new ResponseEntity<TodoResponse>(todo, HttpStatus.OK);
 	}
-
+	@PutMapping("/{seq}")					// Todo 수정
+	public ResponseEntity<TodoResponse> updateTodo(@PathVariable final Long seq, @RequestBody TodoRequest todoRequest){
+		TodoResponse todoResponse = todoService.updateTodo(seq, todoRequest);
+		return new ResponseEntity<TodoResponse>(todoResponse, HttpStatus.OK);
+	}
 	@DeleteMapping("/{seq}")
 	public ResponseEntity<Void> deleteTodo(@PathVariable("seq") final Long seq){
 		System.out.println("in");
@@ -52,12 +55,11 @@ public class TodoController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
-	@PutMapping
-	public ResponseEntity<List<TodoResponse>> updateTodo(@RequestBody TodoRequest todoRequest){
-		todoService.updateTodo(todoRequest);
-		final List<TodoResponse> todosByUserSeq = todoService.findTodosByUsersSeq(todoRequest.getSeq());
-
+	@GetMapping
+	public ResponseEntity<List<TodoResponse>> findTodosByUserSeq(@RequestParam("usersSeq") final Long userSeq){
+		final List<TodoResponse> todosByUserSeq = todoService.findTodosByUsersSeq(userSeq);
 		return new ResponseEntity<>(todosByUserSeq, HttpStatus.OK);
 	}
+
 
 }

@@ -3,7 +3,6 @@
 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
-
 -- -----------------------------------------------------
 -- Schema mydb
 -- -----------------------------------------------------
@@ -24,6 +23,10 @@ CREATE TABLE IF NOT EXISTS `modac`.`membership` (
   `grade` VARCHAR(20) NOT NULL,
   PRIMARY KEY (`grade`))
 ENGINE = InnoDB;
+
+INSERT INTO `modac`.`membership` values ('bronze');
+INSERT INTO `modac`.`membership` values ('silver');
+INSERT INTO `modac`.`membership` values ('gold');
 
 
 -- -----------------------------------------------------
@@ -56,6 +59,12 @@ CREATE TABLE IF NOT EXISTS `modac`.`categories` (
   `template_filepath` VARCHAR(150) NOT NULL,
   PRIMARY KEY (`name`))
 ENGINE = InnoDB;
+
+INSERT INTO `modac`.`categories` values ('알고리즘', 'algo test path');
+INSERT INTO `modac`.`categories` values ('CS', 'CS test path');
+INSERT INTO `modac`.`categories` values ('개발', '개발 test path');
+INSERT INTO `modac`.`categories` values ('기획', '기획 test path');
+INSERT INTO `modac`.`categories` values ('기타','기타 test path');
 
 
 -- -----------------------------------------------------
