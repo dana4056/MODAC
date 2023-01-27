@@ -1,0 +1,20 @@
+.right_side_bar {
+  @apply basis-1/4 flex flex-col;
+  @apply bg-gray-200 text-gray-900;
+  @apply p-3;
+}
+
+.right_side_bar_content {
+  /* @apply m-3; */
+  @apply basis-11/12;
+}
+
+.right_side_bar_button_wrapper {
+  @apply flex flex-row;
+  @apply basis-1/12;
+  text-align: center;
+}
+
+.right_side_bar_button {
+  @apply basis-1/4;
+}
