@@ -1,14 +1,17 @@
 .study_room_wrapper_flex {
   @apply flex flex-row;
   @apply bg-gray-100;
+  overflow: hidden;
 }
 
 .side_bar_wrapper_flex {
   @apply flex flex-row;
+  align-items: center;
 }
 
 .side_bar_content {
   @apply basis-11/12;
+  @apply h-full;
   @apply bg-gray-200 text-gray-900;
 }
 
@@ -27,22 +30,21 @@
 
 .move_side_bar_to_left {
   transition: transform 0.2s linear;
-  transform: translate(350px, 0px);
+  transform: translate(92%, 0px);
 }
 
 .move_side_bar_to_right {
   transition: transform 0.2s linear;
-  transform: translate(-350px, 0px);
+  transform: translate(-92%, 0px);
 }
 
 .left_side_bar_wrapper {
   @apply basis-1/4;
-  @apply min-h-screen;
   @apply opacity-60;
 }
 
 .right_side_bar_wrapper {
   @apply basis-1/4;
-  @apply min-h-screen;
   @apply opacity-60;
+  align-items: center;
 }

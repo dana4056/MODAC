@@ -2,7 +2,6 @@
   @apply basis-1/4 flex flex-col;
   @apply bg-gray-200 text-gray-900;
   @apply p-3;
-  @apply min-h-screen;
 }
 
 .right_side_bar_content {
@@ -13,6 +12,7 @@
 .right_side_bar_button_wrapper {
   @apply flex flex-row;
   @apply basis-1/12;
+  text-align: center;
 }
 
 .right_side_bar_button {

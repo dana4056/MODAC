@@ -24,7 +24,7 @@ const rightSideBarStyleState = computed(() =>
 </script>
 
 <template>
-  <div :class="$style.study_room_wrapper_flex">
+  <Wrapper :class="$style.study_room_wrapper_flex">
     <Wrapper
       :class="`${$style[leftSideBarStyleState]} ${$style.left_side_bar_wrapper} ${$style.side_bar_wrapper_flex}`"
     >
@@ -46,7 +46,7 @@ const rightSideBarStyleState = computed(() =>
       >
       <RightSideBar :class="$style.side_bar_content" />
     </Wrapper>
-  </div>
+  </Wrapper>
 </template>
 <style lang="css" module>
 @import "./StudyRoom.module.css";

@@ -2,6 +2,15 @@ import { defineStore } from "pinia";
 import { ref } from "vue";
 
 export const useRoomStore = defineStore("room", () => {
+  const isEnteredRoom = ref(false);
+
+  const enterRoom = () => {
+    isEnteredRoom.value = true;
+  };
+  const exitRoom = () => {
+    isEnteredRoom.value = false;
+  };
+
   const isOpenedLeftSideBar = ref(true);
   const isOpenedRightSideBar = ref(true);
 
@@ -22,6 +31,9 @@ export const useRoomStore = defineStore("room", () => {
   };
 
   return {
+    isEnteredRoom,
+    enterRoom,
+    exitRoom,
     isOpenedLeftSideBar,
     toggleLeftSideBar,
     isOpenedRightSideBar,

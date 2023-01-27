@@ -1,17 +1,20 @@
 <script setup>
-import NavbarTop from './components/NavbarTop.vue';
+import NavbarTop from "./components/NavbarTop.vue";
+import Wrapper from "./components/Wrapper.vue";
 </script>
 
 <template>
-  <div id="header">
-    <NavbarTop/>
-  </div>
-  <div id="body">
-    <RouterView/>
-  </div>
-  <div id="footer">
-  </div>
+  <Wrapper :class="$style.app_wrapper">
+    <div id="header" :class="$style.app_navbar">
+      <NavbarTop />
+    </div>
+    <div id="body" :class="$style.app_section">
+      <RouterView />
+    </div>
+    <div id="footer"></div>
+  </Wrapper>
 </template>
 
-<style scoped>
+<style lang="css" module>
+@import "./App.module.css";
 </style>
