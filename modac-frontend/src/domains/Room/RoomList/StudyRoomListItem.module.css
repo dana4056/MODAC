@@ -1,4 +1,4 @@
 .list_item_style {
-  @apply bg-slate-100 border;
-  @apply p-3 my-3;
+  @apply border;
+  @apply my-3;
 }
