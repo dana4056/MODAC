@@ -1,13 +1,39 @@
 <script setup>
 import RoundButton from "@/components/RoundButton.vue";
+import Modal from "@/components/Modal.vue";
 import { useRoomStore } from "@/stores/room";
+import { ref } from "vue";
+import CommonButton from "@/components/CommonButton.vue";
 
 const store = useRoomStore();
+
+const roomExitConfirmModalState = ref(false);
+const openRoomExitConfirmModal = () => {
+  roomExitConfirmModalState.value = true;
+};
+const closeRoomExitConfirmModal = () => {
+  roomExitConfirmModalState.value = false;
+};
+
+const exitRoom = () => {
+  closeRoomExitConfirmModal();
+  store.exitRoom();
+};
 </script>
 
 <template>
   <div :class="$style.main_section">main section</div>
-  <RoundButton @click="store.exitRoom">방 나가기</RoundButton>
+  <RoundButton @click="openRoomExitConfirmModal">방 나가기</RoundButton>
+  <Teleport to="body">
+    <Modal
+      v-if="roomExitConfirmModalState"
+      :closeModal="closeRoomExitConfirmModal"
+    >
+      <h1>스터디룸에서 나가시겠습니까?</h1>
+      <CommonButton @click="closeRoomExitConfirmModal">취소</CommonButton>
+      <CommonButton @click="exitRoom">나가기</CommonButton>
+    </Modal>
+  </Teleport>
 </template>
 
 <style lang="css" module>
