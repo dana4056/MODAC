@@ -29,9 +29,15 @@ const exitRoom = () => {
       v-if="roomExitConfirmModalState"
       :closeModal="closeRoomExitConfirmModal"
     >
-      <h1>스터디룸에서 나가시겠습니까?</h1>
-      <CommonButton @click="closeRoomExitConfirmModal">취소</CommonButton>
-      <CommonButton @click="exitRoom">나가기</CommonButton>
+      <h1 :class="$style.modal_header">스터디룸에서 나가시겠습니까?</h1>
+      <CommonButton
+        @click="closeRoomExitConfirmModal"
+        :class="$style.cancle_button"
+        >취소</CommonButton
+      >
+      <CommonButton @click="exitRoom" :class="$style.exit_button"
+        >나가기</CommonButton
+      >
     </Modal>
   </Teleport>
 </template>
