@@ -1,13 +1,16 @@
 <template>
-  <div class="navigation">
-    <nav>
-      <ul class="menu-bar">
-        <RouterLink id="routerlink" to="/todoList">Todo List</RouterLink>
-        <RouterLink id="routerlink" to="/room">Study Room</RouterLink>
-        <RouterLink id="routerlink" to="/before">Github</RouterLink>
-      </ul>
-    </nav>
-  </div>
+<<<<<<< modac-frontend/src/components/NavbarTop.vue
+<div class="navigation">
+  <nav class ="nav">
+    <ul class="menu-bar">
+      <RouterLink id="routerlink" to="/todoList">Todo List</RouterLink>
+      <RouterLink id="routerlink" to="/room">Study Room</RouterLink>
+      <RouterLink id="routerlink" to="/before">Github</RouterLink>
+      <RouterLink id="routerlink" to="/login">Login</RouterLink>
+      <RouterLink id="routerlink" to="/signup">SignUp</RouterLink>
+    </ul>
+  </nav>
+</div>
 </template>
 
 <script setup>

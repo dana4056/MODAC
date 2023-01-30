@@ -26,11 +26,6 @@ const router = createRouter({
       component: SignUp,
     },
     {
-      path: "/chat",
-      name: "chat",
-      component: ChatList,
-    },
-    {
       path: "/todolist",
       name: "todolist",
       component: TodoListView,
