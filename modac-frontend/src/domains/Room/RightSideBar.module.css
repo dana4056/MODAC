@@ -12,6 +12,7 @@
 .right_side_bar_button_wrapper {
   @apply flex flex-row;
   @apply basis-1/12;
+  align-items: center;
   text-align: center;
 }
 
