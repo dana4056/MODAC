@@ -1,5 +1,6 @@
 package com.a608.modac.model.room;
 
+import com.a608.modac.model.chatting.ChatRoom;
 import com.a608.modac.model.user.User;
 
 import lombok.Getter;
@@ -14,6 +15,7 @@ public class RoomResponse {
 	private final Integer publicType;
 	private final String invitationCode;
 	private final User user;
+	private final ChatRoom chatRoom;
 
 	public RoomResponse(final Room room){
 		this.seq = room.getSeq();
@@ -24,6 +26,7 @@ public class RoomResponse {
 		this.publicType = room.getPublicType();
 		this.invitationCode = room.getInvitationCode();
 		this.user = room.getUser();
+		this.chatRoom = room.getChatRoom();
 	}
 
 }

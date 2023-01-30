@@ -1,7 +1,5 @@
 package com.a608.modac.service;
 
-import static com.a608.modac.model.room.RoomRequest.*;
-
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -9,9 +7,11 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import com.a608.modac.model.chatting.ChatRoom;
 import com.a608.modac.model.room.Room;
 import com.a608.modac.model.room.RoomRequest;
 import com.a608.modac.model.user.User;
+import com.a608.modac.repository.ChatRoomRepository;
 import com.a608.modac.repository.RoomRepository;
 import com.a608.modac.model.room.RoomResponse;
 import com.a608.modac.repository.UserRepository;
@@ -21,10 +21,13 @@ public class RoomServiceImpl implements RoomService{
 
 	private final RoomRepository roomRepository;
 	private final UserRepository userRepository;
+	private final ChatRoomRepository chatRoomRepository;
 
-	public RoomServiceImpl(RoomRepository roomRepository, UserRepository userRepository) {
+	public RoomServiceImpl(RoomRepository roomRepository, UserRepository userRepository,
+		ChatRoomRepository chatRoomRepository) {
 		this.roomRepository = roomRepository;
 		this.userRepository = userRepository;
+		this.chatRoomRepository = chatRoomRepository;
 	}
 
 	@Override
@@ -54,9 +57,11 @@ public class RoomServiceImpl implements RoomService{
 		double min = 100000;
 		double max = 999999;
 		int random = (int) ((Math.random() * (max - min)) + min);
-		String code = Double.toString(random);
+		String code = Integer.toString(random);
 
-		Room save = roomRepository.save(roomRequest.toEntity(user, code));
+		ChatRoom chatRoom = chatRoomRepository.save(new ChatRoom());
+
+		Room save = roomRepository.save(roomRequest.toEntity(user, chatRoom, code));
 		return new RoomResponse(save);
 	}
 

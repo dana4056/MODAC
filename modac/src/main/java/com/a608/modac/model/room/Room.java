@@ -7,10 +7,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.DynamicInsert;
 
+import com.a608.modac.model.chatting.ChatRoom;
 import com.a608.modac.model.user.User;
 
 import lombok.Builder;
@@ -43,9 +45,13 @@ public class Room {
 	@JoinColumn(name="users_seq")
 	private User user;
 
+	@OneToOne
+	@JoinColumn(name = "chat_rooms_seq")
+	private ChatRoom chatRoom;
+
 	@Builder
 	public Room(Long seq, String title, String description, Integer maxSize, String multiTheme, Integer publicType,
-		String invitationCode, User user) {
+		String invitationCode, User user, ChatRoom chatRoom) {
 		this.seq = seq;
 		this.title = title;
 		this.description = description;
@@ -54,6 +60,7 @@ public class Room {
 		this.publicType = publicType;
 		this.invitationCode = invitationCode;
 		this.user = user;
+		this.chatRoom = chatRoom;
 	}
 
 	public void updateRoom(final String title, final String description, final String multiTheme){
