@@ -3,12 +3,16 @@ import { ref } from "vue";
 
 export const useRoomStore = defineStore("room", () => {
   const isEnteredRoom = ref(false);
+  const isDeleteRoom = ref(false);
 
   const enterRoom = () => {
     isEnteredRoom.value = true;
   };
   const exitRoom = () => {
     isEnteredRoom.value = false;
+  };
+  const deleteRoom = () => {
+    isDeleteRoom.value = true;
   };
 
   const isOpenedLeftSideBar = ref(true);
@@ -32,8 +36,10 @@ export const useRoomStore = defineStore("room", () => {
 
   return {
     isEnteredRoom,
+    isDeleteRoom,
     enterRoom,
     exitRoom,
+    deleteRoom,
     isOpenedLeftSideBar,
     toggleLeftSideBar,
     isOpenedRightSideBar,
