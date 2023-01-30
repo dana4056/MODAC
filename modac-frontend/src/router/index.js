@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
-import Login from "../views/TodoListView.vue";
+import Login from "../domains/User/Login.vue";
+import SignUp from "../domains/User/SignUp.vue";
 import TodoListView from "../views/TodoListView.vue";
 import RoomView from "@/views/RoomView.vue";
 import ArticleView from "../views/ArticleView.vue";
@@ -9,14 +10,25 @@ import GithubTest2 from "../views/GithubTest2.vue";
 import GithubTest2_2 from "../views/GithubTest2-2.vue";
 import GithubTest3 from "../views/GithubTest3.vue";
 import GithubTest4 from "../views/GithubTest4.vue";
+import ChatList from "../domains/Room/Chat/ChatList.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path: "/",
-      name: "Login",
+      path: "/login",
+      name: "login",
       component: Login,
+    },
+    {
+      path: "/signup",
+      name: "signup",
+      component: SignUp,
+    },
+    {
+      path: "/chat",
+      name: "chat",
+      component: ChatList,
     },
     {
       path: "/todolist",
