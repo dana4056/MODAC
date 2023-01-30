@@ -45,10 +45,12 @@ public class ArticleServiceImpl implements ArticleService {
 
 	// 게시글 저장
 	@Override
-	public void createArticle(final ArticleRequest articleRequest) {
+	public ArticleResponse createArticle(final ArticleRequest articleRequest) {
 		Todo todo = todoRepository.findById(articleRequest.getTodosSeq())
 			.orElseThrow(NoSuchElementException::new); // todosSeq를 이용하여 todo 호출
-		articleRepository.save(articleRequest.toEntity(todo)); // Article 빌드 후 저장
+		Article save = articleRepository.save(articleRequest.toEntity(todo));// Article 빌드 후 저장
+		System.out.println("+++++++++++++++++++++"+save);
+		return new ArticleResponse(save);
 	}
 
 	// 사용자 아이디로 게시글 조회

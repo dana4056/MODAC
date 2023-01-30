@@ -9,7 +9,7 @@ import com.a608.modac.model.todo.TodoResponse;
 
 public interface ArticleService {
 	// 게시글 저장
-	void createArticle(final ArticleRequest articleRequest);
+	ArticleResponse createArticle(final ArticleRequest articleRequest);
 
 	// 사용자 아이디로 게시글 조회
 	List<ArticleResponse> readArticleByUsersSeq(final Long usersSeq);
