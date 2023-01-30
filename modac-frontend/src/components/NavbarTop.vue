@@ -11,13 +11,7 @@
 </template>
 
 <script setup>
-function myData() {
-  retrun;
-}
 
-function show() {
-  document.getElementById("anotherFunction").classList.toggle("Active");
-}
 </script>
 
 <style lang="scss" scoped>
