@@ -56,7 +56,7 @@ public class TodoController {
 	}
 
 	@GetMapping
-	public ResponseEntity<List<TodoResponse>> findTodosByUserSeq(@RequestParam("usersSeq") final Long userSeq){
+	public ResponseEntity<List<TodoResponse>> findTodosByUserSeq(@RequestParam("user") final Long userSeq){
 		final List<TodoResponse> todosByUserSeq = todoService.findTodosByUsersSeq(userSeq);
 		return new ResponseEntity<>(todosByUserSeq, HttpStatus.OK);
 	}

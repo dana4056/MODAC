@@ -23,7 +23,7 @@ import com.a608.modac.service.TodoService;
 
 @CrossOrigin(origins = { "*" })
 @RestController
-@RequestMapping("/article")
+@RequestMapping("/articles")
 public class ArticleController {
 
     private static final String SUCCESS = "success";
@@ -37,26 +37,26 @@ public class ArticleController {
 
     // 게시글 작성 (POST)
     @PostMapping
-    public ResponseEntity<String> createArticle(@RequestBody final ArticleRequest articleRequest) {
-        articleService.createArticle(articleRequest);
-        return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+    public ResponseEntity<?> createArticle(@RequestBody final ArticleRequest articleRequest) {
+        ArticleResponse article = articleService.createArticle(articleRequest);
+        return new ResponseEntity<ArticleResponse>(article, HttpStatus.OK);
     }
 
     // 사용자 게시글 전체 조회 (GET)
-    @GetMapping("/list")
-    public ResponseEntity<List<ArticleResponse>> selectAllArticle(@RequestParam("users_seq") final Long usersSeq) {
+    @GetMapping
+    public ResponseEntity<List<ArticleResponse>> selectAllArticle(@RequestParam("user") final Long usersSeq) {
         return new ResponseEntity<List<ArticleResponse>>(articleService.readArticleByUsersSeq(usersSeq), HttpStatus.OK);
     }
 
     // 게시글 조회 (GET)
-    @GetMapping
-    public ResponseEntity<ArticleResponse> selectArticle(@RequestParam("seq") final Long seq) {
+    @GetMapping("/{seq}")
+    public ResponseEntity<ArticleResponse> selectArticle(@PathVariable("seq") final Long seq) {
         return new ResponseEntity<ArticleResponse>(articleService.readArticleBySeq(seq), HttpStatus.OK);
     }
 
     // 게시글 삭제 (DELETE)
-    @DeleteMapping
-    public ResponseEntity<String> removeArticle(@RequestParam("seq") final Long seq) {
+    @DeleteMapping("/{seq}")
+    public ResponseEntity<?> removeArticle(@PathVariable("seq") final Long seq) {
         articleService.deleteArticleBySeq(seq);
         return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
     }

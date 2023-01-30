@@ -2,6 +2,7 @@ package com.a608.modac.model.article;
 
 import java.time.LocalDateTime;
 
+import com.a608.modac.model.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,9 +17,10 @@ public class ArticleResponse {
 	private String registeredTime;
 	private Byte publicType;
 	private Integer viewCount;
+	private Integer likeCount;
 	private Integer commentCount;
 	private String totalSecond;
-	private Long usersSeq;
+	private User user;
 	private String categoryName;
 
 	public ArticleResponse(Article article) {
@@ -28,9 +30,10 @@ public class ArticleResponse {
 		this.registeredTime = article.getRegisteredTime();
 		this.publicType = article.getPublicType();
 		this.viewCount = article.getViewCount();
+		this.likeCount = article.getLikeCount();
 		this.commentCount = article.getCommentCount();
 		this.totalSecond = article.getTotalSecond();
-		this.usersSeq = article.getUser().getSeq();
+		this.user = article.getUser();
 		this.categoryName = article.getCategory().getName();
 	}
 

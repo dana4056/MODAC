@@ -17,10 +17,12 @@ import com.a608.modac.model.user.User;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
+import org.hibernate.annotations.DynamicInsert;
 
 @Getter
 @Entity
 @ToString
+@DynamicInsert
 @Table(name = "articles")
 public class Article {
 	@Id
@@ -56,7 +58,7 @@ public class Article {
 	private User user;
 
 	@ManyToOne
-	@JoinColumn(name="categories_seq")
+	@JoinColumn(name="categories_name")
 	private Category category;
 
 	@Builder
