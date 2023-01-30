@@ -1,5 +1,4 @@
 <template>
-<<<<<<< modac-frontend/src/components/NavbarTop.vue
 <div class="navigation">
   <nav class ="nav">
     <ul class="menu-bar">
