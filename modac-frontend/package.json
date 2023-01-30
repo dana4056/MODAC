@@ -18,6 +18,7 @@
     "@toast-ui/editor": "^3.2.1",
     "@toast-ui/editor-plugin-code-syntax-highlight": "^3.1.0",
     "axios": "^1.2.3",
+    "flowbite": "^1.6.3",
     "pinia": "^2.0.28",
     "scss": "^0.2.4",
     "vue": "^3.2.45",
