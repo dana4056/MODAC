@@ -30,19 +30,34 @@ public class CommentServiceImpl implements CommentService {
 
 	// 댓글 작성
 	@Override
-	public void createComment(final CommentRequest commentRequest) {
+	public CommentResponse createComment(final CommentRequest commentRequest) {
 
 		Article article = articleRepository.findById(commentRequest.getArticlesSeq()).orElseThrow(NoSuchElementException::new);
-		User user = userRepository.findById(commentRequest.getUsersSeq()).orElseThrow(NoSuchElementException::new);
-		commentRepository.save(commentRequest.toEntity(article, user));
 
+		//댓글수 하나 올려서 저장
+		article.updateCommentCount(1);
+		articleRepository.save(article);
+
+		User user = userRepository.findById(commentRequest.getUsersSeq()).orElseThrow(NoSuchElementException::new);
+		Comment save = commentRepository.save(commentRequest.toEntity(article, user));
+		return new CommentResponse(save);
 	}
 
 	// 댓글 삭제
 	@Override
 	public void deleteComment(final Long seq) {
-		commentRepository.deleteById(seq);
+
+		Comment comment = commentRepository.findById(seq).orElseThrow(NoSuchElementException::new);
+		Article article = comment.getArticle();
+
+		//댓글수 하나 내려서 저장
+		article.updateCommentCount(-1);
+		articleRepository.save(article);
+
+		commentRepository.delete(comment);
 	}
+
+
 
 	// 댓글 목록조회
 	@Override

@@ -1,5 +1,7 @@
 package com.a608.modac.model.room;
 
+import com.a608.modac.model.user.User;
+
 import lombok.Getter;
 
 @Getter
@@ -11,7 +13,7 @@ public class RoomResponse {
 	private final String multiTheme;
 	private final Integer publicType;
 	private final String invitationCode;
-	private final Long usersSeq;
+	private final User user;
 
 	public RoomResponse(final Room room){
 		this.seq = room.getSeq();
@@ -21,7 +23,7 @@ public class RoomResponse {
 		this.multiTheme = room.getMultiTheme();
 		this.publicType = room.getPublicType();
 		this.invitationCode = room.getInvitationCode();
-		this.usersSeq = room.getUser().getSeq();
+		this.user = room.getUser();
 	}
 
 }

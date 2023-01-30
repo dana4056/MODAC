@@ -7,7 +7,7 @@ import com.a608.modac.model.comment.CommentResponse;
 
 public interface CommentService {
 	// 댓글 작성
-	void createComment(final CommentRequest commentRequest);
+	CommentResponse createComment(final CommentRequest commentRequest);
 
 	// 댓글 삭제
 	void deleteComment(final Long seq);

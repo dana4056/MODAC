@@ -36,6 +36,8 @@ public class UserController {
 
 	@PutMapping("/{seq}")			// 회원 수정
 	public ResponseEntity<?> updateUser(@PathVariable("seq") Long seq, @RequestBody UserRequest userRequest){
+
+		System.out.println("++++++++++++회원정보 수정"+userRequest);
 		UserResponse userResponse = userService.updateUser(seq, userRequest);
 		return new ResponseEntity<>(userResponse, HttpStatus.OK);
 	}

@@ -74,6 +74,7 @@ public class GuestServiceImpl implements GuestService {
 		User user = userRepository.findById(guestRequest.getUsersSeq()).orElseThrow(NoSuchElementException::new);
 		Room room = roomRepository.findById(guestRequest.getRoomsSeq()).orElseThrow(NoSuchElementException::new);
 		guestRepository.save(guestRequest.toEntity(user, room));
+
 	}
 
 }

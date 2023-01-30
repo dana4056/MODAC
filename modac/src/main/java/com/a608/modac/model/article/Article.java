@@ -79,4 +79,19 @@ public class Article {
 
 	public Article() {
 	}
+
+	// 좋아요수 업데이트 (+1 or -1)
+	public void updateLikeCount(Integer cnt){
+		this.likeCount += cnt;
+	}
+
+	public void updateCommentCount(Integer cnt){
+		this.commentCount += cnt;
+	}
+
+	public void upViewCount(){
+		this.viewCount++;
+	}
+
+
 }

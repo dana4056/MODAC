@@ -14,20 +14,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.a608.modac.model.article.Article;
 import com.a608.modac.model.article.ArticleRequest;
 import com.a608.modac.model.article.ArticleResponse;
-import com.a608.modac.model.todo.TodoResponse;
+import com.a608.modac.model.article.LikeRequest;
 import com.a608.modac.service.ArticleService;
-import com.a608.modac.service.TodoService;
 
 @CrossOrigin(origins = { "*" })
 @RestController
 @RequestMapping("/articles")
 public class ArticleController {
 
-    private static final String SUCCESS = "success";
-    private static final String FAIL = "fail";
+    // private static final String SUCCESS = "success";
+    // private static final String FAIL = "fail";
 
     private final ArticleService articleService;
 
@@ -44,40 +42,53 @@ public class ArticleController {
 
     // 사용자 게시글 전체 조회 (GET)
     @GetMapping
-    public ResponseEntity<List<ArticleResponse>> selectAllArticle(@RequestParam("user") final Long usersSeq) {
-        return new ResponseEntity<List<ArticleResponse>>(articleService.readArticleByUsersSeq(usersSeq), HttpStatus.OK);
+    public ResponseEntity<?> selectAllArticle(@RequestParam("user") final Long usersSeq) {
+        return new ResponseEntity<List<ArticleResponse>>(articleService.readArticlesByUsersSeq(usersSeq), HttpStatus.OK);
     }
 
     // 게시글 조회 (GET)
     @GetMapping("/{seq}")
-    public ResponseEntity<ArticleResponse> selectArticle(@PathVariable("seq") final Long seq) {
+    public ResponseEntity<?> selectArticle(@PathVariable("seq") final Long seq) {
         return new ResponseEntity<ArticleResponse>(articleService.readArticleBySeq(seq), HttpStatus.OK);
+    }
+
+    // 게시글 조회수 올리기
+    @PostMapping("/{seq}/view")
+    public ResponseEntity<?> upViewCount(@PathVariable("seq") final Long seq){
+        articleService.upViewCount(seq);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     // 게시글 삭제 (DELETE)
     @DeleteMapping("/{seq}")
     public ResponseEntity<?> removeArticle(@PathVariable("seq") final Long seq) {
         articleService.deleteArticleBySeq(seq);
-        return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    // 팔로잉 게시글 목록 조회 (GET)
+    @GetMapping("/following")
+    public ResponseEntity<?> selectArticlesByFollowing(@RequestParam("user") final Long usersSeq) {
+        List<ArticleResponse> articleResponses = articleService.readArticlesByFollowing(usersSeq);
+        return new ResponseEntity<List<ArticleResponse>>(articleResponses, HttpStatus.OK);
+    }
     @PostMapping("/like")
     // 게시글-유저 좋아요 관계 추가
-    public ResponseEntity<String> createLike(@RequestParam("articles_seq") final Long articlesSeq, @RequestParam("users_seq") final Long usersSeq){
-        articleService.createLike(articlesSeq, usersSeq);
-        return new ResponseEntity<>(SUCCESS, HttpStatus.OK);
+    public ResponseEntity<?> createLike(@RequestBody LikeRequest likeRequest){
+        articleService.createLike(likeRequest);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @DeleteMapping("/like")
     // 게시글-유저 좋아요 관계 삭제
-    public ResponseEntity<String> deleteLike(@RequestParam("articles_seq") final Long articlesSeq, @RequestParam("users_seq") final Long usersSeq){
-        articleService.deleteLike(articlesSeq, usersSeq);
-        return new ResponseEntity<>(SUCCESS, HttpStatus.OK);
+    public ResponseEntity<?> deleteLike(@RequestBody LikeRequest likeRequest){
+        articleService.deleteLike(likeRequest);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping("/like")
     // 게시글-유저 좋아요 관계 개수 조회
-    public ResponseEntity<Long> countLike(@RequestParam("articles_seq") final Long articlesSeq, @RequestParam("users_seq") final Long usersSeq){
-        return new ResponseEntity<>(articleService.countLike(articlesSeq, usersSeq), HttpStatus.OK);
+    public ResponseEntity<?> countLike(@RequestBody LikeRequest likeRequest){
+        return new ResponseEntity<Boolean>(articleService.countLike(likeRequest), HttpStatus.OK);
     }
 }

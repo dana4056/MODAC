@@ -128,9 +128,9 @@ ENGINE = InnoDB;
 -- Table `modac`.`likes`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `modac`.`likes` (
-  `articles_seq` INT NOT NULL,
-  `users_seq` INT NOT NULL,
   `seq` INT NOT NULL AUTO_INCREMENT,
+  `users_seq` INT NOT NULL,
+  `articles_seq` INT NOT NULL,
   PRIMARY KEY (`seq`),
   INDEX `fk_likes_articles1_idx` (`articles_seq` ASC) VISIBLE,
   INDEX `fk_likes_users1_idx` (`users_seq` ASC) VISIBLE,

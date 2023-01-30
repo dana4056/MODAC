@@ -3,8 +3,10 @@ package com.a608.modac.model.user;
 import com.a608.modac.model.membership.Membership;
 
 import lombok.Getter;
+import lombok.ToString;
 
 @Getter
+@ToString
 public class UserRequest {
 	private Long seq;
 	private String id;

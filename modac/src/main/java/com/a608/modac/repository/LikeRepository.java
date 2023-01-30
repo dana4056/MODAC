@@ -2,7 +2,6 @@ package com.a608.modac.repository;
 
 import com.a608.modac.model.article.Article;
 import com.a608.modac.model.article.Like;
-import com.a608.modac.model.article.LikeId;
 import com.a608.modac.model.user.User;
 
 import org.springframework.data.jpa.repository.JpaRepository;

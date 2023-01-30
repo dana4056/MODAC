@@ -1,5 +1,6 @@
 package com.a608.modac.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
@@ -9,12 +10,14 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.a608.modac.model.article.Article;
+import com.a608.modac.model.article.LikeRequest;
+import com.a608.modac.model.follow.Follow;
 import com.a608.modac.model.user.User;
 import com.a608.modac.repository.ArticleRepository;
 import com.a608.modac.model.article.ArticleRequest;
 import com.a608.modac.model.article.ArticleResponse;
 import com.a608.modac.model.article.Like;
-import com.a608.modac.model.article.LikeId;
+import com.a608.modac.repository.FollowRepository;
 import com.a608.modac.repository.LikeRepository;
 import com.a608.modac.model.todo.Todo;
 import com.a608.modac.repository.TodoRepository;
@@ -35,12 +38,16 @@ public class ArticleServiceImpl implements ArticleService {
 	@Resource(name = "userRepository")
 	private final UserRepository userRepository;
 
+	@Resource(name = "followRepository")
+	private final FollowRepository followRepository;
+
 	public ArticleServiceImpl(ArticleRepository articleRepository, TodoRepository todoRepository, LikeRepository likeRepository,
-		UserRepository userRepository) {
+		UserRepository userRepository, FollowRepository followRepository) {
 		this.articleRepository = articleRepository;
 		this.todoRepository = todoRepository;
 		this.likeRepository = likeRepository;
 		this.userRepository = userRepository;
+		this.followRepository = followRepository;
 	}
 
 	// 게시글 저장
@@ -53,17 +60,44 @@ public class ArticleServiceImpl implements ArticleService {
 		return new ArticleResponse(save);
 	}
 
-	// 사용자 아이디로 게시글 조회
+	// 사용자 아이디로 게시글 목록 조회
 	@Override
-	public List<ArticleResponse> readArticleByUsersSeq(final Long usersSeq) {
+	public List<ArticleResponse> readArticlesByUsersSeq(final Long usersSeq) {
 		final List<Article> findArticles = articleRepository.findByUser_Seq(usersSeq);
 		return findArticles.stream().map(ArticleResponse::new).collect(Collectors.toList());
+	}
+
+	// 팔로잉 게시글 목록 조회
+	@Override
+	public List<ArticleResponse> readArticlesByFollowing(Long usersSeq) {
+		List<Follow> followList = followRepository.findAllByFromUser_Seq(usersSeq);
+		System.out.println("팔로잉 정보들"+followList);
+		List<ArticleResponse> articles = new ArrayList<ArticleResponse>();
+
+		for(Follow follow : followList){
+			Long userSeq = follow.getToUser().getSeq();
+			System.out.println("++++팔로잉 :  "+userSeq);
+			List<ArticleResponse> responses = articleRepository.findByUser_Seq(userSeq)
+				.stream()
+				.map(ArticleResponse::new)
+				.collect(Collectors.toList());
+			articles.addAll(responses);
+		}
+		return articles;
 	}
 
 	// 게시글 번호로 게시글 조회
 	@Override
 	public ArticleResponse readArticleBySeq(final Long seq) {
 		return new ArticleResponse(articleRepository.findById(seq).orElseThrow(NoSuchElementException::new));
+	}
+
+	// 게시글 조회수 업
+	@Override
+	public void upViewCount(final Long seq) {
+		Article article = articleRepository.findById(seq).orElseThrow(NoSuchElementException::new);
+		article.upViewCount();
+		articleRepository.save(article);
 	}
 
 	// 게시글 번호로 게시글 삭제
@@ -73,30 +107,48 @@ public class ArticleServiceImpl implements ArticleService {
 	}
 
 
-	// 게시글-유저 좋아요 관계 추가
+	// 게시글-유저 좋아요 (좋아요 테이블에 관계 추가하고 게시글 좋아요수 올려서 업데이트)
+	// 해당 유저가 해당 게시물을 처음 좋아요 한다는 전제에 호출됨 -> 이미 좋아요 했는지 아닌지 확인할 필요 X
 	@Override
-	public void createLike(final Long articlesSeq, final Long usersSeq) {
+	public void createLike(final LikeRequest likeRequest) {
+
+		Long articlesSeq = likeRequest.getArticlesSeq();
+		Long usersSeq = likeRequest.getUsersSeq();
 
 		Article article = articleRepository.findById(articlesSeq).orElseThrow(NoSuchElementException::new);
 		User user = userRepository.findById(usersSeq).orElseThrow(NoSuchElementException::new);
 
-		likeRepository.save(Like.builder().article(article).user(user).build());
+		// 좋아요수 1증가 후 저장
+		article.updateLikeCount(1);
+		articleRepository.save(article);
+
+		// 좋아요 테이블에 관계 추가
+		likeRepository.save(likeRequest.toEntity(article, user));
 	}
 
 	// 게시글-유저 좋아요 관계 삭제
 	@Override
-	public void deleteLike(final Long articlesSeq, final Long usersSeq) {
+	public void deleteLike(final LikeRequest likeRequest) {
 
+		Long articlesSeq = likeRequest.getArticlesSeq();
+		Long usersSeq = likeRequest.getUsersSeq();
+
+		Article article = articleRepository.findById(articlesSeq).orElseThrow(NoSuchElementException::new);
+
+		// 좋아요수 1 감소 후 저장
+		article.updateLikeCount(-1);
+		articleRepository.save(article);
+
+		// 좋아요 테이블에서 관계 삭제
 		Like like = likeRepository.findLikeByArticle_SeqAndUser_Seq(articlesSeq, usersSeq);
 		likeRepository.delete(like);
 	}
 
 	// 게시글-유저 좋아요 관계 개수 조회 (좋아요 했는지 안했는지)
 	@Override
-	public Long countLike(final Long articlesSeq, final Long usersSeq) {
+	public Boolean countLike(final LikeRequest likeRequest) {
 
-		Like like = likeRepository.findLikeByArticle_SeqAndUser_Seq(articlesSeq, usersSeq);
-
-		return likeRepository.countBySeq(like.getSeq());
+		Like like = likeRepository.findLikeByArticle_SeqAndUser_Seq(likeRequest.getArticlesSeq(), likeRequest.getUsersSeq());
+		return like != null ? true : false;
 	}
 }

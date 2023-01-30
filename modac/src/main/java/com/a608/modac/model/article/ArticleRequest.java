@@ -4,10 +4,12 @@ import com.a608.modac.model.todo.Todo;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 @Getter
+@NoArgsConstructor
 public class ArticleRequest {
 	private Long usersSeq;
 	private Long todosSeq;

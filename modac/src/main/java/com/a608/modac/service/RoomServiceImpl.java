@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import com.a608.modac.model.room.Room;
+import com.a608.modac.model.room.RoomRequest;
 import com.a608.modac.model.user.User;
 import com.a608.modac.repository.RoomRepository;
 import com.a608.modac.model.room.RoomResponse;
@@ -46,20 +47,26 @@ public class RoomServiceImpl implements RoomService{
 	}
 
 	@Override
-	public void createRoom(final CreateRoomRequest createRoomRequest) {
-		User user = userRepository.findById(createRoomRequest.getUserSeq()).orElseThrow(NoSuchElementException::new);
-		roomRepository.save(createRoomRequest.toEntity(user));
+	public RoomResponse createRoom(final RoomRequest roomRequest) {
+		User user = userRepository.findById(roomRequest.getUsersSeq()).orElseThrow(NoSuchElementException::new);
+
+		// 초대코드 생성 (대충 6자리코드)
+		double min = 100000;
+		double max = 999999;
+		int random = (int) ((Math.random() * (max - min)) + min);
+		String code = Double.toString(random);
+
+		Room save = roomRepository.save(roomRequest.toEntity(user, code));
+		return new RoomResponse(save);
 	}
 
 	@Override
-	public void updateRoom(final UpdateRoomRequest updateRoomRequest) {
-		final Optional<Room> findRoomById = roomRepository.findById(updateRoomRequest.getSeq());
-		findRoomById.ifPresent(room -> room.updateRoom(updateRoomRequest.getTitle(),
-			updateRoomRequest.getDescription(),
-			updateRoomRequest.getMultiTheme())
-		);
-
-		roomRepository.save(findRoomById.get());
+	public RoomResponse updateRoom(final Long seq, final RoomRequest roomRequest) {
+		Room room = roomRepository.findById(seq).orElseThrow(NoSuchElementException::new);
+		room.updateRoom(roomRequest.getTitle(),
+			roomRequest.getDescription(),
+			roomRequest.getMultiTheme());
+		return new RoomResponse(roomRepository.save(room));
 	}
 
 	@Override

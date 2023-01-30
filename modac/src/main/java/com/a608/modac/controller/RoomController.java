@@ -16,12 +16,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.a608.modac.model.room.RoomRequest;
 import com.a608.modac.model.room.RoomResponse;
 import com.a608.modac.service.RoomService;
 
 @CrossOrigin(origins = { "*" })
 @RestController
-@RequestMapping("/room")
+@RequestMapping("/rooms")
 public class RoomController {
 
 	private final RoomService roomService;
@@ -30,40 +31,40 @@ public class RoomController {
 		this.roomService = roomService;
 	}
 
-	@GetMapping("/{seq}")
-	public ResponseEntity<RoomResponse> findRoomById(@PathVariable("seq") final Long seq){
-		final RoomResponse roomById = roomService.findRoomById(seq);
+	@PostMapping				// 멀티룸 생성
+	public ResponseEntity<?> createRoom(@RequestBody final RoomRequest roomRequest){
+		RoomResponse room = roomService.createRoom(roomRequest);
+		return new ResponseEntity<>(room, HttpStatus.OK);
+	}
 
+	@GetMapping				// 멀티룸 목록 조회
+	public ResponseEntity<?> findAllRooms(){
+		final List<RoomResponse> allRooms = roomService.findAllRooms();
+		return new ResponseEntity<>(allRooms, HttpStatus.OK);
+	}
+
+	@GetMapping("/{seq}")	// 멀티룸 조회
+	public ResponseEntity<?> findRoomById(@PathVariable("seq") final Long seq){
+		final RoomResponse roomById = roomService.findRoomById(seq);
 		return new ResponseEntity<>(roomById, HttpStatus.OK);
 	}
 
-	@GetMapping("/list")
-	public ResponseEntity<List<RoomResponse>> findAllRooms(){
+	@PutMapping("/{seq}")
+	public ResponseEntity<?> updateTodo(@PathVariable("seq") final Long seq, @RequestBody RoomRequest roomRequest){
+		roomService.updateRoom(seq, roomRequest);
 		final List<RoomResponse> allRooms = roomService.findAllRooms();
 
 		return new ResponseEntity<>(allRooms, HttpStatus.OK);
 	}
 
-	@PostMapping
-	public ResponseEntity<Void> createRoom(@RequestBody final CreateRoomRequest createRoomRequest){
-		roomService.createRoom(createRoomRequest);
 
-		return new ResponseEntity<>(HttpStatus.OK);
-	}
 
 	@DeleteMapping("/{seq}")
-	public ResponseEntity<Void> deleteTodo(@PathVariable("seq") final Long seq){
+	public ResponseEntity<?> deleteTodo(@PathVariable("seq") final Long seq){
 		roomService.deleteRoom(seq);
 
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
-	@PutMapping
-	public ResponseEntity<List<RoomResponse>> updateTodo(@RequestBody UpdateRoomRequest updateRoomRequest){
-		roomService.updateRoom(updateRoomRequest);
-		final List<RoomResponse> allRooms = roomService.findAllRooms();
-
-		return new ResponseEntity<>(allRooms, HttpStatus.OK);
-	}
 
 }
