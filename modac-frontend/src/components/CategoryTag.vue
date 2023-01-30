@@ -1,37 +1,34 @@
 <script setup>
-import { ref, defineProps, computed, onMounted } from "vue";
+import { ref, computed, onMounted } from "vue";
+
+const isReadyToStyle = ref(false);
 
 onMounted(() => {
-  const slotTag = document.querySelector("#slot");
-  console.log(slotTag);
-  const slotTagInnerText = ref(slotTag.innerText);
-});
+  isReadyToStyle.value = true;
 
-const categoryStyleMap = {
-  algorithm: "study_category_style_algorithm",
-  cs: "study_category_style_cs",
-  develop: "study_category_style_develop",
-  planning: "study_category_style_planning",
-  etc: "study_category_style_etc",
-};
+  const categoryStyleMap = {
+    알고리즘: "study_category_style_algorithm",
+    CS: "study_category_style_cs",
+    개발: "study_category_style_develop",
+    기획: "study_category_style_planning",
+    기타: "study_category_style_etc",
+  };
 
-const props = defineProps({
-  categoryName: String,
-});
-
-// const categoryStyleState = computed(() => {
-//   return categoryStyleMap[props.categoryName];
-// });
-
-const categoryStyleState = computed(() => {
-  return categoryStyleMap.slotTagInnerText.value;
+  const slotTag = ref(document.querySelector("#slot")); // <span>
+  const slotTagInnerText = computed(() => slotTag.value.innerText);
+  // console.log(slotTagInnerText.value);
+  // console.log(categoryStyleMap[slotTagInnerText.value]);
+  const slotTagStyleState = computed(() => {
+    return categoryStyleMap[slotTagInnerText.value];
+  });
 });
 </script>
 
 <template>
-  <span :class="$style[categoryStyleState]">
-    <slot id="slot"></slot>
+  <span id="slot" :class="isReadyToStyle && $style[slotTagStyleState]">
+    <slot></slot>
   </span>
+  <span :class="$style.study_category_style_algorithm">hello</span>
 </template>
 
 <style lang="css" module>
