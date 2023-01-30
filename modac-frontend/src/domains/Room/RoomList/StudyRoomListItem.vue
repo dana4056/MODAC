@@ -1,4 +1,5 @@
 <script setup>
+import Card from "@/components/Card.vue";
 import { defineProps } from "vue";
 import { useRoomStore } from "@/stores/room";
 
@@ -10,11 +11,11 @@ const store = useRoomStore();
 </script>
 
 <template>
-  <div :class="$style.list_item_style">
+  <Card :class="$style.list_item_style">
     {{ roomItem.seq }}
     {{ roomItem.title }}
     <button @click="store.enterRoom">입장하기</button>
-  </div>
+  </Card>
 </template>
 
 <style lang="css" module>

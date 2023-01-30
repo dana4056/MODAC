@@ -1,5 +1,5 @@
 /* 임의의 영역 생성 */
-.scrollBar { 
+.scrollBar {
   /* width: 200px;
   height: 200px; */
   /* overflow-y: scroll; */
@@ -7,23 +7,21 @@
 
 /* 아래의 모든 코드는 영역::코드로 사용 */
 .scrollBar::-webkit-scrollbar {
-  width: 10px;  /* 스크롤바의 너비 */
+  width: 10px; /* 스크롤바의 너비 */
 }
 
 .scrollBar::-webkit-scrollbar-thumb {
   height: 30%; /* 스크롤바의 길이 */
   background: #cbcbcb; /* 스크롤바의 색상 */
-  
+
   border-radius: 10px;
 }
 
 .scrollBar::-webkit-scrollbar-track {
-  background: rgba(206, 206, 206, 0.447);  /*스크롤바 뒷 배경 색상*/
+  background: rgba(206, 206, 206, 0.447); /*스크롤바 뒷 배경 색상*/
 }
 
-
-
-@import url("https://fonts.googleapis.com/css?family=Mukta:700");
+/* @import url("https://fonts.googleapis.com/css?family=Mukta:700");
 * {
   box-sizing: border-box;
 }
@@ -135,4 +133,4 @@ button {
     align-self: center;
     justify-self: center;
   }
-}
+} */
