@@ -2,6 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+html,
+body {
+  @apply h-full w-full;
+}
+
+#app {
+  @apply h-full w-full;
+}
+
 /* .custom_title {
   color: orange;
   font-style: italic;
@@ -11,6 +20,6 @@
   @apply text-3xl font-bold underline;
 } */
 
-input {
+/* input {
   border: 1px solid;
-}
+} */

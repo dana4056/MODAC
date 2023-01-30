@@ -2,6 +2,12 @@
   color: red;
 }
 
-.list_title > h1 {
-  color: blueviolet;
+.list_title {
+  width:100%;
+  /* background-color: black; */
+
 }
+/* .list_title > h1 {
+  color: blueviolet;
+} */
+

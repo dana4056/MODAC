@@ -1,0 +1,19 @@
+.wrapper_flex {
+  @apply flex flex-row;
+  @apply flex-wrap;
+  align-content: flex-start;
+  justify-content: space-between;
+}
+
+.side_bar_flex_item {
+  @apply basis-2/12;
+}
+
+.section_flex_item {
+  @apply basis-8/12;
+}
+
+.study_room_flex_item {
+  flex-basis: 32%;
+  @apply h-52;
+}

@@ -1,0 +1,19 @@
+.main_section {
+  @apply basis-1/2;
+}
+
+.modal_header {
+  @apply text-xl font-bold;
+  @apply m-3;
+}
+
+.cancle_button {
+  color: white;
+  @apply m-1;
+}
+
+.exit_button {
+  color: white;
+  background-color: #ff5656;
+  @apply m-1;
+}

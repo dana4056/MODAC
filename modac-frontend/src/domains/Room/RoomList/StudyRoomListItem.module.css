@@ -1,0 +1,4 @@
+.list_item_style {
+  @apply border;
+  @apply my-3;
+}
