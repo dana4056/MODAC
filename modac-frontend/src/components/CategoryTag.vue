@@ -19,8 +19,8 @@ const categoryStyleState = computed(() => {
 </script>
 
 <template>
-  <span :class="$style[categoryStyleState]">
-    <slot id="slot"></slot>
+  <span id="slot" :class="$style.categoryStyleState">
+    <slot></slot>
   </span>
 </template>
 
