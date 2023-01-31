@@ -1,8 +1,15 @@
 package com.a608.modac.service;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
@@ -63,7 +70,32 @@ public class ArticleServiceImpl implements ArticleService {
 	// 사용자 아이디로 게시글 목록 조회
 	@Override
 	public List<ArticleResponse> readArticlesByUsersSeq(final Long usersSeq) {
+
+		// "registeredTime": "2023-01-31 17:06:16"
+		Integer offSet = 3;
+		Integer limit = 20;
+		// =====================================================
+		String reg = "2023-01-31 17:06:16";
+		// String pattern = "\\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01]) (0[1-9]|1[0-9]|2[0-4]):(0[1-9]|[1-5][0-9]):(0[1-9]|[1-5][0-9])";
+		// Matcher matcher = Pattern.compile(pattern).matcher(reg);
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+		DateTimeFormatter dateTimeFormatter = new DateTimeFormatterBuilder()
+			.appendPattern("yyyy-MM-dd HH:mm:ss")
+			.appendValue()
+			.toFormatter();
+
+
 		final List<Article> findArticles = articleRepository.findByUser_Seq(usersSeq);
+		Collections.sort(findArticles, new Comparator<Article>() {
+			@Override
+			public int compare(Article o1, Article o2) {
+				String reg1 = o1.getRegisteredTime();
+				String reg2 = o1.getRegisteredTime();
+				return 0;
+			}
+		});
+
+
 		return findArticles.stream().map(ArticleResponse::new).collect(Collectors.toList());
 	}
 
