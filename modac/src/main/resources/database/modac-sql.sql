@@ -10,15 +10,11 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 -- -----------------------------------------------------
 -- Schema modac
 -- -----------------------------------------------------
-
+drop database `modac`;
 -- -----------------------------------------------------
 -- Schema modac
 -- -----------------------------------------------------
-
-drop database `modac`;
-
 CREATE SCHEMA IF NOT EXISTS `modac` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci ;
-
 USE `modac` ;
 
 -- -----------------------------------------------------
@@ -28,10 +24,6 @@ CREATE TABLE IF NOT EXISTS `modac`.`membership` (
   `grade` VARCHAR(20) NOT NULL,
   PRIMARY KEY (`grade`))
 ENGINE = InnoDB;
-
-INSERT INTO `modac`.`membership` values ('bronze');
-INSERT INTO `modac`.`membership` values ('silver');
-INSERT INTO `modac`.`membership` values ('gold');
 
 
 -- -----------------------------------------------------
@@ -65,11 +57,6 @@ CREATE TABLE IF NOT EXISTS `modac`.`categories` (
   PRIMARY KEY (`name`))
 ENGINE = InnoDB;
 
-INSERT INTO `modac`.`categories` values ('알고리즘', 'algo test path');
-INSERT INTO `modac`.`categories` values ('CS', 'CS test path');
-INSERT INTO `modac`.`categories` values ('개발', '개발 test path');
-INSERT INTO `modac`.`categories` values ('기획', '기획 test path');
-INSERT INTO `modac`.`categories` values ('기타','기타 test path');
 
 -- -----------------------------------------------------
 -- Table `modac`.`todos`
@@ -195,6 +182,7 @@ CREATE TABLE IF NOT EXISTS `modac`.`rooms` (
   `title` VARCHAR(30) NOT NULL,
   `description` VARCHAR(100) NULL,
   `max_size` INT NULL DEFAULT 6,
+  `current_size` INT NULL DEFAULT 0,
   `multi_theme` VARCHAR(30) NULL,
   `public_type` INT NOT NULL,
   `invitation_code` VARCHAR(20) NULL,
@@ -342,6 +330,20 @@ CREATE TABLE IF NOT EXISTS `modac`.`musics` (
   `seq` INT NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`seq`))
 ENGINE = InnoDB;
+
+
+
+-- 더미데이터 삽입
+INSERT INTO `modac`.`membership` values ('bronze');
+INSERT INTO `modac`.`membership` values ('silver');
+INSERT INTO `modac`.`membership` values ('gold');
+
+INSERT INTO `modac`.`categories` values ('알고리즘', 'algo test path');
+INSERT INTO `modac`.`categories` values ('CS', 'CS test path');
+INSERT INTO `modac`.`categories` values ('개발', '개발 test path');
+INSERT INTO `modac`.`categories` values ('기획', '기획 test path');
+INSERT INTO `modac`.`categories` values ('기타','기타 test path');
+
 
 
 SET SQL_MODE=@OLD_SQL_MODE;

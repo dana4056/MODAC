@@ -52,15 +52,16 @@ public class RoomServiceImpl implements RoomService{
 	@Override
 	public RoomResponse createRoom(final RoomRequest roomRequest) {
 		User user = userRepository.findById(roomRequest.getUsersSeq()).orElseThrow(NoSuchElementException::new);
-
-		// 초대코드 생성 (대충 6자리코드)
-		double min = 100000;
-		double max = 999999;
-		int random = (int) ((Math.random() * (max - min)) + min);
-		String code = Integer.toString(random);
-
+		String code = null;
+		if(roomRequest.getPublicType() == 0){ // 비공개방일때
+			// 초대코드 생성 (대충 6자리코드)
+			double min = 100000;
+			double max = 999999;
+			int random = (int) ((Math.random() * (max - min)) + min);
+			code = Integer.toString(random);
+		}
+		// 채팅방 생성
 		ChatRoom chatRoom = chatRoomRepository.save(new ChatRoom());
-
 		Room save = roomRepository.save(roomRequest.toEntity(user, chatRoom, code));
 		return new RoomResponse(save);
 	}
