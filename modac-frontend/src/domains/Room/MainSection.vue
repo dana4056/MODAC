@@ -4,6 +4,7 @@ import Modal from "@/components/Modal.vue";
 import { useRoomStore } from "@/stores/room";
 import { ref } from "vue";
 import CommonButton from "@/components/CommonButton.vue";
+import CategoryTagCopy from "@/components/CategoryTagCopy.vue";
 
 const store = useRoomStore();
 
@@ -19,10 +20,19 @@ const exitRoom = () => {
   closeRoomExitConfirmModal();
   store.exitRoom();
 };
+
+const categoryValue = ref("기획");
+const changeCategoryValue = () => {
+  categoryValue.value = "알고리즘";
+};
 </script>
 
 <template>
-  <div :class="$style.main_section">main section</div>
+  <div :class="$style.main_section">
+    <CategoryTagCopy>{{ categoryValue }}</CategoryTagCopy>
+    <button @click="changeCategoryValue">카테고리변경</button>
+  </div>
+
   <RoundButton @click="openRoomExitConfirmModal">방 나가기</RoundButton>
   <Teleport to="body">
     <Modal

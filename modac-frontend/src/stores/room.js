@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 import { ref } from "vue";
 
 export const useRoomStore = defineStore("room", () => {
-  const isEnteredRoom = ref(false);
+  const isEnteredRoom = ref(true);
 
   const enterRoom = () => {
     isEnteredRoom.value = true;
@@ -21,7 +21,7 @@ export const useRoomStore = defineStore("room", () => {
     isOpenedRightSideBar.value = isOpenedRightSideBar.value ? false : true;
   };
 
-  const currentRightSideBarContent = ref(0); // 초깃값 : Room Chat
+  const currentRightSideBarContent = ref(1); // 초깃값 : Room Chat
   const changeRightSideBarContent = (targetContent) => {
     if (targetContent === currentRightSideBarContent.value) {
       toggleRightSideBar();
