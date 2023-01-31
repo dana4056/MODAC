@@ -3,6 +3,7 @@ package com.a608.modac.model.room;
 import lombok.Getter;
 
 import com.a608.modac.model.chatting.ChatRoom;
+import com.a608.modac.model.participant.Participant;
 import com.a608.modac.model.user.User;
 
 @Getter
@@ -15,7 +16,7 @@ public class RoomRequest {
 
 	private Long usersSeq;
 
-	public Room toEntity(User host, Participant participant, ChatRoom chatRoom, String invitationCode){
+	public Room toEntity(User host, ChatRoom chatRoom, String invitationCode){
 		return Room.builder()
 			.title(title)
 			.description(description)
@@ -24,7 +25,6 @@ public class RoomRequest {
 			.publicType(publicType)
 			.invitationCode(invitationCode)
 			.host(host)
-			.participant(participant)
 			.chatRoom(chatRoom)
 			.build();
 	}

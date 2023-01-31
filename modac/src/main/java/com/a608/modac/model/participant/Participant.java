@@ -1,7 +1,10 @@
-package com.a608.modac.model.room;
+package com.a608.modac.model.participant;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 import com.a608.modac.model.membership.Membership;
 import com.a608.modac.model.user.User;
@@ -11,15 +14,18 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
-@Embeddable
+@Entity
 @Getter
-@Setter
+@ToString
+@Table(name = "participants")
 @NoArgsConstructor
 @AllArgsConstructor
 public class Participant {
-	@Column(name = "users_seq")
-	private Long usersSeq;
+
+	@EmbeddedId
+	private ParticipantPK participantPK;
 	@Column(name = "nickname")
 	private String nickname;
 	@Column(name = "status")
@@ -30,8 +36,8 @@ public class Participant {
 	private String categoriesName;    	// 현재공부중인 todo의 카테고리
 
 	@Builder
-	public Participant(User user) {
-		this.usersSeq = user.getSeq();
+	public Participant(final ParticipantPK participantPK, final User user) {
+		this.participantPK = participantPK;
 		this.nickname = user.getNickname();
 		this.status = 0;	// 맨처음 방에 들어갈 땐 공부중으로 상태 설정
 		this.catSkin = user.getCatSkin();

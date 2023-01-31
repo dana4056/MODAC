@@ -62,7 +62,7 @@ public class RoomController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
-	@PostMapping("/{seq}")
+	@PostMapping("/{seq}")		// 멀티룸에 참여
 	public ResponseEntity<?> participateRoom(@PathVariable("seq") final Long seq, @RequestBody String userSeq){
 		RoomResponse roomResponse = roomService.participateRoom(seq, Long.parseLong(userSeq));
 		return null;

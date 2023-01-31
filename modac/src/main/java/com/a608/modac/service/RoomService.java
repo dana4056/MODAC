@@ -13,4 +13,5 @@ public interface RoomService {
 	RoomResponse updateRoom(final Long seq, final RoomRequest roomRequest);
 	void deleteRoom(final Long seq);
 	RoomResponse participateRoom(final Long seq, final Long userSeq);
+	RoomResponse exitRoom(Long seq, Long userSeq);
 }

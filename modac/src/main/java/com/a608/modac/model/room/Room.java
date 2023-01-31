@@ -6,33 +6,37 @@ import java.util.List;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
-import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.DynamicInsert;
 
 import com.a608.modac.model.chatting.ChatRoom;
+import com.a608.modac.model.participant.Participant;
 import com.a608.modac.model.user.User;
 
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Getter
 @NoArgsConstructor
 @DynamicInsert
 @Entity
+// @ToString
 @Table(name = "rooms")
 public class Room {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "seq")
 	private Long seq;
 	@Column(name = "title")
 	private String title;
@@ -49,9 +53,8 @@ public class Room {
 	@Column(name="invitation_code")
 	private String invitationCode;
 
-	@ElementCollection
-	@CollectionTable(name = "participants", joinColumns = @JoinColumn(name = "rooms_seq"))
-	private List<Participant> participants = new ArrayList<Participant>();
+	@OneToMany(mappedBy = "participantPK.room")
+	private final List<Participant> participants = new ArrayList<>();
 
 	@ManyToOne
 	@JoinColumn(name="users_seq")
@@ -90,6 +93,11 @@ public class Room {
 	public void participateRoom(Participant participant){
 		updateCurrentSize(1);
 		this.participants.add(participant);
+	}
+
+	public void exitRoom(Participant participant){
+		updateCurrentSize(-1);
+		this.participants.remove(participant);
 	}
 
 }
