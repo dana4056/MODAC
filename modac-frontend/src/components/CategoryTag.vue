@@ -1,30 +1,20 @@
 <script setup>
-import { ref, defineProps, computed, onMounted } from "vue";
-
-onMounted(() => {
-  const slotTag = document.querySelector("#slot");
-  console.log(slotTag);
-  const slotTagInnerText = ref(slotTag.innerText);
-});
+import { defineProps, computed } from "vue";
 
 const categoryStyleMap = {
-  algorithm: "study_category_style_algorithm",
-  cs: "study_category_style_cs",
-  develop: "study_category_style_develop",
-  planning: "study_category_style_planning",
-  etc: "study_category_style_etc",
+  알고리즘: "study_category_style_algorithm",
+  CS: "study_category_style_cs",
+  개발: "study_category_style_develop",
+  기획: "study_category_style_planning",
+  기타: "study_category_style_etc",
 };
 
 const props = defineProps({
   categoryName: String,
 });
 
-// const categoryStyleState = computed(() => {
-//   return categoryStyleMap[props.categoryName];
-// });
-
 const categoryStyleState = computed(() => {
-  return categoryStyleMap.slotTagInnerText.value;
+  return categoryStyleMap[props.categoryName];
 });
 </script>
 
