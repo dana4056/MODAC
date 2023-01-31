@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.a608.modac.model.room.RoomRequest;
 import com.a608.modac.model.room.RoomResponse;
+import com.a608.modac.model.user.UserRequest;
 import com.a608.modac.service.RoomService;
 
 @CrossOrigin(origins = { "*" })
@@ -46,24 +47,25 @@ public class RoomController {
 	@GetMapping("/{seq}")	// 멀티룸 조회
 	public ResponseEntity<?> findRoomById(@PathVariable("seq") final Long seq){
 		final RoomResponse roomById = roomService.findRoomById(seq);
-		return new ResponseEntity<>(roomById, HttpStatus.OK);
+		return new ResponseEntity<RoomResponse>(roomById, HttpStatus.OK);
 	}
 
-	@PutMapping("/{seq}")
+	@PutMapping("/{seq}")	// 멀티룸 수정
 	public ResponseEntity<?> updateTodo(@PathVariable("seq") final Long seq, @RequestBody RoomRequest roomRequest){
-		roomService.updateRoom(seq, roomRequest);
-		final List<RoomResponse> allRooms = roomService.findAllRooms();
-
-		return new ResponseEntity<>(allRooms, HttpStatus.OK);
+		RoomResponse roomResponse = roomService.updateRoom(seq, roomRequest);
+		return new ResponseEntity<RoomResponse>(roomResponse, HttpStatus.OK);
 	}
 
-
-
-	@DeleteMapping("/{seq}")
+	@DeleteMapping("/{seq}")		// 멀티룸 삭제
 	public ResponseEntity<?> deleteTodo(@PathVariable("seq") final Long seq){
 		roomService.deleteRoom(seq);
-
 		return new ResponseEntity<>(HttpStatus.OK);
+	}
+
+	@PostMapping("/{seq}")
+	public ResponseEntity<?> participateRoom(@PathVariable("seq") final Long seq, @RequestBody String userSeq){
+		RoomResponse roomResponse = roomService.participateRoom(seq, Long.parseLong(userSeq));
+		return null;
 	}
 
 

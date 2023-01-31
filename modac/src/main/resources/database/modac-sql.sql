@@ -35,6 +35,7 @@ CREATE TABLE IF NOT EXISTS `modac`.`users` (
   `id` VARCHAR(20) NOT NULL,
   `nickname` VARCHAR(20) NOT NULL,
   `password` VARCHAR(20) NOT NULL,
+  `cat_skin` INT NULL,
   `single_theme` VARCHAR(45) NULL,
   `total_second` INT NULL DEFAULT 0,
   `membership_grade` VARCHAR(20) NULL DEFAULT 'bronze',
@@ -168,8 +169,9 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `modac`.`chat_rooms` (
   `seq` INT NOT NULL AUTO_INCREMENT,
-  `last_log_key` INT NULL,
-  `last_log_time` DATETIME NULL,
+  `last_message_seq` INT NULL,
+  `last_message_time` DATETIME NULL,
+  `chat_roomscol` VARCHAR(45) NULL,
   PRIMARY KEY (`seq`))
 ENGINE = InnoDB;
 
@@ -182,12 +184,13 @@ CREATE TABLE IF NOT EXISTS `modac`.`rooms` (
   `title` VARCHAR(30) NOT NULL,
   `description` VARCHAR(100) NULL,
   `max_size` INT NULL DEFAULT 6,
-  `current_size` INT NULL DEFAULT 0,
+  `current_size` INT NULL DEFAULT 1,
   `multi_theme` VARCHAR(30) NULL,
   `public_type` INT NOT NULL,
   `invitation_code` VARCHAR(20) NULL,
   `users_seq` INT NOT NULL,
   `chat_rooms_seq` INT NOT NULL,
+  `roomscol` VARCHAR(45) NULL,
   PRIMARY KEY (`seq`),
   INDEX `fk_rooms_users1_idx` (`users_seq` ASC) VISIBLE,
   INDEX `fk_rooms_chat_rooms1_idx` (`chat_rooms_seq` ASC) VISIBLE,
@@ -199,29 +202,6 @@ CREATE TABLE IF NOT EXISTS `modac`.`rooms` (
   CONSTRAINT `fk_rooms_chat_rooms1`
     FOREIGN KEY (`chat_rooms_seq`)
     REFERENCES `modac`.`chat_rooms` (`seq`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `modac`.`guests`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `modac`.`guests` (
-  `entrance_time` DATETIME NULL DEFAULT now(),
-  `users_seq` INT NOT NULL,
-  `rooms_seq` INT NOT NULL,
-  INDEX `fk_guests_users1_idx` (`users_seq` ASC) VISIBLE,
-  INDEX `fk_guests_rooms1_idx` (`rooms_seq` ASC) VISIBLE,
-  PRIMARY KEY (`rooms_seq`, `users_seq`),
-  CONSTRAINT `fk_guests_users1`
-    FOREIGN KEY (`users_seq`)
-    REFERENCES `modac`.`users` (`seq`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_guests_rooms1`
-    FOREIGN KEY (`rooms_seq`)
-    REFERENCES `modac`.`rooms` (`seq`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -258,14 +238,15 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `modac`.`chat_logs`
+-- Table `modac`.`chat_messages`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `modac`.`chat_logs` (
-  `key` INT NOT NULL AUTO_INCREMENT,
+CREATE TABLE IF NOT EXISTS `modac`.`chat_messages` (
+  `seq` INT NOT NULL AUTO_INCREMENT,
   `users_seq` INT NOT NULL,
   `chat_rooms_seq` INT NOT NULL,
   `send_time` DATETIME NULL DEFAULT now(),
-  PRIMARY KEY (`key`),
+  `message` VARCHAR(200) NULL,
+  PRIMARY KEY (`seq`),
   INDEX `fk_chat_logs_users1_idx` (`users_seq` ASC) VISIBLE,
   INDEX `fk_chat_logs_chat_rooms1_idx` (`chat_rooms_seq` ASC) VISIBLE,
   CONSTRAINT `fk_chat_logs_users1`
@@ -332,6 +313,25 @@ CREATE TABLE IF NOT EXISTS `modac`.`musics` (
 ENGINE = InnoDB;
 
 
+-- -----------------------------------------------------
+-- Table `modac`.`participants`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `modac`.`participants` (
+  `rooms_seq` INT NOT NULL,
+  `users_seq` INT NOT NULL,
+  `nickname` VARCHAR(20) NULL,
+  `status` INT NULL,
+  `cat_skin` INT NULL,
+  `categories_name` VARCHAR(30) NULL,
+  PRIMARY KEY (`rooms_seq`, `users_seq`),
+  INDEX `fk_participants_rooms1_idx` (`rooms_seq` ASC) VISIBLE,
+  CONSTRAINT `fk_participants_rooms1`
+    FOREIGN KEY (`rooms_seq`)
+    REFERENCES `modac`.`rooms` (`seq`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
 
 -- 더미데이터 삽입
 INSERT INTO `modac`.`membership` values ('bronze');
@@ -343,8 +343,6 @@ INSERT INTO `modac`.`categories` values ('CS', 'CS test path');
 INSERT INTO `modac`.`categories` values ('개발', '개발 test path');
 INSERT INTO `modac`.`categories` values ('기획', '기획 test path');
 INSERT INTO `modac`.`categories` values ('기타','기타 test path');
-
-
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;

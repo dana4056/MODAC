@@ -22,10 +22,10 @@ public class ChatRoom {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long seq;
 
-    @Column(name = "last_log_key")
-    private Long lastLogKey;
+    @Column(name = "last_message_seq")
+    private Long lastMessageSeq;
 
-    @Column(name = "last_log_time")
-    private String lastLogTime;
+    @Column(name = "last_message_time")
+    private String lastMessageTime;
 
 }

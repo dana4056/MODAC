@@ -7,15 +7,15 @@ import com.a608.modac.model.user.User;
 
 @Getter
 public class RoomRequest {
-	private String title;  		//
-	private String description;	//
+	private String title;
+	private String description;
 	private Integer maxSize;
-	private String multiTheme;	//
+	private String multiTheme;
 	private Integer publicType;
 
 	private Long usersSeq;
 
-	public Room toEntity(User user, ChatRoom chatRoom, String invitationCode){
+	public Room toEntity(User host, Participant participant, ChatRoom chatRoom, String invitationCode){
 		return Room.builder()
 			.title(title)
 			.description(description)
@@ -23,7 +23,8 @@ public class RoomRequest {
 			.multiTheme(multiTheme)
 			.publicType(publicType)
 			.invitationCode(invitationCode)
-			.user(user)
+			.host(host)
+			.participant(participant)
 			.chatRoom(chatRoom)
 			.build();
 	}

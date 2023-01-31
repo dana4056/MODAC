@@ -20,7 +20,7 @@ import com.a608.modac.service.GuestService;
 
 @CrossOrigin(origins = { "*" })
 @RestController
-@RequestMapping("/guest")
+@RequestMapping("/guests")
 public class GuestController {
 
 	private final GuestService guestService;

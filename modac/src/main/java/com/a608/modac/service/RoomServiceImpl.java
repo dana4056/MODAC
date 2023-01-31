@@ -8,9 +8,11 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import com.a608.modac.model.chatting.ChatRoom;
+import com.a608.modac.model.room.Participant;
 import com.a608.modac.model.room.Room;
 import com.a608.modac.model.room.RoomRequest;
 import com.a608.modac.model.user.User;
+import com.a608.modac.model.user.UserRequest;
 import com.a608.modac.repository.ChatRoomRepository;
 import com.a608.modac.repository.RoomRepository;
 import com.a608.modac.model.room.RoomResponse;
@@ -51,7 +53,7 @@ public class RoomServiceImpl implements RoomService{
 
 	@Override
 	public RoomResponse createRoom(final RoomRequest roomRequest) {
-		User user = userRepository.findById(roomRequest.getUsersSeq()).orElseThrow(NoSuchElementException::new);
+		User host = userRepository.findById(roomRequest.getUsersSeq()).orElseThrow(NoSuchElementException::new);
 		String code = null;
 		if(roomRequest.getPublicType() == 0){ // 비공개방일때
 			// 초대코드 생성 (대충 6자리코드)
@@ -61,8 +63,9 @@ public class RoomServiceImpl implements RoomService{
 			code = Integer.toString(random);
 		}
 		// 채팅방 생성
+		Participant participant = new Participant(host);
 		ChatRoom chatRoom = chatRoomRepository.save(new ChatRoom());
-		Room save = roomRepository.save(roomRequest.toEntity(user, chatRoom, code));
+		Room save = roomRepository.save(roomRequest.toEntity(host, participant, chatRoom, code));
 		return new RoomResponse(save);
 	}
 
@@ -78,6 +81,15 @@ public class RoomServiceImpl implements RoomService{
 	@Override
 	public void deleteRoom(final Long seq) {
 		roomRepository.deleteById(seq);
+	}
+
+	@Override		//멀티룸에 참여하기
+	public RoomResponse participateRoom(Long seq, Long userSeq) {
+		Room room = roomRepository.findById(seq).orElseThrow(NoSuchElementException::new);
+		User user = userRepository.findById(userSeq).orElseThrow(NoSuchElementException::new);
+		Participant participant = new Participant(user);
+		room.participateRoom(participant);
+		return new RoomResponse(roomRepository.save(room));
 	}
 
 }

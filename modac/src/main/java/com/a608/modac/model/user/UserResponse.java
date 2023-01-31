@@ -9,6 +9,7 @@ public class UserResponse {
 	private String id;
 	private String nickname;
 	private String email;
+	private Byte catSkin;
 	private String singleTheme;
 	private Long totalSecond;
 	private String membershipGrade;
@@ -18,6 +19,7 @@ public class UserResponse {
 		this.id = user.getId();
 		this.nickname = user.getNickname();
 		this.email = user.getEmail();
+		this.catSkin = user.getCatSkin();
 		this.singleTheme = user.getSingleTheme();
 		this.totalSecond = user.getTotalSecond();
 		this.membershipGrade = user.getMembership().getGrade();
