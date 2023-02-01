@@ -1,14 +1,13 @@
 <template>
   <div>
-    <h1 class="my_color my_size">나는 게시글 리스트 아이템</h1>
     <ArticleListItem
-        class="article-item"
+        :class="$style.article_item"
         v-for="(article, index) in computedArticleList"
         :key="index"
         :article="article"
         />
   </div>
-  <div class="article-editor">
+  <div :class="$style.article-editor">
 
   </div>
 </template>
@@ -32,7 +31,7 @@ store.getArticleList()
 
 </script>
 
-<style>
-@import "./ArticleList.css"
+<style lang="css" module>
+@import "./ArticleList.module.css"
 
 </style>

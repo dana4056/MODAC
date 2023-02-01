@@ -37,7 +37,7 @@ export const useArticleStore = defineStore("article", () => {
   // })
   
   const getArticles = function(){
-    const originalTodos = [{todos_seq: 1, status: 1}, {todos_seq: 2, status: 2}, {todos_seq: 3, status: 2}]
+    const originalTodos = [{todos_seq: 1, status: 1}, {todos_seq: 2, status: 2}, {todos_seq: 3, status: 2}, {todos_seq: 2, status: 2}, {todos_seq: 3, status: 2}, {todos_seq: 2, status: 2}, {todos_seq: 3, status: 2}, {todos_seq: 2, status: 2}, {todos_seq: 3, status: 2}, {todos_seq: 2, status: 2}, {todos_seq: 3, status: 2}, {todos_seq: 2, status: 2}, {todos_seq: 3, status: 2}, {todos_seq: 2, status: 2}, {todos_seq: 3, status: 2}, {todos_seq: 2, status: 2}, {todos_seq: 3, status: 2}, {todos_seq: 2, status: 2}, {todos_seq: 3, status: 2}, {todos_seq: 2, status: 2}, {todos_seq: 3, status: 2}, {todos_seq: 2, status: 2}, {todos_seq: 3, status: 2}, {todos_seq: 2, status: 2}, {todos_seq: 3, status: 2}]
 
     const filterTodos = originalTodos.filter((elem) => { 
       console.log(elem)
