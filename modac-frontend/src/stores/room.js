@@ -34,6 +34,35 @@ export const useRoomStore = defineStore("room", () => {
     currentRightSideBarContent.value = targetContent;
   };
 
+  const seq = ref(5);
+  const title = ref("Flight A608");
+  const currentSize = ref(3);
+  const maxSize = ref(6);
+  const description = ref("싸피 8기 공통 6반");
+  const participants = ref([
+    {
+      userSeq: 1,
+      nickname: "A_NICKNAME",
+      status: 0,
+      catSkin: 1,
+      categoriesName: "알고리즘",
+    },
+    {
+      userSeq: 2,
+      nickname: "B_NICKNAME",
+      status: 1,
+      catSkin: 2,
+      categoriesName: "CS",
+    },
+    {
+      userSeq: 3,
+      nickname: "C_NICKNAME",
+      status: 2,
+      catSkin: 3,
+      categoriesName: "기획",
+    },
+  ]);
+
   return {
     isEnteredRoom,
     isDeleteRoom,
@@ -46,5 +75,11 @@ export const useRoomStore = defineStore("room", () => {
     toggleRightSideBar,
     currentRightSideBarContent,
     changeRightSideBarContent,
+    seq,
+    title,
+    currentSize,
+    maxSize,
+    description,
+    participants,
   };
 });
