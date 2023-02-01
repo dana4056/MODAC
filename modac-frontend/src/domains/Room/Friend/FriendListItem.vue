@@ -3,35 +3,51 @@ import Card from "@/components/Card.vue";
 import CardTitle from "@/components/CardTitle.vue";
 import CardContent from "@/components/CardContent.vue";
 import UserCard from "@/domains/User/UserCard.vue";
+import { useCssModule } from "vue";
 import { ref, computed } from "vue";
+
+const $style = useCssModule();
 
 const props = defineProps({
   friendItem: Object,
 });
+const statusStyleMap = {
+  0: "green",
+  1: "yellow",
+  2: "red",
+};
+const userStatusIndicatorStyleState = computed(
+  () =>
+    `${$style.rounded_div} ${$style[statusStyleMap[props.friendItem.status]]} ${
+      $style.inline_block_style
+    }`
+);
 
 const isUserCardOpen = ref(false);
-const userCardOpenButtonState = computed(() =>
-  isUserCardOpen.value ? "접기" : "펼치기"
-);
 const openUserCard = () => {
   isUserCardOpen.value = true;
 };
 const closeUserCard = () => {
   isUserCardOpen.value = false;
 };
-const toggleUserCard = () => {
-  return isUserCardOpen.value ? closeUserCard() : openUserCard();
+
+const userCardElement = ref(undefined);
+const toggleUserCard = (event) => {
+  userCardElement.value = document.querySelector(
+    `#user_card-${props.friendItem.seq}`
+  );
+  if (userCardElement.value === event.target) {
+    return isUserCardOpen.value ? closeUserCard() : openUserCard();
+  }
 };
 </script>
 
 <template lang="">
-  <Card @click="toggleUserCard">
-    <CardTitle>
+  <Card :id="`user_card-${props.friendItem.seq}`" @click="toggleUserCard">
+    <CardTitle :class="$style.inline_block_style">
       {{ props.friendItem.name }}
     </CardTitle>
-    <CardContent>
-      {{ props.friendItem.status }}
-    </CardContent>
+    <div :class="userStatusIndicatorStyleState"></div>
     <UserCard
       v-if="isUserCardOpen"
       :seq="props.friendItem.id"
