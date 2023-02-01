@@ -1,6 +1,9 @@
 package com.a608.modac.service;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
@@ -10,16 +13,16 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.a608.modac.model.article.Article;
-import com.a608.modac.model.article.LikeRequest;
-import com.a608.modac.model.follow.Follow;
-import com.a608.modac.model.user.User;
-import com.a608.modac.repository.ArticleRepository;
 import com.a608.modac.model.article.ArticleRequest;
 import com.a608.modac.model.article.ArticleResponse;
 import com.a608.modac.model.article.Like;
+import com.a608.modac.model.article.LikeRequest;
+import com.a608.modac.model.follow.Follow;
+import com.a608.modac.model.todo.Todo;
+import com.a608.modac.model.user.User;
+import com.a608.modac.repository.ArticleRepository;
 import com.a608.modac.repository.FollowRepository;
 import com.a608.modac.repository.LikeRepository;
-import com.a608.modac.model.todo.Todo;
 import com.a608.modac.repository.TodoRepository;
 import com.a608.modac.repository.UserRepository;
 
@@ -52,44 +55,71 @@ public class ArticleServiceImpl implements ArticleService {
 
 	// 게시글 저장
 	@Override
-	public ArticleResponse createArticle(final ArticleRequest articleRequest) {
+	public ArticleResponse.ArticleInfo createArticle(final ArticleRequest articleRequest) {
 		Todo todo = todoRepository.findById(articleRequest.getTodosSeq())
 			.orElseThrow(NoSuchElementException::new); // todosSeq를 이용하여 todo 호출
 		Article save = articleRepository.save(articleRequest.toEntity(todo));// Article 빌드 후 저장
-		System.out.println("+++++++++++++++++++++"+save);
-		return new ArticleResponse(save);
+		System.out.println("+++++++++++++++++++++" + save);
+		return new ArticleResponse.ArticleInfo(save);
 	}
 
 	// 사용자 아이디로 게시글 목록 조회
 	@Override
-	public List<ArticleResponse> readArticlesByUsersSeq(final Long usersSeq) {
-		final List<Article> findArticles = articleRepository.findByUser_Seq(usersSeq);
-		return findArticles.stream().map(ArticleResponse::new).collect(Collectors.toList());
+	public ArticleResponse readArticlesByUsersSeq(final Long usersSeq, final Integer offset, final Integer limit) {
+		List<Article> findArticles = articleRepository.findByUser_Seq(usersSeq);
+		// 최신 날짜를 우선으로 정렬
+		final DateTimeFormatter pattern = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+		Collections.sort(findArticles, (o1, o2) -> {
+			final LocalDateTime ldt1 = LocalDateTime.parse(o1.getRegisteredTime(), pattern);
+			final LocalDateTime ldt2 = LocalDateTime.parse(o2.getRegisteredTime(), pattern);
+			return (ldt1.isBefore(ldt2)) ? 1 : -1;
+		});
+		final Integer totalArticleCnt = findArticles.size(); // 총 게시글 수
+		final Integer totalPageCnt = ((totalArticleCnt - 1) / limit) + 1; // 총 페이지 수
+		final Integer st = (offset - 1) * limit; // 해당 페이지 시작 게시글 인덱스
+		final Integer ed = Math.min(offset * limit, totalArticleCnt); // 해당 페이지 마지막 게시글 인덱스
+
+		return new ArticleResponse(findArticles.subList(st, ed)
+			.stream()
+			.map(ArticleResponse.ArticleInfo::new)
+			.collect(Collectors.toList()),
+			totalArticleCnt, totalPageCnt);
 	}
 
 	// 팔로잉 게시글 목록 조회
 	@Override
-	public List<ArticleResponse> readArticlesByFollowing(Long usersSeq) {
-		List<Follow> followList = followRepository.findAllByFromUser_Seq(usersSeq);
-		System.out.println("팔로잉 정보들"+followList);
-		List<ArticleResponse> articles = new ArrayList<ArticleResponse>();
-
-		for(Follow follow : followList){
-			Long userSeq = follow.getToUser().getSeq();
-			System.out.println("++++팔로잉 :  "+userSeq);
-			List<ArticleResponse> responses = articleRepository.findByUser_Seq(userSeq)
-				.stream()
-				.map(ArticleResponse::new)
-				.collect(Collectors.toList());
-			articles.addAll(responses);
+	public ArticleResponse readArticlesByFollowing(final Long usersSeq, final Integer offset, final Integer limit) {
+		List<Follow> followingList = followRepository.findAllByFromUser_Seq(usersSeq);
+		// 팔로잉하는 모든 사람의 게시글 가져오기
+		List<Article> findArticles = new ArrayList<>();
+		for (Follow following : followingList) {
+			Long userSeq = following.getToUser().getSeq();
+			findArticles.addAll(articleRepository.findByUser_Seq(userSeq));
 		}
-		return articles;
+		// 최신 날짜를 우선으로 정렬
+		final DateTimeFormatter pattern = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+		Collections.sort(findArticles, (o1, o2) -> {
+			final LocalDateTime ldt1 = LocalDateTime.parse(o1.getRegisteredTime(), pattern);
+			final LocalDateTime ldt2 = LocalDateTime.parse(o2.getRegisteredTime(), pattern);
+			return (ldt1.isBefore(ldt2)) ? 1 : -1;
+		});
+		final Integer totalArticleCnt = findArticles.size(); // 총 게시글 수
+		final Integer totalPageCnt = ((totalArticleCnt - 1) / limit) + 1; // 총 페이지 수
+		final Integer st = (offset - 1) * limit; // 해당 페이지 시작 게시글 인덱스
+		final Integer ed = Math.min(offset * limit, totalArticleCnt); // 해당 페이지 마지막 게시글 인덱스
+
+		return new ArticleResponse(findArticles.subList(st, ed)
+			.stream()
+			.map(ArticleResponse.ArticleInfo::new)
+			.collect(Collectors.toList()),
+			totalArticleCnt, totalPageCnt);
 	}
 
 	// 게시글 번호로 게시글 조회
 	@Override
-	public ArticleResponse readArticleBySeq(final Long seq) {
-		return new ArticleResponse(articleRepository.findById(seq).orElseThrow(NoSuchElementException::new));
+	public ArticleResponse.ArticleInfo readArticleBySeq(final Long seq) {
+		return new ArticleResponse.ArticleInfo(
+			articleRepository.findById(seq).orElseThrow(NoSuchElementException::new));
 	}
 
 	// 게시글 조회수 업
