@@ -1,7 +1,5 @@
 package com.a608.modac.controller;
 
-import java.util.List;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -36,20 +34,22 @@ public class ArticleController {
     // 게시글 작성 (POST)
     @PostMapping
     public ResponseEntity<?> createArticle(@RequestBody final ArticleRequest articleRequest) {
-        ArticleResponse article = articleService.createArticle(articleRequest);
-        return new ResponseEntity<ArticleResponse>(article, HttpStatus.OK);
+        return new ResponseEntity<ArticleResponse.ArticleInfo>(articleService.createArticle(articleRequest),
+            HttpStatus.OK);
     }
 
     // 사용자 게시글 전체 조회 (GET)
     @GetMapping
-    public ResponseEntity<?> selectAllArticle(@RequestParam("user") final Long usersSeq) {
-        return new ResponseEntity<List<ArticleResponse>>(articleService.readArticlesByUsersSeq(usersSeq), HttpStatus.OK);
+    public ResponseEntity<?> selectAllArticle(@RequestParam("user") final Long usersSeq,
+        @RequestParam("offset") final Integer offset, @RequestParam("limit") final Integer limit) {
+        return new ResponseEntity<ArticleResponse>(articleService.readArticlesByUsersSeq(usersSeq, offset, limit),
+            HttpStatus.OK);
     }
 
     // 게시글 조회 (GET)
     @GetMapping("/{seq}")
     public ResponseEntity<?> selectArticle(@PathVariable("seq") final Long seq) {
-        return new ResponseEntity<ArticleResponse>(articleService.readArticleBySeq(seq), HttpStatus.OK);
+        return new ResponseEntity<ArticleResponse.ArticleInfo>(articleService.readArticleBySeq(seq), HttpStatus.OK);
     }
 
     // 게시글 조회수 올리기
@@ -68,10 +68,12 @@ public class ArticleController {
 
     // 팔로잉 게시글 목록 조회 (GET)
     @GetMapping("/following")
-    public ResponseEntity<?> selectArticlesByFollowing(@RequestParam("user") final Long usersSeq) {
-        List<ArticleResponse> articleResponses = articleService.readArticlesByFollowing(usersSeq);
-        return new ResponseEntity<List<ArticleResponse>>(articleResponses, HttpStatus.OK);
+    public ResponseEntity<?> selectArticlesByFollowing(@RequestParam("user") final Long usersSeq,
+        @RequestParam("offset") final Integer offset, @RequestParam("limit") final Integer limit) {
+        return new ResponseEntity<ArticleResponse>(articleService.readArticlesByFollowing(usersSeq, offset, limit),
+            HttpStatus.OK);
     }
+
     @PostMapping("/like")
     // 게시글-유저 좋아요 관계 추가
     public ResponseEntity<?> createLike(@RequestBody LikeRequest likeRequest){

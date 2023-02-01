@@ -1,23 +1,21 @@
 package com.a608.modac.service;
 
-import java.util.List;
-
 import com.a608.modac.model.article.ArticleRequest;
 import com.a608.modac.model.article.ArticleResponse;
 import com.a608.modac.model.article.LikeRequest;
 
 public interface ArticleService {
 	// 게시글 저장
-	ArticleResponse createArticle(final ArticleRequest articleRequest);
+	ArticleResponse.ArticleInfo createArticle(final ArticleRequest articleRequest);
 
 	// 사용자 아이디로 게시글 목록 조회
-	List<ArticleResponse> readArticlesByUsersSeq(final Long usersSeq);
+	ArticleResponse readArticlesByUsersSeq(final Long usersSeq, final Integer offset, final Integer limit);
 
 	// 팔로잉 게시글 목록 조회
-	List<ArticleResponse> readArticlesByFollowing(final Long usersSeq);
+	ArticleResponse readArticlesByFollowing(final Long usersSeq, final Integer offset, final Integer limit);
 
 	// 게시글 번호로 게시글 조회
-	ArticleResponse readArticleBySeq(final Long seq);
+	ArticleResponse.ArticleInfo readArticleBySeq(final Long seq);
 
 	void upViewCount(final Long seq);
 
