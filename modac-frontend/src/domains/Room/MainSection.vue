@@ -1,9 +1,10 @@
 <script setup>
-import RoundButton from "@/components/RoundButton.vue";
 import Modal from "@/components/Modal.vue";
 import { useRoomStore } from "@/stores/room";
 import { ref } from "vue";
 import CommonButton from "@/components/CommonButton.vue";
+import Wrapper from "@/components/Wrapper.vue";
+import RoomInformation from "./RoomInformation.vue";
 
 const store = useRoomStore();
 
@@ -22,8 +23,12 @@ const exitRoom = () => {
 </script>
 
 <template>
-  <div :class="$style.main_section">main section</div>
-  <RoundButton @click="openRoomExitConfirmModal">방 나가기</RoundButton>
+  <Wrapper :class="$style.main_section">
+    <div :class="$style.main_section_top_side"></div>
+    <div :class="$style.main_section_down_side">
+      <RoomInformation :openRoomExitConfirmModal="openRoomExitConfirmModal" />
+    </div>
+  </Wrapper>
   <Teleport to="body">
     <Modal
       v-if="roomExitConfirmModalState"

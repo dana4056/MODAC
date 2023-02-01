@@ -1,12 +1,13 @@
 .right_side_bar {
+  height: 100%;
   @apply basis-1/4;
   @apply bg-gray-200 text-gray-900;
   @apply p-3;
 }
 
 .right_side_bar_content {
+  height: 90%;
   overflow: auto;
-  height: 46rem;
 }
 
 .right_side_bar_button_wrapper {
