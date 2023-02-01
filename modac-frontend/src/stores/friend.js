@@ -1,27 +1,18 @@
-import { ref } from "vue";
-import axios from "axios";
 import { defineStore } from "pinia";
+import { ref } from "vue";
 
 export const useFriendStore = defineStore("friend", () => {
-  // User Class 선언 및 인스턴스 만들기
-  class User {
-    constructor(id, name) {
-      this.id = id;
-      this.name = name;
-    }
-  }
-  const user1 = new User(1, "성수");
-  const user2 = new User(2, "용재");
-  const user3 = new User(3, "지영");
+  // 더미 데이터
+  const friendList = ref([
+    {
+      id: 1,
+      name: "김싸피",
+      status: 0,
+      categoryName: "알고리즘",
+    },
+    { id: 2, name: "이싸피", status: 1, categoryName: "CS" },
+    { id: 3, name: "박싸피", status: 2, categoryName: "기획" },
+  ]);
 
-  // 친구 목록 확인용 변수
-  const friendList = ref([]);
-  const getFriendList = () => {
-    // 친구 리스트가 axios에 대한 응답으로 전달됐다고 가정
-    const axiosReturnValue = ref([user1, user2, user3]);
-    friendList.value = axiosReturnValue.value;
-    return axiosReturnValue.value;
-  };
-
-  return { friendList, getFriendList };
+  return { friendList };
 });
