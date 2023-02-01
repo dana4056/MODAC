@@ -35,8 +35,7 @@ public class TodoServiceImpl implements TodoService{
 			.orElseThrow(NoSuchElementException::new);
 
 		Todo save = todoRepository.save(todoRequest.toEntity(user, category));
-
-		return new TodoResponse(save);
+		return TodoResponse.builder().todo(save).build();
 	} // todo 작성.
 
 	@Override

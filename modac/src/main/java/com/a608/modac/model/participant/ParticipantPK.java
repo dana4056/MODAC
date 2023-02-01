@@ -23,7 +23,7 @@ import lombok.ToString;
 public class ParticipantPK implements Serializable {
 
 	@ManyToOne
-	@JoinColumn(name = "rooms_seq")
+	@JoinColumn(name = "rooms_seq", insertable = false, updatable = false)
 	private Room room;
 
 	@Column(name = "users_seq")

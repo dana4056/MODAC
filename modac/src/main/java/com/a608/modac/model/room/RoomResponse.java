@@ -3,7 +3,7 @@ package com.a608.modac.model.room;
 import java.util.List;
 
 import com.a608.modac.model.chatting.ChatRoom;
-import com.a608.modac.model.participant.Participant;
+import com.a608.modac.model.participant.ParticipantResponse;
 import com.a608.modac.model.user.User;
 
 import lombok.Getter;
@@ -18,7 +18,8 @@ public class RoomResponse {
 	private final String multiTheme;
 	private final Integer publicType;
 	private final String invitationCode;
-	private final List<Participant> participants;
+	private final List<ParticipantResponse> participants;
+	// private final Set<String> participants;
 	private final User host;
 	private final ChatRoom chatRoom;
 
@@ -31,7 +32,7 @@ public class RoomResponse {
 		this.multiTheme = room.getMultiTheme();
 		this.publicType = room.getPublicType();
 		this.invitationCode = room.getInvitationCode();
-		this.participants = room.getParticipants();
+		this.participants = room.getParticipant();
 		this.host = room.getHost();
 		this.chatRoom = room.getChatRoom();
 	}

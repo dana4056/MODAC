@@ -1,7 +1,5 @@
 package com.a608.modac.controller;
 
-import static com.a608.modac.model.room.RoomRequest.*;
-
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -14,11 +12,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.a608.modac.model.room.RoomRequest;
 import com.a608.modac.model.room.RoomResponse;
-import com.a608.modac.model.user.UserRequest;
 import com.a608.modac.service.RoomService;
 
 @CrossOrigin(origins = { "*" })
@@ -39,9 +37,16 @@ public class RoomController {
 	}
 
 	@GetMapping				// 멀티룸 목록 조회
-	public ResponseEntity<?> findAllRooms(){
-		final List<RoomResponse> allRooms = roomService.findAllRooms();
-		return new ResponseEntity<>(allRooms, HttpStatus.OK);
+	public ResponseEntity<?> findAllRooms(@RequestParam(value = "user", required = false) Long userSeq){
+		if(userSeq == null){
+			// 모든 멀티룸 목록 조회
+			final List<RoomResponse> allRooms = roomService.findAllRooms();
+			return new ResponseEntity<>(allRooms, HttpStatus.OK);
+		}else{
+			// 내가 참여중인 비공개 멀티룸 목록 조회
+			final List<RoomResponse> myRooms = roomService.findMyRooms(userSeq);
+			return new ResponseEntity<>(myRooms, HttpStatus.OK);
+		}
 	}
 
 	@GetMapping("/{seq}")	// 멀티룸 조회
@@ -62,11 +67,20 @@ public class RoomController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
-	@PostMapping("/{seq}")		// 멀티룸에 참여
-	public ResponseEntity<?> participateRoom(@PathVariable("seq") final Long seq, @RequestBody String userSeq){
-		RoomResponse roomResponse = roomService.participateRoom(seq, Long.parseLong(userSeq));
-		return null;
+	@PostMapping("/{seq}/join")		// 멀티룸에 참여
+	public ResponseEntity<?> joinRoom(@PathVariable("seq") final Long seq, @RequestBody String userSeq){
+		RoomResponse roomResponse = roomService.joinRoom(seq, Long.parseLong(userSeq));
+		return new ResponseEntity<RoomResponse>(roomResponse, HttpStatus.OK);
 	}
+
+	@DeleteMapping("/{seq}/join")		// 멀티룸에서 나가기
+	public ResponseEntity<?> participateRoom(@PathVariable("seq") final Long seq, @RequestBody String userSeq){
+		roomService.exitRoom(seq, Long.parseLong(userSeq));
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+
+
+
 
 
 }

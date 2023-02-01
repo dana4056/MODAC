@@ -2,10 +2,9 @@ package com.a608.modac.model.room;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
-import javax.persistence.CollectionTable;
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -20,7 +19,10 @@ import org.hibernate.annotations.DynamicInsert;
 
 import com.a608.modac.model.chatting.ChatRoom;
 import com.a608.modac.model.participant.Participant;
+import com.a608.modac.model.participant.ParticipantResponse;
 import com.a608.modac.model.user.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -31,7 +33,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @DynamicInsert
 @Entity
-// @ToString
+@ToString
 @Table(name = "rooms")
 public class Room {
 	@Id
@@ -45,7 +47,7 @@ public class Room {
 	@Column(name="max_size")
 	private Integer maxSize;
 	@Column(name = "current_size")
-	private Integer currentSize;
+	private int currentSize;
 	@Column(name="multi_theme")
 	private String multiTheme;
 	@Column(name="public_type")
@@ -53,6 +55,7 @@ public class Room {
 	@Column(name="invitation_code")
 	private String invitationCode;
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "participantPK.room")
 	private final List<Participant> participants = new ArrayList<>();
 
@@ -65,7 +68,7 @@ public class Room {
 	private ChatRoom chatRoom;
 
 	@Builder
-	public Room(Long seq, String title, String description, Integer maxSize, Integer currentSize, String multiTheme, Integer publicType,
+	public Room(Long seq, String title, String description, Integer maxSize, int currentSize, String multiTheme, Integer publicType,
 		String invitationCode,Participant participant, User host, ChatRoom chatRoom) {
 		this.seq = seq;
 		this.title = title;
@@ -79,6 +82,13 @@ public class Room {
 		this.host = host;
 		this.chatRoom = chatRoom;
 	}
+
+	@JsonProperty("participants")
+	public List<ParticipantResponse> getParticipant() {
+		System.out.println(participants);
+		return participants.stream().map(Participant::getParticipant).collect(Collectors.toList());
+	}
+
 
 	public void updateRoom(final String title, final String description, final String multiTheme){
 		this.title = title;

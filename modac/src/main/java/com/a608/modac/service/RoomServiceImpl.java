@@ -1,5 +1,6 @@
 package com.a608.modac.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -35,7 +36,7 @@ public class RoomServiceImpl implements RoomService{
 		this.participantRepository = participantRepository;
 	}
 
-	@Override
+	@Override		// 멀티룸 조회
 	public RoomResponse findRoomById(final Long seq) {
 		final Optional<Room> findRoomById = roomRepository.findById(seq);
 		RoomResponse roomResponse = null;
@@ -47,14 +48,27 @@ public class RoomServiceImpl implements RoomService{
 		return roomResponse;
 	}
 
-	@Override
+	@Override		// 멀티룸 목록 조회
 	public List<RoomResponse> findAllRooms() {
 		final List<Room> findAllRooms = roomRepository.findAll();
-
 		return findAllRooms.stream().map(RoomResponse::new).collect(Collectors.toList());
 	}
 
-	@Override	//room엔티티에서 참가자 저장 ******************************************* 참가자 저장 안돼
+	@Override		// 내가 참여하고 있는 비공개 멀티룸 목록 조회
+	public List<RoomResponse> findMyRooms(Long userSeq) {
+		List<Participant> participants = participantRepository.findAllByParticipantPK_UsersSeq(userSeq);
+		final List<Room> findMyRooms = new ArrayList<>();
+
+		for(Participant p: participants){
+			Room room = roomRepository.findById(p.getParticipantPK().getRoom().getSeq())
+				.orElseThrow(NoSuchElementException::new);
+			if(room.getPublicType()==0)
+			findMyRooms.add(room);
+		}
+		return findMyRooms.stream().map(RoomResponse::new).collect(Collectors.toList());
+	}
+
+	@Override	// 멀티룸 생성
 	public RoomResponse createRoom(final RoomRequest roomRequest) {
 		User host = userRepository.findById(roomRequest.getUsersSeq()).orElseThrow(NoSuchElementException::new);
 		String code = null;
@@ -68,13 +82,15 @@ public class RoomServiceImpl implements RoomService{
 
 		// 채팅방 생성
 		ChatRoom chatRoom = chatRoomRepository.save(new ChatRoom());
-		Room save = roomRepository.save(roomRequest.toEntity(host, chatRoom, code));
+		Room room = roomRepository.save(roomRequest.toEntity(host, chatRoom, code));
 
-		ParticipantPK participantPK = ParticipantPK.builder().room(save).usersSeq(host.getSeq()).build();
+		ParticipantPK participantPK = ParticipantPK.builder().room(room).usersSeq(host.getSeq()).build();
 		Participant participant = new Participant(participantPK, host);
 		participantRepository.save(participant);
+		room.getParticipants().set(0, participant);
+		room.updateCurrentSize(1);
 
-		return new RoomResponse(save);
+		return new RoomResponse(roomRepository.save(room));
 	}
 
 	@Override
@@ -88,11 +104,25 @@ public class RoomServiceImpl implements RoomService{
 
 	@Override
 	public void deleteRoom(final Long seq) {
+		// 멀티룸 참가자들 삭제
+		List<Participant> participants = participantRepository.findAllByParticipantPK_Room_Seq(seq);
+		for(Participant p : participants){
+			participantRepository.delete(p);
+		}
+
+		// 채팅 로그 먼저 삭제
+		// --채팅 로그 삭제하는 로직--
+
+		// 채팅룸 삭제
+		ChatRoom chatRoom = roomRepository.findById(seq).orElseThrow(NoSuchElementException::new).getChatRoom();
+		chatRoomRepository.delete(chatRoom);
+		
+		// 멀티룸 삭제
 		roomRepository.deleteById(seq);
 	}
 
 	@Override		//멀티룸에 참여하기 (participant 엔티티에서 참가자 저장)
-	public RoomResponse participateRoom(Long seq, Long userSeq) {
+	public RoomResponse joinRoom(Long seq, Long userSeq) {
 		Room room = roomRepository.findById(seq).orElseThrow(NoSuchElementException::new);
 
 		ParticipantPK participantPK = ParticipantPK.builder().room(room).usersSeq(userSeq).build();
@@ -105,14 +135,16 @@ public class RoomServiceImpl implements RoomService{
 	}
 
 	@Override		//멀티룸에서 나가기
-	public RoomResponse exitRoom(Long seq, Long userSeq) {
+	public void exitRoom(Long seq, Long userSeq) {
 		Room room = roomRepository.findById(seq).orElseThrow(NoSuchElementException::new);
 
 		ParticipantPK participantPK = ParticipantPK.builder().room(room).usersSeq(userSeq).build();
 		Participant participant = participantRepository.findById(participantPK)
 			.orElseThrow(NoSuchElementException::new);
+
+		participantRepository.delete(participant);
 		room.exitRoom(participant);
-		return new RoomResponse(roomRepository.save(room));
+		roomRepository.save(room);
 	}
 
 }

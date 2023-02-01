@@ -1,24 +1,20 @@
 package com.a608.modac.model.participant;
 
 import javax.persistence.Column;
-import javax.persistence.Embeddable;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import com.a608.modac.model.membership.Membership;
 import com.a608.modac.model.user.User;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
 
 @Entity
 @Getter
-@ToString
+// @ToString
 @Table(name = "participants")
 @NoArgsConstructor
 @AllArgsConstructor
@@ -42,4 +38,9 @@ public class Participant {
 		this.status = 0;	// 맨처음 방에 들어갈 땐 공부중으로 상태 설정
 		this.catSkin = user.getCatSkin();
 	}
+
+	public ParticipantResponse getParticipant(){
+		return new ParticipantResponse(getParticipantPK().getUsersSeq(), getNickname(), getStatus(), getCatSkin(), getCategoriesName());
+	}
+
 }

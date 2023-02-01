@@ -1,5 +1,7 @@
 package com.a608.modac.model.room;
 
+import java.util.ArrayList;
+
 import lombok.Getter;
 
 import com.a608.modac.model.chatting.ChatRoom;
