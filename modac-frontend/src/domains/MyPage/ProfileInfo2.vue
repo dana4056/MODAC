@@ -8,6 +8,10 @@
       />
       <div :class="$style.flex_col">
         <div :class="$style.flex_row">
+          <div :class="$style.grade_flex">
+            <div :class="$style.grade_circle"></div>
+            <div :class="$style.grade_text">Gold</div>
+          </div>
           <h1 :class="$style.profile_info_name">김싸피</h1>
           <h3 :class="$style.profile_info_gray">kim@ssafy.com</h3>
         </div>
@@ -28,5 +32,5 @@
 </script>
 
 <style lang="css" module>
-  @import "./ProfileInfo.module.css";
+  @import "./ProfileInfo2.module.css";
 </style>

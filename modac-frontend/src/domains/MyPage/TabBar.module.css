@@ -1,0 +1,31 @@
+.tabs_flex {
+	font-family: 'Pretendard';
+  /* @apply h-3/4 flex justify-center */
+  @apply h-5/6 flex justify-center
+}
+
+.tabs_width {
+  @apply w-8/12 min-w-max
+}
+
+.tabs_ul {
+  @apply flex justify-start items-end space-x-2 text-white border-b-gray-200 border-b-2;
+  height: 8%;
+}
+
+.tabs_li {
+  @apply h-full;
+}
+
+.tab_menu {
+  @apply inline-block px-5 py-2 text-black text-sm h-full
+}
+
+.active {
+  @apply border-b-blue-500 border-b-2 font-bold
+}
+
+.tab_content {
+  @apply bg-white;
+  height: 92%;
+}

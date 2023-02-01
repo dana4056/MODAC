@@ -1,0 +1,39 @@
+.tabs_flex {
+  @apply w-full flex flex-col justify-center py-10 items-center
+}
+
+.delete_user_title {
+ @apply text-xl font-bold
+}
+
+.delete_user_info {
+ @apply text-sm text-center
+}
+
+.delete_user_password {
+	@apply pt-8 pb-5 m-0.5 flex items-center
+}
+
+.delete_user_password_label {
+	@apply block mb-2 text-sm font-semibold text-gray-900 dark:text-white w-32
+}
+
+.delete_user_password_input {
+	@apply block w-full p-2.5 text-sm rounded-lg w-52 border
+	bg-gray-50 border-gray-300 text-gray-900 
+	focus:ring-blue-500 focus:border-blue-500 
+	dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white
+}
+
+.delete_user_password_button_div {
+	@apply flex justify-center w-1/2
+}
+
+.delete_user_password_button {
+	@apply w-full text-sm text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg px-5 py-2.5 m-1 text-center
+
+}
+
+.delete_user_password_button_disabled {
+ @apply w-full text-sm text-white bg-gray-600 rounded-lg px-5 py-2.5 m-1 text-center
+}
