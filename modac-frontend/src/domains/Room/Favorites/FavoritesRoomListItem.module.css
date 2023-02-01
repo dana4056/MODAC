@@ -1,0 +1,11 @@
+.flex_wrapper {
+  @apply flex flex-row;
+}
+
+.flex_left {
+  @apply basis-4/5;
+}
+
+.flex_right {
+  @apply basis-1/5;
+}
