@@ -25,12 +25,13 @@ public class UserController {
 	@PostMapping						//회원 가입
 	public ResponseEntity<?> signUp(@RequestBody final UserRequest userRequest){
 		UserResponse userResponse = userService.saveUser(userRequest);
-		return new ResponseEntity<>(userResponse,HttpStatus.OK);
+		return new ResponseEntity<>(userResponse,HttpStatus.CREATED);
 	}
 
 	@GetMapping("/{seq}")			// 특정 회원 조회
 	public ResponseEntity<?> findUser(@PathVariable("seq") Long seq){
 		UserResponse userResponse = userService.findUserBySeq(seq);
+		System.out.println("controller");
 		return new ResponseEntity<UserResponse>(userResponse, HttpStatus.OK);
 	}
 
@@ -39,13 +40,13 @@ public class UserController {
 
 		System.out.println("++++++++++++회원정보 수정"+userRequest);
 		UserResponse userResponse = userService.updateUser(seq, userRequest);
-		return new ResponseEntity<>(userResponse, HttpStatus.OK);
+		return new ResponseEntity<>(userResponse, HttpStatus.CREATED);
 	}
 
 	@PutMapping("/{seq}/password")	// 비밀번호 수정
 	public ResponseEntity<?> updatePassword(@PathVariable("seq") Long seq, @RequestBody String password){
 		userService.updatePassword(seq, password);
-		return new ResponseEntity<>(HttpStatus.OK);
+		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
 
 	@DeleteMapping("/{seq}")			// 회원 탈퇴
@@ -93,7 +94,7 @@ public class UserController {
 	@PostMapping("/follow")			// 중복저장 안되게 조심해야하는디..
 	public ResponseEntity<?> following(@RequestBody FollowRequest followRequest){
 		userService.following(followRequest);
-		return new ResponseEntity<>(HttpStatus.OK);
+		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
 
 	@DeleteMapping("/follow")		// 데이터가 중복저장되어있으면 에러
