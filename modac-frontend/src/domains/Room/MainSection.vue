@@ -5,6 +5,7 @@ import { ref } from "vue";
 import CommonButton from "@/components/CommonButton.vue";
 import Wrapper from "@/components/Wrapper.vue";
 import RoomInformation from "./RoomInformation.vue";
+import UserList from "./UserList/UserList.vue";
 
 const store = useRoomStore();
 
@@ -24,7 +25,9 @@ const exitRoom = () => {
 
 <template>
   <Wrapper :class="$style.main_section">
-    <div :class="$style.main_section_top_side"></div>
+    <div :class="$style.main_section_top_side">
+      <UserList />
+    </div>
     <div :class="$style.main_section_down_side">
       <RoomInformation :openRoomExitConfirmModal="openRoomExitConfirmModal" />
     </div>

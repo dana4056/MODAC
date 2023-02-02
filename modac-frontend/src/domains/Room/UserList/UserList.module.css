@@ -1,0 +1,21 @@
+.user_list_first_flex {
+  @apply flex flex-row;
+  @apply h-full w-full;
+}
+
+.user_list_first_flex_item {
+  @apply basis-1/3;
+}
+
+.user_list_second_flex {
+  /* @apply w-1/3; */
+  @apply flex flex-col;
+}
+
+.user_list_second_flex_item {
+  @apply basis-1/3;
+}
+
+.test_style {
+  /* border: 1px solid black; */
+}

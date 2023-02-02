@@ -39,29 +39,63 @@ export const useRoomStore = defineStore("room", () => {
   const currentSize = ref(3);
   const maxSize = ref(6);
   const description = ref("싸피 8기 공통 6반");
+
   const participants = ref([
     {
       userSeq: 1,
-      nickname: "A_NICKNAME",
+      nickname: "일싸피",
       status: 0,
       catSkin: 1,
       categoriesName: "알고리즘",
     },
     {
       userSeq: 2,
-      nickname: "B_NICKNAME",
+      nickname: "이싸피",
       status: 1,
       catSkin: 2,
       categoriesName: "CS",
     },
     {
       userSeq: 3,
-      nickname: "C_NICKNAME",
+      nickname: "삼싸피",
+      status: 2,
+      catSkin: 3,
+      categoriesName: "기획",
+    },
+    {
+      userSeq: 4,
+      nickname: "사싸피",
+      status: 0,
+      catSkin: 1,
+      categoriesName: "알고리즘",
+    },
+    {
+      userSeq: 5,
+      nickname: "오싸피",
+      status: 1,
+      catSkin: 2,
+      categoriesName: "CS",
+    },
+    {
+      userSeq: 6,
+      nickname: "육싸피",
       status: 2,
       catSkin: 3,
       categoriesName: "기획",
     },
   ]);
+
+  const statusMap = {
+    0: "공부 상태",
+    1: "휴식 상태",
+    2: "자리비움 상태",
+  };
+
+  const statusStyleMap = {
+    0: "green",
+    1: "yellow",
+    2: "red",
+  };
 
   return {
     isEnteredRoom,
@@ -81,5 +115,7 @@ export const useRoomStore = defineStore("room", () => {
     maxSize,
     description,
     participants,
+    statusMap,
+    statusStyleMap,
   };
 });

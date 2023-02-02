@@ -4,6 +4,8 @@ import CardTitle from "@/components/CardTitle.vue";
 import CardContent from "@/components/CardContent.vue";
 import CommonButton from "@/components/CommonButton.vue";
 import { ref, defineProps, computed } from "vue";
+import { useRoomStore } from "@/stores/room";
+import { storeToRefs } from "pinia";
 
 const props = defineProps({
   seq: Number,
@@ -12,11 +14,9 @@ const props = defineProps({
   categoryName: String,
 });
 
-const statusMap = {
-  0: "공부 상태",
-  1: "휴식 상태",
-  2: "자리비움 상태",
-};
+const store = useRoomStore();
+
+const statusMap = store.statusMap;
 
 const isFollowed = ref(false);
 const follow = () => {
