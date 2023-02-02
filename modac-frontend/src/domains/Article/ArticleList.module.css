@@ -1,0 +1,11 @@
+.my_color {
+    color: aqua;
+}
+
+.my_size {
+    font-size:x-large;
+}
+
+.article_item {
+    @apply border-2 mt-2 mb-2 p-3 rounded-lg border-black bg-gray-300;
+}

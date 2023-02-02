@@ -1,0 +1,48 @@
+.profile_info_flex {
+  @apply flex flex-col items-center bg-slate-900 h-1/6 max-h-72;
+	font-family: 'Pretendard';
+}
+
+.chat_profile {
+  @apply flex object-cover h-20 w-20 rounded-full p-2 items-center justify-center
+}
+
+.profile_info_group_row {
+	@apply flex flex-row items-center justify-start w-8/12 h-full gap-2
+}
+
+.flex_col {
+	@apply flex flex-col items-start gap-2
+}
+
+.flex_row {
+	@apply flex flex-row items-end gap-1
+}
+
+.grade_flex {
+	@apply flex flex-row justify-center items-center mr-1 h-full self-center
+}
+
+.grade_circle {
+	@apply mx-0 my-auto rounded-full border-amber-400 border-solid border-8 mr-1;
+}
+
+/* .grade_circle {
+	@apply mx-0 my-auto rounded-full border-amber-400 border-solid border-8;
+} */
+
+.grade_text {
+	@apply text-sm text-amber-400;
+}
+
+.profile_info_name {
+	@apply text-white m-0 text-xl
+}
+
+.profile_info_white {
+	@apply text-white m-0 text-sm
+}
+
+.profile_info_gray {
+	@apply text-gray-400 m-0 text-sm
+}

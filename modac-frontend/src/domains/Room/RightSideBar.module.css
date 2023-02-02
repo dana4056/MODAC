@@ -1,17 +1,19 @@
 .right_side_bar {
-  @apply basis-1/4 flex flex-col;
+  height: 100%;
+  @apply basis-1/4;
   @apply bg-gray-200 text-gray-900;
   @apply p-3;
 }
 
 .right_side_bar_content {
-  /* @apply m-3; */
-  @apply basis-11/12;
+  height: 90%;
+  overflow: auto;
 }
 
 .right_side_bar_button_wrapper {
   @apply flex flex-row;
-  @apply basis-1/12;
+  height: 10%;
+  align-items: center;
   text-align: center;
 }
 
