@@ -21,12 +21,12 @@ import lombok.ToString;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "chat_logs")
-public class ChatLog {
+@Table(name = "chat_messages")
+public class ChatMessage {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long key;
+	private Long seq;
 
 	@ManyToOne
 	@JoinColumn(name = "users_seq")
@@ -38,4 +38,7 @@ public class ChatLog {
 
 	@Column(name = "send_time")
 	private String sendTime;
+
+	@Column(name = "message")
+	private String message;
 }

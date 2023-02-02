@@ -1,4 +1,4 @@
-package com.a608.modac.model.guest;
+package com.a608.modac.model.participant;
 
 import java.io.Serializable;
 
@@ -8,30 +8,31 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import com.a608.modac.model.room.Room;
-import com.a608.modac.model.user.User;
 
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Getter
 @NoArgsConstructor
 @EqualsAndHashCode
 @Embeddable
-public class GuestPK implements Serializable {
-	@ManyToOne
-	@JoinColumn(name = "users_seq")
-	private User user;
+@ToString
+public class ParticipantPK implements Serializable {
 
 	@ManyToOne
-	@JoinColumn(name = "rooms_seq")
+	@JoinColumn(name = "rooms_seq", insertable = false, updatable = false)
 	private Room room;
 
+	@Column(name = "users_seq")
+	private Long usersSeq;
+
 	@Builder
-	public GuestPK(final User user, final Room room) {
-		this.user = user;
+	public ParticipantPK(final Room room, final Long usersSeq){
 		this.room = room;
+		this.usersSeq = usersSeq;
 	}
 
 }

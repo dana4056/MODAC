@@ -41,6 +41,9 @@ public class User {
 	@Column(name = "password")
 	private String password;
 
+	@Column(name = "cat_skin")
+	private Byte catSkin;        // UI로 표시될 고양이 스킨 번호 (일단 12개..)
+
 	@Column(name = "single_theme")
 	private String singleTheme;    //싱글룸 테마(우주....)
 
@@ -52,12 +55,13 @@ public class User {
 	private Membership membership;
 
 	@Builder
-	public User(Long seq, String id, String nickname, String email, String password, String singleTheme, Long totalSecond, Membership membership) {
+	public User(Long seq, String id, String nickname, String email, String password, Byte catSkin, String singleTheme, Long totalSecond, Membership membership) {
 		this.seq = seq;
 		this.id = id;
 		this.nickname = nickname;
 		this.email = email;
 		this.password = password;
+		this.catSkin = catSkin;
 		this.singleTheme = singleTheme;
 		this.totalSecond = totalSecond;
 		this.membership = membership;
@@ -70,6 +74,10 @@ public class User {
 
 	public void updatePassword(String password){
 		this.password = password;
+	}
+
+	public void changeCatSkin(Byte no){
+		this.catSkin = no;
 	}
 
 }

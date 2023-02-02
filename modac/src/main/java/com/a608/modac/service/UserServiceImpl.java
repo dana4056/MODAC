@@ -35,7 +35,13 @@ public class UserServiceImpl implements UserService{
     @Override
     public UserResponse saveUser(UserRequest userRequest) { // 회원 저장
         Membership bronze = membershipRepository.findById("bronze").orElseThrow(() -> new NoSuchElementException("NoMembership"));
-        User save = userRepository.save(userRequest.toEntity(bronze));
+
+        // 고양이 스킨 번호 랜덤 (1~12)
+        double min = 1;
+        double max = 12;
+        byte skin = (byte) ((Math.random() * (max - min)) + min);
+
+        User save = userRepository.save(userRequest.toEntity(bronze, skin));
         System.out.println(save);
         return new UserResponse(save);
     }
@@ -65,8 +71,8 @@ public class UserServiceImpl implements UserService{
     @Override
     public UserResponse findUserBySeq(Long seq) {
         User findUser = userRepository.findById(seq).orElseThrow(() -> new NoSuchElementException("NoUser"));
-        System.out.println("service");
-        return new UserResponse(findUser);
+        UserResponse userResponse = new UserResponse(findUser);
+        return userResponse;
     }
 
     @Override
