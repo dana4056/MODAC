@@ -34,7 +34,7 @@ public class TodoController {
 	public ResponseEntity<?> saveTodo(@RequestBody final TodoRequest todoRequest){
 		TodoResponse todoResponse = todoService.saveTodo(todoRequest);
 
-		return new ResponseEntity<TodoResponse>(todoResponse, HttpStatus.OK);
+		return new ResponseEntity<TodoResponse>(todoResponse, HttpStatus.CREATED);
 	}
 
 	@GetMapping	("/{seq}")					// Todo 한개 조회
@@ -45,7 +45,7 @@ public class TodoController {
 	@PutMapping("/{seq}")					// Todo 수정
 	public ResponseEntity<TodoResponse> updateTodo(@PathVariable final Long seq, @RequestBody TodoRequest todoRequest){
 		TodoResponse todoResponse = todoService.updateTodo(seq, todoRequest);
-		return new ResponseEntity<TodoResponse>(todoResponse, HttpStatus.OK);
+		return new ResponseEntity<TodoResponse>(todoResponse, HttpStatus.CREATED);
 	}
 	@DeleteMapping("/{seq}")
 	public ResponseEntity<Void> deleteTodo(@PathVariable("seq") final Long seq){

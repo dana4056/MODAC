@@ -35,7 +35,7 @@ public class ArticleController {
     @PostMapping
     public ResponseEntity<?> createArticle(@RequestBody final ArticleRequest articleRequest) {
         return new ResponseEntity<ArticleResponse.ArticleInfo>(articleService.createArticle(articleRequest),
-            HttpStatus.OK);
+            HttpStatus.CREATED);
     }
 
     // 사용자 게시글 전체 조회 (GET)
@@ -56,7 +56,7 @@ public class ArticleController {
     @PostMapping("/{seq}/view")
     public ResponseEntity<?> upViewCount(@PathVariable("seq") final Long seq){
         articleService.upViewCount(seq);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     // 게시글 삭제 (DELETE)
@@ -78,7 +78,7 @@ public class ArticleController {
     // 게시글-유저 좋아요 관계 추가
     public ResponseEntity<?> createLike(@RequestBody LikeRequest likeRequest){
         articleService.createLike(likeRequest);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @DeleteMapping("/like")
