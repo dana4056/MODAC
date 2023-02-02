@@ -147,4 +147,39 @@ public class RoomServiceImpl implements RoomService{
 		roomRepository.save(room);
 	}
 
+	@Override
+	public void updateUserAttend(Long seq, Long userSeq, boolean isAttended) {
+		Room room = roomRepository.findById(seq).orElseThrow(NoSuchElementException::new);
+		List<Participant> participants = room.getParticipants();
+		for(Participant p: participants){
+			if(p.getParticipantPK().getUsersSeq().equals(userSeq)){
+				p.updateAttend(isAttended);
+				participantRepository.save(p);
+				break;
+			}
+		}
+		roomRepository.save(room);
+	}
+
+	@Override
+	public boolean isMember(Long seq, Long userSeq) {
+		Room room = roomRepository.findById(seq).orElseThrow(NoSuchElementException::new);
+		List<Participant> participants = room.getParticipants();
+		boolean isMember = false;
+		for(Participant p: participants){
+			if(p.getParticipantPK().getUsersSeq().equals(userSeq)){
+				isMember = true;
+				break;
+			}
+		}
+		return isMember;
+	}
+
+	@Override
+	public boolean isSameCode(Long seq, String code) {
+		Room room = roomRepository.findById(seq).orElseThrow(NoSuchElementException::new);
+		boolean isEqual = room.getInvitationCode().equals(code.trim());
+		return isEqual;
+	}
+
 }

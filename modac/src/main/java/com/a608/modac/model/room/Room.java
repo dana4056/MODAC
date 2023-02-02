@@ -84,7 +84,7 @@ public class Room {
 	}
 
 	@JsonProperty("participants")
-	public List<ParticipantResponse> getParticipant() {
+	public List<ParticipantResponse> getParticipantDTOs() {
 		System.out.println(participants);
 		return participants.stream().map(Participant::getParticipant).collect(Collectors.toList());
 	}

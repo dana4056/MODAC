@@ -30,13 +30,13 @@ public class RoomController {
 		this.roomService = roomService;
 	}
 
-	@PostMapping				// 멀티룸 생성
+	@PostMapping								// 멀티룸 생성
 	public ResponseEntity<?> createRoom(@RequestBody final RoomRequest roomRequest){
 		RoomResponse room = roomService.createRoom(roomRequest);
 		return new ResponseEntity<>(room, HttpStatus.OK);
 	}
 
-	@GetMapping				// 멀티룸 목록 조회
+	@GetMapping								// 멀티룸 목록 조회
 	public ResponseEntity<?> findAllRooms(@RequestParam(value = "user", required = false) Long userSeq){
 		if(userSeq == null){
 			// 모든 멀티룸 목록 조회
@@ -49,38 +49,52 @@ public class RoomController {
 		}
 	}
 
-	@GetMapping("/{seq}")	// 멀티룸 조회
+	@GetMapping("/{seq}")					// 멀티룸 조회
 	public ResponseEntity<?> findRoomById(@PathVariable("seq") final Long seq){
 		final RoomResponse roomById = roomService.findRoomById(seq);
 		return new ResponseEntity<RoomResponse>(roomById, HttpStatus.OK);
 	}
 
-	@PutMapping("/{seq}")	// 멀티룸 수정
+	@PutMapping("/{seq}")					// 멀티룸 수정
 	public ResponseEntity<?> updateTodo(@PathVariable("seq") final Long seq, @RequestBody RoomRequest roomRequest){
 		RoomResponse roomResponse = roomService.updateRoom(seq, roomRequest);
 		return new ResponseEntity<RoomResponse>(roomResponse, HttpStatus.OK);
 	}
 
-	@DeleteMapping("/{seq}")		// 멀티룸 삭제
+	@DeleteMapping("/{seq}")					// 멀티룸 삭제
 	public ResponseEntity<?> deleteTodo(@PathVariable("seq") final Long seq){
 		roomService.deleteRoom(seq);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
-	@PostMapping("/{seq}/join")		// 멀티룸에 참여
+	@PostMapping("/{seq}/join")				// 멀티룸에 참여
 	public ResponseEntity<?> joinRoom(@PathVariable("seq") final Long seq, @RequestBody String userSeq){
 		RoomResponse roomResponse = roomService.joinRoom(seq, Long.parseLong(userSeq));
 		return new ResponseEntity<RoomResponse>(roomResponse, HttpStatus.OK);
 	}
 
-	@DeleteMapping("/{seq}/join")		// 멀티룸에서 나가기
-	public ResponseEntity<?> participateRoom(@PathVariable("seq") final Long seq, @RequestBody String userSeq){
+	@DeleteMapping("/{seq}/join")			// 멀티룸에서 나가기
+	public ResponseEntity<?> exitRoom(@PathVariable("seq") final Long seq, @RequestBody String userSeq){
 		roomService.exitRoom(seq, Long.parseLong(userSeq));
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
+	@PutMapping("/{seq}/join")				// 멀티룸 참여상태 변경
+	public ResponseEntity<?> updateUserAttend(@PathVariable("seq") final Long seq, @RequestParam("user") final Long userSeq, @RequestParam("attend") final boolean isAttended){
+		roomService.updateUserAttend(seq, userSeq, isAttended);
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
 
+	@GetMapping("/{seq}/authorization")		// 참가자 인가 (비공개 멀티룸의 멤버인지 확인)
+	public ResponseEntity<?> userAuthorization(@PathVariable("seq") final Long seq, @RequestParam("user") final Long userSeq){
+		boolean isMember = roomService.isMember(seq, userSeq);
+		return new ResponseEntity<>(isMember, HttpStatus.OK);
+	}
 
-
+	@GetMapping("/{seq}/authentication")		// 참가자 인증 (입력한 초대코드가 방의 코드와 일치하는지 확인)
+	public ResponseEntity<?> userAuthentication(@PathVariable("seq") final Long seq, @RequestParam("code") final String code){
+		boolean isSameCode = roomService.isSameCode(seq, code);
+		return new ResponseEntity<>(isSameCode, HttpStatus.OK);
+	}
 
 }

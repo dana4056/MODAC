@@ -7,7 +7,7 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 -- -----------------------------------------------------
 -- Schema mydb
 -- -----------------------------------------------------
--- -----------------------------------------------------
+-- -users----------------------------------------------------
 -- Schema modac
 -- -----------------------------------------------------
 drop database `modac`;
@@ -321,6 +321,7 @@ CREATE TABLE IF NOT EXISTS `modac`.`participants` (
   `users_seq` INT NOT NULL,
   `nickname` VARCHAR(20) NULL,
   `status` INT NULL,
+  `attend` INT NULL,
   `cat_skin` INT NULL,
   `categories_name` VARCHAR(30) NULL,
   PRIMARY KEY (`rooms_seq`, `users_seq`),

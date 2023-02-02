@@ -32,7 +32,7 @@ public class RoomResponse {
 		this.multiTheme = room.getMultiTheme();
 		this.publicType = room.getPublicType();
 		this.invitationCode = room.getInvitationCode();
-		this.participants = room.getParticipant();
+		this.participants = room.getParticipantDTOs();
 		this.host = room.getHost();
 		this.chatRoom = room.getChatRoom();
 	}

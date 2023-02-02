@@ -14,4 +14,7 @@ public interface RoomService {
 	void deleteRoom(final Long seq);
 	RoomResponse joinRoom(final Long seq, final Long userSeq);
 	void exitRoom(Long seq, Long userSeq);
+	void updateUserAttend(final Long seq, final Long userSeq, final boolean isAttended);
+	boolean isMember(Long seq, Long userSeq);
+	boolean isSameCode(Long seq, String code);
 }
