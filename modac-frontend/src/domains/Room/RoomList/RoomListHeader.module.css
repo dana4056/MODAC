@@ -1,0 +1,71 @@
+
+.modal_item {
+  @apply flex w-full h-full flex-col py-2;
+	font-family: 'Pretendard';
+}
+
+.modal_title {
+  @apply text-xl font-semibold text-left w-full pb-8
+}
+
+.modal_button_group {
+	@apply w-full flex pt-1
+}
+
+.add_room_button_cancle {
+	@apply w-full text-sm text-white bg-gray-400 hover:bg-gray-600 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg px-5 py-2.5 m-1 text-center;
+	background-color: rgb(156 163 175) !important;
+}
+
+.add_room_button_add {
+	@apply w-full text-sm text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg px-5 py-2.5 m-1 text-center;
+	background-color: rgb(37, 99, 235) !important;
+}
+
+.add_room_button_add:disabled {
+	@apply border-gray-300 text-white;
+	background-color: rgb(209 213 219) !important;
+}
+/* 
+.add_room_button_add:disabled {
+	@apply border-gray-300 text-white;
+	background-color: rgb(239 68 68) !important;
+} */
+
+.add_room_div {
+	@apply pb-3 m-0.5 flex items-center w-full justify-between
+}
+
+.add_room_label {
+	@apply block text-sm font-semibold text-gray-900 dark:text-white w-24
+}
+
+.add_room_input {
+	@apply block w-4/5 p-2.5 text-sm rounded-lg border
+	bg-gray-50 border-gray-300 text-gray-900 
+	focus:ring-blue-500 focus:border-blue-500 
+	dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white
+}
+
+.add_room_input:disabled {
+	@apply bg-gray-300 border-gray-300 text-white
+}
+
+.add_room_radio_group_div {
+	@apply pb-3 m-0.5 flex items-center w-full justify-start
+}
+
+.add_room_radio_div {
+	@apply flex items-center
+}
+
+.add_room_radio_label {
+	@apply block text-sm font-semibold text-gray-900 dark:text-white w-14
+}
+.add_room_p {
+  @apply my-2 text-sm text-red-600 self-center text-center
+}
+
+.text_red {
+ @apply text-red-600
+}

@@ -16,14 +16,18 @@ const props = defineProps({
 // const closeModal = () => {
 //   isOpenModalState.value = false;
 // };
+
+
 </script>
 
 <template>
   <div>
-    <div :class="$style.backdrop" @click="props.closeModal"></div>
-    <div :class="$style.modal">
-      <slot></slot>
+    <div :class="$style.backdrop" @click="props.closeModal" id="backdrop">
+      <div :class="$style.modal">
+        <slot></slot>
+      </div>
     </div>
+    
   </div>
 </template>
 

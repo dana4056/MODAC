@@ -12,12 +12,24 @@ const roomExitConfirmModalState = ref(false);
 const openRoomExitConfirmModal = () => {
   roomExitConfirmModalState.value = true;
 };
-const closeRoomExitConfirmModal = () => {
-  roomExitConfirmModalState.value = false;
+const closeRoomExitConfirmModal = (event) => {
+  const backdropElement = ref();
+  const cancleElement = ref();
+  const exitElement = ref();
+
+  backdropElement.value = document.querySelector("#backdrop");
+  cancleElement.value = document.querySelector("#cancle")
+  exitElement.value = document.querySelector("#exit")
+
+  if (backdropElement.value === event.target 
+      || cancleElement.value === event.target 
+      || exitElement.value === event.target) {
+    roomExitConfirmModalState.value = false;
+  }
 };
 
-const exitRoom = () => {
-  closeRoomExitConfirmModal();
+const exitRoom = (event) => {
+  closeRoomExitConfirmModal(event);
   store.exitRoom();
 };
 </script>
@@ -38,9 +50,10 @@ const exitRoom = () => {
       <CommonButton
         @click="closeRoomExitConfirmModal"
         :class="$style.cancle_button"
+        id="cancle"
         >취소</CommonButton
       >
-      <CommonButton @click="exitRoom" :class="$style.exit_button"
+      <CommonButton @click="exitRoom" :class="$style.exit_button" id="exit"
         >나가기</CommonButton
       >
     </Modal>
