@@ -1,10 +1,10 @@
-<template lang="">
+<template>
   <div>
     <h1>여기는 TestView 입니다.</h1>
-    <FriendList />
+    <FollowButton/>
   </div>
 </template>
 <script setup>
-import FriendList from "@/domains/Room/Friend/FriendList.vue";
+import FollowButton from '@/components/FollowButton.vue';
 </script>
 <style lang="css"></style>
