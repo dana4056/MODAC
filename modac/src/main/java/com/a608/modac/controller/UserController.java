@@ -1,15 +1,25 @@
 package com.a608.modac.controller;
 
+import java.util.List;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.a608.modac.model.follow.Follow;
 import com.a608.modac.model.follow.FollowRequest;
 import com.a608.modac.model.user.UserRequest;
 import com.a608.modac.model.user.UserResponse;
 import com.a608.modac.service.UserService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @CrossOrigin(origins = { "*" })
 @RestController
@@ -31,7 +41,6 @@ public class UserController {
 	@GetMapping("/{seq}")			// 특정 회원 조회
 	public ResponseEntity<?> findUser(@PathVariable("seq") Long seq){
 		UserResponse userResponse = userService.findUserBySeq(seq);
-		System.out.println("controller");
 		return new ResponseEntity<UserResponse>(userResponse, HttpStatus.OK);
 	}
 
@@ -103,14 +112,20 @@ public class UserController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
-	@GetMapping						// 특정 회원의 팔로잉 혹은 팔로워 회원 목록 조회
-	public ResponseEntity<?> findFollowingList(@RequestParam("filter") String filter, @RequestParam("user") Long seq){
+	@GetMapping                        // 특정 회원의 팔로잉 혹은 팔로워 회원 목록 조회
+	public ResponseEntity<?> findFollowingList(@RequestParam("filter") String filter, @RequestParam("user") Long seq) {
 		List<Follow> list = null;
-		if(filter.equals("following")){
+		if (filter.equals("following")) {
 			list = userService.findFollowingList(seq);
-		}else if(filter.equals("follower")){
+		} else if (filter.equals("follower")) {
 			list = userService.findFollowerList(seq);
 		}
 		return new ResponseEntity<List<Follow>>(list, HttpStatus.OK);
+	}
+
+	@PutMapping("/{seq}/point")
+	public ResponseEntity<?> updatePoint(@PathVariable("seq") Long seq, @RequestBody String point) {
+		userService.updatePoint(seq, point);
+		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
 }

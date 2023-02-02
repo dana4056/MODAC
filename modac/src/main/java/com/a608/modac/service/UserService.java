@@ -29,13 +29,15 @@ public interface UserService {
 	
 	boolean checkAvailableEmail(final String email);// 이메일 중복확인
 
-	boolean login(UserRequest userRequest);			// 로그인
-	
-	void following(FollowRequest followRequest);	// 팔로잉
+	boolean login(UserRequest userRequest);            // 로그인
 
-	void unFollowing(FollowRequest followRequest);	// 언팔로잉
+	void following(FollowRequest followRequest);    // 팔로잉
+
+	void unFollowing(FollowRequest followRequest);    // 언팔로잉
 
 	List<Follow> findFollowingList(Long seq);
 
 	List<Follow> findFollowerList(Long seq);
+
+	void updatePoint(Long seq, String point); // 포인트 추가
 }

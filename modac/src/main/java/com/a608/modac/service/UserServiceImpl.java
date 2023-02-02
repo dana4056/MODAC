@@ -1,47 +1,42 @@
 package com.a608.modac.service;
 
-import com.a608.modac.model.chatting.ChatRoom;
-import com.a608.modac.model.membership.Membership;
-import com.a608.modac.repository.ChatRoomRepository;
-import com.a608.modac.model.follow.Follow;
-import com.a608.modac.repository.FollowRepository;
-import com.a608.modac.model.follow.FollowRequest;
-import com.a608.modac.model.user.User;
-import com.a608.modac.repository.MembershipRepository;
-import com.a608.modac.repository.UserRepository;
-import com.a608.modac.model.user.UserRequest;
-import com.a608.modac.model.user.UserResponse;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import org.springframework.stereotype.Service;
+
+import com.a608.modac.model.chatting.ChatRoom;
+import com.a608.modac.model.follow.Follow;
+import com.a608.modac.model.follow.FollowRequest;
+import com.a608.modac.model.user.User;
+import com.a608.modac.model.user.UserRequest;
+import com.a608.modac.model.user.UserResponse;
+import com.a608.modac.repository.ChatRoomRepository;
+import com.a608.modac.repository.FollowRepository;
+import com.a608.modac.repository.UserRepository;
+
 @Service
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final FollowRepository followRepository;
     private final ChatRoomRepository chatRoomRepository;
-    private final MembershipRepository membershipRepository;
 
-    public UserServiceImpl(UserRepository userRepository, FollowRepository followRepository, ChatRoomRepository chatRoomRepository,
-        MembershipRepository membershipRepository) {
+    public UserServiceImpl(UserRepository userRepository, FollowRepository followRepository,
+        ChatRoomRepository chatRoomRepository) {
         this.userRepository = userRepository;
         this.followRepository = followRepository;
         this.chatRoomRepository = chatRoomRepository;
-        this.membershipRepository = membershipRepository;
     }
 
     @Override
     public UserResponse saveUser(UserRequest userRequest) { // 회원 저장
-        Membership bronze = membershipRepository.findById("bronze").orElseThrow(() -> new NoSuchElementException("NoMembership"));
-
         // 고양이 스킨 번호 랜덤 (1~12)
         double min = 1;
         double max = 12;
         byte skin = (byte) ((Math.random() * (max - min)) + min);
 
-        User save = userRepository.save(userRequest.toEntity(bronze, skin));
+        User save = userRepository.save(userRequest.toEntity(skin));
         System.out.println(save);
         return new UserResponse(save);
     }
@@ -151,5 +146,13 @@ public class UserServiceImpl implements UserService{
     public List<Follow> findFollowerList(Long seq) {
         List<Follow> list = followRepository.findAllByToUser_Seq(seq);
         return list;
+    }
+
+    // 출석체크시 20포인트 적립
+    @Override
+    public void updatePoint(Long seq, String point) {
+        User user = userRepository.findById(seq).orElseThrow(() -> new NoSuchElementException("NoUser"));
+        user.updatePoint(Integer.parseInt(point));
+        userRepository.save(user);
     }
 }
