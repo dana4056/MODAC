@@ -8,7 +8,7 @@
 }
 
 .article_container_above{
-  @apply flex mb-5 pl-5 pr-5;
+  @apply flex pl-5 pr-5;
   height: 10%
 }
 

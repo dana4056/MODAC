@@ -4,11 +4,10 @@
 }
 
 .app_navbar {
-  /* @apply basis-1/12; */
-  height: 10%;
+  @apply basis-1/12;
 }
 
 .app_section {
-  /* @apply basis-11/12; */
-  height: 90%;
+  @apply basis-11/12;
+  overflow: auto;
 }
