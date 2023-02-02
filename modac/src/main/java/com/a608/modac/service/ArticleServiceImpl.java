@@ -1,5 +1,6 @@
 package com.a608.modac.service;
 
+import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -60,6 +61,22 @@ public class ArticleServiceImpl implements ArticleService {
 			.orElseThrow(() -> new NoSuchElementException("NoTodo")); // todosSeq를 이용하여 todo 호출
 		Article save = articleRepository.save(articleRequest.toEntity(todo));// Article 빌드 후 저장
 		System.out.println("+++++++++++++++++++++" + save);
+
+		// 게시글 등록 시 30포인트 적립
+		Integer point = 30;
+		LocalDateTime nowLDT = LocalDateTime.now(); // 현재 시간
+		DayOfWeek dayOfWeek = nowLDT.getDayOfWeek(); // 현재 요일
+		if (nowLDT.getHour() < 6) { // 현재 시간이 오전 12:00 ~ 오전 5:59일 경우
+			dayOfWeek = dayOfWeek.minus(1); // 전날로 취급함
+		}
+		if (dayOfWeek == DayOfWeek.SUNDAY || dayOfWeek == DayOfWeek.SATURDAY) {
+			point += 30; // 현재 요일을 검사해서 토, 일요일이면 30포인트 더 지급
+		}
+		User user = userRepository.findById(articleRequest.getUsersSeq())
+			.orElseThrow(() -> new NoSuchElementException("NoUser"));
+		user.updatePoint(point);
+		userRepository.save(user);
+
 		return new ArticleResponse.ArticleInfo(save);
 	}
 
