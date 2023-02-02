@@ -30,9 +30,9 @@ public class TodoServiceImpl implements TodoService{
 	@Override
 	public TodoResponse saveTodo(final TodoRequest todoRequest) {
 
-		User user = userRepository.findById(todoRequest.getUsersSeq()).orElseThrow(NoSuchElementException::new);
+		User user = userRepository.findById(todoRequest.getUsersSeq()).orElseThrow(() -> new NoSuchElementException("NoUser"));
 		Category category = categoryRepository.findById(todoRequest.getCategoriesName())
-			.orElseThrow(NoSuchElementException::new);
+			.orElseThrow(() -> new NoSuchElementException("NoCategory"));
 
 		Todo save = todoRepository.save(todoRequest.toEntity(user, category));
 
@@ -41,13 +41,13 @@ public class TodoServiceImpl implements TodoService{
 
 	@Override
 	public TodoResponse findTodo(final Long seq) {
-		Todo todo = todoRepository.findById(seq).orElseThrow(NoSuchElementException::new);
+		Todo todo = todoRepository.findById(seq).orElseThrow(() -> new NoSuchElementException("NoTodo"));
 		return new TodoResponse(todo);
 	}
 
 	@Override
 	public TodoResponse updateTodo(final Long seq, final TodoRequest todoRequest){
-		Todo findTodo = todoRepository.findById(seq).orElseThrow(NoSuchElementException::new);
+		Todo findTodo = todoRepository.findById(seq).orElseThrow(() -> new NoSuchElementException("NoTodo"));
 		findTodo.updateTodo(todoRequest.getTitle(), todoRequest.getStatus(), todoRequest.getTotalSecond());
 
 		Todo save = todoRepository.save(findTodo);
@@ -58,6 +58,7 @@ public class TodoServiceImpl implements TodoService{
 
 	@Override
 	public void deleteTodo(final Long seq) {
+		todoRepository.findById(seq).orElseThrow(() -> new NoSuchElementException("NoTodo"));
 		todoRepository.deleteById(seq);
 	} // todo 삭제
 

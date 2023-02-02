@@ -36,7 +36,7 @@ public class CommentController {
 	@PostMapping
 	public ResponseEntity<?> createComment(@RequestBody final CommentRequest commentRequest) {
 		CommentResponse comment = commentService.createComment(commentRequest);
-		return new ResponseEntity<CommentResponse>(comment, HttpStatus.OK);
+		return new ResponseEntity<CommentResponse>(comment, HttpStatus.CREATED);
 	}
 
 	// 댓글 삭제 (DELETE)

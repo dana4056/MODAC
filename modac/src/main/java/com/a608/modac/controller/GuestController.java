@@ -56,7 +56,7 @@ public class GuestController {
 	public ResponseEntity<Void> addGuestInfo(@RequestBody final GuestRequest guestRequest){
 		guestService.addGuestInfo(guestRequest);
 
-		return new ResponseEntity<>(HttpStatus.OK);
+		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
 
 }

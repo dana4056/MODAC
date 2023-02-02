@@ -51,7 +51,7 @@ public class RoomServiceImpl implements RoomService{
 
 	@Override
 	public RoomResponse createRoom(final RoomRequest roomRequest) {
-		User user = userRepository.findById(roomRequest.getUsersSeq()).orElseThrow(NoSuchElementException::new);
+		User user = userRepository.findById(roomRequest.getUsersSeq()).orElseThrow(() -> new NoSuchElementException("NoUser"));
 		String code = null;
 		if(roomRequest.getPublicType() == 0){ // 비공개방일때
 			// 초대코드 생성 (대충 6자리코드)
@@ -68,7 +68,7 @@ public class RoomServiceImpl implements RoomService{
 
 	@Override
 	public RoomResponse updateRoom(final Long seq, final RoomRequest roomRequest) {
-		Room room = roomRepository.findById(seq).orElseThrow(NoSuchElementException::new);
+		Room room = roomRepository.findById(seq).orElseThrow(() -> new NoSuchElementException("NoRoom"));
 		room.updateRoom(roomRequest.getTitle(),
 			roomRequest.getDescription(),
 			roomRequest.getMultiTheme());
@@ -77,6 +77,7 @@ public class RoomServiceImpl implements RoomService{
 
 	@Override
 	public void deleteRoom(final Long seq) {
+		roomRepository.findById(seq).orElseThrow(() -> new NoSuchElementException("NoRoom"));
 		roomRepository.deleteById(seq);
 	}
 

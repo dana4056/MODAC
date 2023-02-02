@@ -34,11 +34,12 @@ public class GuestServiceImpl implements GuestService {
 
 	@Override
 	public void deleteGuestInfo(final Long usersSeq, final Long roomsSeq) {
-		User user = userRepository.findById(usersSeq).orElseThrow(NoSuchElementException::new);
-		Room room = roomRepository.findById(roomsSeq).orElseThrow(NoSuchElementException::new);
+		User user = userRepository.findById(usersSeq).orElseThrow(() -> new NoSuchElementException("NoUser"));
+		Room room = roomRepository.findById(roomsSeq).orElseThrow(() -> new NoSuchElementException("NoRoom"));
 
 		final GuestPK guestPK = GuestPK.builder().user(user).room(room).build();
 
+		guestRepository.findById(guestPK).orElseThrow(() -> new NoSuchElementException("NoGuest"));
 		guestRepository.deleteById(guestPK);
 	}
 
@@ -52,8 +53,8 @@ public class GuestServiceImpl implements GuestService {
 	@Override
 	public GuestResponse findMyRoom(final Long usersSeq, final Long roomsSeq) {
 
-		User user = userRepository.findById(usersSeq).orElseThrow(NoSuchElementException::new);
-		Room room = roomRepository.findById(roomsSeq).orElseThrow(NoSuchElementException::new);
+		User user = userRepository.findById(usersSeq).orElseThrow(() -> new NoSuchElementException("NoUser"));
+		Room room = roomRepository.findById(roomsSeq).orElseThrow(() -> new NoSuchElementException("NoRoom"));
 
 		final GuestPK guestPK = GuestPK.builder().user(user).room(room).build();
 		final Optional<Guest> findMyRoom = guestRepository.findById(guestPK);
@@ -71,8 +72,8 @@ public class GuestServiceImpl implements GuestService {
 		final String invitationCode = guestRequest.getInvitationCode(); // 유저가 입력한 비공개방 초대코드
 
 		// 비공개 방 초대코드와 비교하여 게스트 입장여부 결정
-		User user = userRepository.findById(guestRequest.getUsersSeq()).orElseThrow(NoSuchElementException::new);
-		Room room = roomRepository.findById(guestRequest.getRoomsSeq()).orElseThrow(NoSuchElementException::new);
+		User user = userRepository.findById(guestRequest.getUsersSeq()).orElseThrow(() -> new NoSuchElementException("NoUser"));
+		Room room = roomRepository.findById(guestRequest.getRoomsSeq()).orElseThrow(() -> new NoSuchElementException("NoRoom"));
 		guestRepository.save(guestRequest.toEntity(user, room));
 
 	}

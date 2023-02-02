@@ -34,7 +34,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public UserResponse saveUser(UserRequest userRequest) { // 회원 저장
-        Membership bronze = membershipRepository.findById("bronze").orElseThrow(NoSuchElementException::new);
+        Membership bronze = membershipRepository.findById("bronze").orElseThrow(() -> new NoSuchElementException("NoMembership"));
         User save = userRepository.save(userRequest.toEntity(bronze));
         System.out.println(save);
         return new UserResponse(save);
@@ -42,9 +42,8 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public UserResponse updateUser(Long seq, UserRequest userRequest) {
-        User findUser = userRepository.findById(seq).orElseThrow(NoSuchElementException::new);
+        User findUser = userRepository.findById(seq).orElseThrow(() -> new NoSuchElementException("NoUser"));
         findUser.updateUser(userRequest.getNickname(),userRequest.getEmail());
-
         User save = userRepository.save(findUser);
         return new UserResponse(save);
     }
@@ -52,22 +51,22 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public void updatePassword(Long seq, String password) {
-        User findUser = userRepository.findById(seq).orElseThrow(NoSuchElementException::new);
+        User findUser = userRepository.findById(seq).orElseThrow(() -> new NoSuchElementException("NoUser"));
         findUser.updatePassword(password);
-
         userRepository.save(findUser);
     }
 
     @Override
     public void deleteUser(Long seq) {
+        userRepository.findById(seq).orElseThrow(() -> new NoSuchElementException("NoUser"));
         userRepository.deleteById(seq);
     }
 
     @Override
     public UserResponse findUserBySeq(Long seq) {
-        User findUser = userRepository.findById(seq).orElseThrow(NoSuchElementException::new);
-        UserResponse userResponse = new UserResponse(findUser);
-        return userResponse;
+        User findUser = userRepository.findById(seq).orElseThrow(() -> new NoSuchElementException("NoUser"));
+        System.out.println("service");
+        return new UserResponse(findUser);
     }
 
     @Override
@@ -123,8 +122,8 @@ public class UserServiceImpl implements UserService{
             chatRoom = chatRoomRepository.save(new ChatRoom());
         }
 
-        User fromUser = userRepository.findById(followRequest.getFromSeq()).orElseThrow(NoSuchElementException::new);
-        User toUser = userRepository.findById(followRequest.getToSeq()).orElseThrow(NoSuchElementException::new);
+        User fromUser = userRepository.findById(followRequest.getFromSeq()).orElseThrow(() -> new NoSuchElementException("NoUser"));
+        User toUser = userRepository.findById(followRequest.getToSeq()).orElseThrow(() -> new NoSuchElementException("NoUser"));
 
         followRepository.save(new Follow(null, fromUser, toUser, chatRoom));
     }
@@ -132,6 +131,7 @@ public class UserServiceImpl implements UserService{
     @Override
     public void unFollowing(FollowRequest followRequest) {
         Follow following = followRepository.findFollowByFromUser_SeqAndToUser_Seq(followRequest.getFromSeq(), followRequest.getToSeq());
+        followRepository.findById(following.getSeq()).orElseThrow(() -> new NoSuchElementException("NoFollowing"));
         followRepository.delete(following);
     }
 

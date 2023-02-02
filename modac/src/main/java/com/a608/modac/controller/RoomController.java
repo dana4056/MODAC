@@ -34,7 +34,7 @@ public class RoomController {
 	@PostMapping				// 멀티룸 생성
 	public ResponseEntity<?> createRoom(@RequestBody final RoomRequest roomRequest){
 		RoomResponse room = roomService.createRoom(roomRequest);
-		return new ResponseEntity<>(room, HttpStatus.OK);
+		return new ResponseEntity<>(room, HttpStatus.CREATED);
 	}
 
 	@GetMapping				// 멀티룸 목록 조회
@@ -54,7 +54,7 @@ public class RoomController {
 		roomService.updateRoom(seq, roomRequest);
 		final List<RoomResponse> allRooms = roomService.findAllRooms();
 
-		return new ResponseEntity<>(allRooms, HttpStatus.OK);
+		return new ResponseEntity<>(allRooms, HttpStatus.CREATED);
 	}
 
 

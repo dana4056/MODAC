@@ -32,13 +32,13 @@ public class CommentServiceImpl implements CommentService {
 	@Override
 	public CommentResponse createComment(final CommentRequest commentRequest) {
 
-		Article article = articleRepository.findById(commentRequest.getArticlesSeq()).orElseThrow(NoSuchElementException::new);
+		Article article = articleRepository.findById(commentRequest.getArticlesSeq()).orElseThrow(() -> new NoSuchElementException("NoArticle"));
 
 		//댓글수 하나 올려서 저장
 		article.updateCommentCount(1);
 		articleRepository.save(article);
 
-		User user = userRepository.findById(commentRequest.getUsersSeq()).orElseThrow(NoSuchElementException::new);
+		User user = userRepository.findById(commentRequest.getUsersSeq()).orElseThrow(() -> new NoSuchElementException("NoUser"));
 		Comment save = commentRepository.save(commentRequest.toEntity(article, user));
 		return new CommentResponse(save);
 	}
@@ -47,7 +47,7 @@ public class CommentServiceImpl implements CommentService {
 	@Override
 	public void deleteComment(final Long seq) {
 
-		Comment comment = commentRepository.findById(seq).orElseThrow(NoSuchElementException::new);
+		Comment comment = commentRepository.findById(seq).orElseThrow(() -> new NoSuchElementException("NoComment"));
 		Article article = comment.getArticle();
 
 		//댓글수 하나 내려서 저장

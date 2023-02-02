@@ -57,7 +57,7 @@ public class ArticleServiceImpl implements ArticleService {
 	@Override
 	public ArticleResponse.ArticleInfo createArticle(final ArticleRequest articleRequest) {
 		Todo todo = todoRepository.findById(articleRequest.getTodosSeq())
-			.orElseThrow(NoSuchElementException::new); // todosSeq를 이용하여 todo 호출
+			.orElseThrow(() -> new NoSuchElementException("NoTodo")); // todosSeq를 이용하여 todo 호출
 		Article save = articleRepository.save(articleRequest.toEntity(todo));// Article 빌드 후 저장
 		System.out.println("+++++++++++++++++++++" + save);
 		return new ArticleResponse.ArticleInfo(save);
@@ -118,14 +118,14 @@ public class ArticleServiceImpl implements ArticleService {
 	// 게시글 번호로 게시글 조회
 	@Override
 	public ArticleResponse.ArticleInfo readArticleBySeq(final Long seq) {
-		return new ArticleResponse.ArticleInfo(
-			articleRepository.findById(seq).orElseThrow(NoSuchElementException::new));
+		Article article = articleRepository.findById(seq).orElseThrow(() -> new NoSuchElementException("NoArticle"));
+		return new ArticleResponse.ArticleInfo(article);
 	}
 
 	// 게시글 조회수 업
 	@Override
 	public void upViewCount(final Long seq) {
-		Article article = articleRepository.findById(seq).orElseThrow(NoSuchElementException::new);
+		Article article = articleRepository.findById(seq).orElseThrow(() -> new NoSuchElementException("NoArticle"));
 		article.upViewCount();
 		articleRepository.save(article);
 	}
@@ -133,6 +133,7 @@ public class ArticleServiceImpl implements ArticleService {
 	// 게시글 번호로 게시글 삭제
 	@Override
 	public void deleteArticleBySeq(final Long seq) {
+		Article article = articleRepository.findById(seq).orElseThrow(() -> new NoSuchElementException("NoArticle"));
 		articleRepository.deleteById(seq);
 	}
 
@@ -145,8 +146,8 @@ public class ArticleServiceImpl implements ArticleService {
 		Long articlesSeq = likeRequest.getArticlesSeq();
 		Long usersSeq = likeRequest.getUsersSeq();
 
-		Article article = articleRepository.findById(articlesSeq).orElseThrow(NoSuchElementException::new);
-		User user = userRepository.findById(usersSeq).orElseThrow(NoSuchElementException::new);
+		Article article = articleRepository.findById(articlesSeq).orElseThrow(() -> new NoSuchElementException("NoArticle"));
+		User user = userRepository.findById(usersSeq).orElseThrow(() -> new NoSuchElementException("NoUser"));
 
 		// 좋아요수 1증가 후 저장
 		article.updateLikeCount(1);
@@ -163,7 +164,7 @@ public class ArticleServiceImpl implements ArticleService {
 		Long articlesSeq = likeRequest.getArticlesSeq();
 		Long usersSeq = likeRequest.getUsersSeq();
 
-		Article article = articleRepository.findById(articlesSeq).orElseThrow(NoSuchElementException::new);
+		Article article = articleRepository.findById(articlesSeq).orElseThrow(() -> new NoSuchElementException("NoArticle"));
 
 		// 좋아요수 1 감소 후 저장
 		article.updateLikeCount(-1);
@@ -171,6 +172,7 @@ public class ArticleServiceImpl implements ArticleService {
 
 		// 좋아요 테이블에서 관계 삭제
 		Like like = likeRepository.findLikeByArticle_SeqAndUser_Seq(articlesSeq, usersSeq);
+		likeRepository.findById(like.getSeq()).orElseThrow(() -> new NoSuchElementException("NoLike"));
 		likeRepository.delete(like);
 	}
 
