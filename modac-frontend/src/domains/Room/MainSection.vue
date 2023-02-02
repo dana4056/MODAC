@@ -20,6 +20,11 @@ const exitRoom = () => {
   closeRoomExitConfirmModal();
   store.exitRoom();
 };
+
+const categoryValue = ref("기획");
+const changeCategoryValue = () => {
+  categoryValue.value = "알고리즘";
+};
 </script>
 
 <template>

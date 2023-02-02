@@ -1,0 +1,5 @@
+.squareButtonStyle {
+  background: #ff5656;
+  border-radius: 8px;
+  @apply p-4;
+}
