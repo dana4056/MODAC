@@ -3,6 +3,7 @@
   @apply flex-wrap;
   align-content: flex-start;
   justify-content: space-between;
+	font-family: 'Pretendard';
 }
 
 .side_bar_flex_item {
@@ -14,6 +15,8 @@
 }
 
 .study_room_flex_item {
-  flex-basis: 32%;
-  @apply h-52;
+  /* flex-basis: 32%; */
+  flex-basis: 30%;
+  /* @apply h-52; */
+  @apply h-44;
 }

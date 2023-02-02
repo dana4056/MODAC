@@ -1,7 +1,7 @@
 .tabs_flex {
 	font-family: 'Pretendard';
   /* @apply h-3/4 flex justify-center */
-  @apply h-5/6 flex justify-center
+  @apply h-5/6 flex justify-center bg-white
 }
 
 .tabs_width {

@@ -105,9 +105,28 @@ const AddRoom = () => {
 </script>
 
 <template>
-  <h1>멀티룸 리스트</h1>
-  <button type="button" @click="openRoomAddConfirmModal">멀티룸 생성하기 -></button>
-  <input type="text" placeholder="원하는 방을 검색해보세요." />
+  <div :class="$style.flex_row">
+    <h1 :class="$style.page_title">멀티룸 리스트</h1>
+    <button type="button" @click="openRoomAddConfirmModal" :class="$style.room_add_button">멀티룸 생성하기 →</button>
+    <!-- <input type="text" placeholder="원하는 방을 검색해보세요." /> -->
+    
+    <form :class="$style.searchbar_flex">   
+        <label for="simple-search" class="sr-only">Search</label>
+        <div :class="$style.searchbar_content_bar">
+            <div :class="$style.searchbar_content_icon">
+                <svg aria-hidden="true" :class="$style.searchbar_content_icon_svg" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path>
+                </svg>
+            </div>
+            <input type="text" id="simple-search" :class="$style.searchbar_content_input" placeholder="원하는 방을 검색해보세요" required>
+        </div>
+        <button type="submit" :class="$style.searchbar_content_button">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+            <span class="sr-only">Search</span>
+        </button>
+    </form>
+
+  </div>
 
   <Teleport to="body">
     <Modal
