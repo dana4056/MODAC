@@ -2,7 +2,6 @@
 <div :class="$style.tabs_flex">
     <form @submit.prevent="submitUpdatePassword(updatePassword)" :class="$style.update_password_form">
       <!-- 입력 전 -->
-      <!-- <div v-if="user_new_password === ''" :class="$style.update_password_div"> -->
       <div :class="$style.update_password_div">
         <label for="user_new_password_input" 
               :class="$style.update_password_label">
@@ -20,9 +19,6 @@
                   autocomplete='off'
                   autofocus>
           <p :class="$style[checkMessage_css]">{{ checkMessage }}</p>
-          <!-- <p :class="$style.update_password_label_fail">
-            length : {{ length }} / lowercase : {{ lowercase }} / uppercase : {{ uppercase }} / number : {{ number }} / specialCharacters : {{ specialCharacters }}
-          </p> -->
           <p :class="$style.update_password_p">
             최소 8자리에서 최대 16자리까지 숫자, 영문 소문자, 대문자, 특수문자 각 1개 이상 포함하여 작성하세요.
           </p>
@@ -75,8 +71,6 @@ let reg_pass4 = /^(?=.*[@$!%*#?&]).*$/; // 특수문자
 
 let user_new_password = ref("");
 let user_new_password_check = ref("");
-// let checkCode = ref("0");
-
 
 const updatePassword = () => {
   if (confirm("비밀번호를 변경하시겠습니까?") == true) {
@@ -91,21 +85,20 @@ let length = computed(() => {
 })
 
 let lowercase = computed(() => {
-  return (reg_pass1.test(user_new_password.value)) ? true : false
+  return reg_pass1.test(user_new_password.value)
 })
 
 let uppercase = computed(() => {
-  return (reg_pass2.test(user_new_password.value)) ? true : false
+  return reg_pass2.test(user_new_password.value)
 })
 
 let number = computed(() => {
-  return (reg_pass3.test(user_new_password.value)) ? true : false
+  return reg_pass3.test(user_new_password.value)
 })
 
 let specialCharacters = computed(() => {
-  return (reg_pass4.test(user_new_password.value)) ? true : false
+  return reg_pass4.test(user_new_password.value)
 })
-
 
 let checkCode = computed(() => {
   if (user_new_password.value == "") return 6
@@ -127,6 +120,12 @@ let checkMessage = computed(() => {
   return ""
 })
 
+let checkMessage2 = computed(() => {
+  if (user_new_password_check.value === "") return ""
+  if (user_new_password_check.value !== user_new_password.value) return "비밀번호 확인은 새 비밀번호와 동일하게 입력해주세요."
+  return "확인이 완료되었습니다."
+})
+
 const update_password_input_css = computed(() => {
   if (checkCode.value === 6) return "update_password_input";
   if (checkCode.value === 0) return "update_password_input_success";
@@ -145,18 +144,11 @@ const update_password_check_input_css = computed(() => {
   return "update_password_input_fail";
 })
 
-let checkMessage2 = computed(() => {
-  if (user_new_password_check.value === "") return ""
-  if (user_new_password_check.value !== user_new_password.value) return "비밀번호 확인은 새 비밀번호와 동일하게 입력해주세요."
-  return "확인이 완료되었습니다."
-})
-
 const checkMessage2_css = computed(() => {
   if (user_new_password_check.value === "") return "update_password_p";
   if (user_new_password_check.value === user_new_password.value) return "update_password_p_success";
   return "update_password_p_fail";
 })
-
 
 </script>
 
