@@ -12,7 +12,8 @@ onMounted(() => {
   editor.value = new Editor({
     // options
     el: document.querySelector("#editor"),
-    height: "500px",
+    height: "100%",
+    width: "50%",
     initialValue: `# Hello Markdown Editor!`, // Editor에 처음으로 적혀있는 글
     initialEditType: "markdown",
     // theme: "dark", // 다크테마 적용하기
@@ -39,7 +40,7 @@ onMounted(() => {
 
 <template>
   <div id="editor"></div>
-  <button @click="getMarkdown">그냥 이벤트 호출해주는 버튼</button>
+  <!-- <button @click="getMarkdown">그냥 이벤트 호출해주는 버튼</button> -->
 </template>
 
 <style lang=""></style>

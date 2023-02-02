@@ -12,6 +12,7 @@ import GithubTest3 from "../views/GithubTest3.vue";
 import GithubTest4 from "../views/GithubTest4.vue";
 import ChatList from "../domains/Room/Chat/ChatList.vue";
 import MyPageView from "../views/MyPageView.vue";
+import FeedView from "@/views/FeedView.vue"
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -40,6 +41,11 @@ const router = createRouter({
       path: "/article",
       name: "article",
       component: ArticleView,
+    },
+    {
+      path: "/feed",
+      name: "feed",
+      component: FeedView,
     },
     {
       path: "/before",
