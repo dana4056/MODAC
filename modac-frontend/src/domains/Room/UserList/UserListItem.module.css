@@ -1,0 +1,13 @@
+.user_section {
+  @apply h-full w-full;
+  @apply p-2;
+}
+
+.card_style {
+  @apply h-full w-full;
+  /* @apply ; */
+}
+
+.display_inline_block {
+  @apply inline-block;
+}
