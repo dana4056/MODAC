@@ -29,7 +29,7 @@ public interface UserService {
 	
 	boolean checkAvailableEmail(final String email);// 이메일 중복확인
 
-	boolean login(UserRequest userRequest);			// 로그인
+	String login(UserRequest userRequest);			// 로그인
 	
 	void following(FollowRequest followRequest);	// 팔로잉
 
