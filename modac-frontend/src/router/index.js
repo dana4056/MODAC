@@ -11,6 +11,7 @@ import GithubTest2_2 from "../views/GithubTest2-2.vue";
 import GithubTest3 from "../views/GithubTest3.vue";
 import GithubTest4 from "../views/GithubTest4.vue";
 import ChatList from "../domains/Room/Chat/ChatList.vue";
+import MyPageView from "../views/MyPageView.vue";
 import FeedView from "@/views/FeedView.vue"
 
 const router = createRouter({
@@ -70,6 +71,11 @@ const router = createRouter({
       path: "/repo/:user/:repo",
       name: "repo",
       component: GithubTest4,
+    },
+    {
+      path: "/myPage",
+      name: "myPage",
+      component: MyPageView,
     },
   ],
 });

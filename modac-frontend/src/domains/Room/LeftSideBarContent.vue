@@ -25,5 +25,5 @@ import TodoForm from "@/domains/Room/Todo/TodoForm.vue";
 </template>
 
 <style lang="css" module>
-@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.6/dist/web/static/pretendard.css");
+/* @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.6/dist/web/static/pretendard.css"); */
 </style>
