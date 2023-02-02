@@ -1,6 +1,5 @@
 <template>
   <div>
-    <h1 class="my_color my_size">나는 피드 아이템</h1>
     <FeedListItem
         :class="$style.feed_item"
         v-for="(feed, index) in computedFeedList"

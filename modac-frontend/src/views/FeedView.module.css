@@ -3,12 +3,12 @@
 
 
 .feed_container{
-  @apply flex-row h-full;
+  @apply flex-row h-full pl-14 pr-14;
 
 }
 
 .feed_container_above{
-  @apply flex mb-5 pl-5 pr-5;
+  @apply flex pl-5 pr-5;
   height: 10%
 }
 
@@ -27,9 +27,11 @@
 
 .feed_list{
   @apply basis-4/12 p-5;
+  height: 100%;
   overflow: auto;
 }
 
 .feed_viewer{
   @apply basis-8/12 ml-5 p-5;
+  height: 100%;
 }

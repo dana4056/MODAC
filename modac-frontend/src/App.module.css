@@ -9,4 +9,5 @@
 
 .app_section {
   @apply basis-11/12;
+  overflow: auto;
 }

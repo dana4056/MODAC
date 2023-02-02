@@ -10,7 +10,16 @@ export const useFeedStore = defineStore("feed", () => {
 
   
   const getFeeds = function(){
-    const originalTodos = [{feed_seq: 1, status: 1}, {feed_seq: 2, status: 2}, {feed_seq: 3, status: 2}, {feed_seq: 2, status: 2}, {feed_seq: 3, status: 2}, {feed_seq: 2, status: 2}, {feed_seq: 3, status: 2}]
+    const originalTodos = 
+      [
+        {feed_seq: 1, status: 1}, 
+        {feed_seq: 2, status: 2}, 
+        {feed_seq: 3, status: 2}, 
+        {feed_seq: 2, status: 2}, 
+        {feed_seq: 3, status: 2}, 
+        {feed_seq: 2, status: 2}, 
+        {feed_seq: 3, status: 2}
+      ]
 
     const filterFeeds = originalTodos.filter((elem) => { 
       console.log(elem)
