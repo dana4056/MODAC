@@ -1,0 +1,4 @@
+.test_bg {
+  @apply bg-lime-200;
+  @apply w-full h-full;
+}

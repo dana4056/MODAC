@@ -1,0 +1,6 @@
+.logo_wrapper {
+  @apply flex flex-shrink-0 items-center;
+}
+.text_color {
+  @apply text-yellow-50;
+}
