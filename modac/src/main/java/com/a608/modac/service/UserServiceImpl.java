@@ -24,9 +24,7 @@ public class UserServiceImpl implements UserService {
     private final ChatRoomRepository chatRoomRepository;
     private final JwtTokenProvider jwtTokenProvider;
 
-    public UserServiceImpl(UserRepository userRepository, FollowRepository followRepository,
-        ChatRoomRepository chatRoomRepository,
-        JwtTokenProvider jwtTokenProvider) {
+    public UserServiceImpl(UserRepository userRepository, FollowRepository followRepository, ChatRoomRepository chatRoomRepository, JwtTokenProvider jwtTokenProvider) {
         this.userRepository = userRepository;
         this.followRepository = followRepository;
         this.chatRoomRepository = chatRoomRepository;
