@@ -1,6 +1,5 @@
 .app_wrapper {
   @apply flex flex-col;
-  @apply w-full h-full;
 }
 
 .app_navbar {
