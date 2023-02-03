@@ -1,6 +1,8 @@
 package com.a608.modac.service;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -181,6 +183,20 @@ public class RoomServiceImpl implements RoomService{
 		Room room = roomRepository.findById(seq).orElseThrow(() -> new NoSuchElementException("NoRoom"));
 		boolean isEqual = room.getInvitationCode().equals(code.trim());
 		return isEqual;
+	}
+
+	@Override
+	public List<RoomResponse> searchRooms(final String keyword) {
+		List<Room> rooms = new ArrayList<>();
+		rooms.addAll(roomRepository.findAllByTitleContaining(keyword)); // 방 제목으로 검색 (List)
+		rooms.addAll(roomRepository.findAllByDescriptionContaining(keyword)); // 방 설명으로 검색 (List)
+		List<User> users = userRepository.findAllByNicknameContaining(keyword); // 방장 닉네임으로 검색 (List)
+		for(User user : users){
+			rooms.addAll(roomRepository.findAllByHost(user));
+		}
+		rooms.stream().distinct().collect(Collectors.toList()); // 중복 제거
+		Collections.sort(rooms, ((o1, o2) -> (int)(o2.getSeq() - o1.getSeq())));
+		return rooms.stream().map(RoomResponse::new).collect(Collectors.toList());
 	}
 
 }

@@ -1,5 +1,6 @@
 package com.a608.modac.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import com.a608.modac.model.user.User;
@@ -16,5 +17,5 @@ public interface UserRepository  extends JpaRepository<User, Long> {
     User findUserById(String id);
     Optional<User> findById(String id);
 
-
+    List<User> findAllByNicknameContaining(String keyword);
 }

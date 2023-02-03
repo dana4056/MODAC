@@ -11,12 +11,10 @@ import com.a608.modac.model.follow.FollowRequest;
 import com.a608.modac.model.user.User;
 import com.a608.modac.model.user.UserRequest;
 import com.a608.modac.model.user.UserResponse;
+import com.a608.modac.repository.ChatRoomRepository;
+import com.a608.modac.repository.FollowRepository;
+import com.a608.modac.repository.UserRepository;
 import com.a608.modac.security.JwtTokenProvider;
-
-import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.NoSuchElementException;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -24,15 +22,14 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final FollowRepository followRepository;
     private final ChatRoomRepository chatRoomRepository;
-    private final MembershipRepository membershipRepository;
     private final JwtTokenProvider jwtTokenProvider;
 
-    public UserServiceImpl(UserRepository userRepository, FollowRepository followRepository, ChatRoomRepository chatRoomRepository,
-        MembershipRepository membershipRepository, JwtTokenProvider jwtTokenProvider) {
+    public UserServiceImpl(UserRepository userRepository, FollowRepository followRepository,
+        ChatRoomRepository chatRoomRepository,
+        JwtTokenProvider jwtTokenProvider) {
         this.userRepository = userRepository;
         this.followRepository = followRepository;
         this.chatRoomRepository = chatRoomRepository;
-        this.membershipRepository = membershipRepository;
         this.jwtTokenProvider = jwtTokenProvider;
     }
 

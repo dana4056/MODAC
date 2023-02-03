@@ -37,15 +37,19 @@ public class RoomController {
 	}
 
 	@GetMapping								// 멀티룸 목록 조회
-	public ResponseEntity<?> findAllRooms(@RequestParam(value = "user", required = false) Long userSeq){
-		if(userSeq == null){
-			// 모든 멀티룸 목록 조회
-			final List<RoomResponse> allRooms = roomService.findAllRooms();
-			return new ResponseEntity<>(allRooms, HttpStatus.OK);
-		}else{
+	public ResponseEntity<?> findAllRooms(@RequestParam(value = "user", required = false) final Long userSeq, @RequestParam(value = "user", required = false) final String keyword){
+		if(userSeq != null) {
 			// 내가 참여중인 비공개 멀티룸 목록 조회
 			final List<RoomResponse> myRooms = roomService.findMyRooms(userSeq);
 			return new ResponseEntity<>(myRooms, HttpStatus.OK);
+		}
+		else if(keyword != null) {
+			return new ResponseEntity<List<RoomResponse>>(roomService.searchRooms(keyword), HttpStatus.OK);
+		}
+		else {
+			// 모든 멀티룸 목록 조회
+			final List<RoomResponse> allRooms = roomService.findAllRooms();
+			return new ResponseEntity<>(allRooms, HttpStatus.OK);
 		}
 	}
 

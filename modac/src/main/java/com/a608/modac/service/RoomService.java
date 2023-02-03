@@ -17,4 +17,5 @@ public interface RoomService {
 	void updateUserAttend(final Long seq, final Long userSeq, final boolean isAttended);
 	boolean isMember(Long seq, Long userSeq);
 	boolean isSameCode(Long seq, String code);
+	List<RoomResponse> searchRooms(final String keyword);
 }
