@@ -11,9 +11,12 @@ import com.a608.modac.model.follow.FollowRequest;
 import com.a608.modac.model.user.User;
 import com.a608.modac.model.user.UserRequest;
 import com.a608.modac.model.user.UserResponse;
-import com.a608.modac.repository.ChatRoomRepository;
-import com.a608.modac.repository.FollowRepository;
-import com.a608.modac.repository.UserRepository;
+import com.a608.modac.security.JwtTokenProvider;
+
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -21,12 +24,16 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final FollowRepository followRepository;
     private final ChatRoomRepository chatRoomRepository;
+    private final MembershipRepository membershipRepository;
+    private final JwtTokenProvider jwtTokenProvider;
 
-    public UserServiceImpl(UserRepository userRepository, FollowRepository followRepository,
-        ChatRoomRepository chatRoomRepository) {
+    public UserServiceImpl(UserRepository userRepository, FollowRepository followRepository, ChatRoomRepository chatRoomRepository,
+        MembershipRepository membershipRepository, JwtTokenProvider jwtTokenProvider) {
         this.userRepository = userRepository;
         this.followRepository = followRepository;
         this.chatRoomRepository = chatRoomRepository;
+        this.membershipRepository = membershipRepository;
+        this.jwtTokenProvider = jwtTokenProvider;
     }
 
     @Override
@@ -101,13 +108,23 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean login(UserRequest userRequest) {
-        User user = userRepository.findUserById(userRequest.getId());
-        if(user != null){
-            return user.getPassword().equals(userRequest.getPassword());
-        }else {
-            return false;
+    public String login(UserRequest userRequest) {
+        // User user = userRepository.findUserById(userRequest.getId());
+        User user = userRepository.findById(userRequest.getId()).orElseThrow(() -> new NoSuchElementException("NoUser"));
+
+        if(user.getPassword().equals(userRequest.getPassword())){
+           //로그인 성공
+            String token = jwtTokenProvider.createToken(user);
+            return token;
+        }else{
+            System.out.println("[로그인 실패] - 비밀번호 불일치");
+            return "false";
         }
+        // if(user != null){
+        //     return user.getPassword().equals(userRequest.getPassword());
+        // }else {
+        //     return false;
+        // }
     }
 
     @Override

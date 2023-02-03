@@ -96,8 +96,12 @@ public class UserController {
 
 	@PostMapping("/login")			// 로그인
 	public ResponseEntity<?> login(@RequestBody UserRequest userRequest){
-		Boolean isLoggedIn = userService.login(userRequest);
-		return new ResponseEntity<Boolean>(isLoggedIn, HttpStatus.OK);
+		String token = userService.login(userRequest);
+		if(token.equals("false")){
+			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+		}else{
+			return new ResponseEntity<String>(token, HttpStatus.OK);
+		}
 	}
 
 	@PostMapping("/follow")			// 중복저장 안되게 조심해야하는디..
