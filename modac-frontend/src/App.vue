@@ -1,5 +1,5 @@
 <script setup>
-import NavbarTop from "./components/NavbarTop.vue";
+import Navbar from "@/domains/Room/Navbar/Navbar.vue";
 import Wrapper from "./components/Wrapper.vue";
 import { useAuthStore } from "@/stores/auth";
 import { storeToRefs } from "pinia";
@@ -24,7 +24,7 @@ routePageForEnteredUser();
 <template>
   <Wrapper :class="$style.app_wrapper">
     <div v-if="isLoggedIn" id="header" :class="$style.app_navbar">
-      <NavbarTop />
+      <Navbar />
     </div>
     <div id="body" :class="$style.app_section">
       <RouterView />
