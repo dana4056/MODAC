@@ -1,4 +1,4 @@
-@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300);
+/* @import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300);
 #loginbody {
   box-sizing: border-box;
   margin: 0;
@@ -116,9 +116,8 @@
   width: 100%;
   height: 100%;
   z-index: 1;
-}
-.bg-bubbles div {
-  /* border-radius: 50%; */
+} */
+/* .bg-bubbles div {
   position: absolute;
   list-style: none;
   display: block;
@@ -204,11 +203,11 @@
   100% {
     transform: translateY(-1000px) rotate(600deg);
 }
-}
+} */
 
 /* 배경에 별 반짝이기 */
 
-@keyframes slide-transparency {
+/* @keyframes slide-transparency {
   0% {
     opacity: 0;
   }
@@ -265,7 +264,6 @@
   left: 0;
   width: 100%;
   height: 100%;
-  /* background-repeat: repeat; */
 }
 .top-left {
   background-image: url("../../assets/stars/topleft.png");
@@ -278,12 +276,12 @@
 }
 .bottom-right {
   background-image: url("../../assets/stars/bottomright.png");
-}
+} */
 
 
 /* input-form */
 
-.input-form {
+/* .input-form {
   width: 100%;
   float: left;
   position: relative;
@@ -337,10 +335,9 @@
   position: absolute;
   left: 15px;
   top: 50%;
-  /* color: #000; */
   font-weight: 600;
   font-size: 0.857em;
-}
+} */
 
 /* .input-form h4 {
   text-overflow: ellipsis;
@@ -349,7 +346,7 @@
   word-wrap: normal;
 } */
 
-.input-form .error-text {
+/* .input-form .error-text {
   width: 100%;
   float: left;
   color: #EE4B55;
@@ -374,4 +371,4 @@
   width: 600px;
   margin: 0px;
   z-index: 4;
-}
+} */
