@@ -30,7 +30,7 @@
 .item_enter_button {
   /* @apply border-gray-500 border rounded-lg py-1 px-8 w-fit mt-2 text-sm font-medium; */
   @apply rounded-lg py-1 px-8 w-fit mt-2 text-sm font-medium;
-  @apply text-gray-900 bg-gradient-to-r from-teal-200 to-lime-200 hover:bg-gradient-to-l hover:from-teal-200 hover:to-lime-200 focus:ring-4 focus:outline-none focus:ring-lime-200 dark:focus:ring-teal-700 font-medium rounded-lg text-sm px-8 py-1.5 text-center mr-2 mb-2;
+  @apply text-gray-900 bg-gradient-to-r from-teal-200 to-lime-200 hover:bg-gradient-to-l hover:from-teal-200 hover:to-lime-200 focus:ring-4 focus:outline-none focus:ring-lime-200 dark:focus:ring-teal-700 font-medium rounded-lg text-sm px-8 py-1.5 text-center;
 
 
 }

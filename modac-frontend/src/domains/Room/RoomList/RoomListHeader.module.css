@@ -5,7 +5,7 @@
 }
 
 .modal_title {
-  @apply text-xl font-semibold text-left w-full pb-8
+  @apply text-xl font-semibold text-left w-full pb-6 flex justify-between
 }
 
 .modal_button_group {
@@ -31,6 +31,11 @@
 	@apply border-gray-300 text-white;
 	background-color: rgb(239 68 68) !important;
 } */
+
+.add_room_button_reset {
+	@apply w-fit text-xs text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 rounded-lg px-5 py-1.5 m-1 text-center ;
+	background-color: rgb(220 38 38) !important;
+}
 
 .add_room_div {
 	@apply pb-3 m-0.5 flex items-center w-full justify-between
@@ -84,12 +89,16 @@
 	--tw-gradient-to: #3b82f6;
 }
 
+.flex_row_div {
+	@apply flex items-center gap-5 justify-between pb-8
+}
+
 .flex_row {
-	@apply flex items-center gap-5 pb-8
+	@apply flex items-center gap-5 justify-between
 }
 
 .searchbar_flex {
-	@apply flex items-center w-3/5
+	@apply flex items-center
 }
 
 .searchbar_content_bar {

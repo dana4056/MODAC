@@ -8,6 +8,11 @@ defineProps({
 });
 
 const store = useRoomStore();
+
+const enterRoom = () => {
+  //모달 띄워서 확인창
+  store.enterRoom();
+}
 </script>
 
 <template>
@@ -38,9 +43,18 @@ const store = useRoomStore();
         </div>
         <div :class="$style.item_host_theme">
           방장 &nbsp; <span :class="$style.item_host_theme_name">{{ roomItem.host.nickname }}</span>
-          &nbsp; | &nbsp; 테마 &nbsp; <span :class="$style.item_host_theme_name">{{ roomItem.multiTheme }}</span>
+          &nbsp; | &nbsp; 테마 &nbsp; 
+          <span v-if="roomItem.multiTheme === '기본'" :class="$style.item_host_theme_name">
+            모닥불🔥
+          </span>
+          <span v-if="roomItem.multiTheme === '우주'" :class="$style.item_host_theme_name">
+            우주🪐
+          </span>
+          <span v-if="roomItem.multiTheme === '바다'" :class="$style.item_host_theme_name">
+            바다🌊
+          </span>
         </div>
-        <button @click="store.enterRoom" :class="$style.item_enter_button">입장하기</button>
+        <button @click="enterRoom" :class="$style.item_enter_button">입장하기</button>
       </div>
   </Card>
 </template>
