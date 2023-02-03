@@ -26,6 +26,6 @@ public class CustomUserDetailService implements UserDetailsService {
 		System.out.println(username);
 		System.out.println(userRepository.findUserById(username).toString());
 		System.out.println(((UserDetails)userRepository.findUserById(username)).toString());
-		return (UserDetails)userRepository.findUserById(username);
+		return userRepository.findUserById(username);
 	}
 }

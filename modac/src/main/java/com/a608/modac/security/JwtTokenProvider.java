@@ -28,11 +28,10 @@ public class JwtTokenProvider {
 
 	private String secretKey = "modacSecretKey";
 
-	// 토큰 유효시간 30분
-	private long tokenValidTime = 30 * 60 * 10000000L;
+	// 토큰 유효시간 (분)*60*1000
+	private long tokenValidTime = 525600  * 60 * 1000L;	//일단 약 1년ㅎㅎㅎㅎ
 
 	private final UserDetailsService userDetailService;
-	// private final CustomUserDetailService userDetailService;
 	@PostConstruct
 	protected void init() {		// 객체 초기화 및 secretKey를 Base64로 인코딩
 		secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
@@ -43,7 +42,7 @@ public class JwtTokenProvider {
 		Claims claims = Jwts.claims().setSubject(user.getId()); // JWT payload 에 저장되는 정보단위
 		claims.put("userSeq", user.getSeq());					// 정보는 key - value 쌍으로 저장
 		claims.put("nickname", user.getNickname());
-		claims.put("roles",  Collections.singletonList("ROLE_USER"));
+		claims.put("roles", user.getAuthorities());
 		Date now = new Date();
 		return Jwts.builder()
 			.setClaims(claims) 											// 정보 저장
@@ -56,7 +55,7 @@ public class JwtTokenProvider {
 
 	// JWT 토큰에서 인증 정보 조회
 	public Authentication getAuthentication(String token) {
-		UserDetails userDetails = userDetailService.loadUserByUsername(this.getUserPk(token));
+		UserDetails userDetails = userDetailService.loadUserByUsername(this.getUserID(token));
 		if(userDetails == null){
 			return new UsernamePasswordAuthenticationToken(null, "", null);
 		}
@@ -64,7 +63,7 @@ public class JwtTokenProvider {
 	}
 
 	// 토큰에서 회원 정보 추출
-	public String getUserPk(String token) {
+	public String getUserID(String token) {
 		String subject = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
 		return subject;
 	}
