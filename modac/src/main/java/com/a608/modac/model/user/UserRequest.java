@@ -1,7 +1,5 @@
 package com.a608.modac.model.user;
 
-import com.a608.modac.model.membership.Membership;
-
 import lombok.Getter;
 import lombok.ToString;
 
@@ -14,14 +12,13 @@ public class UserRequest {
 	private String email;
 	private String password;
 
-	public User toEntity(Membership membership, Byte skin){
+	public User toEntity(Byte skin) {
 		return User.builder()
 			.seq(seq)
 			.id(id)
 			.nickname(nickname)
 			.email(email)
 			.password(password)
-			.membership(membership)
 			.catSkin(skin)
 			.build();
 	}

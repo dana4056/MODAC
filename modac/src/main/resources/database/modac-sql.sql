@@ -7,24 +7,15 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 -- -----------------------------------------------------
 -- Schema mydb
 -- -----------------------------------------------------
--- -users----------------------------------------------------
+-- -----------------------------------------------------
 -- Schema modac
 -- -----------------------------------------------------
-drop database `modac`;
+
 -- -----------------------------------------------------
 -- Schema modac
 -- -----------------------------------------------------
 CREATE SCHEMA IF NOT EXISTS `modac` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci ;
 USE `modac` ;
-
--- -----------------------------------------------------
--- Table `modac`.`membership`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `modac`.`membership` (
-  `grade` VARCHAR(20) NOT NULL,
-  PRIMARY KEY (`grade`))
-ENGINE = InnoDB;
-
 
 -- -----------------------------------------------------
 -- Table `modac`.`users`
@@ -38,14 +29,10 @@ CREATE TABLE IF NOT EXISTS `modac`.`users` (
   `cat_skin` INT NULL,
   `single_theme` VARCHAR(45) NULL,
   `total_second` INT NULL DEFAULT 0,
-  `membership_grade` VARCHAR(20) NULL DEFAULT 'bronze',
-  PRIMARY KEY (`seq`),
-  INDEX `fk_users_membership1_idx` (`membership_grade` ASC) VISIBLE,
-  CONSTRAINT `fk_users_membership1`
-    FOREIGN KEY (`membership_grade`)
-    REFERENCES `modac`.`membership` (`grade`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+  `membership_level` VARCHAR(20) NULL DEFAULT 'BRONZE_LV1',
+  `point` INT NULL DEFAULT 0,
+  `max_point` INT NULL DEFAULT 50,
+  PRIMARY KEY (`seq`))
 ENGINE = InnoDB;
 
 
@@ -334,10 +321,13 @@ CREATE TABLE IF NOT EXISTS `modac`.`participants` (
 ENGINE = InnoDB;
 
 
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
+
+
 -- 더미데이터 삽입
-INSERT INTO `modac`.`membership` values ('bronze');
-INSERT INTO `modac`.`membership` values ('silver');
-INSERT INTO `modac`.`membership` values ('gold');
 
 INSERT INTO `modac`.`categories` values ('알고리즘', 'algo test path');
 INSERT INTO `modac`.`categories` values ('CS', 'CS test path');
