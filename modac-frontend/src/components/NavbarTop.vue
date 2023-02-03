@@ -8,12 +8,15 @@
       <RouterLink id="routerlink" to="/login">Login</RouterLink>
       <RouterLink id="routerlink" to="/signup">SignUp</RouterLink>
       <RouterLink id="routerlink" to="/myPage">myPage</RouterLink>
+      <NotificationButton/>
     </ul>
   </nav>
 </div>
 </template>
 
 <script setup>
+import NotificationButton from './NotificationButton.vue';
+
 
 </script>
 

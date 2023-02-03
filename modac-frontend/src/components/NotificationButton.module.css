@@ -1,0 +1,14 @@
+.notification{
+  @apply w-7 h-7;
+}
+
+.ping_container{
+  @apply justify-end h-2 w-2;
+}
+
+.ping_animate{
+  @apply animate-ping absolute inline-flex h-2 w-2 rounded-full bg-red-400 opacity-75 ml-1;
+}
+.ping{
+  @apply absolute inline-flex rounded-full h-2 w-2 bg-red-500 ml-1;
+}
