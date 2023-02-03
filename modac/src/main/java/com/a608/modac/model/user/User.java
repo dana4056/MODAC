@@ -1,6 +1,9 @@
 package com.a608.modac.model.user;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.stream.Collectors;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,6 +13,9 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.DynamicInsert;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -22,7 +28,7 @@ import lombok.ToString;
 @DynamicInsert	//not null인 컬럼에 데이터 저장 안해줄때 자동으로 default값으로 매핑해줌
 @NoArgsConstructor
 @Table(name = "users")
-public class User {
+public class User implements UserDetails {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -138,4 +144,41 @@ public class User {
 		System.out.println("멤버십 갱신 완료");
 	}
 
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+
+		return Collections.singletonList("ROLE_USER").stream()
+			.map(SimpleGrantedAuthority::new)
+			.collect(Collectors.toList());
+	}
+
+	@Override
+	public String getPassword() {
+		return this.password;
+	}
+
+	@Override
+	public String getUsername() {
+		return this.id;
+	}
+
+	@Override
+	public boolean isAccountNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		return true;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isEnabled() {
+		return true;
+	}
 }
