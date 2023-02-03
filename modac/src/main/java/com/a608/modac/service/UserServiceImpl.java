@@ -162,9 +162,9 @@ public class UserServiceImpl implements UserService {
 
     // 출석체크시 20포인트 적립
     @Override
-    public void updatePoint(Long seq, String point) {
+    public UserResponse updatePoint(Long seq, String point) {
         User user = userRepository.findById(seq).orElseThrow(() -> new NoSuchElementException("NoUser"));
         user.updatePoint(Integer.parseInt(point));
-        userRepository.save(user);
+        return new UserResponse(userRepository.save(user));
     }
 }

@@ -129,7 +129,6 @@ public class UserController {
 
 	@PutMapping("/{seq}/point")
 	public ResponseEntity<?> updatePoint(@PathVariable("seq") Long seq, @RequestBody String point) {
-		userService.updatePoint(seq, point);
-		return new ResponseEntity<>(HttpStatus.CREATED);
+		return new ResponseEntity<UserResponse>(userService.updatePoint(seq, point), HttpStatus.CREATED);
 	}
 }

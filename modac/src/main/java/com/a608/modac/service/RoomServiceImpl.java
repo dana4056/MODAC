@@ -40,14 +40,8 @@ public class RoomServiceImpl implements RoomService{
 
 	@Override		// 멀티룸 조회
 	public RoomResponse findRoomById(final Long seq) {
-		final Optional<Room> findRoomById = roomRepository.findById(seq);
-		RoomResponse roomResponse = null;
-
-		if(findRoomById.isPresent()){
-			roomResponse = new RoomResponse(findRoomById.get());
-		}
-
-		return roomResponse;
+		final Room findRoomById = roomRepository.findById(seq).orElseThrow(()->new NoSuchElementException("NoRoom"));
+		return new RoomResponse(findRoomById);
 	}
 
 	@Override		// 멀티룸 목록 조회
@@ -58,6 +52,7 @@ public class RoomServiceImpl implements RoomService{
 
 	@Override		// 내가 참여하고 있는 비공개 멀티룸 목록 조회
 	public List<RoomResponse> findMyRooms(Long userSeq) {
+		userRepository.findById(userSeq).orElseThrow(() -> new NoSuchElementException("NoUser"));
 		List<Participant> participants = participantRepository.findAllByParticipantPK_UsersSeq(userSeq);
 		final List<Room> findMyRooms = new ArrayList<>();
 
@@ -111,7 +106,7 @@ public class RoomServiceImpl implements RoomService{
 		for(Participant p : participants){
 			participantRepository.delete(p);
 		}
-
+		System.out.println("====================111===================");
 		// 채팅 로그 먼저 삭제
 		// --채팅 로그 삭제하는 로직--
 
@@ -119,17 +114,29 @@ public class RoomServiceImpl implements RoomService{
 		ChatRoom chatRoom = roomRepository.findById(seq).orElseThrow(() -> new NoSuchElementException("NoRoom")).getChatRoom();
 		chatRoomRepository.delete(chatRoom);
 
+		System.out.println("====================222===================");
 		// 멀티룸 삭제
 		roomRepository.findById(seq).orElseThrow(() -> new NoSuchElementException("NoRoom"));
 		roomRepository.deleteById(seq);
+		System.out.println("====================333===================");
 	}
 
 	@Override		//멀티룸에 참여하기 (participant 엔티티에서 참가자 저장)
 	public RoomResponse joinRoom(Long seq, Long userSeq) {
 		Room room = roomRepository.findById(seq).orElseThrow(() -> new NoSuchElementException("NoRoom"));
+		User user = userRepository.findById(userSeq).orElseThrow(() -> new NoSuchElementException("NoUser"));
+
+		if(room.getCurrentSize() >= room.getMaxSize()){
+			System.out.println("최대인원을 넘을 수 없으므로 참가자가 추가되지 않았습니다.");
+			return new RoomResponse(room);
+		}
 
 		ParticipantPK participantPK = ParticipantPK.builder().room(room).usersSeq(userSeq).build();
-		User user = userRepository.findById(userSeq).orElseThrow(() -> new NoSuchElementException("NoUser"));
+		if (participantRepository.findById(participantPK).isPresent()) {
+			System.out.println("이미 방에 참여되어 있는 참가자입니다.");
+			return new RoomResponse(room);
+		}
+
 		Participant participant = new Participant(participantPK, user);
 		participantRepository.save(participant);
 
@@ -153,6 +160,7 @@ public class RoomServiceImpl implements RoomService{
 	@Override
 	public void updateUserAttend(Long seq, Long userSeq, boolean isAttended) {
 		Room room = roomRepository.findById(seq).orElseThrow(() -> new NoSuchElementException("NoRoom"));
+		userRepository.findById(userSeq).orElseThrow(() -> new NoSuchElementException("NoUser"));
 		List<Participant> participants = room.getParticipants();
 		for(Participant p: participants){
 			if(p.getParticipantPK().getUsersSeq().equals(userSeq)){
@@ -167,6 +175,7 @@ public class RoomServiceImpl implements RoomService{
 	@Override
 	public boolean isMember(Long seq, Long userSeq) {
 		Room room = roomRepository.findById(seq).orElseThrow(() -> new NoSuchElementException("NoRoom"));
+		userRepository.findById(userSeq).orElseThrow(() -> new NoSuchElementException("NoUser"));
 		List<Participant> participants = room.getParticipants();
 		boolean isMember = false;
 		for(Participant p: participants){

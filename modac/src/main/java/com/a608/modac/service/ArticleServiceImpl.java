@@ -183,14 +183,14 @@ public class ArticleServiceImpl implements ArticleService {
 
 		Article article = articleRepository.findById(articlesSeq).orElseThrow(() -> new NoSuchElementException("NoArticle"));
 
-		// 좋아요수 1 감소 후 저장
-		article.updateLikeCount(-1);
-		articleRepository.save(article);
-
 		// 좋아요 테이블에서 관계 삭제
 		Like like = likeRepository.findLikeByArticle_SeqAndUser_Seq(articlesSeq, usersSeq);
 		likeRepository.findById(like.getSeq()).orElseThrow(() -> new NoSuchElementException("NoLike"));
 		likeRepository.delete(like);
+
+		// 좋아요수 1 감소 후 저장
+		article.updateLikeCount(-1);
+		articleRepository.save(article);
 	}
 
 	// 게시글-유저 좋아요 관계 개수 조회 (좋아요 했는지 안했는지)

@@ -39,5 +39,5 @@ public interface UserService {
 
 	List<Follow> findFollowerList(Long seq);
 
-	void updatePoint(Long seq, String point); // 포인트 추가
+	UserResponse updatePoint(Long seq, String point); // 포인트 추가
 }
