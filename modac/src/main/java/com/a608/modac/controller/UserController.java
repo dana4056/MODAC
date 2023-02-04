@@ -46,8 +46,6 @@ public class UserController {
 
 	@PutMapping("/{seq}")			// 회원 수정
 	public ResponseEntity<?> updateUser(@PathVariable("seq") Long seq, @RequestBody UserRequest userRequest){
-
-		System.out.println("++++++++++++회원정보 수정"+userRequest);
 		UserResponse userResponse = userService.updateUser(seq, userRequest);
 		return new ResponseEntity<>(userResponse, HttpStatus.CREATED);
 	}
@@ -58,6 +56,11 @@ public class UserController {
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
 
+	@PutMapping("/{seq}/point")		// 포인트 수정
+	public ResponseEntity<?> updatePoint(@PathVariable("seq") Long seq, @RequestBody String point) {
+		return new ResponseEntity<UserResponse>(userService.updatePoint(seq, point), HttpStatus.CREATED);
+	}
+
 	@DeleteMapping("/{seq}")			// 회원 탈퇴
 	public ResponseEntity<?> deleteUser(@PathVariable("seq") Long seq){
 		userService.deleteUser(seq);
@@ -65,43 +68,39 @@ public class UserController {
 	}
 
 	@GetMapping("/find-id")			// 아이디 찾기(이메일로)
-	public ResponseEntity<?> findIdByEmail(@RequestBody String email){
+	public ResponseEntity<?> findIdByEmail(@RequestParam("email") String email){
 		String id = userService.findIdByEmail(email);
 		return new ResponseEntity<String>(id, HttpStatus.OK);
 	}
 
 	@GetMapping("/find-password")	// 비밀번호 찾기(이메일로)
-	public ResponseEntity<?> findPasswordByEmail(@RequestBody String email){
+	public ResponseEntity<?> findPasswordByEmail(@RequestParam("email") String email){
 		String password = userService.findPasswordByEmail(email);
 		return new ResponseEntity<String>(password, HttpStatus.OK);
 	}
 
 	@GetMapping("/check-nick")		// 닉네임 중복확인
-	public ResponseEntity<?> checkAvailableNick(@RequestBody String nick){
-		Boolean isAvailable = userService.checkAvailableNick(nick);
-		return new ResponseEntity<Boolean>(isAvailable, HttpStatus.OK);
+	public ResponseEntity<?> checkAvailableNick(@RequestParam("nick") String nick){
+		userService.checkAvailableNick(nick);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
 	@GetMapping("/check-id")			// 아이디 중복확인
-	public ResponseEntity<?> checkAvailableId(@RequestBody String id){
-		Boolean isAvailable = userService.checkAvailableId(id);
-		return new ResponseEntity<Boolean>(isAvailable, HttpStatus.OK);
+	public ResponseEntity<?> checkAvailableId(@RequestParam("id") String id){
+		userService.checkAvailableId(id);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
 	@GetMapping("/check-email")		// 이메일 중복확인
-	public ResponseEntity<?> checkAvailableEmail(@RequestBody String email){
-		Boolean isAvailable = userService.checkAvailableEmail(email);
-		return new ResponseEntity<Boolean>(isAvailable, HttpStatus.OK);
+	public ResponseEntity<?> checkAvailableEmail(@RequestParam("email") String email){
+		userService.checkAvailableEmail(email);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
 	@PostMapping("/login")			// 로그인
 	public ResponseEntity<?> login(@RequestBody UserRequest userRequest){
-		String token = userService.login(userRequest);
-		if(token.equals("false")){
-			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
-		}else{
-			return new ResponseEntity<String>(token, HttpStatus.OK);
-		}
+		UserResponse loginUser = userService.login(userRequest);
+		return new ResponseEntity<>(loginUser, HttpStatus.OK);
 	}
 
 	@PostMapping("/follow")			// 중복저장 안되게 조심해야하는디..
@@ -127,8 +126,4 @@ public class UserController {
 		return new ResponseEntity<List<Follow>>(list, HttpStatus.OK);
 	}
 
-	@PutMapping("/{seq}/point")
-	public ResponseEntity<?> updatePoint(@PathVariable("seq") Long seq, @RequestBody String point) {
-		return new ResponseEntity<UserResponse>(userService.updatePoint(seq, point), HttpStatus.CREATED);
-	}
 }
