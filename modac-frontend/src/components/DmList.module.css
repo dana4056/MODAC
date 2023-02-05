@@ -1,0 +1,42 @@
+.dm_container{
+  @apply max-w-md mx-auto bg-gray-100 shadow-lg rounded-lg overflow-hidden md:max-w-lg
+}
+
+.dm_container_inside{
+  @apply w-full p-4
+}
+
+.search_bar{
+  @apply relative
+}
+.search_bar_input{
+  @apply w-full h-12 rounded focus:outline-none px-3 focus:shadow-md
+}
+
+.dm_items{
+  @apply flex justify-between items-center bg-white mt-2 p-2 hover:shadow-lg rounded cursor-pointer transition
+}
+
+.dm_items_left{
+  @apply flex ml-2
+}
+
+.profile_img{
+  @apply rounded-full;
+  height: 40px;
+  width: 40px;
+}
+
+.dm_items_left_items{
+  @apply flex flex-col ml-2
+}
+
+
+.dm_items_right{
+  @apply flex flex-col items-center
+}
+
+
+.time{
+  @apply text-gray-300
+}

@@ -4,7 +4,7 @@ import SignUp from "../domains/User/SignUp.vue";
 import TodoListView from "../views/TodoListView.vue";
 import RoomView from "@/views/RoomView.vue";
 import ArticleView from "../views/ArticleView.vue";
-// import TestView from "@/views/TestView.vue";
+import TestView from "@/views/TestView.vue";
 // import GithubTest from "../views/GithubTest.vue";
 // import GithubTest2 from "../views/GithubTest2.vue";
 // import GithubTest2_2 from "../views/GithubTest2-2.vue";
@@ -20,6 +20,11 @@ const router = createRouter({
       path: "/login",
       name: "login",
       component: UserLogin,
+    },
+    {
+      path: "/test",
+      name: "test",
+      component: TestView,
     },
     {
       path: "/signup",
