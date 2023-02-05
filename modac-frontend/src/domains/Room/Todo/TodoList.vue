@@ -33,7 +33,7 @@
 
 <script setup>
 import { useTodoStore } from "../../../stores/todo";
-import { ref, onMounted } from "vue";
+import { ref } from "vue";
 import TodoListItem from "./TodoListItem.vue";
 
 const store = useTodoStore();

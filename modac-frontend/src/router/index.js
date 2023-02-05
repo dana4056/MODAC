@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import UserLogin from "../domains/User/UserLogin.vue";
-import SignUp from "../domains/User/SignUp.vue";
+import UserSignUp from "../domains/User/UserSignUp.vue";
 import TodoListView from "../views/TodoListView.vue";
 import RoomView from "@/views/RoomView.vue";
 import ArticleView from "../views/ArticleView.vue";
@@ -23,8 +23,8 @@ const router = createRouter({
     },
     {
       path: "/signup",
-      name: "signup",
-      component: SignUp,
+      name: "UserSignUp",
+      component: UserSignUp,
     },
     {
       path: "/todolist",
