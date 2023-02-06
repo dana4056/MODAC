@@ -9,6 +9,7 @@ const { isEnteredRoom } = storeToRefs(store);
 </script>
 
 <template>
+  <router-link to="/ApiTest">dddddddddd</router-link>
   <StudyRoomList v-if="!isEnteredRoom" />
   <StudyRoom v-if="isEnteredRoom" />
 </template>

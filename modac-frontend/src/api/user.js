@@ -1,4 +1,9 @@
 import http from "@/api/http";
+import { useUserStore } from '../stores/user';
+import { storeToRefs } from "pinia"
+
+// const store = useUserStore();
+// const { loginUser } = storeToRefs(store);
 
 
 // const headers = {   
@@ -220,9 +225,12 @@ export default {
                         console.log("로그인 성공");
                         console.log(response.data.token)
                         localStorage.setItem('jwt', response.data.token); // 로컬 스토리지에 저장
-                        // userStore에 로그인한 멤버 저장하고싶다..
-                        // store.loginUser = response.data;
-                        console.log("로그인 멤버:" + response.data);     
+
+                        const store = useUserStore();
+                        const { loginUser } = storeToRefs(store);
+
+                        loginUser.value = response.data;    //userStore에 멤버 저장
+                        
                     } else {
                         console.log("로그인 실패: 비밀번호 불일치")
                     }

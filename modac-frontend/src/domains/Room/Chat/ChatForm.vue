@@ -5,6 +5,10 @@ const props = defineProps({
 });
 
 const inputChatMessage = ref("");
+
+defineExpose({
+  inputChatMessage
+})
 </script>
 
 <template>

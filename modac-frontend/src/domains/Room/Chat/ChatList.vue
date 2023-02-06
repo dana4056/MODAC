@@ -1,22 +1,16 @@
 <script setup>
+import { storeToRefs } from "pinia"
 import ChatForm from "./ChatForm.vue";
 import ChatListItem from "./ChatListItem.vue";
-
+import { useChatStore } from '@/stores/chat';
+import { useUserStore } from '@/stores/user';
 import { ref } from "vue";
 
-const loginUser = ref({
-  seq: 1,
-  id: "test1",
-  nickname: "nick1",
-  email: "test1@naver.com",
-  catSkin: 1,
-  singleTheme: null,
-  totalSecond: 0,
-  membershipLevel: "BRONZE_LV1",
-  point: 0,
-  maxPoint: 50,
-  token: "",
-});
+const chatStore = useChatStore();
+const userStore = useUserStore();
+
+const { loginUser } = storeToRefs(userStore);
+
 
 const chatLogs = ref([
   {
@@ -49,20 +43,55 @@ const chatLogs = ref([
   },
 ]);
 
+const child = ref(null);
+
 const enterChat = (chatMessage) => {
-  chatLogs.value.push({
-    seq: chatLogs.value.length + 1,
-    usersSeq: loginUser.value.seq,
-    chatRoomSeq: 1,
-    sendTime: "",
-    message: chatMessage,
-  });
+  if(chatMessage){
+    liftMessage();
+    
+    // 채팅 input창 초기화
+    child.value.inputChatMessage = "";
+
+    const date = new Date();
+    const year = date.getFullYear();
+    const month = ('0' + (date.getMonth() + 1)).slice(-2);
+    const day = ('0' + date.getDate()).slice(-2);
+    const dateString = year + '-' + month  + '-' + day;
+    const hours = ('0' + date.getHours()).slice(-2); 
+    const minutes = ('0' + date.getMinutes()).slice(-2);
+    const seconds = ('0' + date.getSeconds()).slice(-2); 
+    const timeString = hours + ':' + minutes  + ':' + seconds;
+
+    const chatData = {
+      usersSeq: loginUser.value.seq,
+      chatRoomSeq: 1,
+      sendTime: dateString + " " + timeString,
+      message: chatMessage,
+    };
+
+    // 일단 배열에 추가
+    chatLogs.value.push(chatData);
+
+    // DB에 저장
+    chatStore.api
+
+  }
 };
+
+
+function liftMessage(){
+  setTimeout(() => {
+    const element = document.getElementById("chatbox_body");
+    element.scrollTop = element.scrollHeight;
+  }, 300);
+}
+
+
 </script>
 
 <template>
   <div :class="$style.chatbox_wrapper">
-    <div :class="$style.chatbox_body_size">
+    <div :class="$style.chatbox_body_size" id="chatbox_body">
       <ChatListItem
         v-for="chatLog in chatLogs"
         :key="chatLog.seq"
@@ -70,7 +99,7 @@ const enterChat = (chatMessage) => {
         :loginUser="loginUser"
       />
     </div>
-    <ChatForm :enterChat="enterChat" />
+    <ChatForm :enterChat="enterChat" ref="child"/>
   </div>
 </template>
 

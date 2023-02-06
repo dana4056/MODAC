@@ -9,7 +9,7 @@ const props = defineProps({
 const $style = useCssModule();
 
 const chatHostReader = computed(() => {
-  if (props.chatLog.usersSeq === props.loginUser.seq) {
+  if (props.chatLog.usersSeq === props.loginUser.value.seq) {
     return "myStyle";
   } else {
     return "yourChat";
@@ -31,6 +31,7 @@ const contentStyle = computed(() => {
 
 <template>
   <div :class="sizeStyle">
+    <!-- <small>{{ props.chatLog.sendTime }}</small> -->
     <div :class="contentStyle">{{ props.chatLog.message }}</div>
     <img
       src="https://source.unsplash.com/vpOeXr5wmR4/600x600"

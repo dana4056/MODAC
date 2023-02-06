@@ -39,8 +39,8 @@ const data4 = {   // 포인트 수정 데이터
 }
 
 const data5 = {   // 로그인 데이터
-  id: "test2",
-  password: "vue2"
+  id: "test1",
+  password: "test1"
 }
 
 
@@ -49,8 +49,8 @@ const data5 = {   // 로그인 데이터
 function click(){
 
   /********** 파라미터가 객체형식인 것은 위에 정리 / 아닌건 그냥 기입 *************/
-  store.api.postUser(data1);                   // 회원가입
-  store.api.fetchUser(2);                      // 회원정보 조회
+  // store.api.postUser(data1);                   // 회원가입
+  // store.api.fetchUser(2);                      // 회원정보 조회
   // store.api.updateUser(data2);                 // 회원정보 수정
   // store.api.updatePW(data3);                   // 비밀번호 수정
   // store.api.updatePoint(data4);                // 포인트 수정
@@ -60,7 +60,7 @@ function click(){
   // store.api.checkUserNick("nick1");            // 닉네임 중복확인
   // store.api.checkUserId("test1");              // 아이디 중복확인
   // store.api.checkUserEmail("vue1@gmail.com");  // 이메일 중복확인
-  // store.api.login(data5);                      // 로그인
+  store.api.login(data5);                      // 로그인
 
 }
 
