@@ -5,45 +5,18 @@ import ChatListItem from "./ChatListItem.vue";
 import { useChatStore } from '@/stores/chat';
 import { useUserStore } from '@/stores/user';
 import { ref } from "vue";
+// import Stomp from 'webstomp-client';
+// import SockJS from 'sockjs-client';
 
 const chatStore = useChatStore();
 const userStore = useUserStore();
 
 const { loginUser } = storeToRefs(userStore);
-
-
-const chatLogs = ref([
-  {
-    seq: 1,
-    usersSeq: 2,
-    chatRoomsSeq: 1,
-    sendTime: "",
-    message: "안녕 남의 편2",
-  },
-  {
-    seq: 2,
-    usersSeq: 1,
-    chatRoomsSeq: 1,
-    sendTime: "",
-    message: "안녕 우리 편",
-  },
-  {
-    seq: 3,
-    usersSeq: 3,
-    chatRoomsSeq: 1,
-    sendTime: "",
-    message: "안녕 남의 편3",
-  },
-  {
-    seq: 4,
-    usersSeq: 1,
-    chatRoomsSeq: 1,
-    sendTime: "",
-    message: "안녕 우리 편",
-  },
-]);
+const { chatLogs } = storeToRefs(chatStore);
 
 const child = ref(null);
+
+// connect();
 
 const enterChat = (chatMessage) => {
   if(chatMessage){
@@ -66,15 +39,16 @@ const enterChat = (chatMessage) => {
       usersSeq: loginUser.value.seq,
       chatRoomSeq: 1,
       sendTime: dateString + " " + timeString,
-      message: chatMessage,
+      message:String,
+      MessageType:"",
+      chatRoomType:""
     };
 
-    // 일단 배열에 추가
+    // 일단 배열에 추가 (하면 안되겠다 불러와야할듯 request랑 response dto가 다름)
     chatLogs.value.push(chatData);
 
     // DB에 저장
-    chatStore.api
-
+    // chatStore.api.postChat(chatData);
   }
 };
 
@@ -87,13 +61,55 @@ function liftMessage(){
 }
 
 
+// function connect(){
+//   this.isSocketConnected = true;
+//   var socket = new SockJS('/socket-open/chat');  // WebSocketConfig랑 통일할 주소 , 소켓 열 주소
+//   stompClient = Stomp.over(socket);
+//   stompClient.connect({}, onConnected, onError);
+// }
+
+// function onConnected(){
+//   var postIdList = this.$store.state.postIdList;
+//   for(var i = 0; i < postIdList.length; i++){
+//     stompClient.subscribe(`/sub/send/${postIdList[i]}`, onMessageReceived);
+//   }
+// }
+
+// function onError(){
+//   console.log("소켓 연결 실패");
+// }
+
+// function onMessageReceived(res){
+//   setTimeout(() => {
+//     // console.log('구독으로 받은 메시지', res.body);
+//     const post_id = this.$store.state.postIdList[this.$store.state.roomIndex];
+//     this.$store.dispatch('FIND_CHAT_LOGS', post_id);
+//     this.liftMessage();
+//     // 라스트 메시지 갱신
+//     let message = "";
+//     if(res.body.length < 20){
+//         message = res.body;
+//     } 
+//     else{
+//         message = res.body.slice(0,10);
+//         message = message + "..."
+//     }
+//     const changeLastChat = {
+//       post_id: res.headers.destination.split("/")[3],
+//       message: message
+//     };
+//     this.$store.commit('SET_LAST_CHAT', changeLastChat);
+//   }, 500);
+// }
+
+
 </script>
 
 <template>
   <div :class="$style.chatbox_wrapper">
     <div :class="$style.chatbox_body_size" id="chatbox_body">
       <ChatListItem
-        v-for="chatLog in chatLogs"
+        v-for="chatLog of chatLogs"
         :key="chatLog.seq"
         :chatLog="chatLog"
         :loginUser="loginUser"

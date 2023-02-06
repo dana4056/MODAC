@@ -14,10 +14,10 @@ const store = useUserStore();
 
 //============================= API 파라미터 데이터 ==========================
 const data1 = {     // 회원가입 데이터
-  id: "test4",
-  nickname: "nick4",
-  email: "vue4@naver.com",
-  password: "vue4",
+  id: "test1",
+  nickname: "nick1",
+  email: "test1@naver.com",
+  password: "test1",
 };
 
 const data2 = {   // 회원정보 수정 데이터
