@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
-import Login from "../domains/User/Login.vue";
+import UserLogin from "../domains/User/UserLogin.vue";
 import SignUp from "../domains/User/SignUp.vue";
 import TodoListView from "../views/TodoListView.vue";
 import RoomView from "@/views/RoomView.vue";
@@ -13,7 +13,7 @@ import GithubTest4 from "../views/GithubTest4.vue";
 import ApiTest from "../views/ApiTestView.vue"
 import ChatList from "../domains/Room/Chat/ChatList.vue";
 import MyPageView from "../views/MyPageView.vue";
-import FeedView from "@/views/FeedView.vue"
+import FeedView from "@/views/FeedView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -21,7 +21,7 @@ const router = createRouter({
     {
       path: "/login",
       name: "login",
-      component: Login,
+      component: UserLogin,
     },
     {
       path: "/signup",
@@ -83,6 +83,31 @@ const router = createRouter({
       name: "myPage",
       component: MyPageView,
     },
+    // {
+    //   path: "/before",
+    //   name: "before",
+    //   component: GithubTest,
+    // },
+    // {
+    //   path: "/after",
+    //   name: "after",
+    //   component: GithubTest2,
+    // },
+    // {
+    //   path: "/createRepo/:user",
+    //   name: "createRepo",
+    //   component: GithubTest2_2,
+    // },
+    // {
+    //   path: "/commit/:user/:repo",
+    //   name: "commit",
+    //   component: GithubTest3,
+    // },
+    // {
+    //   path: "/repo/:user/:repo",
+    //   name: "repo",
+    //   component: GithubTest4,
+    // },
   ],
 });
 
