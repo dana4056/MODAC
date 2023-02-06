@@ -110,5 +110,9 @@ public class Room {
 		this.participants.remove(participant);
 	}
 
+	public void updateHost(final User user) {
+		this.host = user;
+	}
+
 }
 

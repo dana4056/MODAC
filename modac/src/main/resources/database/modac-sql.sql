@@ -10,7 +10,7 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 -- -----------------------------------------------------
 -- Schema modac
 -- -----------------------------------------------------
-drop database `modac`;
+
 -- -----------------------------------------------------
 -- Schema modac
 -- -----------------------------------------------------
@@ -158,7 +158,6 @@ CREATE TABLE IF NOT EXISTS `modac`.`chat_rooms` (
   `seq` INT NOT NULL AUTO_INCREMENT,
   `last_message_seq` INT NULL,
   `last_message_time` DATETIME NULL,
-  `chat_roomscol` VARCHAR(45) NULL,
   PRIMARY KEY (`seq`))
 ENGINE = InnoDB;
 
@@ -177,7 +176,6 @@ CREATE TABLE IF NOT EXISTS `modac`.`rooms` (
   `invitation_code` VARCHAR(20) NULL,
   `users_seq` INT NOT NULL,
   `chat_rooms_seq` INT NOT NULL,
-  `roomscol` VARCHAR(45) NULL,
   PRIMARY KEY (`seq`),
   INDEX `fk_rooms_users1_idx` (`users_seq` ASC) VISIBLE,
   INDEX `fk_rooms_chat_rooms1_idx` (`chat_rooms_seq` ASC) VISIBLE,
@@ -311,6 +309,7 @@ CREATE TABLE IF NOT EXISTS `modac`.`participants` (
   `attend` INT NULL,
   `cat_skin` INT NULL,
   `categories_name` VARCHAR(30) NULL,
+  `registered_time` DATETIME NULL,
   PRIMARY KEY (`rooms_seq`, `users_seq`),
   INDEX `fk_participants_rooms1_idx` (`rooms_seq` ASC) VISIBLE,
   CONSTRAINT `fk_participants_rooms1`
@@ -319,13 +318,6 @@ CREATE TABLE IF NOT EXISTS `modac`.`participants` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
-
-
-SET SQL_MODE=@OLD_SQL_MODE;
-SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
-SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
-
-
 
 -- 더미데이터 삽입
 

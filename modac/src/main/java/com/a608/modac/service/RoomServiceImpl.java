@@ -7,6 +7,7 @@ import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.a608.modac.model.chat.ChatRoom;
 import com.a608.modac.model.participant.Participant;
@@ -75,16 +76,17 @@ public class RoomServiceImpl implements RoomService{
 			code = Integer.toString(random);
 		}
 
-		// 채팅방 생성
+		// 채팅룸 생성
 		ChatRoom chatRoom = chatRoomRepository.save(new ChatRoom());
 		Room room = roomRepository.save(roomRequest.toEntity(host, chatRoom, code));
 
+		// 참가자 정보 생성
 		ParticipantPK participantPK = ParticipantPK.builder().room(room).usersSeq(host.getSeq()).build();
-		Participant participant = new Participant(participantPK, host);
-		participantRepository.save(participant);
+		Participant participant = participantRepository.save(new Participant(participantPK, host));
 		room.getParticipants().set(0, participant);
 		room.updateCurrentSize(1);
 
+		// 스터디룸 생성
 		return new RoomResponse(roomRepository.save(room));
 	}
 
@@ -97,26 +99,23 @@ public class RoomServiceImpl implements RoomService{
 		return new RoomResponse(roomRepository.save(room));
 	}
 
+	@Transactional
 	@Override
 	public void deleteRoom(final Long seq) {
-		// 멀티룸 참가자들 삭제
-		List<Participant> participants = participantRepository.findAllByParticipantPK_Room_Seq(seq);
-		for(Participant p : participants){
-			participantRepository.delete(p);
-		}
-		System.out.println("====================111===================");
+		// Validation
+		Room room = roomRepository.findById(seq).orElseThrow(() -> new NoSuchElementException("NoRoom"));
+
 		// 채팅 로그 먼저 삭제
 		// --채팅 로그 삭제하는 로직--
 
-		// 채팅룸 삭제
-		ChatRoom chatRoom = roomRepository.findById(seq).orElseThrow(() -> new NoSuchElementException("NoRoom")).getChatRoom();
-		chatRoomRepository.delete(chatRoom);
+		// 해당 멀티룸 참가자 정보 삭제
+		participantRepository.deleteAllByParticipantPKRoom(room);
 
-		System.out.println("====================222===================");
 		// 멀티룸 삭제
-		roomRepository.findById(seq).orElseThrow(() -> new NoSuchElementException("NoRoom"));
-		roomRepository.deleteById(seq);
-		System.out.println("====================333===================");
+		roomRepository.delete(room);
+
+		// 채팅룸 삭제
+		chatRoomRepository.delete(room.getChatRoom());
 	}
 
 	@Override		//멀티룸에 참여하기 (participant 엔티티에서 참가자 저장)
@@ -142,15 +141,35 @@ public class RoomServiceImpl implements RoomService{
 		return new RoomResponse(roomRepository.save(room));
 	}
 
+	@Transactional
 	@Override		//멀티룸에서 나가기
 	public void exitRoom(Long seq, Long userSeq) {
+		// Validation
 		Room room = roomRepository.findById(seq).orElseThrow(() -> new NoSuchElementException("NoRoom"));
-
+		User user = userRepository.findById(userSeq).orElseThrow(() -> new NoSuchElementException("NoUser"));
 		ParticipantPK participantPK = ParticipantPK.builder().room(room).usersSeq(userSeq).build();
 		Participant participant = participantRepository.findById(participantPK)
-			.orElseThrow(NoSuchElementException::new);
+			.orElseThrow(() -> new NoSuchElementException("NoParticipant"));
 
+		// 나가는 사람이 방에 유일하게 존재하는 참가자면 스터디룸 삭제
+		if (room.getParticipants().size() == 1) {
+			System.out.println("마지막 참가자이므로 삭제 서비스를 호출한다.");
+			deleteRoom(seq);
+			return;
+		}
+
+		// 다른 사람이 존재하면, 나가는 사람 정보 삭제
 		participantRepository.delete(participant);
+
+		// 나가는 사람이 방장인 경우, 방장을 제외하고 가장 먼저 방에 들어온 사람에게 방장 위임
+		if (room.getHost().equals(user)) {
+			room.updateHost(userRepository.findById(
+				participantRepository.findTopByParticipantPK_Room_SeqOrderByRegisteredTimeAsc(seq)
+					.getParticipantPK()
+					.getUsersSeq()).orElseThrow(() -> new NoSuchElementException("NoUser")));
+		}
+
+		// room 객체 수정 후 저장
 		room.exitRoom(participant);
 		roomRepository.save(room);
 	}
@@ -192,13 +211,14 @@ public class RoomServiceImpl implements RoomService{
 		return isEqual;
 	}
 
+	// 키워드로 스터디룸 검색
 	@Override
 	public List<RoomResponse> searchRooms(final String keyword) {
 		List<Room> rooms = new ArrayList<>();
 		rooms.addAll(roomRepository.findAllByTitleContaining(keyword)); // 방 제목으로 검색 (List)
 		rooms.addAll(roomRepository.findAllByDescriptionContaining(keyword)); // 방 설명으로 검색 (List)
 		List<User> users = userRepository.findAllByNicknameContaining(keyword); // 방장 닉네임으로 검색 (List)
-		for(User user : users){
+		for (User user : users) {
 			rooms.addAll(roomRepository.findAllByHost(user));
 		}
 		rooms.stream().distinct().collect(Collectors.toList()); // 중복 제거

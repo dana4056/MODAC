@@ -1,8 +1,12 @@
 package com.a608.modac.model.participant;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
 import com.a608.modac.model.user.User;
@@ -32,6 +36,8 @@ public class Participant {
 	private Byte catSkin;        		// UI로 표시될 고양이 스킨 번호
 	@Column(name = "categories_name")
 	private String categoriesName;    	// 현재공부중인 todo의 카테고리
+	@Column(name = "registered_time")
+	private String registeredTime;    	// 참가자가 스터디룸에 최초로 등록된 시간
 
 	@Builder
 	public Participant(final ParticipantPK participantPK, final User user) {
@@ -40,10 +46,11 @@ public class Participant {
 		this.status = 0;	// 맨처음 방에 들어갈 땐 공부중으로 상태 설정
 		this.attend = 1;	// 맨처음 방에 들어갈 땐 "참여중"     1:참여중  0:미참여중
 		this.catSkin = user.getCatSkin();
+		this.registeredTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 	}
 
 	public ParticipantResponse getParticipant(){
-		return new ParticipantResponse(getParticipantPK().getUsersSeq(), getNickname(), getStatus(), getAttend(), getCatSkin(), getCategoriesName());
+		return new ParticipantResponse(getParticipantPK().getUsersSeq(), getNickname(), getStatus(), getAttend(), getCatSkin(), getCategoriesName(), getRegisteredTime());
 	}
 
 	public void updateAttend(final boolean flag){
