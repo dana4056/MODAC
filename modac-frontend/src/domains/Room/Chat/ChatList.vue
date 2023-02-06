@@ -48,6 +48,202 @@
             </div>
           </div> 
           <!-- 상대 채팅 하나 끝-->
+          <!-- 상대 채팅 하나 -->
+          <div :class="$style.yourchat_box_size">
+            <img
+              src="https://source.unsplash.com/vpOeXr5wmR4/600x600"
+              :class="$style.chat_profile"
+              alt=""
+            />
+            <div
+              :class="$style.yourchat_box_content"
+            >
+              동현아 아프지마
+            </div>
+          </div> 
+          <!-- 상대 채팅 하나 끝-->
+          <!-- 상대 채팅 하나 -->
+          <div :class="$style.yourchat_box_size">
+            <img
+              src="https://source.unsplash.com/vpOeXr5wmR4/600x600"
+              :class="$style.chat_profile"
+              alt=""
+            />
+            <div
+              :class="$style.yourchat_box_content"
+            >
+              동현아 아프지마
+            </div>
+          </div> 
+          <!-- 상대 채팅 하나 끝-->
+          <!-- 상대 채팅 하나 -->
+          <div :class="$style.yourchat_box_size">
+            <img
+              src="https://source.unsplash.com/vpOeXr5wmR4/600x600"
+              :class="$style.chat_profile"
+              alt=""
+            />
+            <div
+              :class="$style.yourchat_box_content"
+            >
+              동현아 아프지마
+            </div>
+          </div> 
+          <!-- 상대 채팅 하나 끝-->
+          <!-- 상대 채팅 하나 -->
+          <div :class="$style.yourchat_box_size">
+            <img
+              src="https://source.unsplash.com/vpOeXr5wmR4/600x600"
+              :class="$style.chat_profile"
+              alt=""
+            />
+            <div
+              :class="$style.yourchat_box_content"
+            >
+              동현아 아프지마
+            </div>
+          </div> 
+          <!-- 상대 채팅 하나 끝-->
+          <!-- 상대 채팅 하나 -->
+          <div :class="$style.yourchat_box_size">
+            <img
+              src="https://source.unsplash.com/vpOeXr5wmR4/600x600"
+              :class="$style.chat_profile"
+              alt=""
+            />
+            <div
+              :class="$style.yourchat_box_content"
+            >
+              동현아 아프지마
+            </div>
+          </div> 
+          <!-- 상대 채팅 하나 끝-->
+          <!-- 상대 채팅 하나 -->
+          <div :class="$style.yourchat_box_size">
+            <img
+              src="https://source.unsplash.com/vpOeXr5wmR4/600x600"
+              :class="$style.chat_profile"
+              alt=""
+            />
+            <div
+              :class="$style.yourchat_box_content"
+            >
+              동현아 아프지마
+            </div>
+          </div> 
+          <!-- 상대 채팅 하나 끝-->
+          <!-- 상대 채팅 하나 -->
+          <div :class="$style.yourchat_box_size">
+            <img
+              src="https://source.unsplash.com/vpOeXr5wmR4/600x600"
+              :class="$style.chat_profile"
+              alt=""
+            />
+            <div
+              :class="$style.yourchat_box_content"
+            >
+              동현아 아프지마
+            </div>
+          </div> 
+          <!-- 상대 채팅 하나 끝-->
+          <!-- 상대 채팅 하나 -->
+          <div :class="$style.yourchat_box_size">
+            <img
+              src="https://source.unsplash.com/vpOeXr5wmR4/600x600"
+              :class="$style.chat_profile"
+              alt=""
+            />
+            <div
+              :class="$style.yourchat_box_content"
+            >
+              동현아 아프지마
+            </div>
+          </div> 
+          <!-- 상대 채팅 하나 끝-->
+          <!-- 상대 채팅 하나 -->
+          <div :class="$style.yourchat_box_size">
+            <img
+              src="https://source.unsplash.com/vpOeXr5wmR4/600x600"
+              :class="$style.chat_profile"
+              alt=""
+            />
+            <div
+              :class="$style.yourchat_box_content"
+            >
+              동현아 아프지마
+            </div>
+          </div> 
+          <!-- 상대 채팅 하나 끝-->
+          <!-- 상대 채팅 하나 -->
+          <div :class="$style.yourchat_box_size">
+            <img
+              src="https://source.unsplash.com/vpOeXr5wmR4/600x600"
+              :class="$style.chat_profile"
+              alt=""
+            />
+            <div
+              :class="$style.yourchat_box_content"
+            >
+              동현아 아프지마
+            </div>
+          </div> 
+          <!-- 상대 채팅 하나 끝-->
+          <!-- 상대 채팅 하나 -->
+          <div :class="$style.yourchat_box_size">
+            <img
+              src="https://source.unsplash.com/vpOeXr5wmR4/600x600"
+              :class="$style.chat_profile"
+              alt=""
+            />
+            <div
+              :class="$style.yourchat_box_content"
+            >
+              동현아 아프지마
+            </div>
+          </div> 
+          <!-- 상대 채팅 하나 끝-->
+          <!-- 상대 채팅 하나 -->
+          <div :class="$style.yourchat_box_size">
+            <img
+              src="https://source.unsplash.com/vpOeXr5wmR4/600x600"
+              :class="$style.chat_profile"
+              alt=""
+            />
+            <div
+              :class="$style.yourchat_box_content"
+            >
+              동현아 아프지마
+            </div>
+          </div> 
+          <!-- 상대 채팅 하나 끝-->
+          <!-- 상대 채팅 하나 -->
+          <div :class="$style.yourchat_box_size">
+            <img
+              src="https://source.unsplash.com/vpOeXr5wmR4/600x600"
+              :class="$style.chat_profile"
+              alt=""
+            />
+            <div
+              :class="$style.yourchat_box_content"
+            >
+              동현아 아프지마
+            </div>
+          </div> 
+          <!-- 상대 채팅 하나 끝-->
+          <!-- 상대 채팅 하나 -->
+          <div :class="$style.yourchat_box_size">
+            <img
+              src="https://source.unsplash.com/vpOeXr5wmR4/600x600"
+              :class="$style.chat_profile"
+              alt=""
+            />
+            <div
+              :class="$style.yourchat_box_content"
+            >
+              동현아 아프지마
+            </div>
+          </div> 
+          <!-- 상대 채팅 하나 끝-->
   
           <!-- 내 채팅 한칸 -->
           <div :class="$style.mychat_box_size">
