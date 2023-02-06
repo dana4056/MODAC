@@ -6,7 +6,7 @@ import NavbarLogo from "./NavbarLogo.vue";
   <div :class="$style.navbar_flex_wrapper">
     <NavbarLogo />
     <div class="hidden sm:ml-6 sm:block">
-      <div class="flex space-x-4">
+      <div :class="$style.navbar_list_flex_wrapper">
         <RouterLink
           id="routerlink"
           to="/room"

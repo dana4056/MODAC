@@ -5,8 +5,8 @@ import NavbarRightSection from "./NavbarRightSection.vue";
 
 <template>
   <nav class="bg-gray-800 h-full">
-    <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
-      <div class="relative flex h-16 items-center justify-between">
+    <div :class="$style.navbar_wrapper">
+      <div :class="$style.navbar_section_flex_wrapper">
         <NavbarList />
         <NavbarRightSection />
       </div>
