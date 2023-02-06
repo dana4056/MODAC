@@ -1,5 +1,5 @@
 <script setup>
-import ChatList from "@/domains/Room/Chat/ChatList.vue";
+import Chat from "@/domains/Room/Chat/Chat.vue";
 import FavoriteRoomList from "@/domains/Room/Favorites/FavoritesRoomList.vue";
 import FriendList from "@/domains/Room/Friend/FriendList.vue";
 import RoomSettings from "@/domains/Room/Settings/RoomSettings.vue";
@@ -43,7 +43,7 @@ const isRoomSettingsOpen = computed(() => {
 <template>
   <div :class="$style.right_side_bar">
     <div :class="$style.right_side_bar_content">
-      <ChatList v-if="isRoomChatOpen" />
+      <Chat v-if="isRoomChatOpen" />
       <FavoriteRoomList v-if="isFavoriteRoomListOpen" />
       <FriendList v-if="isFriendListOpen" />
       <RoomSettings v-if="isRoomSettingsOpen" />

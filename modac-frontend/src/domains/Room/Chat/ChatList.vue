@@ -1,88 +1,79 @@
+<script setup>
+import ChatForm from "./ChatForm.vue";
+import ChatListItem from "./ChatListItem.vue";
+
+import { ref } from "vue";
+
+const loginUser = ref({
+  seq: 1,
+  id: "test1",
+  nickname: "nick1",
+  email: "test1@naver.com",
+  catSkin: 1,
+  singleTheme: null,
+  totalSecond: 0,
+  membershipLevel: "BRONZE_LV1",
+  point: 0,
+  maxPoint: 50,
+  token: "",
+});
+
+const chatLogs = ref([
+  {
+    seq: 1,
+    usersSeq: 2,
+    chatRoomsSeq: 1,
+    sendTime: "",
+    message: "안녕 남의 편2",
+  },
+  {
+    seq: 2,
+    usersSeq: 1,
+    chatRoomsSeq: 1,
+    sendTime: "",
+    message: "안녕 우리 편",
+  },
+  {
+    seq: 3,
+    usersSeq: 3,
+    chatRoomsSeq: 1,
+    sendTime: "",
+    message: "안녕 남의 편3",
+  },
+  {
+    seq: 4,
+    usersSeq: 1,
+    chatRoomsSeq: 1,
+    sendTime: "",
+    message: "안녕 우리 편",
+  },
+]);
+
+const enterChat = (chatMessage) => {
+  chatLogs.value.push({
+    seq: chatLogs.value.length + 1,
+    usersSeq: loginUser.value.seq,
+    chatRoomSeq: 1,
+    sendTime: "",
+    message: chatMessage,
+  });
+};
+</script>
+
 <template>
-  <!-- This is an example component -->
-  <div :class="$style.chatbox">
-  
-  
-      <!-- headaer -->
-      <div :class="$style.chatbox_header">
-        <div :class="$style.chatbox_name">GoingChat</div>
-        <div :class="$style.icon_content">RA</div>
-      </div>
-      <!-- end header -->
-  
-  
-  
-      <!-- Chatting -->
-      <div :class="$style.chatbox_body">  
-        <!-- message -->
-        <div :class="$style.chatbox_body_size1">
-          <div :class="$style.chatbox_body_size2">
-          
-          <!-- 내 채팅 한칸 -->
-            <div :class="$style.mychat_box_size">
-              <div
-                :class="$style.mychat_box_content"
-              >
-                형 저 아파서 조퇴 좀 할게요
-              </div>
-              <img
-                src="https://source.unsplash.com/vpOeXr5wmR4/600x600"
-                :class="$style.chat_profile"
-                alt=""
-              />
-            </div>
-          <!-- 내 채팅 한칸 끝 -->
-            
-  
-          <!-- 상대 채팅 하나 -->
-          <div :class="$style.yourchat_box_size">
-            <img
-              src="https://source.unsplash.com/vpOeXr5wmR4/600x600"
-              :class="$style.chat_profile"
-              alt=""
-            />
-            <div
-              :class="$style.yourchat_box_content"
-            >
-              동현아 아프지마
-            </div>
-          </div> 
-          <!-- 상대 채팅 하나 끝-->
-  
-          <!-- 내 채팅 한칸 -->
-          <div :class="$style.mychat_box_size">
-              <div
-                :class="$style.mychat_box_content"
-              >
-                형 그래도 가기전에 이거 채팅 소스 드리고 갈게요 https://tailwindcomponents.com/component/chat-messages/landing
-              </div>
-              <img
-                src="https://source.unsplash.com/vpOeXr5wmR4/600x600"
-                :class="$style.chat_profile"
-                alt=""
-              />
-            </div>
-          <!-- 내 채팅 한칸 끝 -->
-  
-          </div>
-  
-          <!-- 채팅 입력 칸 -->
-          <div :class="$style.chat_input_padding">
-            <input
-              :class="$style.chat_input_box"
-              type="text"
-              placeholder="채팅을 입력하세요."
-            />
-          </div>
-        </div>
-      </div>
+  <div :class="$style.chatbox_body_size1">
+    <div :class="$style.chatbox_body_size2">
+      <ChatListItem
+        v-for="chatLog in chatLogs"
+        :key="chatLog.seq"
+        :chatLog="chatLog"
+        :loginUser="loginUser"
+      />
     </div>
-  </template>
-  
-  <script setup>
-  
-  </script>
-  
-  <style lang="css" module>
-  @import './ChatList.module.css'
-  </style>
+    <ChatForm :enterChat="enterChat" />
+  </div>
+</template>
+
+<style lang="css" module>
+@import "ChatList.module.css";
+</style>
