@@ -1,6 +1,6 @@
 package com.a608.modac.model.room;
 
-import com.a608.modac.model.chatting.ChatRoom;
+import com.a608.modac.model.chat.ChatRoom;
 import com.a608.modac.model.user.User;
 
 import lombok.Getter;

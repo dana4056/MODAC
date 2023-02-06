@@ -12,7 +12,7 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.DynamicInsert;
 
-import com.a608.modac.model.chatting.ChatRoom;
+import com.a608.modac.model.chat.ChatRoom;
 import com.a608.modac.model.user.User;
 
 import lombok.Builder;
@@ -43,7 +43,7 @@ public class Room {
 
 	@ManyToOne
 	@JoinColumn(name="users_seq")
-	private User user;
+	private User user; // host
 
 	@OneToOne
 	@JoinColumn(name = "chat_rooms_seq")

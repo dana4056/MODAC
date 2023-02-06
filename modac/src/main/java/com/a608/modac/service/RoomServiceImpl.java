@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import com.a608.modac.model.chatting.ChatRoom;
+import com.a608.modac.model.chat.ChatRoom;
 import com.a608.modac.model.room.Room;
 import com.a608.modac.model.room.RoomRequest;
 import com.a608.modac.model.user.User;

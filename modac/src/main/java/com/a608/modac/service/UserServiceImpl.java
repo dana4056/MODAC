@@ -1,20 +1,21 @@
 package com.a608.modac.service;
 
-import com.a608.modac.model.chatting.ChatRoom;
-import com.a608.modac.model.membership.Membership;
-import com.a608.modac.repository.ChatRoomRepository;
-import com.a608.modac.model.follow.Follow;
-import com.a608.modac.repository.FollowRepository;
-import com.a608.modac.model.follow.FollowRequest;
-import com.a608.modac.model.user.User;
-import com.a608.modac.repository.MembershipRepository;
-import com.a608.modac.repository.UserRepository;
-import com.a608.modac.model.user.UserRequest;
-import com.a608.modac.model.user.UserResponse;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.NoSuchElementException;
+
+import org.springframework.stereotype.Service;
+
+import com.a608.modac.model.chat.ChatRoom;
+import com.a608.modac.model.follow.Follow;
+import com.a608.modac.model.follow.FollowRequest;
+import com.a608.modac.model.membership.Membership;
+import com.a608.modac.model.user.User;
+import com.a608.modac.model.user.UserRequest;
+import com.a608.modac.model.user.UserResponse;
+import com.a608.modac.repository.ChatRoomRepository;
+import com.a608.modac.repository.FollowRepository;
+import com.a608.modac.repository.MembershipRepository;
+import com.a608.modac.repository.UserRepository;
 
 @Service
 public class UserServiceImpl implements UserService{
