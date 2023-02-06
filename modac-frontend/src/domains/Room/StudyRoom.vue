@@ -1,8 +1,8 @@
 <script setup>
 import SideBarToggleButton from "@/components/SideBarToggleButton.vue";
-import LeftSideBar from "@/domains/Room/LeftSideBar.vue";
+import LeftSideBar from "@/domains/Room/Sidebar/LeftSideBar.vue";
 import MainSection from "@/domains/Room/MainSection.vue";
-import RightSideBar from "@/domains/Room/RightSideBar.vue";
+import RightSideBar from "@/domains/Room/Sidebar/RightSideBar.vue";
 import Wrapper from "@/components/Wrapper.vue";
 import { useRoomStore } from "@/stores/room";
 import { storeToRefs } from "pinia";

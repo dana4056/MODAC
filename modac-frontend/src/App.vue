@@ -1,5 +1,5 @@
 <script setup>
-import Navbar from "@/domains/Room/Navbar/Navbar.vue";
+import Navbar from "@/domains/Navbar/Navbar.vue";
 import Wrapper from "./components/Wrapper.vue";
 import { useAuthStore } from "@/stores/auth";
 import { storeToRefs } from "pinia";
