@@ -1,4 +1,4 @@
-package com.a608.modac.model.chatting;
+package com.a608.modac.model.chat;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,7 +11,7 @@ import javax.persistence.Table;
 
 import com.a608.modac.model.user.User;
 
-import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -20,25 +20,34 @@ import lombok.ToString;
 @Entity
 @ToString
 @NoArgsConstructor
-@AllArgsConstructor
 @Table(name = "chat_messages")
 public class ChatMessage {
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long seq;
 
 	@ManyToOne
 	@JoinColumn(name = "users_seq")
-	private User user;
+	private User user; // 채팅 메시지를 보낸사람.
 
 	@ManyToOne
 	@JoinColumn(name = "chat_rooms_seq")
-	private ChatRoom chatRoom;
+	private ChatRoom chatRoom; // 채팅 방 번호.
 
 	@Column(name = "send_time")
 	private String sendTime;
 
-	@Column(name = "message")
+	@Column(name="message")
 	private String message;
+
+	@Builder
+	public ChatMessage(final Long seq, final User user, final ChatRoom chatRoom, final String sendTime,
+		final String message) {
+		this.seq = seq;
+		this.user = user;
+		this.chatRoom = chatRoom;
+		this.sendTime = sendTime;
+		this.message = message;
+	}
+
 }

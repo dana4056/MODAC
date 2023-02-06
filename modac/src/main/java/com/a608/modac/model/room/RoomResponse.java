@@ -2,7 +2,7 @@ package com.a608.modac.model.room;
 
 import java.util.List;
 
-import com.a608.modac.model.chatting.ChatRoom;
+import com.a608.modac.model.chat.ChatRoom;
 import com.a608.modac.model.participant.ParticipantResponse;
 import com.a608.modac.model.user.User;
 

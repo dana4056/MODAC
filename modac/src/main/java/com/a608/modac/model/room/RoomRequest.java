@@ -1,12 +1,9 @@
 package com.a608.modac.model.room;
 
-import java.util.ArrayList;
+import com.a608.modac.model.chat.ChatRoom;
+import com.a608.modac.model.user.User;
 
 import lombok.Getter;
-
-import com.a608.modac.model.chatting.ChatRoom;
-import com.a608.modac.model.participant.Participant;
-import com.a608.modac.model.user.User;
 
 @Getter
 public class RoomRequest {

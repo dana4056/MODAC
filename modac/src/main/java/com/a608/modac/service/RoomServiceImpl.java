@@ -2,24 +2,22 @@ package com.a608.modac.service;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import com.a608.modac.model.chatting.ChatRoom;
+import com.a608.modac.model.chat.ChatRoom;
 import com.a608.modac.model.participant.Participant;
 import com.a608.modac.model.participant.ParticipantPK;
 import com.a608.modac.model.room.Room;
 import com.a608.modac.model.room.RoomRequest;
+import com.a608.modac.model.room.RoomResponse;
 import com.a608.modac.model.user.User;
 import com.a608.modac.repository.ChatRoomRepository;
 import com.a608.modac.repository.ParticipantRepository;
 import com.a608.modac.repository.RoomRepository;
-import com.a608.modac.model.room.RoomResponse;
 import com.a608.modac.repository.UserRepository;
 
 @Service

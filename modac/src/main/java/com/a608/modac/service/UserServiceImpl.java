@@ -5,7 +5,7 @@ import java.util.NoSuchElementException;
 
 import org.springframework.stereotype.Service;
 
-import com.a608.modac.model.chatting.ChatRoom;
+import com.a608.modac.model.chat.ChatRoom;
 import com.a608.modac.model.follow.Follow;
 import com.a608.modac.model.follow.FollowRequest;
 import com.a608.modac.model.user.User;

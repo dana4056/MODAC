@@ -17,7 +17,7 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.DynamicInsert;
 
-import com.a608.modac.model.chatting.ChatRoom;
+import com.a608.modac.model.chat.ChatRoom;
 import com.a608.modac.model.participant.Participant;
 import com.a608.modac.model.participant.ParticipantResponse;
 import com.a608.modac.model.user.User;
