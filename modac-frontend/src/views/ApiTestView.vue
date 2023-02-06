@@ -43,13 +43,14 @@ const data5 = {   // 로그인 데이터
   password: "vue2"
 }
 
+
 //==========================================================================
 
 function click(){
 
   /********** 파라미터가 객체형식인 것은 위에 정리 / 아닌건 그냥 기입 *************/
-  // store.api.postUser(data1);                   // 회원가입
-  // store.api.fetchUser(2);                      // 회원정보 조회
+  store.api.postUser(data1);                   // 회원가입
+  store.api.fetchUser(2);                      // 회원정보 조회
   // store.api.updateUser(data2);                 // 회원정보 수정
   // store.api.updatePW(data3);                   // 비밀번호 수정
   // store.api.updatePoint(data4);                // 포인트 수정
