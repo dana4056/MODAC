@@ -7,7 +7,7 @@ import ChatList from "./ChatList.vue";
   <!-- This is an example component -->
   <div :class="$style.chatbox">
     <ChatHeader />
-    <ChatList :class="$style.chatbox_body" />
+    <ChatList />
   </div>
 </template>
 
