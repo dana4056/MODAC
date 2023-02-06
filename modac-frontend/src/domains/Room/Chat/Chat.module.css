@@ -2,7 +2,3 @@
 .chatbox {
   @apply container mx-auto shadow-lg rounded-lg;
 }
-
-.chatbox_body {
-  @apply flex flex-row justify-between bg-white;
-}

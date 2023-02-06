@@ -1,7 +1,7 @@
-.chatbox_body_size1 {
-  @apply w-full px-5 flex flex-col justify-between;
+.chatbox_wrapper {
+  @apply w-full px-5 flex flex-col justify-between bg-white;
 }
 
-.chatbox_body_size2 {
+.chatbox_body_size {
   @apply flex flex-col mt-5;
 }
