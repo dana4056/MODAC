@@ -154,38 +154,40 @@ public class ArticleServiceImpl implements ArticleService {
 		articleRepository.deleteById(seq);
 	}
 
-
 	// 게시글-유저 좋아요 (좋아요 테이블에 관계 추가하고 게시글 좋아요수 올려서 업데이트)
 	// 해당 유저가 해당 게시물을 처음 좋아요 한다는 전제에 호출됨 -> 이미 좋아요 했는지 아닌지 확인할 필요 X
+	// 하지만 혹시 몰라서 검증 코드를 나중에 추가했습니다.
 	@Override
 	public void createLike(final LikeRequest likeRequest) {
+		// Validation
+		Article article = articleRepository.findById(likeRequest.getArticlesSeq()).orElseThrow(() -> new NoSuchElementException("NoArticle"));
+		User user = userRepository.findById(likeRequest.getUsersSeq()).orElseThrow(() -> new NoSuchElementException("NoUser"));
+		Like like = likeRepository.findByArticleAndUser(article, user);
+		if(likeRepository.findByArticleAndUser(article, user) != null){
+			return;
+		}
 
-		Long articlesSeq = likeRequest.getArticlesSeq();
-		Long usersSeq = likeRequest.getUsersSeq();
-
-		Article article = articleRepository.findById(articlesSeq).orElseThrow(() -> new NoSuchElementException("NoArticle"));
-		User user = userRepository.findById(usersSeq).orElseThrow(() -> new NoSuchElementException("NoUser"));
+		// 좋아요 테이블에 관계 추가
+		likeRepository.save(likeRequest.toEntity(article, user));
 
 		// 좋아요수 1증가 후 저장
 		article.updateLikeCount(1);
 		articleRepository.save(article);
 
-		// 좋아요 테이블에 관계 추가
-		likeRepository.save(likeRequest.toEntity(article, user));
 	}
 
 	// 게시글-유저 좋아요 관계 삭제
 	@Override
-	public void deleteLike(final LikeRequest likeRequest) {
-
-		Long articlesSeq = likeRequest.getArticlesSeq();
-		Long usersSeq = likeRequest.getUsersSeq();
-
+	public void deleteLike(final Long articlesSeq, final Long usersSeq) {
+		// Validation
 		Article article = articleRepository.findById(articlesSeq).orElseThrow(() -> new NoSuchElementException("NoArticle"));
+		User user = userRepository.findById(usersSeq).orElseThrow(() -> new NoSuchElementException("NoUser"));
+		Like like = likeRepository.findByArticleAndUser(article, user);
+		if(like == null){
+			throw new NoSuchElementException("NoLike");
+		}
 
 		// 좋아요 테이블에서 관계 삭제
-		Like like = likeRepository.findLikeByArticle_SeqAndUser_Seq(articlesSeq, usersSeq);
-		likeRepository.findById(like.getSeq()).orElseThrow(() -> new NoSuchElementException("NoLike"));
 		likeRepository.delete(like);
 
 		// 좋아요수 1 감소 후 저장
@@ -195,9 +197,12 @@ public class ArticleServiceImpl implements ArticleService {
 
 	// 게시글-유저 좋아요 관계 개수 조회 (좋아요 했는지 안했는지)
 	@Override
-	public Boolean countLike(final LikeRequest likeRequest) {
+	public Boolean countLike(final Long articlesSeq, final Long usersSeq) {
+		// Validation
+		Article article = articleRepository.findById(articlesSeq).orElseThrow(() -> new NoSuchElementException("NoArticle"));
+		User user = userRepository.findById(usersSeq).orElseThrow(() -> new NoSuchElementException("NoUser"));
 
-		Like like = likeRepository.findLikeByArticle_SeqAndUser_Seq(likeRequest.getArticlesSeq(), likeRequest.getUsersSeq());
-		return like != null ? true : false;
+		// 존재하면 true, 존재하지 않으면 false 반환
+		return likeRepository.findByArticleAndUser(article, user) != null ? true : false;
 	}
 }

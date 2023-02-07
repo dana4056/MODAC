@@ -83,14 +83,14 @@ public class ArticleController {
 
     @DeleteMapping("/like")
     // 게시글-유저 좋아요 관계 삭제
-    public ResponseEntity<?> deleteLike(@RequestBody LikeRequest likeRequest){
-        articleService.deleteLike(likeRequest);
+    public ResponseEntity<?> deleteLike(@RequestParam("articlesSeq") Long articlesSeq, @RequestParam("usersSeq") Long usersSeq){
+        articleService.deleteLike(articlesSeq, usersSeq);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping("/like")
     // 게시글-유저 좋아요 관계 개수 조회
-    public ResponseEntity<?> countLike(@RequestBody LikeRequest likeRequest){
-        return new ResponseEntity<Boolean>(articleService.countLike(likeRequest), HttpStatus.OK);
+    public ResponseEntity<?> countLike(@RequestParam("articlesSeq") Long articlesSeq, @RequestParam("usersSeq") Long usersSeq){
+        return new ResponseEntity<Boolean>(articleService.countLike(articlesSeq, usersSeq), HttpStatus.OK);
     }
 }
