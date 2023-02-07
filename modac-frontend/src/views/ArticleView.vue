@@ -3,6 +3,8 @@ import ArticleList from "../domains/Article/ArticleList.vue";
 // import ArticleForm from "../domains/Article/ArticleForm.vue";
 import ArticleEditor from "@/domains/Article/ArticleEditor.vue";
 import CommonButton from "@/components/CommonButton.vue";
+import OverflowDiv from '@/components/OverflowDiv.vue';
+
 const copyText = () => {
   navigator.clipboard.writeText('ㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇ')
   alert('복사 완료')
@@ -36,9 +38,11 @@ const copyText = () => {
     </div>
 
     <div :class="$style.article_container_below">
-      <div :class="$style.article_list">
-        <ArticleList />
-      </div>
+      <OverflowDiv>
+        <div :class="$style.article_list">
+          <ArticleList />
+        </div>
+      </OverflowDiv>
       <!-- <ArticleForm /> -->
       <div :class="$style.editor">
         <ArticleEditor />
