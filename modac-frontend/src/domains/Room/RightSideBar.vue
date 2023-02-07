@@ -4,7 +4,6 @@ import FavoriteRoomList from "@/domains/Room/Favorites/FavoritesRoomList.vue";
 import FriendList from "@/domains/Room/Friend/FriendList.vue";
 import RoomSettings from "@/domains/Room/Settings/RoomSettings.vue";
 import RoundButton from "@/components/RoundButton.vue";
-import InfiniteScrollVue from "./Chat/InfiniteScroll.vue";
 import { ref, computed } from "vue";
 import { useRoomStore } from "@/stores/room";
 import { storeToRefs } from "pinia";
@@ -45,7 +44,6 @@ const isRoomSettingsOpen = computed(() => {
   <div :class="$style.right_side_bar">
     <div :class="$style.right_side_bar_content">
       <ChatList v-if="isRoomChatOpen" />
-      <!-- <InfiniteScrollVue v-if="isRoomChatOpen" /> -->
       <FavoriteRoomList v-if="isFavoriteRoomListOpen" />
       <FriendList v-if="isFriendListOpen" />
       <RoomSettings v-if="isRoomSettingsOpen" />

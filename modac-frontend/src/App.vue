@@ -12,7 +12,7 @@ const router = useRouter();
 
 const routePageForEnteredUser = () => {
   if (isLoggedIn.value === true) {
-    router.push({ name: "room" });
+    router.push({ name: "test" });
   } else {
     router.push({ name: "login" });
   }
