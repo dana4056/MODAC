@@ -10,10 +10,12 @@
 import { useUserStore } from '../stores/user';
 import { useArticleStore } from '../stores/article2';
 import { useCommentStore } from '../stores/comment';
+import { useTodoStore } from '../stores/todo2';
 
 const store = useUserStore();
 const articleStore = useArticleStore();
 const commentStore = useCommentStore();
+const todoStore = useTodoStore();
 
 //============================= API 파라미터 데이터 ==========================
 const data1 = {     // 회원가입 데이터
@@ -68,14 +70,28 @@ const data8 = {   // 게시글 좋아요 관련 데이터
 
 // ======================================
 
-const data9  = {  // 댓글
+const data9  = {  // 댓글 저장 데이터
   articlesSeq: 2,
   usersSeq: 1,
   content: "소통해요~~~1"
-}
+};
 
 
 // ======================================
+
+const data10 = {  // Todo 저장 데이터
+  usersSeq: 1,
+  categoriesName: "기타",
+  title: "실버4알고리즘문제를풀고말테야"
+};
+
+const data11 = {  // Todo 수정 데이터
+  todosSeq: 3,
+  categoriesName: "기타",
+  title: "플래1알고리즘문제를풀고말테야",
+  status: 1,
+  totalSecond: "999"
+};
 
 
 
@@ -111,7 +127,11 @@ function click(){
   // commentStore.api.findCommentList(2);         // 게시글별 댓글 목록 조회
   // commentStore.api.deleteComment(2);           // 댓글 삭제
 
-
+  // todoStore.api.postTodo(data10);              // todo 작성
+  // todoStore.api.findTodo(3);                   // todo 조회
+  // todoStore.api.updateTodo(data11);            // todo 수정
+  // todoStore.api.deleteTodo(3);                 // todo 삭제
+  // todoStore.api.findTodoList(1); // todo 목록조회
 }
 
 
