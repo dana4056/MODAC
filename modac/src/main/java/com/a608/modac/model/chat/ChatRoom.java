@@ -36,4 +36,9 @@ public class ChatRoom {
         this.lastMessageTime = lastMessageTime;
     }
 
+    public void updateChatRoom(final Long lastMessageSeq, final String lastMessageTime){
+        this.lastMessageSeq = lastMessageSeq;
+        this.lastMessageTime = lastMessageTime;
+    }
+
 }

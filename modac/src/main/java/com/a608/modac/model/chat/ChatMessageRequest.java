@@ -7,22 +7,24 @@ import lombok.Getter;
 
 @Getter
 public class ChatMessageRequest {
-	private Long seq;
-	private Long usersSeq;
-	private Long chatRoomsSeq;
-	private String sendTime;
-	private String message;
-	private MessageType messageType;
+	private final Long seq;
+	private final Long usersSeq;
+	private final Long chatRoomsSeq;
+	private final String sendTime;
+	private final String message;
+	private final MessageType messageType;
+	private final ChatRoomType chatRoomType;
 
 	@Builder
 	public ChatMessageRequest(final Long seq, final Long usersSeq, final Long chatRoomsSeq, final String sendTime,
-		final String message, final MessageType messageType) {
+		final String message, final MessageType messageType, final ChatRoomType chatRoomType) {
 		this.seq = seq;
 		this.usersSeq = usersSeq;
 		this.chatRoomsSeq = chatRoomsSeq;
 		this.sendTime = sendTime;
 		this.message = message;
 		this.messageType = messageType;
+		this.chatRoomType = chatRoomType;
 	}
 
 	public ChatMessage toEntity(final ChatMessageRequest chatMessageRequest, final ChatRoom chatRoom, final User user) {
