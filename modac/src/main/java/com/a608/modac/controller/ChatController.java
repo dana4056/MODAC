@@ -39,7 +39,7 @@ public class ChatController {
 	private final ChatRoomService chatRoomService;
 	private final ChatMessageService chatMessageService;
 	private final SimpMessageSendingOperations simpMessageSendingOperations;
-	private UserService userService;
+	private final UserService userService;
 
 	@GetMapping("/rooms/{roomsSeq}")
 	public ResponseEntity<ChatRoomDto> findChatRoom(@PathVariable final Long roomsSeq) {
@@ -93,24 +93,24 @@ public class ChatController {
 	public void enterGroupChatRoom(ChatMessageRequest chatMessageRequest) {
 		chatMessageService.updateLastMessage(chatMessageRequest);
 
-		final UserResponse user = userService.findUserBySeq(chatMessageRequest.getSeq());
+		final UserResponse user = userService.findUserBySeq(chatMessageRequest.getUsersSeq());
 		final ChatRoomDto chatRoom = chatRoomService.findChatRoomBySeq(chatMessageRequest.getChatRoomsSeq());
 
 		ChatMessageResponse.builder()
-			.seq(chatRoom.getSeq())
 			.message(chatMessageRequest.getMessage())
 			.chatRoomsSeq(chatRoom.getSeq())
 			.sendTime(chatMessageRequest.getSendTime())
-			.userResponse(user)
+			.user(user)
 			.build();
 
-		simpMessageSendingOperations.convertAndSend("/topic/chat/rooms/enter/group/" + chatMessageRequest.getSeq(),
+		simpMessageSendingOperations.convertAndSend(
+			"/topic/chat/rooms/enter/group/" + chatMessageRequest.getChatRoomsSeq(),
 			chatMessageRequest);
 	} // 채팅방 입장(구독) -> 그룹 대화.
 
 	@MessageMapping(value = "/rooms/leave/group")
 	public ResponseEntity<Void> leaveGroupChatRoom(@Payload final ChatMessageRequest chatMessageRequest) {
-		simpMessageSendingOperations.convertAndSend("/topic/chat/rooms" + chatMessageRequest.getSeq(),
+		simpMessageSendingOperations.convertAndSend("/topic/chat/rooms" + chatMessageRequest.getChatRoomsSeq(),
 			chatMessageRequest.getMessage());
 
 		return new ResponseEntity<>(HttpStatus.OK);
@@ -119,12 +119,11 @@ public class ChatController {
 	@MessageMapping("/messages/group")
 	public void sendGroupMessage(final ChatMessageRequest chatMessageRequest) {
 		chatMessageService.updateLastMessage(chatMessageRequest);
-		System.out.println(chatMessageRequest.getChatRoomsSeq());
-		System.out.println(chatMessageRequest.getMessage());
+
+		final UserResponse userResponse = userService.findUserBySeq(chatMessageRequest.getUsersSeq());
 
 		final ChatMessageResponse chatMessageResponse = ChatMessageResponse.builder()
-			.seq(chatMessageRequest.getSeq())
-			.userResponse(userService.findUserBySeq(chatMessageRequest.getUsersSeq()))
+			.user(userResponse)
 			.chatRoomsSeq(chatMessageRequest.getChatRoomsSeq())
 			.message(chatMessageRequest.getMessage())
 			.sendTime(chatMessageRequest.getSendTime())

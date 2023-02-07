@@ -39,9 +39,9 @@ public class ChatMessageServiceImpl implements ChatMessageService {
 			.orElseThrow(NoSuchElementException::new);
 
 		final ChatMessage chatMessage = isAddEnterMessage(chatMessageRequest, chatRoom, user); // 입장 메시지 추가.
-		isSaveChatMessage(chatMessageRequest, chatMessage);// 채팅 메시지 저장.
+		final ChatMessage saveChatMessage = isSaveChatMessage(chatMessageRequest, chatMessage);// 채팅 메시지 저장.
 
-		return ChatMessageResponse.fromEntity(chatMessage, user);
+		return ChatMessageResponse.fromEntity(saveChatMessage, user);
 	} // 채팅 메시지 저장.
 
 	@Override
@@ -56,8 +56,10 @@ public class ChatMessageServiceImpl implements ChatMessageService {
 
 	@Override
 	public void updateLastMessage(final ChatMessageRequest chatMessageRequest) {
+		chatRoomRepository.findById(chatMessageRequest.getChatRoomsSeq());
+
 		chatRoomRepository.findById(chatMessageRequest.getChatRoomsSeq())
-			.ifPresent(room -> room.updateChatRoom(chatMessageRequest.getSeq(), chatMessageRequest.getSendTime()));
+			.ifPresent(room -> room.updateChatRoom(room.getLastMessageSeq(), room.getLastMessageTime()));
 	} // 채팅 메시지 업데이트.
 
 	private static ChatMessage isAddEnterMessage(final ChatMessageRequest chatMessageRequest, final ChatRoom chatRoom,
@@ -84,7 +86,6 @@ public class ChatMessageServiceImpl implements ChatMessageService {
 		final User user) {
 
 		return ChatMessage.builder()
-			.seq(chatMessageRequest.getSeq())
 			.chatRoom(chatRoom)
 			.user(user)
 			.message(user.getNickname() + "님이 방을 나갔습니다.")
@@ -96,7 +97,6 @@ public class ChatMessageServiceImpl implements ChatMessageService {
 		final User user) {
 
 		return ChatMessage.builder()
-			.seq(chatMessageRequest.getSeq())
 			.chatRoom(chatRoom)
 			.user(user)
 			.message(user.getNickname() + "님이 대화를 시작했습니다.")
@@ -108,7 +108,6 @@ public class ChatMessageServiceImpl implements ChatMessageService {
 		final User user) {
 
 		return ChatMessage.builder()
-			.seq(chatMessageRequest.getSeq())
 			.chatRoom(chatRoom)
 			.user(user)
 			.message(chatMessageRequest.getMessage())
