@@ -1,14 +1,14 @@
 <script setup>
-import ChatHeader from "./ChatHeader.vue";
 import ChatList from "./ChatList.vue";
+import RightSideBarHeader from "../Sidebar/RightSideBarHeader.vue";
+import RightSideBarBody from "../Sidebar/RightSideBarBody.vue";
 </script>
 
 <template>
-  <!-- This is an example component -->
-  <div :class="$style.chatbox">
-    <ChatHeader />
+  <RightSideBarHeader>스터디룸 채팅</RightSideBarHeader>
+  <RightSideBarBody>
     <ChatList />
-  </div>
+  </RightSideBarBody>
 </template>
 
 <style lang="css" module>

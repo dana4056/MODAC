@@ -8,7 +8,7 @@ const inputChatMessage = ref("");
 </script>
 
 <template>
-  <div :class="$style.chat_input_padding">
+  <div>
     <form action="" @submit.prevent="props.enterChat(inputChatMessage)">
       <input
         :class="$style.chat_input_box"

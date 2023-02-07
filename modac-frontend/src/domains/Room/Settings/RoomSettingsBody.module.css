@@ -1,15 +1,3 @@
-.setting_box_body {
-  @apply flex flex-row justify-between bg-white;
-}
-
-.setting_box_size1 {
-  @apply w-full px-5 flex flex-col justify-between;
-}
-
-.setting_box_size2 {
-  @apply flex flex-col mt-5;
-}
-
 .skin_change {
   @apply flex justify-between mb-4;
 }

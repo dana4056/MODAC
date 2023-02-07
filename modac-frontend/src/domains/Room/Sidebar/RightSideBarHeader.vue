@@ -2,10 +2,12 @@
 
 <template>
   <div :class="$style.setting_box_header">
-    <div :class="$style.setting_box_name">방 정보 수정</div>
+    <h1 :class="$style.title">
+      <slot></slot>
+    </h1>
   </div>
 </template>
 
 <style lang="css" module>
-@import "RoomSettingsHeader.module.css";
+@import "RightSideBarHeader.module.css";
 </style>

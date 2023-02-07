@@ -1,4 +1,2 @@
-/* 채팅창 뼈대 */
-.chatbox {
-  @apply container mx-auto shadow-lg rounded-lg;
+.first {
 }

@@ -61,17 +61,15 @@ const enterChat = (chatMessage) => {
 </script>
 
 <template>
-  <div :class="$style.chatbox_wrapper">
-    <div :class="$style.chatbox_body_size">
-      <ChatListItem
-        v-for="chatLog in chatLogs"
-        :key="chatLog.seq"
-        :chatLog="chatLog"
-        :loginUser="loginUser"
-      />
-    </div>
-    <ChatForm :enterChat="enterChat" />
+  <div :class="$style.chatbox_body_size">
+    <ChatListItem
+      v-for="chatLog in chatLogs"
+      :key="chatLog.seq"
+      :chatLog="chatLog"
+      :loginUser="loginUser"
+    />
   </div>
+  <ChatForm :enterChat="enterChat" />
 </template>
 
 <style lang="css" module>
