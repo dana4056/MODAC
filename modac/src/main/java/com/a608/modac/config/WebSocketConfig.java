@@ -19,9 +19,9 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
 	@Override
 	public void configureMessageBroker(final MessageBrokerRegistry registry) {
-		registry.setApplicationDestinationPrefixes("/app");
+		registry.setApplicationDestinationPrefixes("/pub");
 		// 메시지를 발행하는 요청 url -> 메시지를 보낼 때.
-		// /modac으로 시작하는 메시지만 broker에서 받아서 처리한다.
+		// /pub으로 시작하는 메시지만 broker에서 받아서 처리한다.
 
 		registry.enableSimpleBroker("/topic", "/queue");
 		// 메시지를 구독하는 요청 url -> 메시지를 받을 때

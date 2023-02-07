@@ -1,11 +1,11 @@
 package com.a608.modac.model.chat;
 
-public enum MessageType {
-	ENTER("ENTER"), TALK("TALK"), LEAVE("LEAVE");
+public enum ChatRoomType {
+	GROUP("GROUP"), DIRECT("DIRECT");
 
 	private final String type;
 
-	MessageType(final String type) {
+	ChatRoomType(final String type) {
 		this.type = type;
 	}
 
@@ -14,3 +14,4 @@ public enum MessageType {
 	}
 
 }
+
