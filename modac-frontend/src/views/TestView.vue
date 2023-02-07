@@ -1,12 +1,11 @@
-<template lang="">
+<template>
   <div>
     <h1>여기는 TestView 입니다.</h1>
-    <DmList/>
+    <Notification />
   </div>
 </template>
 <script setup>
-import DmList from "@/components/DmList.vue";
-import FriendList from "@/domains/Room/Friend/FriendList.vue";
+import Notification from '@/components/Notification.vue';
 
 </script>
 <style lang="css"></style>
