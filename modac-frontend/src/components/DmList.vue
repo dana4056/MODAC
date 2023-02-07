@@ -1,5 +1,6 @@
 <script setup>
 import ChatList from '@/domains/Room/Chat/ChatList.vue';
+import OverflowDiv from '@/components/OverflowDiv.vue';
 
 
 </script>
@@ -7,36 +8,38 @@ import ChatList from '@/domains/Room/Chat/ChatList.vue';
 
 <template>
   <div :class="$style.container">
-    <div :class="$style.dm_container">
-      <div :class="$style.dm_container_inside">
-        <ul>
-          <li :class="$style.dm_items">
-            <div :class="$style.dm_items_left"> 
-              <img src="https://i.imgur.com/aq39RMA.jpg" :class="$style.profile_img">
-              <div :class="$style.dm_items_left_items"> 
-                <span :class="$style.friend_name">Jessica Koel</span> 
-                <span :class="$style.last_text">Hey, Joel, I here to help you out please tell me</span> 
+    <OverflowDiv>
+      <div :class="$style.dm_container">
+        <div :class="$style.dm_container_inside">
+          <ul>
+            <li :class="$style.dm_items">
+              <div :class="$style.dm_items_left"> 
+                <img src="https://i.imgur.com/aq39RMA.jpg" :class="$style.profile_img">
+                <div :class="$style.dm_items_left_items"> 
+                  <span :class="$style.friend_name">Jessica Koel</span> 
+                  <span :class="$style.last_text">Hey, Joel, I here to help you out please tell me</span> 
+                </div>
               </div>
-            </div>
-            <div :class="$style.dm_items_right"> 
-              <span :class="$style.time">11:26</span> 
-            </div>
-          </li>
-          <li :class="$style.dm_items">
-            <div :class="$style.dm_items_left"> 
-              <img src="https://i.imgur.com/eMaYwXn.jpg" :class="$style.profile_img">
-              <div :class="$style.dm_items_left_items"> 
-                <span :class="$style.friend_name">Komeial Bolger</span> 
-                <span :class="$style.last_text">I will send you all documents as soon as possible</span> 
+              <div :class="$style.dm_items_right"> 
+                <span :class="$style.time">11:26</span> 
               </div>
-            </div>
-            <div :class="$style.dm_items_right"> 
-              <span :class="$style.time">12:26</span> 
-            </div>
-          </li>
-        </ul>
+            </li>
+            <li :class="$style.dm_items">
+              <div :class="$style.dm_items_left"> 
+                <img src="https://i.imgur.com/eMaYwXn.jpg" :class="$style.profile_img">
+                <div :class="$style.dm_items_left_items"> 
+                  <span :class="$style.friend_name">Komeial Bolger</span> 
+                  <span :class="$style.last_text">I will send you all documents as soon as possible</span> 
+                </div>
+              </div>
+              <div :class="$style.dm_items_right"> 
+                <span :class="$style.time">12:26</span> 
+              </div>
+            </li>
+          </ul>
+        </div>
       </div>
-    </div>
+    </OverflowDiv>
     <ChatList :class="$style.chatList" />
   </div>
 </template>
