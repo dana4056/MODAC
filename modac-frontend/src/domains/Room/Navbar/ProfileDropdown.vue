@@ -1,10 +1,11 @@
 <script setup>
-import { ref } from "vue";
+import { ref, computed, useCssModule } from "vue";
 import { useAuthStore } from "@/stores/auth";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
 const store = useAuthStore();
+const $style = useCssModule();
 
 const profileImgUrl = ref(
   "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
@@ -18,15 +19,43 @@ const logout = () => {
 const routeMyPage = () => {
   router.push({ name: "myPage" });
 };
+
+const isDropdownButtonOpenState = ref(false);
+
+const openDropdown = () => {
+  isDropdownButtonOpenState.value = true;
+};
+
+const closeDropdown = () => {
+  isDropdownButtonOpenState.value = false;
+};
+
+const clickDropdownButtonHandler = () => {
+  isDropdownButtonOpenState.value ? closeDropdown() : openDropdown();
+};
+
+const blurDropdownButtonHandler = () => {
+  if (isDropdownButtonOpenState.value === true) {
+    closeDropdown();
+  }
+};
+
+const dropdownStyleState = computed(() => {
+  return isDropdownButtonOpenState.value
+    ? `${$style.dropdown} ${$style.dropdown_block}`
+    : `${$style.dropdown} ${$style.dropdown_none}`;
+});
 </script>
 
 <template>
   <div class="relative ml-3">
     <div>
       <button
+        @click="clickDropdownButtonHandler"
+        @blur="blurDropdownButtonHandler"
         type="button"
-        :class="$style.user_menu_button"
-        id="user-menu-button"
+        :class="$style.dropdown_button"
+        id="dropdown_button"
         aria-expanded="false"
         aria-haspopup="true"
       >
@@ -35,28 +64,29 @@ const routeMyPage = () => {
     </div>
 
     <div
-      :class="$style.menu__div"
+      id="dropdown"
+      :class="dropdownStyleState"
       role="menu"
       aria-orientation="vertical"
-      aria-labelledby="user-menu-button"
+      aria-labelledby="dropdown_button"
       tabindex="-1"
     >
       <a
         href="#"
-        :class="$style.menu_item__a"
+        :class="$style.item"
         role="menuitem"
         tabindex="-1"
         id="user-menu-item-0"
-        @click="routeMyPage"
+        @mousedown="routeMyPage"
         >마이페이지</a
       >
       <a
         href="#"
-        :class="$style.menu_item__a"
+        :class="$style.item"
         role="menuitem"
         tabindex="-1"
         id="user-menu-item-2"
-        @click="logout"
+        @mousedown="logout"
         >로그아웃</a
       >
     </div>
