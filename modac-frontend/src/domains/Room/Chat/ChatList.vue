@@ -1,22 +1,68 @@
-<script setup>
+<script setup> 
 import { storeToRefs } from "pinia"
 import ChatForm from "./ChatForm.vue";
 import ChatListItem from "./ChatListItem.vue";
 import { useChatStore } from '@/stores/chat';
 import { useUserStore } from '@/stores/user';
 import { ref } from "vue";
-// import Stomp from 'webstomp-client';
+import Stomp from 'webstomp-client';
 // import SockJS from 'sockjs-client';
+import SockJS from 'sockjs-client/dist/sockjs.min.js';
 
 const chatStore = useChatStore();
 const userStore = useUserStore();
+var stompClient = null;
 
 const { loginUser } = storeToRefs(userStore);
 const { chatLogs } = storeToRefs(chatStore);
 
-const child = ref(null);
+// 페이지 파라미터
+const page = 0;
 
-// connect();
+// 더미
+const room = {
+  seq: 1,
+  title: "room1",
+  description: "방1입니다.",
+  maxSize: 3,
+  currentSize: 1,
+  multiTheme: 0,
+  publicType: 0,
+  invitationCode: "",
+  participants: [
+      {
+          usersSeq: 1,
+          nickname: "nick1",
+          status: 0,
+          attend: 1,
+          catSkin: 2,
+          categoriesName: "알고리즘",
+          registeredTime: "2023-02-07 09:22:30"
+      },
+  ],
+  host: {
+    seq:1,
+      id:"test1",
+      nickname:"nick1",
+      email:"test1@naver.com",
+      catSkin:2,
+      singleTheme:null,
+      totalSecond:0,
+      membershipLevel:"BRONZE_LV1",
+      point:0,
+      maxPoint:50,
+      token:"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MSIsInVzZXJTZXEiOjEsIm5pY2tuYW1lIjoibmljazEiLCJyb2xlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9VU0VSIn1dLCJpYXQiOjE2NzU2OTE5MzAsImV4cCI6MTcwNzIyNzkzMH0.d-nWBIKVboVlnjVX3FD5h5OCIFYApyy1NQnwlndTYCY",
+  },
+  chatRoom: {
+      seq: 1,
+      lastMessageSeq: 1,
+      lastMessageTime: "String"
+  }
+}
+
+const child = ref(null);
+const isSocketConnected = ref(false);
+connect();
 
 const enterChat = (chatMessage) => {
   if(chatMessage){
@@ -36,19 +82,27 @@ const enterChat = (chatMessage) => {
     const timeString = hours + ':' + minutes  + ':' + seconds;
 
     const chatData = {
-      usersSeq: loginUser.value.seq,
-      chatRoomSeq: 1,
+      user: loginUser.value,
+      chatRoomSeq: room.chatRoom.seq,
       sendTime: dateString + " " + timeString,
-      message:String,
-      MessageType:"",
-      chatRoomType:""
+      message:chatMessage,
     };
 
     // 일단 배열에 추가 (하면 안되겠다 불러와야할듯 request랑 response dto가 다름)
     chatLogs.value.push(chatData);
 
-    // DB에 저장
-    // chatStore.api.postChat(chatData);
+    const sendData = {
+      usersSeq: chatData.user.seq,
+      chatRoomsSeq: chatData.chatRoomSeq,
+      sendTime: chatData.sendTime,
+      message:chatData.message,
+      MessageType:"TALK",
+      chatRoomType:"GROUP"
+    }
+
+    console.log("****************"+sendData);
+    // 소켓 send
+    stompClient.send(`/pub/messages/group`,JSON.stringify(sendData),{});
   }
 };
 
@@ -61,46 +115,33 @@ function liftMessage(){
 }
 
 
-// function connect(){
-//   this.isSocketConnected = true;
-//   var socket = new SockJS('/socket-open/chat');  // WebSocketConfig랑 통일할 주소 , 소켓 열 주소
-//   stompClient = Stomp.over(socket);
-//   stompClient.connect({}, onConnected, onError);
-// }
+function connect(){
+  isSocketConnected.value = true;
+  var socket = new SockJS('http://70.12.247.126:8080/ws');  // WebSocketConfig랑 통일할 주소 , 소켓 열 주소
+  stompClient = Stomp.over(socket);
+  stompClient.connect({}, onConnected, onError);
+}
 
-// function onConnected(){
-//   var postIdList = this.$store.state.postIdList;
-//   for(var i = 0; i < postIdList.length; i++){
-//     stompClient.subscribe(`/sub/send/${postIdList[i]}`, onMessageReceived);
-//   }
-// }
+function onConnected(){
+  console.log("채팅룸 seq" + room.chatRoom.seq)
+  stompClient.subscribe(`/topic/chat/rooms/enter/group/${room.chatRoom.seq}`, onMessageReceived);
+}
 
-// function onError(){
-//   console.log("소켓 연결 실패");
-// }
+function onError(){
+  console.log("소켓 연결 실패");
+}
 
-// function onMessageReceived(res){
-//   setTimeout(() => {
-//     // console.log('구독으로 받은 메시지', res.body);
-//     const post_id = this.$store.state.postIdList[this.$store.state.roomIndex];
-//     this.$store.dispatch('FIND_CHAT_LOGS', post_id);
-//     this.liftMessage();
-//     // 라스트 메시지 갱신
-//     let message = "";
-//     if(res.body.length < 20){
-//         message = res.body;
-//     } 
-//     else{
-//         message = res.body.slice(0,10);
-//         message = message + "..."
-//     }
-//     const changeLastChat = {
-//       post_id: res.headers.destination.split("/")[3],
-//       message: message
-//     };
-//     this.$store.commit('SET_LAST_CHAT', changeLastChat);
-//   }, 500);
-// }
+function onMessageReceived(res){
+  setTimeout(() => {
+    var chat = JSON.parse(res.body);
+    console.log('구독으로 받은 메시지', chat);
+
+    chatLogs.value.push(chat);
+
+    liftMessage();
+
+  }, 500);
+}
 
 
 </script>

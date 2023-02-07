@@ -1,6 +1,10 @@
 import http from "@/api/http";
 import { useUserStore } from '../stores/user';
 import { storeToRefs } from "pinia"
+import { useRouter } from "vue-router";
+import router from "@/router/index"
+
+// const router = useRouter();
 
 // const store = useUserStore();
 // const { loginUser } = storeToRefs(store);
@@ -222,7 +226,7 @@ export default {
 
                 if (code == 200) {
                     if (response.data) {
-                        console.log("로그인 성공");
+                        alert("로그인 성공");
                         console.log(response.data.token)
                         localStorage.setItem('jwt', response.data.token); // 로컬 스토리지에 저장
 
@@ -230,6 +234,7 @@ export default {
                         const { loginUser } = storeToRefs(store);
 
                         loginUser.value = response.data;    //userStore에 멤버 저장
+                        router.push({name:"room"});
                         
                     } else {
                         console.log("로그인 실패: 비밀번호 불일치")
