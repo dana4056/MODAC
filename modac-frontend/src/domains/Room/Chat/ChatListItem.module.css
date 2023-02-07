@@ -1,6 +1,7 @@
 /* 내가 채팅 쳤을 때 클래스 */
 .mychat_box_size {
   @apply flex justify-end mb-4;
+  align-items: flex-end
 }
 
 .mychat_box_content {
@@ -10,6 +11,11 @@
 /* 상대방 채팅 쳤을 때 클래스 */
 .yourchat_box_size {
   @apply flex justify-start mb-4;
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: row-reverse;
+  align-items: flex-end
 }
 
 .yourchat_box_content {
