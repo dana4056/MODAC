@@ -26,8 +26,8 @@ public interface ArticleService {
 	void createLike(final LikeRequest likeRequest);
 
 	// 게시글-유저 좋아요 관계 삭제
-	void deleteLike(final LikeRequest likeRequest);
+	void deleteLike(final Long articlesSeq, final Long usersSeq);
 
 	// 게시글-유저 좋아요 관계 개수 조회
-	Boolean countLike(final LikeRequest likeRequest);
+	Boolean countLike(final Long articlesSeq, final Long usersSeq);
 }

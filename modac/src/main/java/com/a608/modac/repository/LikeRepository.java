@@ -11,4 +11,5 @@ import org.springframework.stereotype.Repository;
 public interface LikeRepository extends JpaRepository<Like, Long> {
 	Long countBySeq(Long seq);
 	Like findLikeByArticle_SeqAndUser_Seq(Long articlesSeq, Long usersSeq);
+	Like findByArticleAndUser(Article article, User user);
 }
