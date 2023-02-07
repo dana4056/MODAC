@@ -74,52 +74,45 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String findIdByEmail(String email) {
-        User user = userRepository.findUserByEmail(email);
+        User user = userRepository.findUserByEmail(email).orElseThrow(() -> new NoSuchElementException("NoUser"));
         return user.getId();
     }
 
     @Override
     public String findPasswordByEmail(String email) {
-        User user = userRepository.findUserByEmail(email);
+        User user = userRepository.findUserByEmail(email).orElseThrow(() -> new NoSuchElementException("NoUser"));
         return user.getPassword();
     }
 
     @Override
-    public boolean checkAvailableNick(String nick) {
-        User user = userRepository.findUserByNickname(nick);
-        return user == null ? true : false;
+    public void checkAvailableNick(String nick) {
+        User user = userRepository.findUserByNickname(nick).orElseThrow(() -> new NoSuchElementException("NoUser"));
     }
 
     @Override
-    public boolean checkAvailableId(String id) {
-        User user = userRepository.findUserById(id);
-        return user == null ? true : false;
+    public void checkAvailableId(String id) {
+        User user = userRepository.findUserById(id).orElseThrow(() -> new NoSuchElementException("NoUser"));
     }
 
     @Override
-    public boolean checkAvailableEmail(String email) {
-        User user = userRepository.findUserByEmail(email);
-        return user == null ? true : false;
+    public void checkAvailableEmail(String email) {
+        User user = userRepository.findUserByEmail(email).orElseThrow(() -> new NoSuchElementException("NoUser"));
     }
 
     @Override
-    public String login(UserRequest userRequest) {
-        // User user = userRepository.findUserById(userRequest.getId());
-        User user = userRepository.findById(userRequest.getId()).orElseThrow(() -> new NoSuchElementException("NoUser"));
+    public UserResponse login(UserRequest userRequest) {
+        User user = userRepository.findUserById(userRequest.getId()).orElseThrow(() -> new NoSuchElementException("NoUser"));
 
         if(user.getPassword().equals(userRequest.getPassword())){
            //로그인 성공
             String token = jwtTokenProvider.createToken(user);
-            return token;
+            UserResponse userResponse = new UserResponse(user);
+            userResponse.setToken(token);
+            return userResponse;
         }else{
             System.out.println("[로그인 실패] - 비밀번호 불일치");
-            return "false";
+            return null;
         }
-        // if(user != null){
-        //     return user.getPassword().equals(userRequest.getPassword());
-        // }else {
-        //     return false;
-        // }
     }
 
     @Override

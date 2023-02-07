@@ -1,8 +1,10 @@
 package com.a608.modac.model.user;
 
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
+@Setter
 public class UserResponse {
 
 	private Long seq;
@@ -15,6 +17,8 @@ public class UserResponse {
 	private String membershipLevel;
 	private Integer point;
 	private Integer maxPoint;
+
+	private String token;
 
 	public UserResponse(User user) {
 		this.seq = user.getSeq();

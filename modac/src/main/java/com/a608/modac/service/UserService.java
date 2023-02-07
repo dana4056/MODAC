@@ -23,13 +23,13 @@ public interface UserService {
 
 	String findPasswordByEmail(final String email);	// 비밀번호 찾기 (이메일로)
 
-	boolean checkAvailableNick(final String nick);	// 닉네임 중복확인
+	void checkAvailableNick(final String nick);	// 닉네임 중복확인
 
-	boolean checkAvailableId(final String id);		// 아이디 중복확인
-	
-	boolean checkAvailableEmail(final String email);// 이메일 중복확인
+	void checkAvailableId(final String id);		// 아이디 중복확인
 
-	String login(UserRequest userRequest);			// 로그인
+	void checkAvailableEmail(final String email);// 이메일 중복확인
+
+	UserResponse login(UserRequest userRequest);			// 로그인
 	
 	void following(FollowRequest followRequest);	// 팔로잉
 
