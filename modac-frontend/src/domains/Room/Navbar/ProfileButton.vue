@@ -20,28 +20,28 @@ const routeMyPage = () => {
   router.push({ name: "myPage" });
 };
 
-const isDropdownButtonOpenState = ref(false);
+const isDropdownOpenState = ref(false);
 
 const openDropdown = () => {
-  isDropdownButtonOpenState.value = true;
+  isDropdownOpenState.value = true;
 };
 
 const closeDropdown = () => {
-  isDropdownButtonOpenState.value = false;
+  isDropdownOpenState.value = false;
 };
 
 const clickDropdownButtonHandler = () => {
-  isDropdownButtonOpenState.value ? closeDropdown() : openDropdown();
+  isDropdownOpenState.value ? closeDropdown() : openDropdown();
 };
 
 const blurDropdownButtonHandler = () => {
-  if (isDropdownButtonOpenState.value === true) {
+  if (isDropdownOpenState.value === true) {
     closeDropdown();
   }
 };
 
 const dropdownStyleState = computed(() => {
-  return isDropdownButtonOpenState.value
+  return isDropdownOpenState.value
     ? `${$style.dropdown} ${$style.dropdown_block}`
     : `${$style.dropdown} ${$style.dropdown_none}`;
 });
@@ -94,5 +94,5 @@ const dropdownStyleState = computed(() => {
 </template>
 
 <style lang="css" module>
-@import "ProfileDropdown.module.css";
+@import "ProfileButton.module.css";
 </style>
