@@ -1,4 +1,15 @@
-<script setup></script>
+<script setup>
+import { useRoomStore } from "@/stores/room";
+
+const store = useRoomStore();
+
+const rightSideBarContentMap = {
+  ROOM_CHAT: 0,
+  FAVORITE_ROOM_LIST: 1,
+  FRIEND_LIST: 2,
+  ROOM_SETTINGS: 3,
+};
+</script>
 
 <template>
   <div :class="$style.button_flex">

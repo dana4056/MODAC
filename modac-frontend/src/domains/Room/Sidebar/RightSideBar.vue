@@ -4,7 +4,7 @@ import FavoriteRoomList from "@/domains/Room/Favorites/FavoritesRoomList.vue";
 import FriendList from "@/domains/Room/Friend/FriendList.vue";
 import RoomSettings from "@/domains/Room/Settings/RoomSettings.vue";
 import RightSideBarButton from "./RightSideBarButton.vue";
-import { ref, computed } from "vue";
+import { computed } from "vue";
 import { useRoomStore } from "@/stores/room";
 import { storeToRefs } from "pinia";
 
@@ -42,13 +42,13 @@ const isRoomSettingsOpen = computed(() => {
 
 <template>
   <div :class="$style.right_side_bar">
+    <RightSideBarButton />
     <div :class="$style.right_side_bar_content">
       <Chat v-if="isRoomChatOpen" />
       <FavoriteRoomList v-if="isFavoriteRoomListOpen" />
       <FriendList v-if="isFriendListOpen" />
       <RoomSettings v-if="isRoomSettingsOpen" />
     </div>
-    <RightSideBarButton />
   </div>
 </template>
 
