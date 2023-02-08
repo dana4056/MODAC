@@ -15,8 +15,8 @@ export const useRoomStore = defineStore("room", () => {
     isDeleteRoom.value = true;
   };
 
-  const isOpenedLeftSideBar = ref(true);
-  const isOpenedRightSideBar = ref(true);
+  const isOpenedLeftSideBar = ref(false);
+  const isOpenedRightSideBar = ref(false);
 
   const toggleLeftSideBar = () => {
     isOpenedLeftSideBar.value = isOpenedLeftSideBar.value ? false : true;
