@@ -1,6 +1,8 @@
 <script setup>
-import FavoritesRoomListHeader from "./FavoritesRoomListHeader.vue";
 import FavoritesRoomListItem from "./FavoritesRoomListItem.vue";
+import RightSideBarHeader from "../Sidebar/RightSideBarHeader.vue";
+import RightSideBarBody from "../Sidebar/RightSideBarBody.vue";
+
 import { ref } from "vue";
 
 const favortiesRoomList = ref([
@@ -29,14 +31,14 @@ const favortiesRoomList = ref([
 </script>
 
 <template>
-  <div>
-    <FavoritesRoomListHeader />
+  <RightSideBarHeader>즐겨찾는 스터디룸</RightSideBarHeader>
+  <RightSideBarBody>
     <FavoritesRoomListItem
       v-for="favoritesRoom in favortiesRoomList"
       :key="favoritesRoom.id"
       :favoritesRoom="favoritesRoom"
     />
-  </div>
+  </RightSideBarBody>
 </template>
 
 <style lang="css" module>

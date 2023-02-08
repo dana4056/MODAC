@@ -1,0 +1,3 @@
+.chat_input_box {
+  @apply w-full bg-gray-200 py-5 px-3 rounded-xl;
+}

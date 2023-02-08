@@ -1,0 +1,7 @@
+.sound_bar_label {
+  @apply block mb-1 text-sm font-medium text-gray-900 dark:text-white;
+}
+
+.sound_bar_range {
+  @apply w-full h-1 mb-6 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700;
+}

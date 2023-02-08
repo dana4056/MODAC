@@ -1,0 +1,28 @@
+/* 내가 채팅 쳤을 때 클래스 */
+.mychat_box_size {
+  @apply flex justify-end mb-4;
+  align-items: flex-end
+}
+
+.mychat_box_content {
+  @apply mr-2 py-3 px-4 bg-blue-400 rounded-bl-3xl rounded-tl-3xl rounded-tr-xl text-white;
+}
+
+/* 상대방 채팅 쳤을 때 클래스 */
+.yourchat_box_size {
+  @apply flex justify-start mb-4;
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: row-reverse;
+  align-items: flex-end
+}
+
+.yourchat_box_content {
+  @apply ml-2 py-3 px-4 bg-gray-400 rounded-br-3xl rounded-tr-3xl rounded-tl-xl text-white;
+}
+
+/* 채팅 공통 클래스 */
+.chat_profile {
+  @apply object-cover h-8 w-8 rounded-full;
+}
