@@ -3,14 +3,22 @@ import DMRoomListItem from "./DMRoomListItem.vue";
 import { useDmStore } from "@/stores/dm";
 import { storeToRefs } from "pinia";
 
-const store = useDmStore();
-const { directMessageRoomList, liveDirectMessageRoomNumber } =
-  storeToRefs(store);
+const DMstore = useDmStore();
+const { directMessageRoomList, liveDirectMessages } = storeToRefs(DMstore);
 
-const getItemSeq = (DMRoomSeq) => {
-  console.log(DMRoomSeq);
-  liveDirectMessageRoomNumber.value = DMRoomSeq;
+// DM 채팅방 리스트 불러오기
+DMstore.api.fetchRoomList();
+
+const getMessages = (DMRoomSeq) => {
+  const payload = {
+    roomSeq:DMRoomSeq,
+    page:0
+  }
+
+  // 클릭한 채팅방 메시지 목록 불러오기
+  DMstore.api.fetchMessages(payload);
 };
+
 </script>
 
 <template>
@@ -18,6 +26,7 @@ const getItemSeq = (DMRoomSeq) => {
     <DMRoomListItem
       v-for="roomItem in directMessageRoomList"
       :key="roomItem.seq"
+      :chatRoom="roomItem"
       :seq="roomItem.seq"
       :getItemSeq="getItemSeq"
     />

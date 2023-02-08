@@ -14,7 +14,7 @@ const userStore = useUserStore();
 var stompClient = null;
 
 const { loginUser } = storeToRefs(userStore);
-const { chatLogs } = storeToRefs(chatStore);
+const { groupChatLogs } = storeToRefs(chatStore);
 
 // 페이지 파라미터
 const page = 0;
@@ -90,7 +90,7 @@ const enterChat = (chatMessage) => {
     };
 
     // 일단 배열에 추가 (하면 안되겠다 불러와야할듯 request랑 response dto가 다름)
-    chatLogs.value.push(chatData);
+    groupChatLogs.value.push(chatData);
 
     const sendData = {
       usersSeq: chatData.user.seq,
@@ -101,7 +101,6 @@ const enterChat = (chatMessage) => {
       chatRoomType: "GROUP",
     };
 
-    console.log("****************" + sendData);
     // 소켓 send
     stompClient.send(`/pub/messages/group`, JSON.stringify(sendData), {});
   }
@@ -138,7 +137,7 @@ function onMessageReceived(res) {
     var chat = JSON.parse(res.body);
     console.log("구독으로 받은 메시지", chat);
 
-    chatLogs.value.push(chat);
+    groupChatLogs.value.push(chat);
 
     liftMessage();
   }, 500);
@@ -148,7 +147,7 @@ function onMessageReceived(res) {
 <template>
   <div :class="$style.chatbox_body_size" id="chatbox_body">
     <ChatListItem
-      v-for="chatLog in chatLogs"
+      v-for="chatLog in groupChatLogs"
       :key="chatLog.seq"
       :chatLog="chatLog"
       :loginUser="loginUser"

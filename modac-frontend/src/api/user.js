@@ -1,10 +1,8 @@
 import http from "@/api/http";
 import { useUserStore } from '../stores/user';
 import { storeToRefs } from "pinia"
-import { useRouter } from "vue-router";
 import router from "@/router/index"
 
-// const router = useRouter();
 
 // const store = useUserStore();
 // const { loginUser } = storeToRefs(store);
