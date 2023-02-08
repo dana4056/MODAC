@@ -6,10 +6,11 @@ const props = defineProps({
   loginUser: Object,
 });
 
+
 const $style = useCssModule();
 
 const chatHostReader = computed(() => {
-  if (props.chatLog.usersSeq === props.loginUser.seq) {
+  if (props.chatLog.user.seq === props.loginUser.seq) {
     return "myStyle";
   } else {
     return "yourChat";
@@ -27,36 +28,31 @@ const contentStyle = computed(() => {
     ? $style.mychat_box_content
     : $style.yourchat_box_content;
 });
+
+const dateStyle = computed(() => {
+
+  const h = props.chatLog.sendTime.slice(11,13);
+  const m = props.chatLog.sendTime.slice(14,16);
+  const s = props.chatLog.sendTime.slice(17);
+
+  return h+":"+m;
+})
+
 </script>
 
 <template>
   <div :class="sizeStyle">
+    <small>{{ dateStyle }}</small>
     <div :class="contentStyle">{{ props.chatLog.message }}</div>
-    <img
-      src="https://source.unsplash.com/vpOeXr5wmR4/600x600"
-      :class="$style.chat_profile"
-      alt=""
-    />
+    <div>
+      <small v-if="props.chatLog.user.nickname != props.loginUser.nickname">{{props.chatLog.user.nickname}}</small>
+      <img
+        src="https://source.unsplash.com/vpOeXr5wmR4/600x600"
+        :class="$style.chat_profile"
+        alt=""
+      />
+    </div>
   </div>
-  <!-- <div :class="$style.yourchat_box_size">
-        <img
-          src="https://source.unsplash.com/vpOeXr5wmR4/600x600"
-          :class="$style.chat_profile"
-          alt=""
-        />
-        <div :class="$style.yourchat_box_content">동현아 아프지마</div>
-      </div>
-      <div :class="$style.mychat_box_size">
-        <div :class="$style.mychat_box_content">
-          형 그래도 가기전에 이거 채팅 소스 드리고 갈게요
-          https://tailwindcomponents.com/component/chat-messages/landing
-        </div>
-        <img
-          src="https://source.unsplash.com/vpOeXr5wmR4/600x600"
-          :class="$style.chat_profile"
-          alt=""
-        />
-      </div> -->
 </template>
 
 <style lang="css" module>
