@@ -40,7 +40,17 @@ const data4 = {   // 포인트 수정 데이터
 
 const data5 = {   // 로그인 데이터
   id: "test2",
-  password: "vue2"
+  password: "test2"
+}
+
+const user_data6 = {   // 팔로잉 데이터
+  fromSeq: 1, 
+  toSeq:4
+}
+
+const user_data7 = {   // 팔로잉 여부 조회 데이터
+  fromSeq: 1,
+  toSeq:14
 }
 
 
@@ -49,8 +59,8 @@ const data5 = {   // 로그인 데이터
 function click(){
 
   /********** 파라미터가 객체형식인 것은 위에 정리 / 아닌건 그냥 기입 *************/
-  store.api.postUser(data1);                   // 회원가입
-  store.api.fetchUser(2);                      // 회원정보 조회
+  // store.api.postUser(data1);                   // 회원가입
+  // store.api.fetchUser(2);                      // 회원정보 조회
   // store.api.updateUser(data2);                 // 회원정보 수정
   // store.api.updatePW(data3);                   // 비밀번호 수정
   // store.api.updatePoint(data4);                // 포인트 수정
@@ -60,7 +70,13 @@ function click(){
   // store.api.checkUserNick("nick1");            // 닉네임 중복확인
   // store.api.checkUserId("test1");              // 아이디 중복확인
   // store.api.checkUserEmail("vue1@gmail.com");  // 이메일 중복확인
-  // store.api.login(data5);                      // 로그인
+  // store.login(data5);                          // 로그인
+  // store.api.logout();                          // 로그아웃(axios X)
+  // store.api.following(data6);                  // 팔로잉
+  // store.api.unfollowing(1);                    // 언팔로잉
+  // store.api.fetchFollowingUsers(1);            // 팔로잉 회원목록 조회(친구 조회)
+  // store.api.fetchFollowerUsers(1);             // 팔로워 회원목록 조회(날 팔로잉하는 사람들)
+  // store.api.isFollowing(data7);                // 팔로잉 여부 조회(내가 쟤를 팔로잉하고 있나?)
 
 }
 
