@@ -402,7 +402,7 @@ const roomList = ref([
     <aside :class="$style.side_bar_flex_item"></aside>
     <Wrapper :class="$style.section_flex_item">
       <RoomListHeader />
-      <section :class="$style.wrapper_flex">
+      <section :class="$style.wrapper_flex_div">
         <StudyRoomListItem
           :class="$style.study_room_flex_item"
           v-for="roomItem in roomList"

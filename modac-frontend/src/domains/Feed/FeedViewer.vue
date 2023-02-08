@@ -7,5 +7,5 @@
 </template>
 
 <style lang="css" module>
-@import "FeedViewer.module.css"
+@import "FeedViewer.module.css";
 </style>

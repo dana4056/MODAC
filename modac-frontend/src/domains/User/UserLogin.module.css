@@ -1,5 +1,5 @@
 .login_all_flex {
-  @apply flex h-full bg-gradient-to-b from-sky-900 to-pink-300 text-white justify-center;
+  @apply flex h-full bg-gradient-to-b from-black via-sky-900 to-orange-300 text-white justify-center;
   font-family: 'Pretendard';
 }
 
@@ -60,7 +60,8 @@
 }
 
 .text_green {
-  @apply text-green-400
+  /* @apply text-lime-300; */
+  color: #33FF66
 }
 
 .text_orange {

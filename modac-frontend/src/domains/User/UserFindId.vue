@@ -3,28 +3,46 @@
     <div :class="$style.login_left_flex">
       <div :class="$style.login_div_flex">
         <div :class="$style.login_description">
-          <img :src="emojiFire" class="w-40 h-40 inline">
-          <h1 :class="$style.login_title"><img :src="emojiGrinningCatWithSmilingEyes" class="w-11 h-11 inline"> 반가워요. <span :class="$style.text_green"> { 모닥 }</span>이에요!<img :src="emojiPawPrints" class="w-8 h-8 inline"></h1>
-          <p :class="$style.login_p">모닥불 앞에 모여 <span :class="$style.text_orange"> 함께 온기를 느끼며 공부</span>하고,
-          <br><span :class="$style.text_orange"> 기록하며 성장</span>할 수 있는 <span :class="$style.text_orange">개발자 친화 서비스</span>, <span :class="$style.text_green"> { MODAC }</span>과 함께하세요!</p>
+          <img :src="emojiWearyCat" class="w-40 h-40 inline">
+          <h1 :class="$style.login_title"><span :class="$style.text_green">아이디</span>가 기억나지 않으신가요?</h1>
+          <p :class="$style.login_p">가입하신 <span :class="$style.text_orange"> 이메일</span>로 찾을 수 있어요!</p>
         </div>
         <form id="loginform" :class="$style.login_form">
-          <div>
+          <!-- <div>
             <input type="text" placeholder="아이디를 입력하세요" :class="$style.login_form_input">
           </div>
           <div>
             <input type="password" placeholder="비밀번호를 입력하세요" :class="$style.login_form_input">
+          </div> -->
+          
+          <div :class="$style.update_info_div">
+            <input type="text" 
+                    v-model="user_email1" 
+                    id="user_email"
+                    :class="$style.update_info_input_email"
+                    placeholder="이메일" 
+                    required>
+
+            &nbsp;@&nbsp;
+
+            <select id="user_email2" 
+                    v-model="user_email2"
+                    :class="$style.update_info_input_email">
+              <option value="naver.com" selected="selected">naver.com</option>
+              <option value="gmail.com">gmail.com</option>
+              <option value="ssafy.com">ssafy.com</option>
+            </select>
           </div>
-          <button type="submit" id="login-button" :class="$style.login_form_login_button" @click="auth.value.isLoggedin = true">로그인</button>
+
+          <button type="submit" id="login-button" :class="$style.login_form_login_button" @click="auth.value.isLoggedin = true">아이디 찾기</button>
         </form>
       </div>
 
       <div :class="$style.login_sns_flex">
         <div :class="$style.login_options">
-          <RouterLink id="routerlink" to="/signup">회원가입</RouterLink>
+          <RouterLink id="routerlink" to="/login">로그인</RouterLink>
           <p>|</p>
-          <RouterLink id="routerlink" to="/findid">아이디 찾기</RouterLink>
-          <!-- <p>아이디 찾기</p> -->
+          <RouterLink id="routerlink" to="/signup">회원가입</RouterLink>
           <p>|</p>
           <RouterLink id="routerlink" to="/findpass">비밀번호 찾기</RouterLink>
         </div>
@@ -52,9 +70,9 @@
 </template>
 
 <script setup>
-  import emojiFire from '../../assets/emojis/emoji-fire.png'
-  import emojiPawPrints from '../../assets/emojis/emoji-paw-prints.png'
-  import emojiGrinningCatWithSmilingEyes from '../../assets/emojis/emoji-grinning-cat-with-smiling-eyes.png'
+  // import emojiFire from '../../assets/emojis/emoji-fire.png'
+  // import emojiPawPrints from '../../assets/emojis/emoji-paw-prints.png'
+  import emojiWearyCat from '../../assets/emojis/emoji-weary-cat.png'
   import emojiChartIncreasing from '../../assets/emojis/emoji-chart-increasing.png'
   // import emojiWritingHand from '../../assets/emojis/emoji-writing-hand.png'
   // import emojiCat from '../../assets/emojis/emoji-cat.png'
@@ -73,8 +91,13 @@
   // }
 
   // loginstate.value = store.
+
+  
+let user_email1 = "";
+let user_email2 = "naver.com";
+
 </script>
 
 <style lang="css" module>
-  @import "./UserLogin.module.css";
+  @import "./UserFindId.module.css";
 </style>

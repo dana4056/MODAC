@@ -102,6 +102,7 @@ const sendArticle = () => {
 
   if (confirm("TIL을 작성하러 가시겠습니까?") == true) {
     // 확인
+    console.log(completedTodos);
     for (const completed in completedTodos) {
       deleteTodoItem(completedTodos[completed]);
     }
