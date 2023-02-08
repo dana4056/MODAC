@@ -10,7 +10,7 @@ export default {
             .catch((error) => {
                 console.log(error);
             });
-    },
+    },  
     // 사용자 게시글 전체 조회
     findArticleByUsersSeq(payload) {
         http.get(`/articles`, {
