@@ -42,13 +42,13 @@ const isRoomSettingsOpen = computed(() => {
 
 <template>
   <div :class="$style.right_side_bar">
-    <RightSideBarButton />
     <div :class="$style.right_side_bar_content">
       <Chat v-if="isRoomChatOpen" />
       <FavoriteRoomList v-if="isFavoriteRoomListOpen" />
       <FriendList v-if="isFriendListOpen" />
       <RoomSettings v-if="isRoomSettingsOpen" />
     </div>
+    <RightSideBarButton />
   </div>
 </template>
 
