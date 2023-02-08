@@ -3,7 +3,7 @@ import Chat from "@/domains/Room/Chat/Chat.vue";
 import FavoriteRoomList from "@/domains/Room/Favorites/FavoritesRoomList.vue";
 import FriendList from "@/domains/Room/Friend/FriendList.vue";
 import RoomSettings from "@/domains/Room/Settings/RoomSettings.vue";
-import RoundButton from "@/components/RoundButton.vue";
+import RightSideBarButton from "./RightSideBarButton.vue";
 import { ref, computed } from "vue";
 import { useRoomStore } from "@/stores/room";
 import { storeToRefs } from "pinia";
@@ -48,44 +48,7 @@ const isRoomSettingsOpen = computed(() => {
       <FriendList v-if="isFriendListOpen" />
       <RoomSettings v-if="isRoomSettingsOpen" />
     </div>
-    <div :class="$style.right_side_bar_button_wrapper">
-      <div :class="$style.right_side_bar_button">
-        <RoundButton
-          @click="
-            store.changeRightSideBarContent(rightSideBarContentMap.ROOM_CHAT)
-          "
-          >Chat</RoundButton
-        >
-      </div>
-      <div :class="$style.right_side_bar_button">
-        <RoundButton
-          @click="
-            store.changeRightSideBarContent(
-              rightSideBarContentMap.FAVORITE_ROOM_LIST
-            )
-          "
-          >Star</RoundButton
-        >
-      </div>
-      <div :class="$style.right_side_bar_button">
-        <RoundButton
-          @click="
-            store.changeRightSideBarContent(rightSideBarContentMap.FRIEND_LIST)
-          "
-          >Frie</RoundButton
-        >
-      </div>
-      <div :class="$style.right_side_bar_button">
-        <RoundButton
-          @click="
-            store.changeRightSideBarContent(
-              rightSideBarContentMap.ROOM_SETTINGS
-            )
-          "
-          >Sett</RoundButton
-        >
-      </div>
-    </div>
+    <RightSideBarButton />
   </div>
 </template>
 

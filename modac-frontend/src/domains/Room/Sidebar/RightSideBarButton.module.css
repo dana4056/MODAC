@@ -1,0 +1,9 @@
+.button_flex {
+  @apply flex flex-row;
+  align-items: center;
+  text-align: center;
+}
+
+.button_item {
+  @apply basis-1/4;
+}

@@ -8,14 +8,3 @@
 .right_side_bar_content {
   height: 90%;
 }
-
-.right_side_bar_button_wrapper {
-  @apply flex flex-row;
-  height: 10%;
-  align-items: center;
-  text-align: center;
-}
-
-.right_side_bar_button {
-  @apply basis-1/4;
-}
