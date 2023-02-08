@@ -11,6 +11,8 @@ import com.a608.modac.model.follow.Follow;
 public interface FollowRepository extends JpaRepository<Follow, Long> {
     Follow findFollowByFromUser_SeqAndToUser_Seq(Long fromSeq, Long toSeq);
 
+    List<Follow> findFollowsByFromUser_SeqAndToUser_Seq(final Long fromUsersSeq, final Long toUsersSeq);
+
     List<Follow> findAllByFromUser_Seq(Long seq);
 
     List<Follow> findAllByToUser_Seq(Long seq);
