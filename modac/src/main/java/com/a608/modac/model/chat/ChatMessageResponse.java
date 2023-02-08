@@ -14,7 +14,7 @@ public class ChatMessageResponse {
 	private final String message;
 
 	@Builder
-	public ChatMessageResponse( final UserResponse user, final Long chatRoomsSeq,
+	public ChatMessageResponse(final UserResponse user, final Long chatRoomsSeq,
 		final String sendTime, final String message) {
 		this.user = user;
 		this.chatRoomsSeq = chatRoomsSeq;
