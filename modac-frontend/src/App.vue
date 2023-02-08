@@ -1,13 +1,12 @@
 <script setup>
 import Navbar from "@/domains/Navbar/Navbar.vue";
 import Wrapper from "./components/Wrapper.vue";
-import { useUserStore } from "@/stores/user"
-import { useAuthStore } from "@/stores/auth";
+import { useUserStore } from "@/stores/user";
 import { storeToRefs } from "pinia";
 import { useRouter } from "vue-router";
 
 const userStore = useUserStore();
-const { loginUser } = storeToRefs(userStore);
+const { loginUser, isLoggedIn } = storeToRefs(userStore);
 
 const router = useRouter();
 
