@@ -1,0 +1,54 @@
+.container{
+  @apply flex
+}
+
+.dm_container{
+  @apply mx-auto bg-gray-100 shadow-lg rounded-lg overflow-hidden;
+  width: 40%
+}
+
+.dm_container_inside{
+  @apply w-full p-4
+}
+
+
+.dm_items{
+  @apply flex justify-between items-center bg-white mt-2 p-2 hover:shadow-lg rounded cursor-pointer transition;
+}
+
+.dm_items_left{
+  @apply flex ml-2
+}
+
+.profile_img{
+  @apply rounded-full;
+  height: 40px;
+  width: 40px;
+}
+
+.dm_items_left_items{
+  @apply flex flex-col ml-2
+}
+
+.friend_name{
+  @apply font-medium text-black
+}
+
+.last_text{
+  @apply text-sm text-gray-400 truncate w-32
+}
+
+.dm_items_right{
+  @apply flex flex-col items-center
+}
+
+.time{
+  @apply text-gray-300
+}
+
+.chatList{
+  width: 60%;
+  padding: 5px;
+}
+
+

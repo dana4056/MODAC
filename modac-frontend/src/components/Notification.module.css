@@ -1,0 +1,32 @@
+.container{
+  @apply overflow-auto rounded-lg shadow-lg ring-1 ring-black ring-opacity-5;
+  width: 100%;
+  height: 100%;
+}
+
+.inner_container{
+  @apply relative flex flex-col gap-8 bg-white p-7 lg:grid-cols-2;
+}
+
+.item_container{
+  @apply -m-3 flex items-center justify-between rounded-lg p-2
+  shadow-lg ring-1 ring-black ring-opacity-5
+}
+
+
+
+.close{
+  background-color: transparent;
+  border:none;
+  outline:none;
+  transition:all 0.2s ease-in-out;
+  padding: 0.75rem;
+  border-radius:0.5rem;
+  cursor:pointer;
+  display: flex;
+  align-items:center;
+  justify-content: center;
+}
+.close:hover{
+  background-color: #b2e4ef;
+}

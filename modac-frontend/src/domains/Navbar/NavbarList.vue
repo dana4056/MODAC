@@ -3,18 +3,15 @@ import NavbarLogo from "./NavbarLogo.vue";
 </script>
 
 <template>
-  <div
-    class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start"
-  >
+  <div :class="$style.navbar_flex_wrapper">
     <NavbarLogo />
     <div class="hidden sm:ml-6 sm:block">
-      <div class="flex space-x-4">
-        <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
+      <div :class="$style.navbar_list_flex_wrapper">
         <RouterLink
           id="routerlink"
           to="/room"
           href="#"
-          class="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium"
+          :class="$style.navbar_item_unselected"
           aria-current="page"
           >스터디룸</RouterLink
         >
@@ -23,7 +20,7 @@ import NavbarLogo from "./NavbarLogo.vue";
           id="routerlink"
           to="/article"
           href="#"
-          class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+          :class="$style.navbar_item_unselected"
           >TIL</RouterLink
         >
 
@@ -31,16 +28,8 @@ import NavbarLogo from "./NavbarLogo.vue";
           id="routerlink"
           to="/feed"
           href="#"
-          class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+          :class="$style.navbar_item_unselected"
           >SNS</RouterLink
-        >
-
-        <RouterLink
-          id="routerlink"
-          to="/myPage"
-          href="#"
-          class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-          >마이페이지</RouterLink
         >
       </div>
     </div>
