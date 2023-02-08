@@ -135,10 +135,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void unFollowing(FollowRequest followRequest) {
-        Follow following = followRepository.findFollowByFromUser_SeqAndToUser_Seq(followRequest.getFromSeq(), followRequest.getToSeq());
-        followRepository.findById(following.getSeq()).orElseThrow(() -> new NoSuchElementException("NoFollowing"));
-        followRepository.delete(following);
+    public void unFollowing(Long followSeq) {
+        Follow follow = followRepository.findById(followSeq)
+            .orElseThrow(() -> new NoSuchElementException("NoFollowing"));
+        followRepository.delete(follow);
     }
 
     @Override
@@ -159,5 +159,11 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findById(seq).orElseThrow(() -> new NoSuchElementException("NoUser"));
         user.updatePoint(Integer.parseInt(point));
         return new UserResponse(userRepository.save(user));
+    }
+
+    @Override
+    public boolean isFollowing(Long fromSeq, Long toSeq){
+        Follow follow = followRepository.findFollowByFromUser_SeqAndToUser_Seq(fromSeq, toSeq);
+        return follow != null;
     }
 }

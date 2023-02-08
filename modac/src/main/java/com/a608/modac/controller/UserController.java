@@ -109,9 +109,9 @@ public class UserController {
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
 
-	@DeleteMapping("/follow")		// 데이터가 중복저장되어있으면 에러
-	public ResponseEntity<?> unfollowing(@RequestBody FollowRequest followRequest){
-		userService.unFollowing(followRequest);
+	@DeleteMapping("/follow/{seq}")		// 데이터가 중복저장되어있으면 에러
+	public ResponseEntity<?> unfollowing(@PathVariable("seq") Long followSeq){
+		userService.unFollowing(followSeq);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
@@ -124,6 +124,12 @@ public class UserController {
 			list = userService.findFollowerList(seq);
 		}
 		return new ResponseEntity<List<Follow>>(list, HttpStatus.OK);
+	}
+
+	@GetMapping("/follow")
+	public ResponseEntity<?> isFollowingThatUser(@RequestParam("from") Long fromSeq, @RequestParam("to") Long toSeq){
+		boolean isFollowing = userService.isFollowing(fromSeq, toSeq);
+		return new ResponseEntity<>(isFollowing, HttpStatus.OK);
 	}
 
 }
