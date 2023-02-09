@@ -41,7 +41,7 @@ const studyFinish = () => {
 // confetti();
 
 // window.addEventListener("click", () => {
-//   document.getElementById("confetti").addEventListener("click", confetti);
+  // document.getElementById("confetti").addEventListener("click", confetti);
 
   // onMounted(() => {
   //   function randomInRange(min, max) {
@@ -146,11 +146,11 @@ const studyFinish = () => {
     </div>
   </div> -->
 
+        <!-- <img :src="emojiSmilingCatWithHeartEyes" class="w-50 h-50 inline" id="confetti"> -->
     <!-- <div :class="$style.article_container_above"
         v-if="store.tempArticle.length === 0"
     >
       <div class="flex flex-col items-center gap-2">
-        <img :src="emojiSmilingCatWithHeartEyes" class="w-50 h-50 inline" id="confetti">
         <h1 :class="$style.confetti_text">오늘도 열심히 공부한 당신을 응원해요!</h1>
         <h2 :class="$style.confetti_text2">지금처럼만 하면 좋은 결과가 있을 거예요.</h2>
         <br>

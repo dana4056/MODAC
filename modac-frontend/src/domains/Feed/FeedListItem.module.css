@@ -44,7 +44,7 @@
 }
 
 .card_date_and_info {
-  @apply flex justify-between justify-between text-sm font-medium
+  @apply flex flex-wrap justify-between justify-between text-sm font-medium
 }
 
 .card_date {

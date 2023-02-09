@@ -23,7 +23,7 @@ export const useFeedStore = defineStore("feed", () => {
     {
       seq: 0,
       title: "프론트엔드 면접 질문 공부",
-      filepath: "filepath",
+      filepath: "# Hello Markdown Editor! \nskdjflskdf\nsdfsdfsdf\n```\nconsole.log('hello world');\n```\n\nhello",
       registeredTime: "2023-01-29",
       publicType: 1,
       viewCount: 20,
@@ -48,7 +48,7 @@ export const useFeedStore = defineStore("feed", () => {
     {
       seq: 1,
       title: "웹 브라우저 동작 원리",
-      filepath: "filepath",
+      filepath: "# 컨텐츠 내용~",
       registeredTime: "2023-01-29",
       publicType: 1,
       viewCount: 20,

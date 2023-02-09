@@ -1,0 +1,7 @@
+.comment_div {
+	@apply flex flex-col gap-2 
+}
+
+.comment_user {
+	@apply flex flex-row gap-2
+}

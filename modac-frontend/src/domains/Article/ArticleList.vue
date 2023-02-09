@@ -16,8 +16,8 @@
 import ArticleListItem from "./ArticleListItem.vue"
 // import ArticleEditor from "./ArticleEditor.vue"
 import { useArticleStore } from "../../stores/article";
-import { computed } from "vue"
-import { ref } from "vue";
+import { computed, ref } from "vue"
+
 const store = useArticleStore()
 
 // const setTemplete = ref("");

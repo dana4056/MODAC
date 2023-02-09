@@ -4,7 +4,7 @@
       <div :class="$style.login_div_flex">
         <div :class="$style.login_description">
           <img :src="emojiFire" class="w-40 h-40 inline">
-          <h1 :class="$style.login_title"><img :src="emojiGrinningCatWithSmilingEyes" class="w-11 h-11 inline"> 반가워요. <span :class="$style.text_green"> { 모닥 }</span>이에요!<img :src="emojiPawPrints" class="w-8 h-8 inline"></h1>
+          <h1 :class="$style.login_title"> 반가워요. <span :class="$style.text_green"> { 모닥 }</span>이에요!</h1>
           <p :class="$style.login_p">모닥불 앞에 모여 <span :class="$style.text_orange"> 함께 온기를 느끼며 공부</span>하고,
           <br><span :class="$style.text_orange"> 기록하며 성장</span>할 수 있는 <span :class="$style.text_orange">개발자 친화 서비스</span>, <span :class="$style.text_green"> { MODAC }</span>과 함께하세요!</p>
         </div>

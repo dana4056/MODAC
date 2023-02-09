@@ -1,8 +1,8 @@
 <template>
   <div>
-    <Card :class="$style.card_div">
+    <Card :class="$style.card_div" >
       <div :class="$style.card_img">
-        <img src="https://source.unsplash.com/random/350×100/?programming" class="overflow-hidden"/>
+        <img src="https://source.unsplash.com/random/500×500/?programming" class="overflow-hidden h-full w-full"/>
       </div>
 
       <div :class="$style.card_description">
@@ -49,7 +49,7 @@
       </div>
       
       <div :class="$style.card_footer">
-        <div class="flex gap-2 items-center">
+        <div class="flex gap-2 items-center flex-wrap">
           <div class="flex gap-1 font-bold"><div class="text-gray-400">By</div>{{ feed.user.nickname }}</div>
           <div>
             <span class="bg-yellow-100 text-yellow-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-yellow-300 border border-yellow-300">
@@ -62,21 +62,23 @@
       <!-- <CardContent>{{ feed }}</CardContent> -->
     </Card>
   </div>
+
 </template>
 
 <script setup>
 import Card from "@/components/Card.vue";
-
-import { useFeedStore } from "../../stores/feed";
 // import { ref } from "vue";
+// import { useFeedStore } from "../../stores/feed";
+
 defineProps(['feed'])
-const store = useFeedStore()
+// const store = useFeedStore()
 // let getFeeds = ref([]);
 // getFeeds.value = store.getFeeds;
 
-const test = () => {
-  console.log(feed);
-}
+// const test = () => {
+//   console.log(feed);
+// }
+
 
 </script>
 

@@ -1,6 +1,7 @@
 <script setup>
 import FeedList from '@/domains/Feed/FeedList.vue'
 // import FeedViewer from '@/domains/Feed/FeedViewer.vue';
+
 </script>
 
 <template>
@@ -16,7 +17,7 @@ import FeedList from '@/domains/Feed/FeedList.vue'
 
         <div :class="$style.article_container_below">
           <div :class="$style.article_list">
-            <FeedList/>
+            <FeedList />
           </div>
           <!-- <div :class="$style.editor">
             <FeedViewer/>
@@ -35,6 +36,12 @@ import FeedList from '@/domains/Feed/FeedList.vue'
         <FeedViewer/>
       </div>
     </div> -->
+
+
+
+
+
+    
   </div>
 
 </template>
