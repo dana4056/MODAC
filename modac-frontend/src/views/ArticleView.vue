@@ -137,7 +137,7 @@ const studyFinish = () => {
         </div>
       </div>
     </div>
-
+  </div>
   <!-- <div :class="$style.article_container_below">
     <div :class="$style.article_list">
       <ArticleList />
