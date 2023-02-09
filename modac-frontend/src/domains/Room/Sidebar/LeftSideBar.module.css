@@ -2,5 +2,5 @@
   /* @apply basis-1/4; */
   @apply bg-gray-200 text-gray-900;
   @apply p-3;
-  @apply opacity-60;
+  /* @apply opacity-60; */
 }

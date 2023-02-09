@@ -1,7 +1,7 @@
 <script setup></script>
 
 <template>
-  <div :class="$style.overflox_container">
+  <div :class="$style.overflow_container">
     <slot></slot>
   </div>
 </template>

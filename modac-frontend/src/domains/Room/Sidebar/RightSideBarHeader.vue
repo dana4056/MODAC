@@ -5,6 +5,7 @@
     <h1 :class="$style.title">
       <slot></slot>
     </h1>
+    <slot name="button"></slot>
   </div>
 </template>
 
