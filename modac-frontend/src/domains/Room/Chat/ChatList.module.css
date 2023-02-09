@@ -1,63 +1,6 @@
-/* 채팅창 뼈대 */
-.chatbox{
-  @apply container mx-auto shadow-lg rounded-lg
-}
-
-.chatbox_header{
-  @apply px-5 py-5 flex justify-between items-center bg-white border-b-2
-}
-
-.chatbox_name{
-  @apply font-semibold text-2xl
-}
-
-.icon_content{
-  @apply h-12 w-12 p-2 bg-green-500 rounded-full text-white font-semibold flex items-center justify-center
-}
-
-.chatbox_body{
-  @apply flex flex-row justify-between bg-white
-}
-
-.chatbox_body_size1{
-  @apply w-full px-5 flex flex-col justify-between
-}
-
-.chatbox_body_size2{
-  @apply flex flex-col mt-5
-}
-
-
-/* 내가 채팅 쳤을 때 클래스 */
-.mychat_box_size{
-  @apply flex justify-end mb-4
-}
-
-.mychat_box_content{
-  @apply mr-2 py-3 px-4 bg-blue-400 rounded-bl-3xl rounded-tl-3xl rounded-tr-xl text-white
-}
-
-
-
-/* 상대방 채팅 쳤을 때 클래스 */
-.yourchat_box_size {
-  @apply flex justify-start mb-4
-}
-
-.yourchat_box_content{
-  @apply ml-2 py-3 px-4 bg-gray-400 rounded-br-3xl rounded-tr-3xl rounded-tl-xl text-white
-}
-
-
-/* 채팅 공통 클래스 */
-.chat_profile {
-  @apply object-cover h-8 w-8 rounded-full
-}
-
-.chat_input_padding{
-  @apply py-5
-}
-
-.chat_input_box{
-  @apply w-full bg-gray-200 py-5 px-3 rounded-xl
+.chatbox_body_size {
+  @apply flex flex-col;
+  overflow: scroll;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
 }

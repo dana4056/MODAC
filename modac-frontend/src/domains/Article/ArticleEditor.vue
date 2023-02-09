@@ -1,6 +1,8 @@
 <script setup>
 import Editor from "@toast-ui/editor";
 import "@toast-ui/editor/dist/toastui-editor.css";
+import OverflowDiv from '@/components/OverflowDiv.vue';
+
 // import "@toast-ui/editor/dist/theme/toastui-editor-dark.css"; // 다크테마 적용하기
 
 import { ref, onMounted } from "vue";

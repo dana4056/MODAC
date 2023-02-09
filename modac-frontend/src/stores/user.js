@@ -1,6 +1,6 @@
-import { defineStore } from "pinia";
-import { ref } from "vue";
 import user from "../api/user";
+import { ref } from "vue";
+import { defineStore } from "pinia";
 
 export const useUserStore = defineStore("user", () => {
     //status (변수)
@@ -9,8 +9,8 @@ export const useUserStore = defineStore("user", () => {
     const followerList = ref([]);   // 팔로워 사용자 리스트
 
 
-    //action (API)
-    const api = user;   // axois 비동기 함수들
+  //action (API)
+  const api = user; // axois 비동기 함수들
 
 
     return {
