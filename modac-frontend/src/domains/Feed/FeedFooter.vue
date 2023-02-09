@@ -6,7 +6,7 @@
   </div>
       <br>
   <div :class="$style.commentView">
-    댓글 목록
+    <!-- 댓글 목록 -->
     <div> {{ commentTotalCnt }} 개의 댓글</div>
     <br>
     <div v-for="comment in commentList" :key="comment.seq">
