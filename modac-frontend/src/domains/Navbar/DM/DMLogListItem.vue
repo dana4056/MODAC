@@ -2,7 +2,8 @@
 import { defineProps, computed, useCssModule } from "vue";
 
 const props = defineProps({
-
+  chatLog:Object,
+  loginUser: Object,
 });
 
 const $style = useCssModule();
@@ -17,21 +18,42 @@ const dateStyle = computed(() => {
 })
 
 
+const chatHostReader = computed(() => {
+  if (props.chatLog.user.seq === props.loginUser.seq) {
+    return "myStyle";
+  } else {
+    return "yourChat";
+  }
+});
 
+const sizeStyle = computed(() => {
+  return chatHostReader.value === "myStyle"
+    ? $style.mychat_box_size
+    : $style.yourchat_box_size;
+});
+
+const contentStyle = computed(() => {
+  return chatHostReader.value === "myStyle"
+    ? $style.mychat_box_content
+    : $style.yourchat_box_content;
+});
 </script>
 
 <template>
-  <ul>
-    <DMRoomListItem
-      v-for="roomItem in directMessageRoomList"
-      :key="roomItem.seq"
-      :chatRoom="roomItem"
-      :seq="roomItem.seq"
-      :getItemSeq="getItemSeq"
-    />
-  </ul>
+  <div :class="sizeStyle">
+    <small>{{ dateStyle }}</small>
+    <div :class="contentStyle">{{ props.chatLog.message }}</div>
+    <div>
+      <small v-if="props.chatLog.user.nickname != props.loginUser.nickname">{{props.chatLog.user.nickname}}</small>
+      <img
+        src="https://source.unsplash.com/vpOeXr5wmR4/600x600"
+        :class="$style.chat_profile"
+        alt=""
+      />
+    </div>
+  </div>
 </template>
 
 <style lang="css" module>
-@import "DMRoomList.module.css";
+@import "DMLogList.module.css";
 </style>

@@ -1,10 +1,12 @@
 <script setup>
-import { defineProps , computed } from "vue";
+import { defineProps , computed, useCssModule } from "vue";
 
 const props = defineProps({
   chatRoom: Object,
   getMessages: Function,
 });
+
+const $style = useCssModule();
 
 const lastTime = computed(() => {
 

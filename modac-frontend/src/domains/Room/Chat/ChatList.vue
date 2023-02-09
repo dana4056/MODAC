@@ -6,7 +6,6 @@ import { useChatStore } from "@/stores/chat";
 import { useUserStore } from "@/stores/user";
 import { ref } from "vue";
 import Stomp from "webstomp-client";
-// import SockJS from 'sockjs-client';
 import SockJS from "sockjs-client/dist/sockjs.min.js";
 
 const chatStore = useChatStore();
@@ -16,8 +15,6 @@ var stompClient = null;
 const { loginUser } = storeToRefs(userStore);
 const { groupChatLogs } = storeToRefs(chatStore);
 
-// 페이지 파라미터
-const page = 0;
 
 // 더미
 const room = {

@@ -3,26 +3,26 @@ import { ref } from "vue";
 import { defineStore } from "pinia";
 
 export const useUserStore = defineStore("user", () => {
-  const isLoggedIn = ref(true);
-  const login = () => {
-    isLoggedIn.value = true;
-  };
-  const logout = () => {
-    isLoggedIn.value = false;
-  };
+  // const isLoggedIn = ref(true);
+  // const login = () => {
+  //   isLoggedIn.value = true;
+  // };
+  // const logout = () => {
+  //   isLoggedIn.value = false;
+  // };
 
   //status (변수)
   // const loginUser = ref(null);   // 로그인한 사용자
 
-  const loginUser = ref({});
+  const loginUser = ref(null);
 
   //action (API)
   const api = user; // axois 비동기 함수들
 
   return {
-    isLoggedIn,
-    login,
-    logout,
+    // isLoggedIn,
+    // login,
+    // logout,
     loginUser,
     api,
   };
