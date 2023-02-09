@@ -1,14 +1,8 @@
 import http from "@/api/http";
-import { useUserStore } from '../stores/user';
+import { useUserStore } from '@/stores/user';
 import { storeToRefs } from "pinia"
 import { useRouter } from "vue-router";
 import router from "@/router/index"
-
-// const router = useRouter();
-
-// const store = useUserStore();
-// const { loginUser } = storeToRefs(store);
-
 
 // const headers = {   
 //     'Content-Type': 'application/json'
@@ -233,8 +227,8 @@ export default {
                         const store = useUserStore();
                         const { loginUser } = storeToRefs(store);
 
-                        loginUser.value = response.data;    //userStore에 멤버 저장
-                        router.push({name:"room"});
+                        loginUser.value = response.data;    // userStore에 멤버 저장
+                        router.push({name:"room"});         // 룸리스트뷰로 이동
                         
                     } else {
                         console.log("로그인 실패: 비밀번호 불일치")
@@ -246,11 +240,95 @@ export default {
             .catch((error) => {
                 console.log(error);
             })
+    },
+
+    // 로그아웃
+    logout(){
+        const store = useUserStore();
+        const { loginUser } = storeToRefs(store);
+
+        loginUser.value = {};           // store의 로그인 유저 삭제
+        localStorage.removeItem('jwt'); // 로컬 스토리지 토큰 삭제
+        console.log("로그아웃 완료");
+    },
+
+    // 팔로잉
+    following(payload){
+        http.post(`/users/follow`, payload)
+            .then((response) => {
+                const code = response.status;
+
+                if (code == 201) {
+                    console.log(payload.toSeq+"번 유저 팔로잉 성공");
+                } else if (code == 204) {
+                    console.log("사용자를 찾을 수 없음");
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+    },
+
+    // 언팔로잉
+    unfollowing(followSeq){
+        http.delete(`/users/follow/${followSeq}`)
+            .then((response) => {
+                const code = response.status;
+
+                if(code == 200){
+                    console.log("언팔로우 성공");
+                } else if( code == 204){
+                    console.log("언팔로우 실패: 팔로잉 정보 없음")
+                }
+            })
+        
+    }, 
+
+    // 팔로잉 회원목록 조회(친구 조회)
+    fetchFollowingUsers(userSeq){
+        http.get(`/users`,{
+            params: {
+                filter : "following",
+                user: userSeq
+            }})
+            .then((response) => {
+                console.log(response.data);
+
+                const store = useUserStore();
+                const { followingList } = storeToRefs(store);
+
+                followingList.value = response.data;
+            })
+    },
+
+    // 팔로잉 회원목록 조회(친구 조회)
+    fetchFollowerUsers(userSeq){
+        http.get(`/users`,{
+            params: {
+                filter : "follower",
+                user: userSeq
+            }})
+            .then((response) => {
+                console.log(response.data);
+
+                const store = useUserStore();
+                const { followerList } = storeToRefs(store);
+
+                followerList.value = response.data;
+            })
+    },
+
+    // 팔로잉 여부 조회
+    isFollowing(payload){
+        http.get('/users/follow', {
+            params:{
+                from: payload.fromSeq,
+                to: payload.toSeq
+            }})
+            .then((response) => {
+                console.log(response.data);  
+            })
     }
-
-    
-
-
 
 
 }
