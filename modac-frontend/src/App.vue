@@ -11,14 +11,10 @@ const { loginUser, isLoggedIn } = storeToRefs(userStore);
 const router = useRouter();
 
 const routePageForEnteredUser = () => {
-<<<<<<< HEAD
-  if (isLoggedIn.value === true) {
-=======
   console.log(loginUser);
   console.log(loginUser.value);
 
   if (loginUser.value) {
->>>>>>> 15b8591458952a56c8b4c3409417bf31d00c4617
     // router.push({ name: "room" });
   } else {
     // router.push({ name: "login" });
