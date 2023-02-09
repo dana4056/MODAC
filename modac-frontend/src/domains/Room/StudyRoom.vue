@@ -27,7 +27,14 @@ const rightSideBarStyleState = computed(() =>
 
 <template>
   <OverflowDiv>
-    <Wrapper :class="$style.study_room_wrapper_flex">
+    <Wrapper
+      :class="$style.study_room_wrapper_flex"
+      style="
+        background-image: url('/src/assets/room_background.jpg');
+        /* background-color: black; */
+        background-size: cover;
+      "
+    >
       <Wrapper
         :class="`${$style[leftSideBarStyleState]} ${$style.left_side_bar_wrapper} ${$style.side_bar_wrapper_flex}`"
       >

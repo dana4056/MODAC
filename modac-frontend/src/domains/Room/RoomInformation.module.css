@@ -3,9 +3,7 @@
 }
 
 .flex_wrapper {
-  @apply flex flex-row justify-center items-center;
+  @apply flex flex-row justify-around items-center;
   @apply w-6/12;
-}
-
-.flex_item {
+  @apply bg-gray-200 rounded-lg;
 }
