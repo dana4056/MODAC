@@ -1,0 +1,13 @@
+.content {
+  width: 330px;
+  border-radius: 5px;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 10px;
+  gap: 7px;
+  height: 85vh;
+  font-family: "Pretendard";
+  font-style: normal;
+  font-weight: 400;
+  @apply shadow-xl relative flex bg-gray-50 py-6 sm:py-12;
+}

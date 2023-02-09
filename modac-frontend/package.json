@@ -22,8 +22,10 @@
     "flowbite": "^1.6.3",
     "pinia": "^2.0.28",
     "scss": "^0.2.4",
+    "sockjs-client": "^1.4.0",
     "vue": "^3.2.45",
-    "vue-router": "^4.1.6"
+    "vue-router": "^4.1.6",
+    "webstomp-client": "^1.2.6"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.1.4",

@@ -6,6 +6,8 @@ import emojiSmilingCatWithHeartEyes from '../assets/emojis/emoji-smiling-cat-wit
 import { ref, onMounted } from "vue";
 import { useArticleStore } from "../stores/article";
 
+import CommonButton from "@/components/CommonButton.vue";
+import OverflowDiv from '@/components/OverflowDiv.vue';
 const store = useArticleStore();
 
 const copyText = () => {
@@ -124,18 +126,17 @@ const studyFinish = () => {
     </div>
 
     <div :class="$style.flex_row_div_edit">
-
       <div :class="$style.article_container_below">
-        <div :class="$style.article_list">
-          <ArticleList :setTempleteClick="setTempleteClick" />
-        </div>
+        <OverflowDiv>
+          <div :class="$style.article_list">
+            <ArticleList :setTempleteClick="setTempleteClick" />
+          </div>
+        </OverflowDiv>
         <div :class="$style.editor">
           <ArticleEditor ref="setTemplete" />
         </div>
       </div>
-
     </div>
-  </div>
 
   <!-- <div :class="$style.article_container_below">
     <div :class="$style.article_list">

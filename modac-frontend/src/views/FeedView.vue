@@ -1,6 +1,7 @@
 <script setup>
 import FeedList from '@/domains/Feed/FeedList.vue'
-// import FeedViewer from '@/domains/Feed/FeedViewer.vue';
+import FeedViewer from '@/domains/Feed/FeedViewer.vue';
+import OverflowDiv from '@/components/OverflowDiv.vue';
 
 </script>
 
@@ -29,9 +30,11 @@ import FeedList from '@/domains/Feed/FeedList.vue'
 
 <!-- 
     <div :class="$style.feed_container_below">
-      <div :class="$style.feed_list">
-        <FeedList/>
-      </div>
+      <OverflowDiv>
+        <div :class="$style.feed_list">
+          <FeedList/>
+        </div>
+      </OverflowDiv>
       <div :class="$style.feed_viewer">
         <FeedViewer/>
       </div>

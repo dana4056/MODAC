@@ -1,20 +1,27 @@
 <script setup>
-import Navbar from "@/domains/Room/Navbar/Navbar.vue";
+import Navbar from "@/domains/Navbar/Navbar.vue";
 import Wrapper from "./components/Wrapper.vue";
-import { useAuthStore } from "@/stores/auth";
+import { useUserStore } from "@/stores/user";
 import { storeToRefs } from "pinia";
 import { useRouter } from "vue-router";
 
-const store = useAuthStore();
-const { isLoggedIn } = storeToRefs(store);
+const userStore = useUserStore();
+const { loginUser, isLoggedIn } = storeToRefs(userStore);
 
 const router = useRouter();
 
 const routePageForEnteredUser = () => {
+<<<<<<< HEAD
   if (isLoggedIn.value === true) {
+=======
+  console.log(loginUser);
+  console.log(loginUser.value);
+
+  if (loginUser.value) {
+>>>>>>> 15b8591458952a56c8b4c3409417bf31d00c4617
     // router.push({ name: "room" });
   } else {
-    router.push({ name: "login" });
+    // router.push({ name: "login" });
   }
 };
 

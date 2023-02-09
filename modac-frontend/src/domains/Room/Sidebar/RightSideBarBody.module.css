@@ -1,0 +1,3 @@
+.content_body {
+  @apply w-full px-4 flex flex-col py-4 bg-white;
+}

@@ -10,12 +10,12 @@
         </div>
         <form id="loginform" :class="$style.login_form">
           <div>
-            <input type="text" placeholder="아이디를 입력하세요" :class="$style.login_form_input">
+            <input v-model="loginID" type="text" placeholder="아이디를 입력하세요" :class="$style.login_form_input">
           </div>
           <div>
-            <input type="password" placeholder="비밀번호를 입력하세요" :class="$style.login_form_input">
+            <input v-model="loginPW" type="password" placeholder="비밀번호를 입력하세요" :class="$style.login_form_input">
           </div>
-          <button type="submit" id="login-button" :class="$style.login_form_login_button" @click="auth.value.isLoggedin = true">로그인</button>
+          <button type="submit" @click.prevent="submitLogin" id="login-button" :class="$style.login_form_login_button">Login</button>
         </form>
       </div>
 
@@ -56,8 +56,29 @@
   import emojiPawPrints from '../../assets/emojis/emoji-paw-prints.png'
   import emojiGrinningCatWithSmilingEyes from '../../assets/emojis/emoji-grinning-cat-with-smiling-eyes.png'
   import emojiChartIncreasing from '../../assets/emojis/emoji-chart-increasing.png'
-  // import emojiWritingHand from '../../assets/emojis/emoji-writing-hand.png'
-  // import emojiCat from '../../assets/emojis/emoji-cat.png'
+  import emojiWritingHand from '../../assets/emojis/emoji-writing-hand.png'
+  import emojiCat from '../../assets/emojis/emoji-cat.png'
+  import { ref } from "vue";
+  import { useUserStore } from '@/stores/user';
+
+  const userStore = useUserStore();
+
+  const loginID = ref("");
+  const loginPW = ref("");
+
+
+
+  function submitLogin(){
+    if(loginID && loginPW){
+
+      const loginUser = {   // 로그인 데이터
+        id: loginID.value,
+        password: loginPW.value
+      }
+
+      userStore.api.login(loginUser);
+    }
+  }
 
   // import { useAuthStore } from '../../stores/auth.js'
   // import { ref } from 'vue';
