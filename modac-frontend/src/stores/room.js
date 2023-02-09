@@ -15,8 +15,8 @@ export const useRoomStore = defineStore("room", () => {
     isDeleteRoom.value = true;
   };
 
-  const isOpenedLeftSideBar = ref(false);
-  const isOpenedRightSideBar = ref(false);
+  const isOpenedLeftSideBar = ref(true);
+  const isOpenedRightSideBar = ref(true);
 
   const toggleLeftSideBar = () => {
     isOpenedLeftSideBar.value = isOpenedLeftSideBar.value ? false : true;
@@ -59,21 +59,21 @@ export const useRoomStore = defineStore("room", () => {
       userSeq: 3,
       nickname: "삼싸피",
       status: 2,
-      catSkin: 3,
+      catSkin: 4,
       categoriesName: "기획",
     },
     {
       userSeq: 4,
       nickname: "사싸피",
       status: 0,
-      catSkin: 1,
+      catSkin: 5,
       categoriesName: "알고리즘",
     },
     {
       userSeq: 5,
       nickname: "오싸피",
       status: 1,
-      catSkin: 2,
+      catSkin: 6,
       categoriesName: "CS",
     },
     {

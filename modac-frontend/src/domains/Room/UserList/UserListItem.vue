@@ -13,14 +13,22 @@ const props = defineProps({
 
 <template>
   <div>
-    <Card :class="$style.card_style">
-      <CardTitle :class="$style.display_inline_block">{{
-        props.userItem.nickname
-      }}</CardTitle>
-      <UserStatusIndicator
-        :status="props.userItem.status"
-      ></UserStatusIndicator>
-    </Card>
+    <div :class="$style.card_style">
+      <div style="text-align: center">
+        <CardTitle :class="$style.display_inline_block">{{
+          props.userItem.nickname
+        }}</CardTitle>
+        <UserStatusIndicator
+          :status="props.userItem.status"
+        ></UserStatusIndicator>
+      </div>
+      <div>
+        <img
+          :src="`/src/assets/user_cats/cat${props.userItem.catSkin}.png`"
+          alt=""
+        />
+      </div>
+    </div>
   </div>
 </template>
 

@@ -38,6 +38,7 @@
 
 .left_side_bar_wrapper {
   @apply basis-1/4;
+  @apply z-10;
 }
 
 .right_side_bar_wrapper {

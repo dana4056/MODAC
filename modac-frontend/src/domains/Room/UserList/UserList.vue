@@ -20,15 +20,15 @@ const { participants } = storeToRefs(store);
 <template>
   <UserListItem
     :class="`${$style.first_position} ${$style.item_box}`"
-    :userItem="participants[1]"
+    :userItem="participants[0]"
   />
   <UserListItem
     :class="`${$style.second_position} ${$style.item_box}`"
-    :userItem="participants[2]"
+    :userItem="participants[1]"
   />
   <UserListItem
     :class="`${$style.third_position} ${$style.item_box}`"
-    :userItem="participants[0]"
+    :userItem="participants[2]"
   />
   <UserListItem
     :class="`${$style.fouth_position} ${$style.item_box}`"

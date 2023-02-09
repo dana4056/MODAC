@@ -1,6 +1,8 @@
 .card_style {
   @apply h-full w-full;
-  /* @apply ; */
+  /* background-color: gray; */
+  background-color: transparent;
+  color: white;
 }
 
 .display_inline_block {
