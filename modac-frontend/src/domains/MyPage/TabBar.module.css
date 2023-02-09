@@ -18,7 +18,7 @@
 }
 
 .tab_menu {
-  @apply inline-block px-5 py-2 text-black text-sm h-full
+  @apply inline-block px-5 py-2 text-black text-sm h-full bg-white
 }
 
 .active {

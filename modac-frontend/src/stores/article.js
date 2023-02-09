@@ -5,7 +5,7 @@ import axios from "axios";
 
 
 export const useArticleStore = defineStore("article", () => {
-  const articles = reactive([]);
+  let articles = reactive([]);
   const userId = ref(null);
   const publicType = ref(0)
   const todoStore = useTodoStore()
@@ -14,7 +14,11 @@ export const useArticleStore = defineStore("article", () => {
     { name: "전체 공개", value: "0"},
     { name: "내 피드에만 업로드", value: "1" },
     { name: "피드에 업로드하지 않기", value: "2" },
-    ]
+  ]
+  
+  
+  let selectedState = ref();
+
   // 이걸로 데이터를 조작하여 원하는 데이터 형식으로 나는 axios 요청을 보낼 거임
   // const originalTodos = [{todos_seq: 1, status: 1}, {todos_seq: 1, status: 2}]
   // const originalTodos = todostore.todos
@@ -36,31 +40,91 @@ export const useArticleStore = defineStore("article", () => {
   //   return elem
   // })
   
+  const originalTodos = [
+    // { todos_seq: 1, status: 1 }, { todos_seq: 2, status: 2 }, { todos_seq: 3, status: 2 }, { todos_seq: 2, status: 2 }, { todos_seq: 3, status: 2 }, { todos_seq: 2, status: 2 }, { todos_seq: 3, status: 2 }, { todos_seq: 2, status: 2 }, { todos_seq: 3, status: 2 }, { todos_seq: 2, status: 2 }, { todos_seq: 3, status: 2 }, { todos_seq: 2, status: 2 }, { todos_seq: 3, status: 2 }, { todos_seq: 2, status: 2 }, { todos_seq: 3, status: 2 }, { todos_seq: 2, status: 2 }, { todos_seq: 3, status: 2 }, { todos_seq: 2, status: 2 }, { todos_seq: 3, status: 2 }, { todos_seq: 2, status: 2 }, { todos_seq: 3, status: 2 }, { todos_seq: 2, status: 2 }, { todos_seq: 3, status: 2 }, { todos_seq: 2, status: 2 }, { todos_seq: 3, status: 2 }
+    {
+      seq: 0,
+      title: "백준 문제 21360 풀기",
+      status: 2,
+      totalSecond: "2056",
+      categoriesName: "알고리즘"
+    },
+    {
+      seq: 1,
+      title: "BFS와 DFS",
+      status: 2,
+      totalSecond: "9000",
+      categoriesName: "CS"
+    },
+    {
+      seq: 2,
+      title: "TIL 작성 개발",
+      status: 2,
+      totalSecond: "153602",
+      categoriesName: "개발"
+    },
+    {
+      seq: 3,
+      title: "면접 준비하기",
+      status: 2,
+      totalSecond: "100000",
+      categoriesName: "면접"
+    },
+    {
+      seq: 4,
+      title: "과제 제출하기",
+      status: 2,
+      totalSecond: "5000",
+      categoriesName: "공통"
+    },
+    {
+      seq: 5,
+      title: "백준 문제 6611 풀기",
+      status: 2,
+      totalSecond: "2946",
+      categoriesName: "알고리즘"
+    },
+  ]
+  
   const getArticles = function(){
-    const originalTodos = [{todos_seq: 1, status: 1}, {todos_seq: 2, status: 2}, {todos_seq: 3, status: 2}, {todos_seq: 2, status: 2}, {todos_seq: 3, status: 2}, {todos_seq: 2, status: 2}, {todos_seq: 3, status: 2}, {todos_seq: 2, status: 2}, {todos_seq: 3, status: 2}, {todos_seq: 2, status: 2}, {todos_seq: 3, status: 2}, {todos_seq: 2, status: 2}, {todos_seq: 3, status: 2}, {todos_seq: 2, status: 2}, {todos_seq: 3, status: 2}, {todos_seq: 2, status: 2}, {todos_seq: 3, status: 2}, {todos_seq: 2, status: 2}, {todos_seq: 3, status: 2}, {todos_seq: 2, status: 2}, {todos_seq: 3, status: 2}, {todos_seq: 2, status: 2}, {todos_seq: 3, status: 2}, {todos_seq: 2, status: 2}, {todos_seq: 3, status: 2}]
-
     const filterTodos = originalTodos.filter((elem) => { 
-      console.log(elem)
+      // console.log(elem)
       return elem.status === 2
     })
-
+    
     const newTodos = filterTodos.map((elem) => {
       elem.public_type = 0
       elem.isSubmit = false
       return elem
     })
-    console.log('NEW TODOS', newTodos)
+
+    // console.log('NEW TODOS', newTodos)
+    
+
+
+    articles.values = [];
+
     newTodos.forEach((newTodo) => {
       articles.push(newTodo)
     })
+
+    const set = new Set(articles);
+    const uniqueArr = [...set];
+    articles = uniqueArr;
+    
+
+    if (articles.length != 0)
+      selectedState.value = articles[0].seq;
+    
+    return articles
   }
   
   
   
   // // 게시글 전체 조회
   const getArticleList = () => {
-    console.log('get request 실행');
-    console.log('게시글 전체 조회');
+    // console.log('get request 실행');
+    // console.log('게시글 전체 조회');
     axios({
       method: "get",
       url: `${backendServerUrl.value}/article/list`,
@@ -124,26 +188,33 @@ export const useArticleStore = defineStore("article", () => {
   //     });
   // };
   
-  // // 게시글 삭제
-  // const deleteArticleListItem = (articleId) => {
-  //   console.log("delete request 실행");
-  //   axios({
-  //     methods: "delete",
-  //     url: `${backendServerUrl.value}/todo`,
-  //     data: {
-  //       seq: articleId
-  //     },
-  //   })
-  //     .then((res) => {
-  //       console.log('게시물 삭제 성공')
-  //       console.log('res.data: ', res.data);
-  //       articles.delete(res.data);
-  //     })
-  //     .catch((err) => {
-  //       console.log('게시물 삭제 실패');
-  //       console.log('에러: ',err);
-  //     });
-  // };
+  // 게시글 삭제
+  const deleteArticleItem = (article_seq) => {
+    console.log("delete request 실행");
+    // axios({
+    //   methods: "delete",
+    //   url: `${backendServerUrl.value}/todo`,
+    //   data: {
+    //     seq: articleId
+    //   },
+    // })
+    //   .then((res) => {
+    //     console.log('게시물 삭제 성공')
+    //     console.log('res.data: ', res.data);
+    //     articles.delete(res.data);
+    //   })
+    //   .catch((err) => {
+    //     console.log('게시물 삭제 실패');
+    //     console.log('에러: ',err);
+    //   });
+
+    const filterTodos = articles.filter((elem) => { 
+      return elem.seq !== article_seq
+    })
+
+    articles = filterTodos;
+    return articles;
+  };
 
   // Create 
   const createArticleListItem = (todo, submitData) => {
@@ -170,9 +241,9 @@ export const useArticleStore = defineStore("article", () => {
       });
     }
   
-  const deleteArticleItem = () => {
-    console.log('DELETE')
-  }
+  // const deleteArticleItem = () => {
+  //   console.log('DELETE')
+  // }
 
   const changePublicStatus = () => {
 
@@ -181,6 +252,13 @@ export const useArticleStore = defineStore("article", () => {
   const completeSubmit = () => {
 
   }
+
+  let tempArticle = reactive([]);
+  // const tempArticle = () => {
+
+  //   return tempArticle;
+  // }
+
 
   return {
     // 공통
@@ -199,5 +277,8 @@ export const useArticleStore = defineStore("article", () => {
     // ArticleListItem
 
     // ArticleForm
+
+    selectedState,
+    tempArticle,
   };
 });

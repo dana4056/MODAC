@@ -1,7 +1,6 @@
 <script setup>
 import { ref } from "vue";
 import Modal from "@/components/Modal.vue";
-// import CommonButton from "@/components/CommonButton.vue";
 
 let room_title = ref("");
 let room_description = ref("");
@@ -167,7 +166,6 @@ const room_add_reset = () => {
                   required>
         </div>
         
-        <!-- 글자수 제한 넣기!!! -->
         <div :class="$style.add_room_div">
           <label for="room_description" :class="$style.add_room_label">설명 <span :class="$style.text_red">*</span><br>
             <sup>(<span id="room_description_byte">0</span>/100bytes)</sup>

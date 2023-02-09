@@ -11,7 +11,7 @@
           <input :class="$style[update_password_input_css]"
                   pattern="^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,16}$"
                   title="최소 8자리에서 최대 16자리까지 숫자, 영문, 특수문자 각 1개 이상 포함"
-                  type="text" 
+                  type="password" 
                   v-model="user_new_password" 
                   id="user_new_password_input" 
                   placeholder="새 비밀번호 입력" 
@@ -30,7 +30,7 @@
         <label for="user_new_password_check_input" :class="$style.update_password_label">새 비밀번호 확인</label>
         <div>
           <input :class="$style[update_password_check_input_css]" 
-                  type="text" 
+                  type="password" 
                   v-model="user_new_password_check" 
                   id="user_new_password_check_input" 
                   placeholder="새 비밀번호 확인 입력" 

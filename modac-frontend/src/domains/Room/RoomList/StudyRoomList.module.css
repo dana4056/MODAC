@@ -1,9 +1,32 @@
 .wrapper_flex {
   @apply flex flex-row;
-  @apply flex-wrap;
+  @apply flex-wrap h-full overflow-auto;
   align-content: flex-start;
   justify-content: space-between;
 	font-family: 'Pretendard';
+}
+.wrapper_flex_div {
+  @apply flex flex-row;
+  @apply flex-wrap h-full overflow-auto;
+  align-content: flex-start;
+  justify-content: space-between;
+	font-family: 'Pretendard';
+}
+
+.wrapper_flex::-webkit-scrollbar {
+  width: 10px;
+}
+.wrapper_flex::-webkit-scrollbar-thumb {
+  background-color: #919191;
+  border-radius: 10px;
+  background-clip: padding-box;
+  border: 2px solid transparent;
+  height: 30%; /* 스크롤바의 길이 */
+}
+.wrapper_flex::-webkit-scrollbar-track {
+  background: rgba(206, 206, 206, 0.447); /*스크롤바 뒷 배경 색상*/
+  border-radius: 10px;
+  box-shadow: inset 0px 0px 5px white;
 }
 
 .side_bar_flex_item {
@@ -16,7 +39,7 @@
 
 .study_room_flex_item {
   /* flex-basis: 32%; */
-  flex-basis: 30%;
+  flex-basis: 24%;
   /* @apply h-52; */
   @apply h-44;
 }

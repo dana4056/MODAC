@@ -1,0 +1,15 @@
+.temp1{
+  color: blue;
+}
+
+#delete{
+  color: black;
+}
+
+.article_item {
+  @apply flex flex-row mt-2 mb-2 p-3 rounded-lg text-black font-medium gap-3 bg-gray-400 justify-between;
+}
+
+.article_item_active {
+  @apply flex flex-row bg-[#232428] !text-white border-gray-500 border justify-between
+}
