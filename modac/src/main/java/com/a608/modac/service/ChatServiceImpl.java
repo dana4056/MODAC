@@ -1,7 +1,11 @@
 package com.a608.modac.service;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Optional;
@@ -20,6 +24,7 @@ import com.a608.modac.model.chat.ChatRoomType;
 import com.a608.modac.model.chat.MessageType;
 import com.a608.modac.model.follow.Follow;
 import com.a608.modac.model.user.User;
+import com.a608.modac.model.user.UserResponse;
 import com.a608.modac.repository.ChatMessageRepository;
 import com.a608.modac.repository.ChatRoomRepository;
 import com.a608.modac.repository.FollowRepository;
@@ -38,7 +43,6 @@ public class ChatServiceImpl implements ChatService {
 	private final ChatRoomRepository chatRoomRepository;
 	private final UserRepository userRepository;
 	private final FollowRepository followRepository;
-
 
 	@Override
 	public ChatMessageResponse saveMessage(final ChatMessageRequest chatMessageRequest) {
@@ -82,33 +86,77 @@ public class ChatServiceImpl implements ChatService {
 			.build();
 	} // 특정 채팅룸 찾기. -> 입장할 때 사용.
 
-	public List<ChatRoomDto> findAllChatRoomsByFollowingsSeq(final Long fromUsersSeq, final Long toUsersSeq) {
-		final List<Follow> follows = followRepository.findFollowsByFromUser_SeqAndToUser_Seq(
-			fromUsersSeq, toUsersSeq);
+	public List<ChatRoomDto> findAllChatRoomsByFollowingsSeq(final Long userSeq) {
+		final List<Follow> follows = followRepository.findAllByFromUser_SeqOrToUser_Seq(userSeq, userSeq);
+		HashMap<Long, ChatRoom> chatRooms = new HashMap<>();
+		final User myUser = userRepository.findById(userSeq).orElseThrow(() -> new NoSuchElementException("NoUser"));
 
-		final List<ChatRoomDto> chatRooms = new ArrayList<>();
+		//  user가 속한 모든 팔로우 관계의 채팅방에서
+		for (Follow follow : follows) {
+			User talker; // 나랑 대화하는 상대방 유저
 
-		for (final Follow follow : follows) {
-			final Optional<ChatMessage> chatMessageById = chatMessageRepository.findById(
-				follow.getChatRoom().getLastMessageSeq());
-			String chatMessage = null;
+			// 1. 기본적으로 내가 FromUser라고 가정해볼께 (일단 특정 user를 가리켜야 오류가 안나서 그래!)
+			//    그럼 상대방은 ToUser 유저일꺼야 맞지
+			talker = follow.getToUser();
 
-			if (chatMessageById.isPresent()) {
-				chatMessage = chatMessageById.get().getMessage();
+			// 2. 근데 내가 사실 ToUser였다면 상대방은 FromUser일꺼야
+			//    그렇다면 맞게 정정해주자
+			if (follow.getToUser().equals(myUser)) {
+				talker = follow.getFromUser();
 			}
 
-			if (Optional.ofNullable(chatMessage).isPresent()) {
-				final ChatRoomDto chatRoom = ChatRoomDto.builder()
-					.seq(follow.getChatRoom().getSeq())
-					.message(chatMessage)
-					.lastMessageTime(follow.getChatRoom().getLastMessageTime())
-					.build();
-
-				chatRooms.add(chatRoom);
+			ChatRoom chatRoom = follow.getChatRoom();
+			// 최근 메세지가 존재하는 채팅방에 상대방의 usersSeq를 key로, chatRoom을 value로 넣어주기
+			if (chatRoom.getLastMessageSeq() != null) {
+				chatRooms.put(talker.getSeq(), chatRoom);
 			}
 		}
 
-		return chatRooms;
+		List<ChatRoomDto> chatRoomDtos = new ArrayList<>();
+		for (Map.Entry<Long, ChatRoom> entry : chatRooms.entrySet()) {
+			UserResponse talker = new UserResponse( // 상대방
+				userRepository.findById(entry.getKey()).orElseThrow(() -> new NoSuchElementException("NoUser")));
+			ChatRoom chatRoom = entry.getValue(); // 채팅방
+
+			ChatMessage chatMessage = chatMessageRepository.findById(chatRoom.getLastMessageSeq())
+				.orElseThrow(NoSuchElementException::new);
+			ChatRoomDto chatRoomDto = ChatRoomDto.builder()
+				.seq(chatRoom.getSeq())
+				.lastMessageSeq(chatRoom.getLastMessageSeq())
+				.lastMessage(chatMessage.getMessage())
+				.lastMessageTime(chatRoom.getLastMessageTime())
+				.talker(talker).build();
+
+			chatRoomDtos.add(chatRoomDto);
+		}
+
+		// for (Follow follow : follows) {
+		// 	ChatRoom chatRoom = follow.getChatRoom();
+		// 	ChatRoomDto chatRoomDto = null;
+		// 	if (chatRoom.getLastMessageSeq() != null) {
+		// 		ChatMessage chatMessage = chatMessageRepository.findById(chatRoom.getLastMessageSeq())
+		// 			.orElseThrow(NoSuchElementException::new);
+		// 		UserResponse talker = null;
+		//
+		// 		if (follow.getToUser().getSeq() == userSeq) {
+		// 			talker = new UserResponse(follow.getFromUser());
+		// 		} else {
+		// 			talker = new UserResponse(follow.getToUser());
+		// 		}
+		// 		chatRoomDto = ChatRoomDto.builder()
+		// 			.seq(chatRoom.getSeq())
+		// 			.lastMessageSeq(chatRoom.getLastMessageSeq())
+		// 			.lastMessage(chatMessage.getMessage())
+		// 			.lastMessageTime(chatRoom.getLastMessageTime())
+		// 			.talker(talker).build();
+		// 	}
+		//
+		// 	if (chatRoomDto != null && !chatRooms.contains(chatRoomDto))
+		// 		chatRooms.add(chatRoomDto);
+		// 	// chatRooms.add(chatRoomDto);
+		// }
+
+		return chatRoomDtos;
 	} // 특정 유저의 모든 채팅룸 찾기. -> 팔로잉 관계에서 1:1 채팅방 정보를 모두 가져와서 프론트로 전달.
 
 	private static ChatMessage isAddEnterMessage(final ChatMessageRequest chatMessageRequest, final ChatRoom chatRoom,

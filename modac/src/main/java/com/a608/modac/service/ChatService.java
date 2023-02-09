@@ -13,7 +13,7 @@ public interface ChatService {
 	List<ChatMessageResponse> findMessagesByChatRoomsSeq(final Long roomsSeq, final Pageable pageable);
 	void updateLastMessage(final ChatMessageRequest chatMessageRequest);
 	ChatRoomDto findChatRoomBySeq(final Long roomsSeq);
-	List<ChatRoomDto> findAllChatRoomsByFollowingsSeq(final Long fromUsersSeq, final Long toUsersSeq);
+	List<ChatRoomDto> findAllChatRoomsByFollowingsSeq(final Long userSeq);
 
 }
 

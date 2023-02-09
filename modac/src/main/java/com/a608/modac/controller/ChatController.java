@@ -51,10 +51,8 @@ public class ChatController {
 	//	} // 특정 채팅방 조회. -> 1:1 채팅방 들어갈때
 
 	@GetMapping("/rooms")
-	public ResponseEntity<List<ChatRoomDto>> findAllChatRoom(@RequestParam final Long fromUsersSeq,
-		@RequestParam final Long toUsersSeq) {
-		final List<ChatRoomDto> chatRoomDto = chatService.findAllChatRoomsByFollowingsSeq(fromUsersSeq,
-			toUsersSeq);
+	public ResponseEntity<List<ChatRoomDto>> findAllChatRoom(@RequestParam("user") final Long userSeq) {
+		final List<ChatRoomDto> chatRoomDto = chatService.findAllChatRoomsByFollowingsSeq(userSeq);
 
 		return new ResponseEntity<>(chatRoomDto, HttpStatus.OK);
 	} // 유저의 1:1 모든 채팅방 조회 -> 모든 1:1 채팅방 리스트 반환. -> 바꿔야함. api 명세서 참고.
