@@ -1,9 +1,11 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
+import room from "../api/room";
 
 export const useRoomStore = defineStore("room", () => {
   const isEnteredRoom = ref(false);
   const isDeleteRoom = ref(false);
+  const api = room; 
 
   const enterRoom = () => {
     isEnteredRoom.value = true;
@@ -98,6 +100,7 @@ export const useRoomStore = defineStore("room", () => {
   };
 
   return {
+    api,
     isEnteredRoom,
     isDeleteRoom,
     enterRoom,

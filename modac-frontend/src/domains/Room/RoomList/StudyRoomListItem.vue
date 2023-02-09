@@ -1,7 +1,8 @@
 <script setup>
 import Card from "@/components/Card.vue";
 import { defineProps } from "vue";
-import { useRoomStore } from "@/stores/room";
+import { useRoomStore } from '@/stores/room.js';
+const roomStore = useRoomStore();
 
 defineProps({
   roomItem: Object,
@@ -10,8 +11,12 @@ defineProps({
 const store = useRoomStore();
 
 const enterRoom = () => {
-  //모달 띄워서 확인창
   store.enterRoom();
+  const payload = {
+    seq: 2,
+    usersSeq: 1
+  }
+  roomStore.api.joinRoom(payload)
 }
 </script>
 

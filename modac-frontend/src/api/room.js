@@ -3,6 +3,7 @@ import http from "@/api/http";
 export default {
     // 스터디룸 생성
     postRoom(payload) {
+        console.log('김동현 바보')
         http.post(`/rooms`, payload)
             .then(({ data }) => {
                 console.log(data)
