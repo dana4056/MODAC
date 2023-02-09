@@ -47,7 +47,17 @@ const data4 = {   // 포인트 수정 데이터
 
 const data5 = {   // 로그인 데이터
   id: "test2",
-  password: "vue2"
+  password: "test2"
+}
+
+const user_data6 = {   // 팔로잉 데이터
+  fromSeq: 1, 
+  toSeq:4
+}
+
+const user_data7 = {   // 팔로잉 여부 조회 데이터
+  fromSeq: 1,
+  toSeq:14
 }
 
 // ================================
@@ -151,7 +161,13 @@ function click(){
   // store.api.checkUserNick("nick1");            // 닉네임 중복확인
   // store.api.checkUserId("test1");              // 아이디 중복확인
   // store.api.checkUserEmail("vue1@gmail.com");  // 이메일 중복확인
-  // store.api.login(data5);                      // 로그인
+  // store.login(data5);                          // 로그인
+  // store.api.logout();                          // 로그아웃(axios X)
+  // store.api.following(user_data6);                  // 팔로잉
+  // store.api.unfollowing(1);                    // 언팔로잉
+  // store.api.fetchFollowingUsers(1);            // 팔로잉 회원목록 조회(친구 조회)
+  // store.api.fetchFollowerUsers(1);             // 팔로워 회원목록 조회(날 팔로잉하는 사람들)
+  // store.api.isFollowing(user_data7);                // 팔로잉 여부 조회(내가 쟤를 팔로잉하고 있나?)
   
   // articleStore.api.postArticle(data1);         // 게시글 작성
   // articleStore.api.findArticleByUsersSeq(data2);  // 사용자 게시글 전체 조회
