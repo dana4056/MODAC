@@ -25,6 +25,7 @@ import com.a608.modac.model.chat.DirectMessageDto;
 import com.a608.modac.model.chat.MessageType;
 import com.a608.modac.model.follow.Follow;
 import com.a608.modac.model.user.User;
+import com.a608.modac.model.user.UserResponse;
 import com.a608.modac.repository.ChatDirectRepository;
 import com.a608.modac.repository.ChatMessageRepository;
 import com.a608.modac.repository.ChatRoomRepository;
@@ -148,10 +149,8 @@ public class ChatServiceImpl implements ChatService {
 				chatRooms.put(talker.getSeq(), chatRoom);
 			}
 		}
-		System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"+chatRooms);
 		List<ChatRoomDto> chatRoomDtos = new ArrayList<>();
 		for (Map.Entry<Long, ChatRoom> entry : chatRooms.entrySet()) {
-			System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"+entry);
 			UserResponse talker = new UserResponse( // 상대방
 				userRepository.findById(entry.getKey()).orElseThrow(() -> new NoSuchElementException("NoUser")));
 			ChatRoom chatRoom = entry.getValue(); // 채팅방
@@ -168,8 +167,7 @@ public class ChatServiceImpl implements ChatService {
 			chatRoomDtos.add(chatRoomDto);
 		}
 
-		return chatRooms;
-	}
-	// 특정 유저의 모든 채팅룸 찾기. -> 팔로잉 관계에서 1:1 채팅방 정보를 모두 가져와서 프론트로 전달.
+		return chatRoomDtos;
+	} // 특정 유저의 모든 채팅룸 찾기. -> 팔로잉 관계에서 1:1 채팅방 정보를 모두 가져와서 프론트로 전달.
 
 }
