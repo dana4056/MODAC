@@ -9,7 +9,7 @@
 import { useUserStore } from "../stores/user";
 import { useArticleStore } from "../stores/article";
 import { useCommentStore } from "../stores/comment";
-import { useTodoStore } from "../stores/todo2";
+import { useTodoStore } from "../stores/todo";
 import { useRoomStore } from "../stores/room2";
 
 const store = useUserStore();
