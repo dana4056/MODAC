@@ -12,7 +12,7 @@ const profileImgUrl = ref(
 );
 
 const logout = () => {
-  store.logout();
+  store.api.logout();
   router.push({ name: "login" });
 };
 

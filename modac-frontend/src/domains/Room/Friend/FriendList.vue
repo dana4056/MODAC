@@ -1,13 +1,15 @@
 <script setup>
 import { storeToRefs } from "pinia";
-import { useFriendStore } from "@/stores/friend";
+import { useUserStore } from "@/stores/user";
 import FriendListItem from "@/domains/Room/Friend/FriendListItem.vue";
 import RightSideBarHeader from "../Sidebar/RightSideBarHeader.vue";
 import RightSideBarBody from "../Sidebar/RightSideBarBody.vue";
 
-const store = useFriendStore();
+const store = useUserStore();
 
-const { friendList } = storeToRefs(store);
+const { loginUser, followingList } = storeToRefs(store);
+
+store.api.fetchFollowingUsers(loginUser.value.seq);
 </script>
 
 <template>
@@ -15,7 +17,7 @@ const { friendList } = storeToRefs(store);
     <RightSideBarHeader>친구 목록</RightSideBarHeader>
     <RightSideBarBody>
       <FriendListItem
-        v-for="friendItem in friendList"
+        v-for="friendItem in followingList"
         :key="friendItem.id"
         :friend-item="friendItem"
       ></FriendListItem>

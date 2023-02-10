@@ -12,6 +12,7 @@ const router = useRouter();
 
 const routePageForEnteredUser = () => {
 
+
   if (loginUser.value) {
     router.push({ name: "room" });
   } else {
