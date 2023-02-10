@@ -68,9 +68,9 @@ const solutions = [
   },
 ]
 
-const deleteItem = () => {
+// const deleteItem = () => {
   
-}
+// }
 
 </script>
 

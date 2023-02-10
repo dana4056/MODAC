@@ -3,4 +3,5 @@
   /* height: 100%; */
   /* background-color: gray; */
 	/* font-family: 'Pretendard'; */
+  @apply my-10
 }

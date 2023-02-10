@@ -23,7 +23,7 @@ routePageForEnteredUser();
 
 <template>
   <Wrapper :class="$style.app_wrapper">
-    <div v-if="isLoggedIn" id="header" :class="$style.app_navbar">
+    <div v-if="true" id="header" :class="$style.app_navbar">
       <Navbar />
     </div>
     <div id="body" :class="$style.app_section">
