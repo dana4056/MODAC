@@ -1,6 +1,12 @@
 <script setup>
 import { useArticleStore } from "@/stores/article";
 import { storeToRefs } from "pinia";
+
+import Modal from "@/components/Modal.vue";
+import GithubTest from "@/views/GithubTest.vue";
+import GithubTest2 from "@/views/GithubTest2.vue";
+import { ref } from "vue";
+
 const store = useArticleStore();
 const { buttonState, tempArticle } = storeToRefs(store);
 
@@ -9,7 +15,32 @@ const copyText = () => {
   alert("복사 완료");
 };
 
-const githubCommit = () => {};
+
+// git 관련
+const githubModalState = ref(false);
+
+const closeGithubModal = (element) => {
+  const backdropElement = ref();
+  const cancleElement = ref();
+
+  backdropElement.value = document.querySelector("#backdrop");
+  cancleElement.value = document.querySelector("#cancle")
+
+  if (backdropElement.value === event.target 
+      || cancleElement.value === event.target) {
+      githubModalState.value = false;
+    }
+  if (element === "cancle") {
+    githubModalState.value = false;
+  }
+};
+
+const openGithubModal = () => {
+  
+  githubModalState.value = true;
+};
+
+// const githubCommit = () => {};
 
 const downloadMarkdown = (content) => {
   const encodedContent = encodeURIComponent(content);
@@ -47,7 +78,7 @@ const clickDownloadButtonHandler = () => {
       &nbsp;복사하기
     </button>
 
-    <button @click="githubCommit" :class="$style.button_next">
+    <button @click="openGithubModal" :class="$style.button_next">
       <svg
         class="w-5 h-5"
         aria-hidden="true"
@@ -84,6 +115,30 @@ const clickDownloadButtonHandler = () => {
       &nbsp;다운로드
     </button>
   </div>
+
+
+  <Teleport to="body">
+    <Modal
+      :closeModal="closeGithubModal"
+      v-if="githubModalState"
+    >
+      <div class="w-full flex justify-end">
+        <button
+        @click="closeGithubModal('cancle')"
+        id="cancle"
+        :class="$style.add_room_button_exit">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+
+      <OverflowDiv :class="$style.modal_div">
+        <GithubTest :closeModal="closeGithubModal"></GithubTest>
+        <!-- <GithubTest2></GithubTest2> -->
+      </OverflowDiv>
+    </Modal>
+  </Teleport>
 </template>
 
 <style lang="css" module>

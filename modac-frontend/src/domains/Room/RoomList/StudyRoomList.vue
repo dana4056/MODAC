@@ -29,11 +29,12 @@ roomStore.api.findRoomList(loginUser.value.seq)
 </script>
 
 <template>
+
   <Wrapper :class="$style.wrapper_flex">
     <aside :class="$style.side_bar_flex_item"></aside>
     <Wrapper :class="$style.section_flex_item">
       <RoomListHeader />
-      <OverflowDiv>
+      <OverflowDiv class="h-[80%]">
         <section :class="$style.wrapper_flex_div">
           <StudyRoomListItem
             :class="$style.study_room_flex_item"
