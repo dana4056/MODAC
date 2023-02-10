@@ -109,6 +109,10 @@
 	--tw-gradient-to: #3b82f6;
 }
 
+.add_room_button_exit {
+  @apply bg-transparent
+}
+
 .add_room_div {
 	@apply flex items-center justify-between
 }
