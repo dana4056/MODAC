@@ -56,3 +56,8 @@
 .hover {
   @apply w-full rounded shadow-lg lg:max-w-xs hover:shadow-md
 }
+
+
+.user_membership {
+  @apply bg-yellow-100 text-yellow-800 text-xs font-medium px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-yellow-300 border border-yellow-300
+}

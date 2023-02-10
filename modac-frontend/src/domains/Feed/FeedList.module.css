@@ -24,7 +24,7 @@
 }
 
 .modal_title {
-  @apply text-3xl font-semibold text-left w-full flex justify-between leading-relaxed text-white px-8 pt-8 pb-2
+  @apply md:text-3xl font-semibold text-left w-full flex justify-between leading-relaxed text-white px-8 pt-8 pb-2 text-lg
 }
 
 .modal_icon {
@@ -35,7 +35,7 @@
   @apply text-sm flex text-white pl-8 pt-4 pb-4 justify-end gap-2;
 }
 .modal_title_info_right {
-  @apply text-sm flex text-white pr-8 pt-4 pb-4 justify-end gap-2;
+  @apply text-sm flex text-white pr-8 pt-4 pb-4 justify-end gap-2 flex-wrap;
 }
 
 .modal_button_group {

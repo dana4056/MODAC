@@ -101,5 +101,5 @@ onMounted(() => {
 </svg>
 </template>
 <style lang="css">
-@import "LikeButton.module.css"
+@import "LikeButton.module.css";
 </style>
