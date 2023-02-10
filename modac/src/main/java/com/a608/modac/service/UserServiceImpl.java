@@ -1,5 +1,6 @@
 package com.a608.modac.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -8,11 +9,13 @@ import org.springframework.stereotype.Service;
 import com.a608.modac.model.chat.ChatRoom;
 import com.a608.modac.model.follow.Follow;
 import com.a608.modac.model.follow.FollowRequest;
+import com.a608.modac.model.notification.Notification;
 import com.a608.modac.model.user.User;
 import com.a608.modac.model.user.UserRequest;
 import com.a608.modac.model.user.UserResponse;
 import com.a608.modac.repository.ChatRoomRepository;
 import com.a608.modac.repository.FollowRepository;
+import com.a608.modac.repository.NotificationRepository;
 import com.a608.modac.repository.UserRepository;
 import com.a608.modac.security.JwtTokenProvider;
 
@@ -22,12 +25,16 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final FollowRepository followRepository;
     private final ChatRoomRepository chatRoomRepository;
+    private final NotificationRepository notificationRepository;
     private final JwtTokenProvider jwtTokenProvider;
 
-    public UserServiceImpl(UserRepository userRepository, FollowRepository followRepository, ChatRoomRepository chatRoomRepository, JwtTokenProvider jwtTokenProvider) {
+    public UserServiceImpl(UserRepository userRepository, FollowRepository followRepository,
+        ChatRoomRepository chatRoomRepository, NotificationRepository notificationRepository,
+        JwtTokenProvider jwtTokenProvider) {
         this.userRepository = userRepository;
         this.followRepository = followRepository;
         this.chatRoomRepository = chatRoomRepository;
+        this.notificationRepository = notificationRepository;
         this.jwtTokenProvider = jwtTokenProvider;
     }
 
@@ -119,19 +126,32 @@ public class UserServiceImpl implements UserService {
     public void following(FollowRequest followRequest) {
 
         // 상대가 날 팔로우하는지 찾기
-        Follow follower = followRepository.findFollowByFromUser_SeqAndToUser_Seq(followRequest.getToSeq(), followRequest.getFromSeq());
+        Follow follower = followRepository.findFollowByFromUser_SeqAndToUser_Seq(followRequest.getToSeq(),
+            followRequest.getFromSeq());
         ChatRoom chatRoom;
 
-        if(follower != null){ // 이미 쟤가 날 팔로우 함 (DM 방 이미 존재)
+        if (follower != null) { // 이미 쟤가 날 팔로우 함 (DM 방 이미 존재)
             chatRoom = follower.getChatRoom();
-        }else{  // 상대방은 날 팔로우하고 있지 않음 (새로운 관계)
+        } else {  // 상대방은 날 팔로우하고 있지 않음 (새로운 관계)
             chatRoom = chatRoomRepository.save(new ChatRoom());
         }
 
-        User fromUser = userRepository.findById(followRequest.getFromSeq()).orElseThrow(() -> new NoSuchElementException("NoUser"));
-        User toUser = userRepository.findById(followRequest.getToSeq()).orElseThrow(() -> new NoSuchElementException("NoUser"));
+        User fromUser = userRepository.findById(followRequest.getFromSeq())
+            .orElseThrow(() -> new NoSuchElementException("NoUser"));
+        User toUser = userRepository.findById(followRequest.getToSeq())
+            .orElseThrow(() -> new NoSuchElementException("NoUser"));
 
+        // 팔로잉 정보 저장
         followRepository.save(new Follow(null, fromUser, toUser, chatRoom));
+
+        // 팔로잉한 상대에게 팔로우 알림 보내기
+        notificationRepository.save(Notification.builder()
+            .registeredTime(LocalDateTime.now())
+            .fromUser(fromUser)
+            .toUser(toUser)
+            .isRead((byte)1)
+            .type("follow")
+            .build());
     }
 
     @Override
