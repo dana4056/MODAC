@@ -8,10 +8,11 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,6 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.a608.modac.model.chat.ChatMessageRequest;
 import com.a608.modac.model.chat.ChatMessageResponse;
 import com.a608.modac.model.chat.ChatRoomDto;
+import com.a608.modac.model.chat.DirectMessage;
+import com.a608.modac.model.chat.DirectMessageDto;
 import com.a608.modac.model.user.UserResponse;
 import com.a608.modac.service.ChatService;
 import com.a608.modac.service.UserService;
@@ -43,61 +46,53 @@ public class ChatController {
 	private final SimpMessageSendingOperations simpMessageSendingOperations;
 	private final UserService userService;
 
-	//	@GetMapping("/rooms/{roomsSeq}")
-	//	public ResponseEntity<ChatRoomDto> findChatRoom(@PathVariable final Long roomsSeq) {
-	//		final ChatRoomDto chatRoomBySeq = chatService.findChatRoomBySeq(roomsSeq);
-	//
-	//		return new ResponseEntity<>(chatRoomBySeq, HttpStatus.OK);
-	//	} // 특정 채팅방 조회. -> 1:1 채팅방 들어갈때
-
 	@GetMapping("/rooms")
-	public ResponseEntity<List<ChatRoomDto>> findAllChatRoom(@RequestParam final Long fromUsersSeq,
+	public ResponseEntity<List<ChatRoomDto>> findAllChatRoomsByUser(@RequestParam final Long fromUsersSeq,
 		@RequestParam final Long toUsersSeq) {
 		final List<ChatRoomDto> chatRoomDto = chatService.findAllChatRoomsByFollowingsSeq(fromUsersSeq,
 			toUsersSeq);
 
 		return new ResponseEntity<>(chatRoomDto, HttpStatus.OK);
-	} // 유저의 1:1 모든 채팅방 조회 -> 모든 1:1 채팅방 리스트 반환. -> 바꿔야함. api 명세서 참고.
+	} // 유저의 1:1 모든 채팅방 조회 -> 모든 1:1 채팅방 리스트 반환. -> 다나가 바꿈.
 
-	@GetMapping("/rooms/{roomsSeq}/messages")
-	public ResponseEntity<List<ChatMessageResponse>> findMessagesByRoomsSeq(@PathVariable final Long roomsSeq,
+	@GetMapping("/rooms/{chatRoomsSeq}/messages")
+	public ResponseEntity<?> findAllMessageFromRedis(@PathVariable final Long chatRoomsSeq,
 		@PageableDefault(size = 20, sort = "sendTime", direction = Sort.Direction.DESC)
 		Pageable pageable) {
-		final List<ChatMessageResponse> messagesByChatRoomsSeq = chatService.findMessagesByChatRoomsSeq(roomsSeq,
-			pageable);
+		final List<DirectMessage> allMessagesFromRedis = chatService.findAllMessagesByDirectChatRoomsSeq(
+			String.valueOf(chatRoomsSeq), pageable);
 
-		return new ResponseEntity<>(messagesByChatRoomsSeq, HttpStatus.OK);
-	} // 특정 채팅방 메시지 불러오기. -> 1:1 채팅방 메시지 불러오기.(가능)
+		return new ResponseEntity<>(allMessagesFromRedis, HttpStatus.OK);
+	} // redis DM 특정 채팅방 메시지 전체 조회.
 
-	@MessageMapping(value = "/rooms/enter/direct")
-	public ResponseEntity<Void> enterDirectChatRoom(@Payload final ChatMessageRequest chatMessageRequest) {
-		final ChatMessageResponse chatMessageResponse = chatService.saveMessage(chatMessageRequest);
+//	@MessageMapping(value = "/rooms/enter/direct")
+	@PostMapping("/rooms/enter/direct")
+	public ResponseEntity<Void> enterDirectChatRoom(final DirectMessageDto directMessageDto) {
+		final DirectMessage directMessage = chatService.saveDirectMessage(directMessageDto);
 
 		simpMessageSendingOperations.convertAndSend(
-			"/queue/chat/rooms/enter/direct" + chatMessageResponse.getChatRoomsSeq(),
-			chatMessageResponse.getMessage());
+			"/queue/chat/rooms/enter/direct" + directMessage.getChatRoomsSeq(),
+			directMessage.getMessage());
 
 		return new ResponseEntity<>(HttpStatus.OK);
 	} // 채팅방 입장(구독) -> 1:1 대화.
 
-	// 1:1 대화는 방 채팅이 존재하지 않는다.
-
-	@MessageMapping(value = "/messages/direct")
-	public ResponseEntity<Void> sendDirectMessage(final ChatMessageRequest chatMessageRequest) {
-		final ChatMessageResponse chatMessageResponse = chatService.saveMessage(chatMessageRequest);
-		chatService.updateLastMessage(chatMessageRequest);
+//	@MessageMapping(value = "/messages/direct")
+	@PostMapping(value = "/messages/direct")
+	public ResponseEntity<Void> sendDirectMessage(@RequestBody final DirectMessageDto directMessageDto) {
+		// MessageMapping으로 바꾸면서 @RequestBody 지워야함.
+		final DirectMessage directMessage = chatService.saveDirectMessage(directMessageDto);
+		chatService.updateLastMessage(directMessageDto);
 
 		simpMessageSendingOperations.convertAndSend(
-			"/queue/chat/rooms/enter/direct" + chatMessageResponse.getChatRoomsSeq(),
-			chatMessageResponse);
+			"/queue/chat/rooms/enter/direct" + directMessageDto.getChatRoomsSeq(),
+			directMessageDto);
 
 		return new ResponseEntity<>(HttpStatus.OK);
-	} // (채팅방 구독자에게) 메시지 보내기. -> 1:1대화
+	} // (채팅방 구독자에게) 메시지 보내기. -> // redis DM 채팅 메시지 저장.
 
 	@MessageMapping(value = "/rooms/enter/group")
 	public void enterGroupChatRoom(ChatMessageRequest chatMessageRequest) {
-		chatService.updateLastMessage(chatMessageRequest);
-
 		final UserResponse user = userService.findUserBySeq(chatMessageRequest.getUsersSeq());
 		final ChatRoomDto chatRoom = chatService.findChatRoomBySeq(chatMessageRequest.getChatRoomsSeq());
 
@@ -115,8 +110,6 @@ public class ChatController {
 
 	@MessageMapping("/messages/group")
 	public void sendGroupMessage(final ChatMessageRequest chatMessageRequest) {
-		chatService.updateLastMessage(chatMessageRequest);
-
 		final UserResponse userResponse = userService.findUserBySeq(chatMessageRequest.getUsersSeq());
 
 		final ChatMessageResponse chatMessageResponse = ChatMessageResponse.builder()
@@ -130,5 +123,7 @@ public class ChatController {
 			"/topic/chat/rooms/enter/group/" + chatMessageResponse.getChatRoomsSeq(),
 			chatMessageResponse);
 	} // (채팅방 구독자에게) 메시지 보내기. -> 그룹 대화.
+
+
 
 }
