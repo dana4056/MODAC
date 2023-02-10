@@ -6,15 +6,17 @@ import { storeToRefs } from "pinia";
 import { useRouter } from "vue-router";
 
 const userStore = useUserStore();
-const { loginUser, isLoggedIn } = storeToRefs(userStore);
+const { loginUser } = storeToRefs(userStore);
 
 const router = useRouter();
 
 const routePageForEnteredUser = () => {
+
+
   if (loginUser.value) {
-    // router.push({ name: "room" });
+    router.push({ name: "room" });
   } else {
-    // router.push({ name: "login" });
+    router.push({ name: "login" });
   }
 };
 
@@ -23,7 +25,7 @@ routePageForEnteredUser();
 
 <template>
   <Wrapper :class="$style.app_wrapper">
-    <div v-if="isLoggedIn" id="header" :class="$style.app_navbar">
+    <div v-if="loginUser" id="header" :class="$style.app_navbar">
       <Navbar />
     </div>
     <div id="body" :class="$style.app_section">

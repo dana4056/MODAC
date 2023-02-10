@@ -24,6 +24,7 @@
   /* custom properties for the colors picked up by the elements when clicked (and updated for each link in the script) */
   --hover-bg: #ff620020;
   --hover-c: #ff6200;
+  background: none;
 }
 
 .buttons::before {
