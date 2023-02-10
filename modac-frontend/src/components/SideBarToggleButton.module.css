@@ -1,0 +1,8 @@
+.button_style {
+  width: 20px;
+  height: 70px;
+
+  background: rgba(167, 167, 167, 0.78);
+  /* border-radius: 0px 4px 4px 0px; */
+  @apply rounded-r-md;
+}

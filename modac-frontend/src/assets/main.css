@@ -1,6 +1,18 @@
-@tailwind base;
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.6/dist/web/static/pretendard.css");
+/* @tailwind base;
 @tailwind components;
-@tailwind utilities;
+@tailwind utilities; */
+
+
+
+html,
+body {
+  @apply h-full w-full;
+}
+
+#app {
+  @apply h-full w-full;
+}
 
 /* .custom_title {
   color: orange;
@@ -11,6 +23,6 @@
   @apply text-3xl font-bold underline;
 } */
 
-input {
+/* input {
   border: 1px solid;
-}
+} */

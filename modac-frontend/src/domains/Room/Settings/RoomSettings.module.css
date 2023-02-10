@@ -1,0 +1,3 @@
+.setting_box {
+  @apply container mx-auto rounded-lg;
+}

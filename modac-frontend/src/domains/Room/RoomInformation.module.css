@@ -1,0 +1,9 @@
+.card_content_inline {
+  @apply inline;
+}
+
+.flex_wrapper {
+  @apply flex flex-row justify-around items-center;
+  @apply w-6/12;
+  @apply bg-gray-200 rounded-lg;
+}

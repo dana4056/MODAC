@@ -1,0 +1,7 @@
+.navbar_wrapper {
+  @apply mx-auto max-w-7xl px-2 h-full sm:px-6 lg:px-8;
+}
+
+.navbar_section_flex_wrapper {
+  @apply relative flex h-full items-center justify-between;
+}

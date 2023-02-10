@@ -1,0 +1,10 @@
+.card_style {
+  @apply h-full w-full;
+  /* background-color: gray; */
+  background-color: transparent;
+  color: white;
+}
+
+.display_inline_block {
+  @apply inline-block;
+}

@@ -1,0 +1,11 @@
+.right_side_bar {
+  height: 100%;
+  @apply basis-1/4;
+  @apply bg-gray-200 text-gray-900;
+  @apply p-3;
+  @apply rounded;
+}
+
+.right_side_bar_content {
+  height: 90%;
+}

@@ -1,0 +1,25 @@
+.room_title,
+.room_description,
+.room_title_name,
+.room_description_name {
+  @apply mb-4;
+}
+
+.setting_box_input {
+  @apply border-2 border-current;
+}
+
+.room_theme {
+  @apply flex justify-between mb-4;
+}
+
+/* .update_info_label {
+	@apply block mb-2 text-sm font-semibold text-gray-900 dark:text-white w-14
+} */
+
+/* .update_info_input {
+	@apply block w-full p-2.5 text-sm rounded-lg w-52 border
+	bg-gray-50 border-gray-300 text-gray-900 
+	focus:ring-blue-500 focus:border-blue-500 
+	dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white
+} */

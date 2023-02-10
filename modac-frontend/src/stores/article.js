@@ -1,77 +1,21 @@
-import { reactive, ref } from "vue";
+import { ref } from "vue";
 import { defineStore } from "pinia";
-import axios from "axios";
+import article from "../api/article";
 
-export const useTodoStore = defineStore("article", () => {
-  const articles = reactive([]);
-  const userId = ref(null);
-  const backendServerUrl = ref("localhost");
+export const useArticleStore = defineStore("article", () => {
+  const api = article; // axois 비동기 함수들
 
- 
-  // 게시글 조회
-  const getArticleList = () => {
-    console.log(2);
-    axios({
-      method: "get",
-      url: `${backendServerUrl.value}/article/list`,
-      params: {
-        users_seq: userId,
-      },
-    })
-      .then((res) => {
-        console.log(res.data);
-        articles.value = res.data;
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-  // 게시글 작성
-  const createArticleListItem = () => {
-    console.log("post request 실행");
-    axios({
-      methods: "post",
-      url: `${backendServerUrl.value}/article`,
-      data: {
-        users_seq:"int",
-        todos_seq:"int",
-        public_type:"int",
-        filepath: "String"
-      },
-    });
-  };
+  const articles = ref([]); // 게시글 목록
 
-  // 게시글 삭제
-  const deleteArticleListItem = () => {
-    console.log("delete request 실행");
-    axios({
-      methods: "delete",
-      url: `${backendServerUrl.value}/todo`,
-      data: {},
-    });
-  };
-  // 게시글 수정
-  const changeArticleListItem = () => {
-    console.log("put request 실행");
-    axios({
-      methods: "put",
-      url: `${backendServerUrl.value}/todo`,
-      data: {},
-    });
-  };
-
-  // 백이랑 연결 되면 삭제 예정
-  const addArticleItem = (inputarticleItem) => {
-    console.log(inputarticleItem);
-    articles.push(inputarticleItem);
-  };
-  // 
-
+  const publicType = ref(0);
+  let selectedState = ref(0);
+  const buttonState = ref(false);
 
   return {
+    api,
     articles,
-    addArticleItem,
-    getArticleList,
-    createArticleListItem,
+    publicType,
+    selectedState,
+    buttonState,
   };
 });

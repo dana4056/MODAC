@@ -1,16 +1,16 @@
 <script setup>
-import ArticleList from "../domains/Article/ArticleList.vue";
-import ArticleForm from "../domains/Article/ArticleForm.vue";
-import ArticleEditor from "../domains/Article/ArticleEditor.vue";
-
+import ArticleHeader from "@/domains/Article/ArticleHeader.vue";
+import ArticleBody from "@/domains/Article/ArticleBody.vue";
 </script>
 
 <template>
-	<ArticleList/>
-	<ArticleForm/>
+  <!-- v-if="tempArticle.length !== 0" -->
+  <div :class="$style.article_container_above">
+  <ArticleHeader />
+    <ArticleBody />
+  </div>
 </template>
 
-
-<style>
-
+<style lang="css" module>
+@import "./ArticleView.module.css";
 </style>

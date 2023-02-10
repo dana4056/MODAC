@@ -1,0 +1,33 @@
+.user_card {
+  @apply bg-gray-200;
+  @apply rounded-sm;
+  @apply flex flex-col items-center;
+}
+
+.user_card_item {
+  @apply basis-1/5;
+  @apply p-1;
+  /* @apply m-1; */
+}
+
+.user_card_button_message {
+  @apply bg-blue-300;
+}
+
+.user_card_button_message:hover {
+  @apply bg-blue-400;
+}
+
+.user_card_button_follow {
+  @apply bg-cyan-300;
+}
+.user_card_button_follow:hover {
+  @apply bg-cyan-400;
+}
+
+.user_card_button_unfollow {
+  @apply bg-red-500;
+}
+.user_card_button_unfollow:hover {
+  @apply bg-red-600;
+}

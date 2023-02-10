@@ -1,0 +1,12 @@
+.skin_change {
+  @apply flex justify-between mb-4;
+}
+
+.delete_room {
+  @apply mb-4;
+}
+
+.delete_button {
+  height: 50%;
+  @apply bg-yellow-300 m-2;
+}

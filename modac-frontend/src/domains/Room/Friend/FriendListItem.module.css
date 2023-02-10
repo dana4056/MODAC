@@ -1,0 +1,21 @@
+.card_style{
+  @apply flex justify-end;
+  align-items: flex-end;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: row;
+}
+
+.inline_block_style {
+  @apply inline-block;
+}
+
+.rounded_div {
+  @apply rounded-full;
+  @apply w-3 h-3;
+  @apply mx-2;
+}
+
+.friend_profile {
+  @apply inline-block object-cover h-8 w-8 m-1 rounded-full;
+}

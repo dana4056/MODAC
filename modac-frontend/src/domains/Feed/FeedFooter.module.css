@@ -1,0 +1,48 @@
+.comment_list {
+  @apply flex flex-col gap-4
+}
+
+.comment_view {
+  @apply flex flex-col gap-3
+}
+
+.comment_div {
+  @apply flex flex-col gap-2 p-3 bg-gray-100 rounded-xl
+}
+
+.comment_user {
+  @apply flex flex-row gap-2 items-center
+}
+
+.comment_nickname {
+  @apply font-semibold
+}
+
+.comment_membership {
+  @apply bg-yellow-100 text-yellow-800 text-xs font-medium px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-yellow-300 border border-yellow-300
+}
+
+.comment_time {
+  @apply text-xs text-gray-500
+}
+
+.comment_content {
+  @apply px-3
+}
+
+.comment_textarea {
+  @apply w-full resize-none outline-none border border-gray-200 border-solid rounded p-4 min-h-[3rem] text-base mb-2;
+}
+
+.comment_textarea::-webkit-scrollbar {
+  /* @apply  */
+  display: none;
+}
+
+.comment_add {
+  @apply flex flex-col items-end
+}
+
+.add_button {
+  @apply w-fit text-white !bg-[#24292F] hover:bg-[#24292F]/90 rounded-xl text-sm px-5 py-2.5 text-center inline-flex items-center dark:hover:bg-[#050708]/30 mb-6;
+}

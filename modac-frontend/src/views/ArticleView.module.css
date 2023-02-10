@@ -1,0 +1,141 @@
+.article_container_above {
+  @apply flex flex-col h-full items-center;
+  font-family: "Pretendard";
+  height: 100%;
+
+  /* @apply  bg-gradient-to-b from-black via-slate-800 to-orange-300  */
+  @apply text-white justify-center;
+
+  display: flex;
+  align-items: center;
+  background: #50a3a2;
+  background: -webkit-linear-gradient(top, #00145c 0%, pink 160%);
+  background: -moz-linear-gradient(top, #00145c 0%, pink 160%);
+  background: -o-linear-gradient(top, #00145c 0%, pink 160%);
+  background: linear-gradient(to bottom, #00145c 0%, pink 160%);
+  /* position: absolute; */
+  left: 0;
+  /* height: 100%; */
+  width: 100%;
+  overflow: hidden;
+}
+
+
+
+/* .article_container_above{
+  @apply flex w-10/12 justify-between py-8;
+  height: 10%
+} */
+
+.title{
+  /* @apply w-1/2 text-lg p-5;
+  font-weight: 900;
+  font-size: 2rem;
+  font-family: 'Ubuntu', sans-serif;
+  color: orange; */
+  
+	@apply font-bold text-2xl
+}
+
+.buttons{
+  @apply flex justify-end gap-5;
+}
+
+.article_container_below{
+  @apply flex w-full;
+  height: 100%;
+}
+
+.article_list{
+  @apply basis-4/12 p-2;
+  overflow: auto;
+  min-width: 300px;
+}
+
+.article_list::-webkit-scrollbar {
+  width: 10px;
+}
+.article_list::-webkit-scrollbar-thumb {
+  background-color: #606060;
+  border-radius: 10px;
+  background-clip: padding-box;
+  border: 1px solid transparent;
+  height: 30%; /* 스크롤바의 길이 */
+}
+.article_list::-webkit-scrollbar-track {
+  background: rgba(206, 206, 206, 0.447); /*스크롤바 뒷 배경 색상*/
+  border-radius: 10px;
+  box-shadow: inset 0px 0px 5px white;
+}
+
+.editor{
+  @apply basis-8/12 ml-5;
+  min-width: 840px;
+}
+
+.flex_row_div {
+	@apply flex items-center gap-5 justify-between pt-8 pb-4 w-10/12
+}
+
+.flex_row_div_edit {
+	@apply flex items-center gap-5 justify-between w-10/12 h-5/6
+}
+
+.flex_row {
+	@apply flex items-center gap-5 justify-between
+}
+
+.page_title {
+	@apply font-bold text-2xl
+}
+
+.room_add_button {
+  @apply rounded-lg py-1 px-8 w-fit;
+	@apply text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center;
+	background-image: linear-gradient(to bottom right, var(--tw-gradient-stops)) !important;
+	--tw-gradient-from: #9333ea;
+  --tw-gradient-to: rgb(147 51 234 / 0);
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+	--tw-gradient-to: #3b82f6;
+}
+
+.add_room_button_exit {
+  @apply bg-transparent
+}
+
+.add_room_div {
+	@apply flex items-center justify-between
+}
+
+.add_room_input {
+	@apply block w-full p-2.5 text-sm rounded-lg border
+	bg-gray-50 border-gray-300 text-gray-900 
+	focus:ring-blue-500 focus:border-blue-500 
+	dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white
+}
+
+.button_next {
+  @apply text-white !bg-[#24292F] hover:bg-[#24292F]/90 rounded-xl text-sm px-5 py-2.5 text-center inline-flex items-center dark:hover:bg-[#050708]/30;
+}
+
+
+.confetti_text {
+  @apply text-2xl font-semibold
+}
+.confetti_text2 {
+  @apply font-semibold text-center
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
