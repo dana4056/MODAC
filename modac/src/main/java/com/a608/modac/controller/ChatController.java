@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,6 +31,7 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
+@CrossOrigin(origins = { "*" })
 @RequestMapping("/chat")
 public class ChatController {
 	// ChatController 역할
@@ -47,10 +49,8 @@ public class ChatController {
 	private final UserService userService;
 
 	@GetMapping("/rooms")
-	public ResponseEntity<List<ChatRoomDto>> findAllChatRoomsByUser(@RequestParam final Long fromUsersSeq,
-		@RequestParam final Long toUsersSeq) {
-		final List<ChatRoomDto> chatRoomDto = chatService.findAllChatRoomsByFollowingsSeq(fromUsersSeq,
-			toUsersSeq);
+	public ResponseEntity<List<ChatRoomDto>> findAllChatRoom(@RequestParam("user") final Long userSeq) {
+		final List<ChatRoomDto> chatRoomDto = chatService.findAllChatRoomsByFollowingsSeq(userSeq);
 
 		return new ResponseEntity<>(chatRoomDto, HttpStatus.OK);
 	} // 유저의 1:1 모든 채팅방 조회 -> 모든 1:1 채팅방 리스트 반환. -> 다나가 바꿈.

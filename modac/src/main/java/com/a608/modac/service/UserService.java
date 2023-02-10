@@ -33,11 +33,13 @@ public interface UserService {
 	
 	void following(FollowRequest followRequest);	// 팔로잉
 
-	void unFollowing(FollowRequest followRequest);    // 언팔로잉
+	void unFollowing(Long followSeq);    // 언팔로잉
 
 	List<Follow> findFollowingList(Long seq);
 
 	List<Follow> findFollowerList(Long seq);
 
 	UserResponse updatePoint(Long seq, String point); // 포인트 추가
+
+	boolean isFollowing(Long fromSeq, Long toSeq);
 }

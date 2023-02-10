@@ -11,16 +11,16 @@ import lombok.ToString;
 public class ChatRoomDto {
 	private final Long seq;
 	private final Long lastMessageSeq;
-	private final String message;
+	private final String lastMessage;
 	private final String lastMessageTime;
 	private final UserResponse talker;
 
 	@Builder
-	public ChatRoomDto(final Long seq, final Long lastMessageSeq, final String message, final String lastMessageTime,
+	public ChatRoomDto(final Long seq, final Long lastMessageSeq, final String lastMessage, final String lastMessageTime,
 		final UserResponse talker) {
 		this.seq = seq;
 		this.lastMessageSeq = lastMessageSeq;
-		this.message = message;
+		this.lastMessage = lastMessage;
 		this.lastMessageTime = lastMessageTime;
 		this.talker = talker;
 	}

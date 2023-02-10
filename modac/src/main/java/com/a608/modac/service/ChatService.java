@@ -12,8 +12,7 @@ public interface ChatService {
 	void updateLastMessage(final DirectMessageDto directMessagedto);
 
 	ChatRoomDto findChatRoomBySeq(final Long roomsSeq);
-
-	List<ChatRoomDto> findAllChatRoomsByFollowingsSeq(final Long fromUsersSeq, final Long toUsersSeq);
+	List<ChatRoomDto> findAllChatRoomsByFollowingsSeq(final Long userSeq);
 
 	////////////////////////////redis//////////////////////////////////
 	DirectMessage saveDirectMessage(final DirectMessageDto directMessageDto);
