@@ -4,6 +4,7 @@
 
 .dm_items_left {
   @apply flex ml-2 w-full;
+  align-items: center;
 }
 
 .profile_img {

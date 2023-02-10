@@ -1,4 +1,14 @@
-<script setup></script>
+<script setup>
+import { ref } from 'vue';
+
+let room_title = ref("");
+let room_description = ref("");
+let room_theme = ref("기본");
+
+
+
+
+</script>
 
 <template>
   <form>
@@ -6,8 +16,7 @@
       <div :class="$style.room_title_name">제목</div>
       <input
         :class="$style.setting_box_input"
-        name=""
-        id=""
+        v-model="room_title"
         cols="30"
         rows="10"
         placeholder="방 제목입니다."
@@ -18,7 +27,7 @@
       <label :class="$style.room_description_name" for="title">설명</label>
       <input
         :class="$style.setting_box_input"
-        name=""
+        v-model="room_description"
         id="title"
         cols="30"
         rows="10"
@@ -28,10 +37,10 @@
 
     <div :class="$style.room_theme">
       <div>테마</div>
-      <select name="" id="">
-        <option value="modac1">모닥불1</option>
-        <option value="modac2">모닥불2</option>
-        <option value="modac3">모닥불3</option>
+      <select name="" id="" v-model="room_theme">
+        <option value="기본" selected="selected">모닥불🔥</option>
+        <option value="우주">우주🪐</option>
+        <option value="바다">바다🌊</option>
       </select>
     </div>
   </form>

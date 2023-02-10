@@ -14,9 +14,9 @@ const props = defineProps({
   categoryName: String,
 });
 
-const store = useRoomStore();
+const userStore = useRoomStore();
 
-const statusMap = store.statusMap;
+const statusMap = userStore.statusMap;
 
 const isFollowed = ref(false);
 const follow = () => {
@@ -45,12 +45,8 @@ const followButtonStyleState = computed(() =>
     <div :class="$style.user_card_item">
       <CardTitle>{{ props.name }}</CardTitle>
     </div>
-    <div :class="$style.user_card_item">
-      <CardContent>{{ statusMap[props.status] }}</CardContent>
-    </div>
-    <div :class="$style.user_card_item">
-      <CardContent>{{ props.categoryName }} 학습중</CardContent>
-    </div>
+
+
     <div :class="$style.user_card_item">
       <CommonButton :class="$style.user_card_button_message">
         {{ messageButtonState }}
