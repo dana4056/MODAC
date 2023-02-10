@@ -25,20 +25,20 @@
 }
 
 .pagination_flex {
-  @apply flex py-5 h-full justify-center items-start w-full gap-4
+  @apply flex py-5 h-full justify-center items-start w-full gap-4 bg-transparent
 
 }
 
 .pagination_prev {
-
+  @apply bg-transparent
 }
 
 .pagination_next {
-
+  @apply bg-transparent
 }
 
 .pagination_number {
-
+  @apply bg-transparent
 }
 
 .article_table_td_category_algorithm {

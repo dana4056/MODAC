@@ -9,6 +9,7 @@
 
 .app_section {
   /* @apply basis-11/12; */
-  height: 92%;
-  overflow: auto;
+  /* height: 92%;
+  overflow: auto; */
+  @apply h-full overflow-auto
 }

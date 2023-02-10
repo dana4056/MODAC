@@ -1,11 +1,13 @@
 <script setup>
 import Editor from "@toast-ui/editor";
 import "@toast-ui/editor/dist/toastui-editor.css";
+import "@toast-ui/editor/dist/theme/toastui-editor-dark.css"; // 다크테마 적용하기
 import OverflowDiv from '@/components/OverflowDiv.vue';
 
-// import "@toast-ui/editor/dist/theme/toastui-editor-dark.css"; // 다크테마 적용하기
-
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
+import { useArticleStore } from "../../stores/article";
+// defineProps(['article'])
+const store = useArticleStore();
 
 // created에서 editor 변수 생성
 // mounted에서 editor에 Editor 인스턴스를 할당
@@ -15,11 +17,17 @@ onMounted(() => {
     // options
     el: document.querySelector("#editor"),
     height: "100%",
-    width: "50%",
-    initialValue: `# Hello Markdown Editor!`, // Editor에 처음으로 적혀있는 글
+    width: "25%",
+    // initialValue: `# Hello Markdown Editor!`, // Editor에 처음으로 적혀있는 글
+    initialValue: initialValue.value, // Editor에 처음으로 적혀있는 글
     initialEditType: "markdown",
-    // theme: "dark", // 다크테마 적용하기
+    theme: "dark", // 다크테마 적용하기
     language: "ko-KR",
+
+    // previewStyle: "vertical", // 기본은 tab인듯
+    // previewHighLight: false,
+    autofocus: true,
+
   });
 });
 
@@ -28,7 +36,7 @@ onMounted(() => {
 // 2안. 다른 Article로 넘어간다면, 현재 가지고 있는 데이터가 저장되지 않음을 고지함. => 사용성이 이상함
 // (결론) 일단 1안으로 구현
 const editorContent = ref("");
-const getMarkdown = () => {
+const getMarkdownText = () => {
   editorContent.value = editor.value.getMarkdown();
 };
 onMounted(() => {
@@ -36,8 +44,54 @@ onMounted(() => {
     // addHook 함수는 Editor에 대해서 Event가 발생했을 때 실행시킬 함수를 등록한다.
     // addHook 함수의 첫번째 인자를 "blur"로 설정한다면 괜찮을지 체크(다른 Article을 선택했을 때, Article을 제출했을 때 => 과연 blur가 잘 작동할 것인가? 확인 필요
     editorContent.value = editor.value.getMarkdown();
+    console.log("editorContent.value", editorContent.value);
+
+    store.tempArticle = editorContent.value;
+    console.log("store.tempArticle", store.tempArticle);
+
+    // setTemplete();
+    // getMarkdownText();
+    // store.tempArticle = editorContent.value;
+
   });
+  editor.value.addHook("focus", () => {
+    setTemplete();
+    getMarkdownText();
+    store.tempArticle = editorContent.value;
+    console.log("store.tempArticle", store.tempArticle);
+    document.querySelector("#editor").style.transitionDuration = "0.5s";
+    document.querySelector("#editor").style.opacity = "100%";
+  });
+  editor.value.addHook("blur", () => {
+    // setTemplete();
+    getMarkdownText();
+    store.tempArticle = editorContent.value;
+    console.log("store.tempArticle", store.tempArticle);
+    document.querySelector("#editor").style.transitionDuration = "0.5s";
+    document.querySelector("#editor").style.opacity = "50%";
+  });
+  // setTemplete();
 });
+
+const setTemplete = () => {
+  if (editorTemplete[0].innerText !== "# " + store.articles[store.selectedState].title)
+    editorTemplete[0].innerText = "# " + store.articles[store.selectedState].title;
+}
+
+
+const initialValue = computed(() => {
+  // editor.value.setMarkdown("# " + store.articles[store.selectedState].title);
+  
+  return "# " + store.articles[store.selectedState].title
+
+});
+
+var editorTemplete = document.getElementsByClassName('toastui-editor-md-heading toastui-editor-md-heading1');
+
+defineExpose({
+  setTemplete,
+});
+
 </script>
 
 <template>

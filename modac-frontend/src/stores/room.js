@@ -1,9 +1,11 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
+import room from "../api/room";
 
 export const useRoomStore = defineStore("room", () => {
   const isEnteredRoom = ref(false);
   const isDeleteRoom = ref(false);
+  const api = room; 
 
   const enterRoom = () => {
     isEnteredRoom.value = true;
@@ -59,21 +61,21 @@ export const useRoomStore = defineStore("room", () => {
       userSeq: 3,
       nickname: "삼싸피",
       status: 2,
-      catSkin: 3,
+      catSkin: 4,
       categoriesName: "기획",
     },
     {
       userSeq: 4,
       nickname: "사싸피",
       status: 0,
-      catSkin: 1,
+      catSkin: 5,
       categoriesName: "알고리즘",
     },
     {
       userSeq: 5,
       nickname: "오싸피",
       status: 1,
-      catSkin: 2,
+      catSkin: 6,
       categoriesName: "CS",
     },
     {
@@ -98,6 +100,7 @@ export const useRoomStore = defineStore("room", () => {
   };
 
   return {
+    api,
     isEnteredRoom,
     isDeleteRoom,
     enterRoom,

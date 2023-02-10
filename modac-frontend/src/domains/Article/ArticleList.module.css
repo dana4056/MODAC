@@ -1,11 +1,21 @@
 .my_color {
-    color: aqua;
+  color: aqua;
 }
 
 .my_size {
-    font-size:x-large;
+  font-size:x-large;
 }
 
 .article_item {
-    @apply border-2 mt-2 mb-2 p-3 rounded-lg border-black bg-gray-300;
+  @apply mt-2 mb-2 p-3 rounded-lg flex text-black font-medium gap-3 flex;
+}
+
+.article_item_active {
+  @apply flex flex
+}
+
+
+.editor{
+  @apply basis-8/12 ml-5;
+  min-width: 840px;
 }

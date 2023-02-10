@@ -1,7 +1,13 @@
 <script setup>
 import { ref } from "vue";
 import Modal from "@/components/Modal.vue";
-// import CommonButton from "@/components/CommonButton.vue";
+import { useRoomStore } from '@/stores/room.js';
+const roomStore = useRoomStore();
+
+
+
+const search_keyword = ref("")
+
 
 let room_title = ref("");
 let room_description = ref("");
@@ -82,22 +88,23 @@ const checkByte = (obj) => {
 }
 
 
-const addRoom = () => {
+const createRoom = () => {
 
-  const newRoom = {
-    "usersSeq" : 1,
-    "title" : room_title.value, 
-    "description" : room_description.value,
-    "maxSize" : room_max_size.value,
-    "multiTheme" : room_theme.value,
-    "publicType" : room_public_type.value,
+  const payload = {
+    usersSeq : 1,
+    title : room_title.value, 
+    description : room_description.value,
+    maxSize : room_max_size.value,
+    multiTheme : room_theme.value,
+    publicType : room_public_type.value,
   };
 
   // 방 정보 입력 후 입력칸을 초기화해주기 위함 
-  room_add_reset();
-
+  // room_add_reset();
+  // console.log(payload)
   // 테스트용 출력
-  console.log(newRoom);
+  // console.log(roomStore)
+  roomStore.api.postRoom(payload);
 }
 
 const room_add_reset = () => {
@@ -107,6 +114,18 @@ const room_add_reset = () => {
   room_theme.value = "기본";
   room_public_type.value = "1";
 }
+
+
+const searchRoom = () => {
+
+  const payload = {
+    usersSeq: 1,
+    keyword : search_keyword.value
+  }
+
+  roomStore.api.searchRoom(payload)
+}
+
 
 
 </script>
@@ -119,15 +138,15 @@ const room_add_reset = () => {
     </div>
     <!-- <input type="text" placeholder="원하는 방을 검색해보세요." /> -->
     
-    <form :class="$style.searchbar_flex">   
+    <form :class="$style.searchbar_flex" @submit.prevent="searchRoom">   
         <label for="simple-search" class="sr-only">Search</label>
         <div :class="$style.searchbar_content_bar">
-            <div :class="$style.searchbar_content_icon">
-                <svg aria-hidden="true" :class="$style.searchbar_content_icon_svg" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                  <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path>
-                </svg>
-            </div>
-            <input type="text" id="simple-search" :class="$style.searchbar_content_input" placeholder="원하는 방을 검색해보세요" required>
+          <div :class="$style.searchbar_content_icon">
+            <svg aria-hidden="true" :class="$style.searchbar_content_icon_svg" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path>
+            </svg>
+          </div>
+          <input @input="event => search_keyword = event.target.value" type="text" id="simple-search" :class="$style.searchbar_content_input" placeholder="원하는 방을 검색해보세요" required>
         </div>
         <button type="submit" :class="$style.searchbar_content_button">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
@@ -167,7 +186,6 @@ const room_add_reset = () => {
                   required>
         </div>
         
-        <!-- 글자수 제한 넣기!!! -->
         <div :class="$style.add_room_div">
           <label for="room_description" :class="$style.add_room_label">설명 <span :class="$style.text_red">*</span><br>
             <sup>(<span id="room_description_byte">0</span>/100bytes)</sup>
@@ -255,7 +273,7 @@ const room_add_reset = () => {
 
                   <!-- type="submit" -->
           <button v-if="room_add_check_title && room_add_check_description"
-                  @click="addRoom"
+                  @click="createRoom"
                   :class="$style.add_room_button_add" 
                   id="add">생성</button>
           <button v-else 
@@ -263,7 +281,7 @@ const room_add_reset = () => {
                   :class="$style.add_room_button_add" 
                   id="add"
                   disabled>생성</button>
-          <!-- @click="addRoom" -->
+
         </div>
       </div>
     </Modal>

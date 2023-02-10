@@ -15,21 +15,21 @@
 }
 
 .update_info_input {
-	@apply block w-full p-2.5 text-sm rounded-lg w-52 border
+	@apply block p-2.5 text-sm rounded-lg w-52 border
 	bg-gray-50 border-gray-300 text-gray-900 
 	focus:ring-blue-500 focus:border-blue-500 
 	dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white
 }
 
 .update_info_input_email {
-	@apply block w-full p-2.5 text-sm rounded-lg w-32 border
+	@apply block p-2.5 text-sm rounded-lg w-32 border
 	bg-gray-50 border-gray-300 text-gray-900 
 	focus:ring-blue-500 focus:border-blue-500 
 	dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white
 }
 
 .update_info_input_disabled {
-	@apply block w-full p-2.5	text-sm rounded-lg w-52 border border-solid border-gray-300
+	@apply block p-2.5	text-sm rounded-lg w-52 border border-solid border-gray-300
 	bg-gray-100 text-gray-400 bg-clip-padding
 }
 

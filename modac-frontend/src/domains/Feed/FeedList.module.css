@@ -1,3 +1,83 @@
 .feed_item {
-  margin: 10px;
+  @apply !text-black !w-[23%] !h-[350px] !p-0 overflow-hidden rounded-lg;
+}
+
+
+
+.modal_div {
+  @apply w-[60vw] h-[80vh] overflow-auto px-10;
+  font-family: 'Pretendard';
+}
+
+.modal_item {
+  @apply flex w-full flex-col;
+}
+
+.modal_header {
+  @apply flex flex-wrap
+}
+
+.modal_title_img {
+  @apply bg-fixed w-full h-auto rounded-md;
+  background-image: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), 
+                    url(https://source.unsplash.com/random/500×500/?programming);
+}
+
+.modal_title {
+  @apply text-3xl font-semibold text-left w-full flex justify-between leading-relaxed text-white px-8 pt-8 pb-2
+}
+
+.modal_icon {
+  @apply flex items-center gap-1
+}
+
+.modal_title_info_left {
+  @apply text-sm flex text-white pl-8 pt-4 pb-4 justify-end gap-2;
+}
+.modal_title_info_right {
+  @apply text-sm flex text-white pr-8 pt-4 pb-4 justify-end gap-2;
+}
+
+.modal_button_group {
+	@apply w-full flex pt-1
+}
+
+.section_divider {
+  @apply text-gray-500
+}
+
+
+.article_table_td_category_algorithm {
+  @apply bg-blue-100 text-blue-800 text-sm font-medium px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300
+}
+
+.article_table_td_category_cs {
+  @apply bg-yellow-100 text-yellow-800 text-sm font-medium px-2.5 py-0.5 rounded-full dark:bg-yellow-900 dark:text-yellow-300
+}
+
+.article_table_td_category_programming {
+  @apply bg-red-100 text-red-800 text-sm font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300
+}
+
+.article_table_td_category_planning {
+  @apply bg-green-100 text-green-800 text-sm font-medium px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300
+}
+
+.article_table_td_category_ect {
+  @apply bg-gray-100 text-gray-800 text-sm font-medium px-2.5 py-0.5 rounded-full dark:bg-gray-700 dark:text-gray-300
+}
+
+
+.add_room_button_exit {
+	@apply w-fit text-xs bg-transparent text-black rounded-lg px-5 py-1.5 m-1 text-center ;
+}
+
+.add_room_button_cancle {
+	@apply w-full text-sm text-white bg-gray-400 hover:bg-gray-600 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg px-5 py-2.5 m-1 text-center;
+	background-color: rgb(156 163 175) !important;
+}
+
+.add_room_button_add {
+	@apply w-full text-sm text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg px-5 py-2.5 m-1 text-center;
+	background-color: rgb(37, 99, 235) !important;
 }

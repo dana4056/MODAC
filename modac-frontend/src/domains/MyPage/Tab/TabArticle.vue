@@ -21,8 +21,8 @@
           <span v-if="article.categoryName === '알고리즘'" :class="$style.article_table_td_category_algorithm">#알고리즘</span>
           <span v-if="article.categoryName === 'CS'" :class="$style.article_table_td_category_cs">#CS</span>
           <span v-if="article.categoryName === '개발'" :class="$style.article_table_td_category_programming">#개발</span>
-          <span v-if="article.categoryName === '기획'" :class="$style.article_table_td_category_planning">#기획</span>
-          <span v-if="article.categoryName === '기타'" :class="$style.article_table_td_category_ect">#기타</span>
+          <span v-if="article.categoryName === '면접'" :class="$style.article_table_td_category_planning">#면접</span>
+          <span v-if="article.categoryName === '공통'" :class="$style.article_table_td_category_ect">#공통</span>
 
         </td>
         <td :class="$style.article_table_title">
@@ -175,7 +175,7 @@ const ArticleResponseList = [
             grade: "String"
         }
     },
-    categoryName: "기획"
+    categoryName: "면접"
   },
   {
     seq:4,
@@ -199,7 +199,7 @@ const ArticleResponseList = [
             grade: "String"
         }
     },
-    categoryName: "기타"
+    categoryName: "공통"
   },
   {
     seq:5,
