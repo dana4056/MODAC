@@ -93,6 +93,7 @@ public class ChatServiceImpl implements ChatService {
 
 		//  user가 속한 모든 팔로우 관계의 채팅방에서
 		for (Follow follow : follows) {
+
 			User talker; // 나랑 대화하는 상대방 유저
 
 			// 1. 기본적으로 내가 FromUser라고 가정해볼께 (일단 특정 user를 가리켜야 오류가 안나서 그래!)
@@ -104,16 +105,16 @@ public class ChatServiceImpl implements ChatService {
 			if (follow.getToUser().equals(myUser)) {
 				talker = follow.getFromUser();
 			}
-
 			ChatRoom chatRoom = follow.getChatRoom();
 			// 최근 메세지가 존재하는 채팅방에 상대방의 usersSeq를 key로, chatRoom을 value로 넣어주기
 			if (chatRoom.getLastMessageSeq() != null) {
 				chatRooms.put(talker.getSeq(), chatRoom);
 			}
 		}
-
+		System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"+chatRooms);
 		List<ChatRoomDto> chatRoomDtos = new ArrayList<>();
 		for (Map.Entry<Long, ChatRoom> entry : chatRooms.entrySet()) {
+			System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"+entry);
 			UserResponse talker = new UserResponse( // 상대방
 				userRepository.findById(entry.getKey()).orElseThrow(() -> new NoSuchElementException("NoUser")));
 			ChatRoom chatRoom = entry.getValue(); // 채팅방
@@ -130,32 +131,7 @@ public class ChatServiceImpl implements ChatService {
 			chatRoomDtos.add(chatRoomDto);
 		}
 
-		// for (Follow follow : follows) {
-		// 	ChatRoom chatRoom = follow.getChatRoom();
-		// 	ChatRoomDto chatRoomDto = null;
-		// 	if (chatRoom.getLastMessageSeq() != null) {
-		// 		ChatMessage chatMessage = chatMessageRepository.findById(chatRoom.getLastMessageSeq())
-		// 			.orElseThrow(NoSuchElementException::new);
-		// 		UserResponse talker = null;
-		//
-		// 		if (follow.getToUser().getSeq() == userSeq) {
-		// 			talker = new UserResponse(follow.getFromUser());
-		// 		} else {
-		// 			talker = new UserResponse(follow.getToUser());
-		// 		}
-		// 		chatRoomDto = ChatRoomDto.builder()
-		// 			.seq(chatRoom.getSeq())
-		// 			.lastMessageSeq(chatRoom.getLastMessageSeq())
-		// 			.lastMessage(chatMessage.getMessage())
-		// 			.lastMessageTime(chatRoom.getLastMessageTime())
-		// 			.talker(talker).build();
-		// 	}
-		//
-		// 	if (chatRoomDto != null && !chatRooms.contains(chatRoomDto))
-		// 		chatRooms.add(chatRoomDto);
-		// 	// chatRooms.add(chatRoomDto);
-		// }
-
+		System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"+chatRoomDtos);
 		return chatRoomDtos;
 	} // 특정 유저의 모든 채팅룸 찾기. -> 팔로잉 관계에서 1:1 채팅방 정보를 모두 가져와서 프론트로 전달.
 
@@ -165,6 +141,7 @@ public class ChatServiceImpl implements ChatService {
 		ChatMessage chatMessage = null;
 
 		if (chatMessageRequest.getMessageType().type().equals(MessageType.valueOf("TALK").type())) {
+			System.out.println("++++++++++++++++++++++++++++++++++++++++++++TALK");
 			chatMessage = saveTalkMessage(chatMessageRequest, chatRoom, user);
 		}
 
@@ -216,7 +193,8 @@ public class ChatServiceImpl implements ChatService {
 		ChatMessage saveChatMessage = null;
 
 		if (chatMessageRequest.getChatRoomType().type().equals(ChatRoomType.DIRECT.type())) {
-			saveChatMessage = chatMessageRepository.save(Objects.requireNonNull(chatMessage));
+			// saveChatMessage = chatMessageRepository.save(Objects.requireNonNull(chatMessage));
+			saveChatMessage = chatMessageRepository.save(chatMessage);
 		}
 
 		return saveChatMessage;
