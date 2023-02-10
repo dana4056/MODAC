@@ -248,40 +248,33 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `modac`.`notices`
+-- Table `modac`.`notifications`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `modac`.`notices` (
+CREATE TABLE IF NOT EXISTS `modac`.`notifications` (
   `seq` INT NOT NULL AUTO_INCREMENT,
-  `message` VARCHAR(30) NULL,
-  `time` DATETIME NULL DEFAULT now(),
-  `status` INT NULL DEFAULT 0,
-  `users_seq` INT NOT NULL,
-  `followings_seq` INT NULL,
-  `likes_seq` INT NULL,
-  `comments_seq` INT NULL,
+  `registered_time` DATETIME NOT NULL,
+  `is_read` TINYINT(1) NOT NULL,
+  `type` VARCHAR(45) NULL,
+  `articles_seq` INT NULL,
+  `from_users_seq` INT NULL,
+  `to_users_seq` INT NOT NULL,
   PRIMARY KEY (`seq`),
-  INDEX `fk_notices_users1_idx` (`users_seq` ASC) VISIBLE,
-  INDEX `fk_notices_followings1_idx` (`followings_seq` ASC) VISIBLE,
-  INDEX `fk_notices_likes1_idx` (`likes_seq` ASC) VISIBLE,
-  INDEX `fk_notices_comments1_idx` (`comments_seq` ASC) VISIBLE,
-  CONSTRAINT `fk_notices_users1`
-    FOREIGN KEY (`users_seq`)
+  INDEX `fk_notification_articles1_idx` (`articles_seq` ASC) VISIBLE,
+  INDEX `fk_notification_users1_idx` (`from_users_seq` ASC) VISIBLE,
+  INDEX `fk_notification_users2_idx` (`to_users_seq` ASC) VISIBLE,
+  CONSTRAINT `fk_notification_articles1`
+    FOREIGN KEY (`articles_seq`)
+    REFERENCES `modac`.`articles` (`seq`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_notification_users1`
+    FOREIGN KEY (`from_users_seq`)
     REFERENCES `modac`.`users` (`seq`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_notices_followings1`
-    FOREIGN KEY (`followings_seq`)
-    REFERENCES `modac`.`followings` (`seq`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_notices_likes1`
-    FOREIGN KEY (`likes_seq`)
-    REFERENCES `modac`.`likes` (`seq`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_notices_comments1`
-    FOREIGN KEY (`comments_seq`)
-    REFERENCES `modac`.`comments` (`seq`)
+  CONSTRAINT `fk_notification_users2`
+    FOREIGN KEY (`to_users_seq`)
+    REFERENCES `modac`.`users` (`seq`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -320,7 +313,6 @@ CREATE TABLE IF NOT EXISTS `modac`.`participants` (
 ENGINE = InnoDB;
 
 -- 더미데이터 삽입
-
 INSERT INTO `modac`.`categories` values ('알고리즘', 'algo test path');
 INSERT INTO `modac`.`categories` values ('CS', 'CS test path');
 INSERT INTO `modac`.`categories` values ('개발', '개발 test path');

@@ -19,11 +19,13 @@ import com.a608.modac.model.article.ArticleResponse;
 import com.a608.modac.model.article.Like;
 import com.a608.modac.model.article.LikeRequest;
 import com.a608.modac.model.follow.Follow;
+import com.a608.modac.model.notification.Notification;
 import com.a608.modac.model.todo.Todo;
 import com.a608.modac.model.user.User;
 import com.a608.modac.repository.ArticleRepository;
 import com.a608.modac.repository.FollowRepository;
 import com.a608.modac.repository.LikeRepository;
+import com.a608.modac.repository.NotificationRepository;
 import com.a608.modac.repository.TodoRepository;
 import com.a608.modac.repository.UserRepository;
 
@@ -45,13 +47,17 @@ public class ArticleServiceImpl implements ArticleService {
 	@Resource(name = "followRepository")
 	private final FollowRepository followRepository;
 
+	@Resource(name = "notificationRepository")
+	private final NotificationRepository notificationRepository;
+
 	public ArticleServiceImpl(ArticleRepository articleRepository, TodoRepository todoRepository, LikeRepository likeRepository,
-		UserRepository userRepository, FollowRepository followRepository) {
+		UserRepository userRepository, FollowRepository followRepository, NotificationRepository notificationRepository) {
 		this.articleRepository = articleRepository;
 		this.todoRepository = todoRepository;
 		this.likeRepository = likeRepository;
 		this.userRepository = userRepository;
 		this.followRepository = followRepository;
+		this.notificationRepository = notificationRepository;
 	}
 
 	// 게시글 저장
@@ -174,6 +180,17 @@ public class ArticleServiceImpl implements ArticleService {
 		article.updateLikeCount(1);
 		articleRepository.save(article);
 
+		// 게시글 주인과 좋아요 누른 사용자가 다르면 알림 보내기
+		if (!article.getUser().equals(user)) {
+			notificationRepository.save(Notification.builder()
+				.registeredTime(LocalDateTime.now())
+				.article(article)
+				.fromUser(user)
+				.toUser(article.getUser())
+				.isRead((byte)1)
+				.type("like")
+				.build());
+		}
 	}
 
 	// 게시글-유저 좋아요 관계 삭제
