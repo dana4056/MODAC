@@ -1,0 +1,7 @@
+.buttons {
+  @apply flex justify-end gap-5;
+}
+
+.button_next {
+  @apply text-white !bg-[#24292F] hover:bg-[#24292F]/90 rounded-xl text-sm px-5 py-2.5 text-center inline-flex items-center dark:hover:bg-[#050708]/30;
+}
