@@ -12,8 +12,9 @@ const props = defineProps({
   openRoomExitConfirmModal: Function,
 });
 
-const store = useRoomStore();
-const { title, currentSize, maxSize, description } = storeToRefs(store);
+const roomStore = useRoomStore();
+const { title, currentSize, maxSize, description } = storeToRefs(roomStore);
+
 </script>
 
 <template>

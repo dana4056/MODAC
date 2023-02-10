@@ -2,6 +2,9 @@
 import { ref } from "vue";
 import Modal from "@/components/Modal.vue";
 import { useRoomStore } from '@/stores/room.js';
+import { useUserStore } from '@/stores/user.js';
+import { storeToRefs } from "pinia";
+const userStore = useUserStore();
 const roomStore = useRoomStore();
 
 
@@ -9,15 +12,18 @@ const roomStore = useRoomStore();
 const search_keyword = ref("")
 
 
-let room_title = ref("");
-let room_description = ref("");
-let room_theme = ref("기본");
-let room_max_size = ref(2);
-let room_public_type = ref(1);
-// let room_public_type_input = ref("");
+const { loginUser } = storeToRefs(userStore);
 
-let room_add_check_title = ref(false);
-let room_add_check_description = ref(false);
+const room_title = ref("");
+const room_description = ref("");
+const room_theme = ref("기본");
+const room_max_size = ref(2);
+const room_public_type = ref(1);
+
+// const room_public_type_input = ref("");
+
+const room_add_check_title = ref(false);
+const room_add_check_description = ref(false);
 
 const roomAddConfirmModalState = ref(false);
 const openRoomAddConfirmModal = () => {
@@ -91,7 +97,7 @@ const checkByte = (obj) => {
 const createRoom = () => {
 
   const payload = {
-    usersSeq : 1,
+    usersSeq : loginUser.value.seq,
     title : room_title.value, 
     description : room_description.value,
     maxSize : room_max_size.value,
@@ -99,12 +105,9 @@ const createRoom = () => {
     publicType : room_public_type.value,
   };
 
-  // 방 정보 입력 후 입력칸을 초기화해주기 위함 
-  // room_add_reset();
-  // console.log(payload)
-  // 테스트용 출력
-  // console.log(roomStore)
+  // 룸 생성 요청
   roomStore.api.postRoom(payload);
+  roomStore.enterRoom()
 }
 
 const room_add_reset = () => {
@@ -119,7 +122,7 @@ const room_add_reset = () => {
 const searchRoom = () => {
 
   const payload = {
-    usersSeq: 1,
+    usersSeq: loginUser.value.seq,
     keyword : search_keyword.value
   }
 
