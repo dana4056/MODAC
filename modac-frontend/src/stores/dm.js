@@ -1,14 +1,42 @@
+import dm from "@/api/dm";
 import { ref } from "vue";
 import { defineStore } from "pinia";
 
 export const useDmStore = defineStore("dm", () => {
-  const directMessageRoomList = ref([
-    { seq: 1, toUser: "민수" },
-    { seq: 2, toUser: "다은" },
-    { seq: 3, toUser: "동현" },
-    { seq: 4, toUser: "지영" },
-    { seq: 5, toUser: "용재" },
-  ]);
 
-  return { directMessageRoomList };
+  
+  //status (변수)
+  const directMessageRoomList = ref([]);
+
+  const directMessageRoomSeq = ref(0);
+  const directChatLogs = ref([]);
+
+//   {
+//     seq:Integer,
+//     sendTime:String
+//     message:String,
+//     chatRoomsSeq:Integer
+//     user: {
+//          seq: Integer,
+//          id: String,
+//          nickname: String,
+//          email: String,
+//          password: String,
+//          catSkin: Integer,
+//          singleTheme: String,
+//          totalSecond: Integer,
+//          membership: {
+//              grade: String
+//          }
+//  }
+
+  //action (API)
+  const api = dm; // axois 비동기 함수들
+
+  return { 
+    directMessageRoomList, 
+    directMessageRoomSeq,
+    directChatLogs, 
+    api
+  };
 });

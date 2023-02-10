@@ -247,7 +247,7 @@ export default {
         const store = useUserStore();
         const { loginUser } = storeToRefs(store);
 
-        loginUser.value = {};           // store의 로그인 유저 삭제
+        loginUser.value = null;           // store의 로그인 유저 삭제
         localStorage.removeItem('jwt'); // 로컬 스토리지 토큰 삭제
         console.log("로그아웃 완료");
     },

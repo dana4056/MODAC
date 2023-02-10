@@ -1,5 +1,5 @@
 <script setup>
-import DirectMessage from "@/components/DirectMessage.vue";
+import DMDropdown from "./DMDropdown.vue";
 import { ref, computed, useCssModule } from "vue";
 
 const $style = useCssModule();
@@ -65,11 +65,11 @@ const dropdownStyleState = computed(() => {
       aria-labelledby="dropdown_button"
       tabindex="-1"
     >
-      <DirectMessage />
+      <DMDropdown />
     </div>
   </div>
 </template>
 
 <style lang="css" module>
-@import "ChatButton.module.css";
+@import "DM.module.css";
 </style>

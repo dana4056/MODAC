@@ -1,12 +1,26 @@
 import http from "@/api/http";
+import { useUserStore } from '@/stores/user';
+import { useRoomStore } from '@/stores/room';
+import { storeToRefs } from "pinia";
+
+
 
 export default {
     // 스터디룸 생성
     postRoom(payload) {
-        console.log('김동현 바보')
         http.post(`/rooms`, payload)
             .then(({ data }) => {
-                console.log(data)
+                const roomStore = useRoomStore();
+                const { room_info } = storeToRefs(roomStore);
+                room_info.value = data
+                const userStore = useUserStore()
+                const { loginUser } = storeToRefs(userStore)
+                const payload2 = {
+                    usersSeq: loginUser.value.seq,
+                    seq: data.seq
+                }
+
+                this.joinRoom(payload2)
             })
             .catch((error) => {
                 console.log(error)
@@ -24,6 +38,10 @@ export default {
 
             if(code == 200){
                 console.log("스터디룸 목록: "+JSON.stringify(response.data));
+                const roomStore = useRoomStore();
+                const { room_list } = storeToRefs(roomStore);
+                room_list.value = response.data
+                console.log('목록 조회 ',room_list.value)
             }
         })
         .catch((error) => {
@@ -94,6 +112,7 @@ export default {
             }})
         .then(({data}) => {
             console.log("스터디룸 참가 성공: " + JSON.stringify(data));
+            console.log("데이터", data)
         })
         .catch((error) => {
             console.log(error);
@@ -203,6 +222,9 @@ export default {
 
             if(code == 200){
                 console.log("스터디룸 목록: " + JSON.stringify(response.data));
+                const roomStore = useRoomStore();
+                const { room_list } = storeToRefs(roomStore);
+                room_list.value = response.data
             }
         })
         .catch((error) => {

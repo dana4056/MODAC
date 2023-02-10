@@ -2,11 +2,9 @@
 import Editor from "@toast-ui/editor";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import "@toast-ui/editor/dist/theme/toastui-editor-dark.css"; // 다크테마 적용하기
-import OverflowDiv from '@/components/OverflowDiv.vue';
 
 import { ref, onMounted, computed } from "vue";
 import { useArticleStore } from "../../stores/article";
-// defineProps(['article'])
 const store = useArticleStore();
 
 // created에서 editor 변수 생성
@@ -14,11 +12,9 @@ const store = useArticleStore();
 const editor = ref(null);
 onMounted(() => {
   editor.value = new Editor({
-    // options
     el: document.querySelector("#editor"),
     height: "100%",
     width: "25%",
-    // initialValue: `# Hello Markdown Editor!`, // Editor에 처음으로 적혀있는 글
     initialValue: initialValue.value, // Editor에 처음으로 적혀있는 글
     initialEditType: "markdown",
     theme: "dark", // 다크테마 적용하기
@@ -27,7 +23,6 @@ onMounted(() => {
     // previewStyle: "vertical", // 기본은 tab인듯
     // previewHighLight: false,
     autofocus: true,
-
   });
 });
 
@@ -52,51 +47,52 @@ onMounted(() => {
     // setTemplete();
     // getMarkdownText();
     // store.tempArticle = editorContent.value;
-
   });
   editor.value.addHook("focus", () => {
     setTemplete();
     getMarkdownText();
     store.tempArticle = editorContent.value;
     console.log("store.tempArticle", store.tempArticle);
-    document.querySelector("#editor").style.transitionDuration = "0.5s";
-    document.querySelector("#editor").style.opacity = "100%";
+    // document.querySelector("#editor").style.transitionDuration = "0.5s";
+    // document.querySelector("#editor").style.opacity = "100%";
   });
   editor.value.addHook("blur", () => {
     // setTemplete();
     getMarkdownText();
     store.tempArticle = editorContent.value;
     console.log("store.tempArticle", store.tempArticle);
-    document.querySelector("#editor").style.transitionDuration = "0.5s";
-    document.querySelector("#editor").style.opacity = "50%";
+    // document.querySelector("#editor").style.transitionDuration = "0.5s";
+    // document.querySelector("#editor").style.opacity = "50%";
   });
   // setTemplete();
 });
 
 const setTemplete = () => {
-  if (editorTemplete[0].innerText !== "# " + store.articles[store.selectedState].title)
-    editorTemplete[0].innerText = "# " + store.articles[store.selectedState].title;
-}
-
+  if (
+    editorTemplete[0].innerText !==
+    "# " + store.articles[store.selectedState]?.title
+  )
+    editorTemplete[0].innerText =
+      "# " + store.articles[store.selectedState]?.title;
+};
 
 const initialValue = computed(() => {
   // editor.value.setMarkdown("# " + store.articles[store.selectedState].title);
-  
-  return "# " + store.articles[store.selectedState].title
 
+  return "# " + store.articles[store.selectedState]?.title;
 });
 
-var editorTemplete = document.getElementsByClassName('toastui-editor-md-heading toastui-editor-md-heading1');
+var editorTemplete = document.getElementsByClassName(
+  "toastui-editor-md-heading toastui-editor-md-heading1"
+);
 
 defineExpose({
   setTemplete,
 });
-
 </script>
 
 <template>
   <div id="editor"></div>
-  <!-- <button @click="getMarkdown">그냥 이벤트 호출해주는 버튼</button> -->
 </template>
 
 <style lang=""></style>

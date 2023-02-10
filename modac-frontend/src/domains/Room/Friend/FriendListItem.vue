@@ -44,19 +44,21 @@ const toggleUserCard = (event) => {
 
 <template lang="">
   <Card :id="`user_card-${props.friendItem.seq}`" @click="toggleUserCard">
-    <CardTitle :class="$style.inline_block_style">
-      {{ props.friendItem.name }}
-    </CardTitle>
-    <UserStatusIndicator
-      :status="props.friendItem.status"
-    ></UserStatusIndicator>
+    <div :class="$style.card_style">
+      <img
+          :src="`src/assets/user_cats/cat${props.friendItem.toUser.catSkin}.png`"
+          :class="$style.friend_profile"
+          alt=""
+        />
+      <CardTitle :class="$style.inline_block_style">
+        {{ props.friendItem.toUser.nickname }}
+      </CardTitle>
+    </div>
     <UserCard
-      v-if="isUserCardOpen"
-      :seq="props.friendItem.id"
-      :name="props.friendItem.name"
-      :status="props.friendItem.status"
-      :categoryName="props.friendItem.categoryName"
-    />
+        v-if="isUserCardOpen"
+        :seq="props.friendItem.toUser.id"
+        :name="props.friendItem.toUser.nickname"
+      />
   </Card>
 </template>
 
