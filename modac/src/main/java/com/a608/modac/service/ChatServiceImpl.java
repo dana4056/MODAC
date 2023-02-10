@@ -9,22 +9,23 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.redis.core.ListOperations;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
 import org.springframework.stereotype.Service;
 
 import com.a608.modac.model.chat.ChatMessage;
-import com.a608.modac.model.chat.ChatMessageRequest;
-import com.a608.modac.model.chat.ChatMessageResponse;
 import com.a608.modac.model.chat.ChatRoom;
 import com.a608.modac.model.chat.ChatRoomDto;
 import com.a608.modac.model.chat.ChatRoomType;
+import com.a608.modac.model.chat.DirectMessage;
+import com.a608.modac.model.chat.DirectMessageDto;
 import com.a608.modac.model.chat.MessageType;
 import com.a608.modac.model.follow.Follow;
 import com.a608.modac.model.user.User;
-import com.a608.modac.model.user.UserResponse;
+import com.a608.modac.repository.ChatDirectRepository;
 import com.a608.modac.repository.ChatMessageRepository;
 import com.a608.modac.repository.ChatRoomRepository;
 import com.a608.modac.repository.FollowRepository;
@@ -43,36 +44,72 @@ public class ChatServiceImpl implements ChatService {
 	private final ChatRoomRepository chatRoomRepository;
 	private final UserRepository userRepository;
 	private final FollowRepository followRepository;
+	private final ChatDirectRepository chatDirectRepository;
+	private final RedisTemplate<String, DirectMessage> redisTemplate;
+
+	public List<DirectMessage> findAllMessagesByDirectChatRoomsSeq(final String chatRoomsSeq, final Pageable pageable) {
+		final List<DirectMessage> chatCachesByChatRoomsSeq = chatDirectRepository.findDirectMessagesByChatRoomsSeq(
+			chatRoomsSeq, pageable);
+
+		System.out.println(chatCachesByChatRoomsSeq.size());
+
+		return chatCachesByChatRoomsSeq;
+	} // DM 특정 채팅방 메시지 목록 조회.
 
 	@Override
-	public ChatMessageResponse saveMessage(final ChatMessageRequest chatMessageRequest) {
-		final ChatRoom chatRoom = chatRoomRepository.findById(chatMessageRequest.getChatRoomsSeq())
-			.orElseThrow(NoSuchElementException::new);
-		final User user = userRepository.findById(chatMessageRequest.getUsersSeq())
-			.orElseThrow(NoSuchElementException::new);
+	public DirectMessage enterDirectChatRoom(final DirectMessageDto directMessageDto) {
+		final Optional<User> user = userRepository.findById(directMessageDto.getUsersSeq());
 
-		final ChatMessage chatMessage = isAddEnterMessage(chatMessageRequest, chatRoom, user); // 입장 메시지 추가.
-		final ChatMessage saveChatMessage = isSaveChatMessage(chatMessageRequest, chatMessage);// 채팅 메시지 저장.
+		String addMessage = "";
 
-		return ChatMessageResponse.fromEntity(saveChatMessage, user);
-	} // 채팅 메시지 저장.
+		if (user.isPresent()) {
+			if (directMessageDto.getMessageType().type().equals(MessageType.valueOf("ENTER").type())) {
+				addMessage = "님이 대화를 시작했습니다.";
+			}
+		}
+
+		final DirectMessage directMessage = DirectMessage.builder()
+			.chatRoomsSeq(String.valueOf(directMessageDto.getChatRoomsSeq()))
+			.userNickName(user.get().getNickname())
+			.sendTime(directMessageDto.getSendTime())
+			.message(directMessageDto.getMessage() + addMessage)
+			.build();
+
+		final ListOperations<String, DirectMessage> stringDirectMessageListOperations = redisTemplate.opsForList();
+		stringDirectMessageListOperations.rightPush(String.valueOf(directMessage.getChatRoomsSeq()), directMessage);
+
+		return chatDirectRepository.save(directMessage);
+	} // DM 채팅방 입장.
 
 	@Override
-	public List<ChatMessageResponse> findMessagesByChatRoomsSeq(final Long roomsSeq, final Pageable pageable) {
-		final List<ChatMessage> allByChatRoomSeq = chatMessageRepository.findChatMessagesByChatRoom_Seq(roomsSeq,
-			pageable);
+	public DirectMessage saveDirectMessage(final DirectMessageDto directMessageDto) {
+		final Optional<User> userOptional = userRepository.findById(directMessageDto.getUsersSeq());
+		final ListOperations<String, DirectMessage> stringDirectMessageListOperations = redisTemplate.opsForList();
 
-		return allByChatRoomSeq.stream()
-			.map(chatMessage -> ChatMessageResponse.fromEntity(chatMessage, chatMessage.getUser()))
-			.collect(Collectors.toList());
-	} // 채팅 메시지 찾기.
+		DirectMessage directMessage = null;
+
+		if (directMessageDto.getChatRoomType().type().equals(ChatRoomType.DIRECT.type())) {
+			directMessage = DirectMessage.builder()
+				.chatRoomsSeq(String.valueOf(directMessageDto.getChatRoomsSeq()))
+				.userNickName(userOptional.get().getNickname())
+				.sendTime(directMessageDto.getSendTime())
+				.message(directMessageDto.getMessage())
+				.build();
+
+			stringDirectMessageListOperations.rightPush(String.valueOf(directMessageDto.getChatRoomsSeq()),
+				directMessage);
+		}
+
+		return chatDirectRepository.save(Objects.requireNonNull(directMessage));
+	} // DM 채팅 메시지 저장.
 
 	@Override
-	public void updateLastMessage(final ChatMessageRequest chatMessageRequest) {
-		chatRoomRepository.findById(chatMessageRequest.getChatRoomsSeq());
+	public void updateLastMessage(final DirectMessageDto directMessageDto) {
+		final Optional<ChatRoom> chatRoomOptional = chatRoomRepository.findById(directMessageDto.getChatRoomsSeq());
 
-		chatRoomRepository.findById(chatMessageRequest.getChatRoomsSeq())
-			.ifPresent(room -> room.updateChatRoom(room.getLastMessageSeq(), room.getLastMessageTime()));
+		chatRoomOptional.ifPresent(chatRoom -> chatRoomRepository.findById(directMessageDto.getChatRoomsSeq())
+			.ifPresent(room -> room.updateChatRoom(chatRoom.getLastMessageSeq(), chatRoom.getLastMessageTime())));
+
 	} // 채팅 메시지 업데이트.
 
 	@Override
@@ -131,73 +168,8 @@ public class ChatServiceImpl implements ChatService {
 			chatRoomDtos.add(chatRoomDto);
 		}
 
-		System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"+chatRoomDtos);
-		return chatRoomDtos;
-	} // 특정 유저의 모든 채팅룸 찾기. -> 팔로잉 관계에서 1:1 채팅방 정보를 모두 가져와서 프론트로 전달.
-
-	private static ChatMessage isAddEnterMessage(final ChatMessageRequest chatMessageRequest, final ChatRoom chatRoom,
-		final User user) {
-
-		ChatMessage chatMessage = null;
-
-		if (chatMessageRequest.getMessageType().type().equals(MessageType.valueOf("TALK").type())) {
-			System.out.println("++++++++++++++++++++++++++++++++++++++++++++TALK");
-			chatMessage = saveTalkMessage(chatMessageRequest, chatRoom, user);
-		}
-
-		if (chatMessageRequest.getMessageType().type().equals(MessageType.valueOf("ENTER").type())) {
-			chatMessage = saveEnterMessage(chatMessageRequest, chatRoom, user);
-		}
-
-		if (chatMessageRequest.getMessageType().type().equals(MessageType.valueOf("LEAVE").type())) {
-			chatMessage = saveLeaveMessage(chatMessageRequest, chatRoom, user);
-		}
-
-		return chatMessage;
+		return chatRooms;
 	}
-
-	private static ChatMessage saveLeaveMessage(final ChatMessageRequest chatMessageRequest, final ChatRoom chatRoom,
-		final User user) {
-
-		return ChatMessage.builder()
-			.chatRoom(chatRoom)
-			.user(user)
-			.message(user.getNickname() + "님이 방을 나갔습니다.")
-			.sendTime(chatMessageRequest.getSendTime())
-			.build();
-	}
-
-	private static ChatMessage saveEnterMessage(final ChatMessageRequest chatMessageRequest, final ChatRoom chatRoom,
-		final User user) {
-
-		return ChatMessage.builder()
-			.chatRoom(chatRoom)
-			.user(user)
-			.message(user.getNickname() + "님이 대화를 시작했습니다.")
-			.sendTime(chatMessageRequest.getSendTime())
-			.build();
-	}
-
-	private static ChatMessage saveTalkMessage(final ChatMessageRequest chatMessageRequest, final ChatRoom chatRoom,
-		final User user) {
-
-		return ChatMessage.builder()
-			.chatRoom(chatRoom)
-			.user(user)
-			.message(chatMessageRequest.getMessage())
-			.sendTime(chatMessageRequest.getSendTime())
-			.build();
-	}
-
-	private ChatMessage isSaveChatMessage(final ChatMessageRequest chatMessageRequest, final ChatMessage chatMessage) {
-		ChatMessage saveChatMessage = null;
-
-		if (chatMessageRequest.getChatRoomType().type().equals(ChatRoomType.DIRECT.type())) {
-			// saveChatMessage = chatMessageRepository.save(Objects.requireNonNull(chatMessage));
-			saveChatMessage = chatMessageRepository.save(chatMessage);
-		}
-
-		return saveChatMessage;
-	}
+	// 특정 유저의 모든 채팅룸 찾기. -> 팔로잉 관계에서 1:1 채팅방 정보를 모두 가져와서 프론트로 전달.
 
 }
