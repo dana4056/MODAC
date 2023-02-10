@@ -1,49 +1,39 @@
+<script setup>
+import ArticleListItem from "./ArticleListItem.vue";
+import { useTodoStore } from "@/stores/todo";
+import { ref } from "vue";
+
+const todayTodos = [...useTodoStore().todos];
+
+const filterCompleteTodo = () => {
+  const filterTodos = todayTodos.filter((elem) => {
+    return elem.status === 2;
+  });
+
+  const newTodos = filterTodos.map((elem) => {
+    elem.public_type = 0;
+    elem.isSubmit = false;
+    return elem;
+  });
+
+  return newTodos;
+};
+
+const filteredTodayTodos = ref(filterCompleteTodo());
+</script>
+
 <template>
-  <ArticleListItem
+  <div v-if="filteredTodayTodos.length !== 0">
+    <ArticleListItem
       :class="$style.article_item"
       v-for="article in computedArticleList"
       :key="article.seq"
       :article="article"
-      />
-      <!-- @click="setTempleteClick" -->
-      <!-- @click="setNewTemplete" -->
-  <!-- <div :class="$style.editor">
-    <ArticleEditor ref="setTemplete" />
-  </div> -->
+    />
+  </div>
+  <div v-else>완료한 할 일이 없습니다!</div>
 </template>
 
-<script setup>
-import ArticleListItem from "./ArticleListItem.vue"
-// import ArticleEditor from "./ArticleEditor.vue"
-import { useArticleStore } from "../../stores/article";
-import { computed, ref } from "vue"
-
-const store = useArticleStore()
-
-// const setTemplete = ref("");
-// function settingTemplete() {
-//   // 내보낸 자식 컴포넌트 함수를 호출한다.
-//   setTemplete.value.setTemplete();
-// }
-
-// 화면 생성 시 실행되어야 할 함수
-let getArticleListState = ref(false);
-
-if (!getArticleListState.value) {
-  getArticleListState.value = true;
-  store.getArticles()
-  store.getArticleList()
-}
-
-
-// store에서 불러 와야 할 아이들
-const computedArticleList = computed(() => {
-  return store.articles
-})
-
-</script>
-
 <style lang="css" module>
-@import "./ArticleList.module.css"
-
+@import "./ArticleList.module.css";
 </style>

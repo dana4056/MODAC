@@ -3,7 +3,7 @@ import { defineStore } from "pinia";
 import axios from "axios";
 
 export const useTodoStore = defineStore("todo", () => {
-  let todos = reactive([]);
+  let todos = ref([]);
   const userId = ref(-1);
   const backendServerUrl = ref("localhost");
 
@@ -14,7 +14,7 @@ export const useTodoStore = defineStore("todo", () => {
   const addTodoItem = (inputTodoItem) => {
     // console.log("inputTodoItem");
     // console.log(inputTodoItem);
-    
+
     // 통신 후에 넣어주는 정보들 임시로 여기서 추가
     inputTodoItem = {
       seq: Number(todos_seq.value),
@@ -22,11 +22,11 @@ export const useTodoStore = defineStore("todo", () => {
       categories_seq: Number(inputTodoItem.categories_seq),
       title: inputTodoItem.title,
       status: Number(inputTodoItem.status),
-      total_second: "0"
-    }
-    
+      total_second: "0",
+    };
+
     todos.push(inputTodoItem);
-    
+
     todos_seq.value = todos_seq.value + 1;
   };
 
@@ -52,7 +52,7 @@ export const useTodoStore = defineStore("todo", () => {
   const createTodoListItem = () => {
     console.log("post request 실행");
     axios({
-      methods: 'post',
+      methods: "post",
       url: `${backendServerUrl}/todo`,
       data: {},
     });
@@ -102,18 +102,14 @@ export const useTodoStore = defineStore("todo", () => {
     //   })
     // }
 
-    todos.splice(
-      updateTodoItem.index,
-      1,
-      {
-        seq: Number(updateTodoItem.seq),
-        users_seq: Number(userId),
-        categories_seq: Number(updateTodoItem.categories_seq),
-        title: updateTodoItem.title,
-        status: Number(updateTodoItem.status),
-        total_second: updateTodoItem.total_second,
-      }
-    );
+    todos.splice(updateTodoItem.index, 1, {
+      seq: Number(updateTodoItem.seq),
+      users_seq: Number(userId),
+      categories_seq: Number(updateTodoItem.categories_seq),
+      title: updateTodoItem.title,
+      status: Number(updateTodoItem.status),
+      total_second: updateTodoItem.total_second,
+    });
   };
 
   return {
