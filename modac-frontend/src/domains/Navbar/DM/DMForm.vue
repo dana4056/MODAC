@@ -1,4 +1,4 @@
-<!-- <script setup>
+<script setup>
 import { defineProps, ref } from "vue";
 const props = defineProps({
   enterChat: Function,
@@ -25,6 +25,5 @@ defineExpose({
 </template>
 
 <style lang="css" module>
-@import "ChatForm.module.css";
-/* @import "DMForm.module.css"; */
-</style> -->
+@import "DMForm.module.css";
+</style>

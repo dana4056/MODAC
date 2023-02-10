@@ -4,7 +4,7 @@ import { useUserStore } from "@/stores/user"
 import { ref } from "vue";
 import { storeToRefs } from "pinia";
 import DMLogListItem from "@/domains/Navbar/DM/DMLogListItem.vue"
-// import DMForm from "@/domains/Navbar/DM/DMForm.vue"
+import DMForm from "@/domains/Navbar/DM/DMForm.vue"
 import Stomp from "webstomp-client";
 import SockJS from "sockjs-client/dist/sockjs.min.js";
 
@@ -23,7 +23,7 @@ const page = 0;
 const child = ref(null);
 const isSocketConnected = ref(false);
 
-// connect();
+connect();
 
 const enterChat = (chatMessage) => {
   if (chatMessage) {
@@ -49,20 +49,20 @@ const enterChat = (chatMessage) => {
       message: chatMessage,
     };
 
-    // 일단 배열에 추가 (하면 안되겠다 불러와야할듯 request랑 response dto가 다름)
-    groupChatLogs.value.push(chatData);
-
     const sendData = {
       usersSeq: chatData.user.seq,
       chatRoomsSeq: chatData.chatRoomSeq,
       sendTime: chatData.sendTime,
       message: chatData.message,
-      MessageType: "TALK",
-      chatRoomType: "GROUP",
+      messageType: "TALK",
+      chatRoomType: "DIRECT",
     };
 
+    // 일단 배열에 추가 (하면 안되겠다 불러와야할듯 request랑 response dto가 다름)
+    directChatLogs.value.push(chatData);
+    
     // 소켓 send
-    stompClient.send(`/pub/messages/group`, JSON.stringify(sendData), {});
+    stompClient.send(`/pub/messages/direct`, JSON.stringify(sendData), {});
   }
 };
 
@@ -76,7 +76,8 @@ function liftMessage() {
 
 function connect() {
   isSocketConnected.value = true;
-  var socket = new SockJS("http://70.12.247.126:8080/ws"); // WebSocketConfig랑 통일할 주소 , 소켓 열 주소
+  // var socket = new SockJS("http://70.12.247.126:8080/ws"); // WebSocketConfig랑 통일할 주소 , 소켓 열 주소
+  var socket = new SockJS("http://localhost:8080/ws"); // WebSocketConfig랑 통일할 주소 , 소켓 열 주소
   stompClient = Stomp.over(socket);
   stompClient.connect({}, onConnected, onError);
 }
@@ -98,7 +99,7 @@ function onMessageReceived(res) {
     var chat = JSON.parse(res.body);
     console.log("구독으로 받은 메시지", chat);
 
-    groupChatLogs.value.push(chat);
+    directChatLogs.value.push(chat);
 
     liftMessage();
   }, 500);
@@ -116,7 +117,7 @@ function onMessageReceived(res) {
       :loginUser="loginUser"
     />
   </div>
-  <!-- <DMForm :enterChat="enterChat" ref="child" /> -->
+  <DMForm :enterChat="enterChat" ref="child" />
 </template>
 
 
