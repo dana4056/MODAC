@@ -24,7 +24,7 @@ const props = defineProps({
       </div>
       <div>
         <img
-          :src="`/src/assets/user_cats/cat${props.userItem.catSkin}.png`"
+          :src="require('@/assets/user_cats/cat' + props.userItem.catSkin + '.png')"
           alt=""
         />
       </div>
