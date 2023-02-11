@@ -46,7 +46,7 @@ const toggleUserCard = (event) => {
   <Card :id="`user_card-${props.friendItem.seq}`" @click="toggleUserCard">
     <div :class="$style.card_style">
       <img
-          :src="require('@/assets/user_cats/cat' + props.friendItem.toUser.catSkin + '.png')"
+          :src="`src/assets/user_cats/cat${props.friendItem.toUser.catSkin}.png`"
           :class="$style.friend_profile"
           alt=""
         />
