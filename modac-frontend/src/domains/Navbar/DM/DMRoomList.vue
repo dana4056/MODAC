@@ -9,8 +9,6 @@ const userStore = useUserStore();
 const { directMessageRoomList, directMessageRoomSeq, directChatLogs } = storeToRefs(DMstore);
 const { loginUser } = storeToRefs(userStore);
 
-// DM 채팅방 리스트 불러오기
-DMstore.api.fetchRoomList(loginUser.value.seq);
 
 const getMessages = (DMRoomSeq) => {
   // 클릭한 채팅방 번호 저장
@@ -23,12 +21,15 @@ const getMessages = (DMRoomSeq) => {
 
   // 클릭한 채팅방 메시지 목록 불러오기
   DMstore.api.fetchMessages(payload);
+  DMstore.connect(DMRoomSeq);
 };
+
+
 
 </script>
 
 <template>
-  <ul>
+  <ul v-if="directMessageRoomList.length != 0">
     <DMRoomListItem
       v-for="roomItem in directMessageRoomList"
       :getMessages = "getMessages"
@@ -38,6 +39,9 @@ const getMessages = (DMRoomSeq) => {
       :getItemSeq="getItemSeq"
     />
   </ul>
+  <div v-else :class="$style.none_text_box">
+    채팅목록이 존재하지 않습니다.
+  </div>
 </template>
 
 <style lang="css" module>

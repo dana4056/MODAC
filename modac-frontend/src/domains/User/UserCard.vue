@@ -5,13 +5,18 @@ import CardContent from "@/components/CardContent.vue";
 import CommonButton from "@/components/CommonButton.vue";
 import { ref, defineProps, computed } from "vue";
 import { useRoomStore } from "@/stores/room";
+import { useDmStore } from "@/stores/dm";
 import { storeToRefs } from "pinia";
 
+
+// store 관련
+const DMstore = useDmStore();
+const { directMessageRoomList, directMessageRoomSeq, isDropdownOpenState } = storeToRefs(DMstore);
+
+
 const props = defineProps({
-  seq: Number,
-  name: String,
-  status: Number,
-  categoryName: String,
+  talker: Object,
+  roomSeq: Number
 });
 
 const userStore = useRoomStore();
@@ -38,17 +43,31 @@ const followButtonStyleState = computed(() =>
     ? "user_card_button_unfollow"
     : "user_card_button_follow"
 );
+
+const directChatting = () => {
+  
+  const chatRoom = {
+    lastMessage:"",
+    lastMessageTime:"",
+    talker: props.talker
+  }
+
+  directMessageRoomList.value.unshift(chatRoom);  // DM 채팅방 목록에 추가 (프론트에서만)
+  directMessageRoomSeq.value = props.roomSeq;
+  DMstore.connect();                     // 해당 채팅방 소켓 연결
+  isDropdownOpenState.value = true;               // DM 창 열기 (드롭다운)
+}
 </script>
 
 <template>
   <Card :class="$style.user_card">
     <div :class="$style.user_card_item">
-      <CardTitle>{{ props.name }}</CardTitle>
+      <CardTitle>{{ props.talker.nickname }}</CardTitle>
     </div>
 
 
     <div :class="$style.user_card_item">
-      <CommonButton :class="$style.user_card_button_message">
+      <CommonButton :class="$style.user_card_button_message" @click="directChatting">
         {{ messageButtonState }}
       </CommonButton>
     </div>

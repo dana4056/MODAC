@@ -56,8 +56,8 @@ const toggleUserCard = (event) => {
     </div>
     <UserCard
         v-if="isUserCardOpen"
-        :seq="props.friendItem.toUser.id"
-        :name="props.friendItem.toUser.nickname"
+        :talker="props.friendItem.toUser"
+        :roomSeq="props.friendItem.chatRoom.seq"
       />
   </Card>
 </template>
