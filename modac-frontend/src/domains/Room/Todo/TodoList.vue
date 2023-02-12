@@ -12,6 +12,7 @@ const userStore = useUserStore();
 const { loginUser } = storeToRefs(userStore);
 
 const response = await todoStore.api.findTodoList(loginUser.value.seq);
+todos.value = response.data;
 // console.log("response: ", response);
 
 const TodoListItemComponent = ref();
