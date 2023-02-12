@@ -12,7 +12,7 @@ const userStore = useUserStore();
 const { loginUser } = storeToRefs(userStore);
 
 const response = await todoStore.api.findTodoList(loginUser.value.seq);
-console.log("response: ", response);
+// console.log("response: ", response);
 
 const TodoListItemComponent = ref();
 
@@ -26,16 +26,15 @@ const nowPlay = (index) => {
 };
 
 const deleteTodoItem = (deleteTodoItem) => {
-  store.deleteTodoItem(deleteTodoItem);
+  todoStore.deleteTodoItem(deleteTodoItem);
 };
 
-const sendArticle = () => {
+const sendTodoItemToArticlePage = () => {
   const completedTodos = todos.value.filter((elem) => {
     return elem.status === 2;
   });
 
-  if (confirm("TIL을 작성하러 가시겠습니까?") == true) {
-    // 확인
+  if (confirm("TIL을 작성하러 가시겠습니까?") === true) {
     for (const completed in completedTodos) {
       deleteTodoItem(completedTodos[completed]);
     }
@@ -61,7 +60,7 @@ const sendArticle = () => {
     </div>
     <div style="text-align: right">
       <br />
-      <button @click="sendArticle" :class="$style.send_button">
+      <button @click="sendTodoItemToArticlePage" :class="$style.send_button">
         오늘 공부 정리하기
       </button>
     </div>

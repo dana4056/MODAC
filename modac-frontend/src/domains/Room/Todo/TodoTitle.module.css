@@ -1,0 +1,12 @@
+.title_wrapper {
+  width: 100%;
+}
+
+.title {
+  font-weight: 700;
+  font-size: 23px;
+  line-height: 20px;
+  color: black;
+  padding: 5px;
+  @apply flex justify-between items-center;
+}

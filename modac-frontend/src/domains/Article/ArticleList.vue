@@ -5,7 +5,7 @@ import { ref } from "vue";
 
 const todayTodos = [...useTodoStore().todos];
 
-const filterCompleteTodo = () => {
+const getCompleteTodos = () => {
   const filterTodos = todayTodos.filter((elem) => {
     return elem.status === 2;
   });
@@ -19,11 +19,11 @@ const filterCompleteTodo = () => {
   return newTodos;
 };
 
-const filteredTodayTodos = ref(filterCompleteTodo());
+const completeTodos = ref(getCompleteTodos());
 </script>
 
 <template>
-  <div v-if="filteredTodayTodos.length !== 0">
+  <div v-if="completeTodos.length !== 0">
     <ArticleListItem
       :class="$style.article_item"
       v-for="article in computedArticleList"

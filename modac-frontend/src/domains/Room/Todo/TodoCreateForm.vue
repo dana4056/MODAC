@@ -1,3 +1,48 @@
+<script setup>
+import todoAPI from "@/api/todo";
+import { ref } from "vue";
+import { useTodoStore } from "../../../stores/todo";
+import { useUserStore } from "@/stores/user";
+
+const todoStore = useTodoStore();
+const userStore = useUserStore();
+
+const title = ref("");
+const categoriesSeq = ref("알고리즘");
+
+const handleSubmitTodoItem = async () => {
+  // Network 요청
+  const response = await todoAPI.postTodo(
+    userStore.loginUser.seq,
+    categoriesSeq.value,
+    title.value
+  );
+
+  // Store에 저장
+  console.log("response: ", response);
+  todoStore.addTodoItem([...response]);
+
+  // store.addTodoItem({
+  //   users_seq: 1,
+  //   title: title.value,
+  //   categories_seq: Number(newTodo.categories_seq),
+  //   status: 0,
+  // });
+
+  // // todo 입력 후 입력칸을 초기화해주기 위함
+  // newTodo.title = "";
+  // newTodo.categories_seq = 0;
+
+  // if (openState.value == true) {
+  //   showFullForm();
+  // }
+};
+
+let openState = ref(false);
+const showFullForm = () => {
+  openState.value = !openState.value;
+};
+</script>
 <template lang="">
   <div class="w-full">
     <button @click="showFullForm" :class="$style.show_form_button">
@@ -53,47 +98,6 @@
   </div>
 </template>
 
-<script setup>
-import todo from "@/api/todo";
-import { ref } from "vue";
-import { useTodoStore } from "../../../stores/todo";
-import { useUserStore } from "@/stores/user";
-
-const todoStore = useTodoStore();
-const userStore = useUserStore();
-
-const title = ref("");
-const categoriesSeq = ref("알고리즘");
-const submitTodoHandler = () => {
-  const response = todo.postTodo(
-    userStore.loginUser.seq,
-    categoriesSeq.value,
-    title.value
-  );
-
-  console.log("response: ", response);
-  // store.addTodoItem({
-  //   users_seq: 1,
-  //   title: title.value,
-  //   categories_seq: Number(newTodo.categories_seq),
-  //   status: 0,
-  // });
-
-  // // todo 입력 후 입력칸을 초기화해주기 위함
-  // newTodo.title = "";
-  // newTodo.categories_seq = 0;
-
-  // if (openState.value == true) {
-  //   showFullForm();
-  // }
-};
-
-let openState = ref(false);
-const showFullForm = () => {
-  openState.value = !openState.value;
-};
-</script>
-
 <style lang="css" module>
-@import "./TodoForm.module.css";
+@import "./TodoCreateForm.module.css";
 </style>
