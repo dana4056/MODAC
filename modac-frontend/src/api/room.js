@@ -107,7 +107,7 @@ export default {
                 'Content-Type': 'text/plain'
             }})
         .then(({data}) => {
-            console.log("스터디룸 참가 성공: " + JSON.stringify(data));
+            // console.log("스터디룸 참가 성공: " + JSON.stringify(data));
             const roomStore = useRoomStore();
             const { room_info } = storeToRefs(roomStore);
             room_info.value = data

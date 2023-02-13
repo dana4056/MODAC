@@ -1,6 +1,6 @@
 <script setup>
 import Card from "@/components/Card.vue";
-import { defineProps, toRefs } from "vue";
+import { defineProps, toRefs, ref } from "vue";
 import { useRoomStore } from '@/stores/room.js';
 import { useUserStore } from '@/stores/user.js';
 import { useChatStore } from '@/stores/chat.js'
@@ -18,13 +18,13 @@ const props = defineProps({
   roomItem: Object,
 });
 
-const participants = ref(roomItem.value.participants)
+const participants = ref(props.roomItem.participants)
 
 function isParticipant (longinUser) {
-  participants.forEach(element => {
-    console.log(element)
+  participants.value.forEach(element => {
+    console.log("엘레멘트",element)
     console.log(loginUser.value)
-    if (element.value.userSeq === loginUser.value.seq) {
+    if (element.usersSeq === loginUser.value.seq) {
       return true
     }
     else {
@@ -40,19 +40,23 @@ function getKeyByValue(obj, value) {
 
 const { roomItem } = toRefs(props)
 
+// 공개방일 경우에는 어짜피 exit axios로 participant에서 빠지기 때문에 따로 처리 x
+
+// 비공개 방 입장 시 내가 참여하고 있는 방인지 확인
 const enterRoom = () => {
   groupChatLogs.value = [];
+  // 이미 참여하고 있는 방이라면 그냥 입장
   if (isParticipant(loginUser) === true){
     roomStore.enterRoom()
   }
+  // 참여하고있지 않은 방이라면 join 요청
   else if (roomItem.value.currentSize < roomItem.value.maxSize) {
-    roomStore.enterRoom();
     const payload = {
       seq: roomItem.value.seq,
       usersSeq: loginUser.value.seq
     }
-    console.log("페이로드", payload)
     roomStore.api.joinRoom(payload)
+    roomStore.enterRoom();
   }
   else {
     alert("정원이 초과되어 입장하실 수 없습니다.")
