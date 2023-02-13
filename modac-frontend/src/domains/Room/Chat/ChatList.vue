@@ -59,7 +59,6 @@ const room = {
 };
 
 const child = ref(null);
-const isSocketConnected = ref(false);
 connect();
 
 const enterChat = (chatMessage) => {
@@ -111,8 +110,8 @@ function liftMessage() {
 }
 
 function connect() {
-  isSocketConnected.value = true;
-  var socket = new SockJS("https://i8a608.p.ssafy.io/ws"); // WebSocketConfig랑 통일할 주소 , 소켓 열 주소
+  var socket = new SockJS("http://localhost:8080/ws"); // WebSocketConfig랑 통일할 주소 , 소켓 열 주소
+  // var socket = new SockJS("https://i8a608.p.ssafy.io/ws"); // WebSocketConfig랑 통일할 주소 , 소켓 열 주소
   stompClient = Stomp.over(socket);
   stompClient.connect({}, onConnected, onError);
 }

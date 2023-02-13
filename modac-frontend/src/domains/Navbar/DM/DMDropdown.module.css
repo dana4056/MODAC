@@ -1,12 +1,24 @@
 .container {
   @apply flex w-full h-full;
 }
+.dm_container_wrap{
+  width: 28%;
+}
 
 .dm_container {
   @apply bg-gray-50 rounded-lg overflow-hidden w-full p-3;
 }
 
-.chatList {
-  width: 60%;
+.dm_chatList {
+  height: 100%;
+  width: 72%;
   padding: 5px;
+}
+
+.dm_none_box {
+  height: 100%;
+  width: 72%;
+  padding: 25% 0px;
+  text-align: center;
+  color: #c5c5c5;
 }
