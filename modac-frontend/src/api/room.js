@@ -10,9 +10,6 @@ export default {
     postRoom(payload) {
         http.post(`/rooms`, payload)
             .then(({ data }) => {
-                const roomStore = useRoomStore();
-                const { room_info } = storeToRefs(roomStore);
-                room_info.value = data
                 const userStore = useUserStore()
                 const { loginUser } = storeToRefs(userStore)
                 const payload2 = {
@@ -67,23 +64,22 @@ export default {
     },
     // 스터디룸 수정
     updateRoom(payload) {
-        const payload2 = {
-            title: payload.title,
-            description: payload.description,
-            multiTheme: payload.multiTheme
-        };
-        http.put(`/rooms/${payload.seq}`, payload2)
+        http.put(`/rooms/${payload.seq}`, payload.data)
         .then((response) => {
             const code = response.status;
 
             if(code == 201) {
                 console.log("스터디룸 수정 완료: "+ JSON.stringify(response.data));
+                const roomStore = useRoomStore();
+                const { room_info } = storeToRefs(roomStore);
+                room_info.value = response.data
             }
             else if(code == 204) {
                 console.log("스터디룸 수정 실패: 스터디룸 없음")
             }
         })
         .catch((error) => {
+            console.log('에러')
             console.log(error);
         })
     },
@@ -112,7 +108,9 @@ export default {
             }})
         .then(({data}) => {
             console.log("스터디룸 참가 성공: " + JSON.stringify(data));
-            console.log("데이터", data)
+            const roomStore = useRoomStore();
+            const { room_info } = storeToRefs(roomStore);
+            room_info.value = data
         })
         .catch((error) => {
             console.log(error);
