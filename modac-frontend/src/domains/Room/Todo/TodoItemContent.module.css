@@ -1,0 +1,11 @@
+.style1 {
+  @apply text-ellipsis whitespace-nowrap overflow-hidden line-through;
+}
+
+.style2 {
+  @apply text-ellipsis whitespace-nowrap overflow-hidden no-underline;
+}
+
+.style3 {
+  @apply break-all whitespace-normal h-full;
+}

@@ -1,0 +1,19 @@
+.todo_item_wrapper {
+  display: flex;
+  align-items: flex-start;
+  padding: 13px 15px;
+  gap: 5px;
+  border-radius: 5px;
+  background: rgba(236, 236, 236, 0.9);
+  @apply m-1;
+}
+
+.checkbox {
+  @apply h-4 w-4 outline-0 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 align-top bg-no-repeat bg-center bg-contain float-left cursor-pointer;
+}
+
+.flex_wrapper {
+  width: 90%;
+  flex-direction: column;
+  @apply gap-2 flex;
+}
