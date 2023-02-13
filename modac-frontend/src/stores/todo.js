@@ -25,10 +25,14 @@ export const useTodoStore = defineStore("todo", () => {
     todos_seq.value = todos_seq.value + 1;
   };
 
+  // const access_token = "";
+  const access_token = "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";
+
   return {
     api,
     todos,
     addTodoItem,
     todos_seq,
+    access_token,
   };
 });

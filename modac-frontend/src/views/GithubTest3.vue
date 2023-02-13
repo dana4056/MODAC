@@ -1,17 +1,25 @@
 <template>
+<!-- {{encodingContents1}}
+{{encodingContents2}}
+{{encodingContents3}} -->
+  <div class="flex justify-center items-center">
     <div id="wrap" class="github_div">
         <p class="font-semibold">업로드할 파일 이름을 작성해주세요</p>
-        <input v-model="title" type="text" class="github_input">
+        <div class="flex w-full items-end gap-1">
+          <input v-model="title" type="text" class="github_input"> <span>.md</span>
+        </div>
 
         <p class="font-semibold">Commit message를 작성해주세요</p>
         <textarea v-model="commitMSG" class="github_input"></textarea>
-        <button @click="commitToRepo" class="github_new_repo_button">원격 저장소에 Commit 하기</button>
+        <button @click="commitToRepo(user_info, repo_info, createCommit)" class="github_new_repo_button">원격 저장소에 Commit 하기</button>
     </div>
+  </div>
 </template>
     
 <script setup>
 import axios from "axios";
 import {useTodoStore} from "../stores/todo.js"
+import { useArticleStore } from "../stores/article";
 import {ref} from "vue";
 import { useRoute } from 'vue-router'
 import router from "../router/index"
@@ -19,7 +27,8 @@ import router from "../router/index"
 let title="";
 let commitMSG = "";
 
-const store = useTodoStore();
+const todoStore = useTodoStore();
+const articleStore = useArticleStore();
 const route = useRoute();
 
 const http = axios.create({
@@ -29,27 +38,37 @@ const http = axios.create({
   },
 });
 
+defineProps(['user_info', 'repo_info', 'createCommit']);
 
+  // const encodingContents1 = articleStore.tempArticle;
+  // const encodingContents2 = encodeURIComponent(articleStore.tempArticle);
+  // const encodingContents3 = btoa(encodeURIComponent(articleStore.tempArticle));
+  const encodingContents4 = btoa(unescape(encodeURIComponent(articleStore.tempArticle)));
 
-function commitToRepo(){
-  alert("msg:"+commitMSG);
+function commitToRepo(user_info, repo_info, createCommit){
+  // alert("msg:"+commitMSG);
   const GITHUB_API_SERVER = "https://api.github.com"
-  const user = route.params.user;
-  const repo = route.params.repo;
+  // const user = route.params.user;
+  // const repo = route.params.repo;
+  const user = user_info;
+  const repo = repo_info;
 
   const headers={
-      "Authorization" : "Bearer "+ store.access_token
+    "Authorization" : "Bearer "+ todoStore.access_token
   }
 
   const body = {
       "message": commitMSG,
-      "content":  "bXkgbmV3IGZpbGUgY29udGVudHM="
+      "content":  encodingContents4,
   }
 
-  http.put(GITHUB_API_SERVER + `/repos/${user}/${repo}/contents/${title}`, body, {headers})
+
+  // console.log("user", user, "repo", repo);
+  http.put(GITHUB_API_SERVER + `/repos/${user}/${repo}/contents/${title}.md`, body, {headers})
   .then((response) => {
       alert("원격저장소에 정상적으로 Commit 되었습니다 :->")
-      router.push(`/repo/${user}/${repo}`)
+      createCommit();
+      // router.push(`/repo/${user}/${repo}`)
   })
   .catch((err) => console.log(err));
 
@@ -72,7 +91,7 @@ button{
 
 
 .github_div {
-  @apply flex flex-col items-start gap-4 min-w-[50vh] min-h-[30vh] justify-center w-fit p-6;
+  @apply flex flex-col items-start gap-4 min-w-[50vh] min-h-[30vh] justify-center w-fit p-6 pt-2;
   font-family: 'Pretendard';
 }
 
@@ -98,7 +117,7 @@ button{
 
 
 .github_input {
-	@apply block p-2.5 text-sm rounded-lg w-full border
+	@apply block p-2.5 text-sm rounded-lg w-full border resize-none
 	bg-gray-50 border-gray-300 text-gray-900 
 	focus:ring-blue-500 focus:border-blue-500 
 	dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white

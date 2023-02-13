@@ -1,7 +1,7 @@
 .card_div {
-	@apply !p-0 h-full;
-  transition: box-shadow 0.25s ease-in 0s;
-  transform: 0.25s ease-in 0s;
+	@apply !p-0 h-full transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300;
+  /* transition: box-shadow 0.25s ease-in 0s;
+  transform: 0.25s ease-in 0s; */
 }
 
 .card_img {

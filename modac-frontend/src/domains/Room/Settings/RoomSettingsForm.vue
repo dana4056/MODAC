@@ -41,6 +41,7 @@ let room_theme = ref("기본");
         <option value="기본" selected="selected">모닥불🔥</option>
         <option value="우주">우주🪐</option>
         <option value="바다">바다🌊</option>
+        <option value="사막">사막🌞</option>
       </select>
     </div>
   </form>
