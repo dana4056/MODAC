@@ -22,11 +22,11 @@ const { room_list } = storeToRefs(roomStore);
 // multiTheme:"String",
 // publicType:"Integer"
 // invitationCode:"String"
-console.log(loginUser);
-onMounted(() => {
-  console.log("mounted", loginUser.value);
-  roomStore.api.findRoomList(loginUser.value.seq);
-});
+// console.log(loginUser);
+// onMounted(() => {
+//   console.log("mounted", loginUser.value);
+//   roomStore.api.findRoomList(loginUser.value.seq);
+// });
 // roomStore.api.findRoomList(loginUser.value.seq);
 </script>
 

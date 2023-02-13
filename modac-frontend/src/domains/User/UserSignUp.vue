@@ -26,6 +26,7 @@
               id="user_id"
               placeholder="아이디를 입력하세요"
               :onkeyup="checkByte"
+              :focusout="checkId"
               required
             />
             <div class="block text-xs">
@@ -206,14 +207,24 @@ let user_password_check = ref("");
 const user_id = ref("");
 const user_nickname = ref("");
 
-const requestSignup = async () => {
-  const response = await userApi.postUser({
+// const requestSignup = async () => {
+//   const response = await userApi.postUser({
+//     email: user_email1 + "@" + user_email2,
+//     password: user_password.value,
+//     id: user_id.value,
+//     nickname: user_nickname.value,
+//   });
+  
+//   console.log(response);
+// };
+
+const requestSignup = () => {
+  userApi.postUser({
     email: user_email1 + "@" + user_email2,
     password: user_password.value,
     id: user_id.value,
     nickname: user_nickname.value,
   });
-  console.log(response);
 };
 
 // let reg_pass = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,16}$/;
@@ -250,6 +261,8 @@ let number = computed(() => {
 let specialCharacters = computed(() => {
   return reg_pass4.test(user_password.value);
 });
+
+
 
 let checkCode = computed(() => {
   if (user_password.value == "") return 6;
