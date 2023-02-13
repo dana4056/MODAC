@@ -36,7 +36,7 @@ const closeRoomExitConfirmModal = (event) => {
 const exitRoom = (event) => {
   closeRoomExitConfirmModal(event);
   roomStore.exitRoom();
-  roomStore.api.deleteRoom(room_info.seq);
+  // roomStore.api.deleteRoom(room_info.value.seq);
 };
 
 const categoryValue = ref("기획");
