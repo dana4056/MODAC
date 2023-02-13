@@ -1,11 +1,20 @@
 import dm from "@/api/dm";
 import { ref } from "vue";
-import { defineStore } from "pinia";
+import { defineStore , storeToRefs } from "pinia";
+import { useUserStore } from "@/stores/user";
 import Stomp from "webstomp-client";
 import SockJS from "sockjs-client/dist/sockjs.min.js";
 
 
+// const userStore = useUserStore();
+// const { loginUser } = storeToRefs(userStore);
+
+
 export const useDmStore = defineStore("dm", () => {
+
+  const userStore = useUserStore();
+  const { loginUser } = storeToRefs(userStore);
+
 
   //status (변수)
   const directMessageRoomList = ref([]);    // DM 채팅방 목록
@@ -52,9 +61,9 @@ export const useDmStore = defineStore("dm", () => {
 
   const connect = () => {
     console.log("connet함수 호출  with"+directMessageRoomSeq.value);
-    var socket = new SockJS("http://localhost:8080/ws"); // WebSocketConfig랑 통일할 주소 , 소켓 열 주소
+    // var socket = new SockJS("http://localhost:8080/ws"); // WebSocketConfig랑 통일할 주소 , 소켓 열 주소
     // var socket = new SockJS("http://70.12.247.126:8080/ws"); // WebSocketConfig랑 통일할 주소 , 소켓 열 주소
-    // var socket = new SockJS("https://i8a608.p.ssafy.io/ws"); // WebSocketConfig랑 통일할 주소 , 소켓 열 주소
+    var socket = new SockJS("https://i8a608.p.ssafy.io/ws"); // WebSocketConfig랑 통일할 주소 , 소켓 열 주소
     stompClient.value = Stomp.over(socket);
     stompClient.value.connect({}, function() {
       console.log("채팅룸 seq" + directMessageRoomSeq.value);
@@ -75,7 +84,9 @@ export const useDmStore = defineStore("dm", () => {
       var chat = JSON.parse(res.body);
       console.log("구독으로 받은 메시지", chat);
   
-      directChatLogs.value.push(chat);
+      if(chat.user.seq != loginUser.value.seq){
+        directChatLogs.value.push(chat);
+      }
   
       liftMessage();
     }, 500);
