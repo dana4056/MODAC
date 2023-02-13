@@ -16,6 +16,6 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
 	List<Article> findByUser_Seq(Long usersSeq);
 
 	// 최근 일주일간 사용자가 작성한 게시글 리스트 반환
-	List<Article> findAllByUserAndRegisteredTimeAfter(User user, LocalDateTime date);
+	List<Article> findAllByUserAndRegisteredTimeGreaterThanEqual(User user, LocalDateTime localdateTime);
 
 }

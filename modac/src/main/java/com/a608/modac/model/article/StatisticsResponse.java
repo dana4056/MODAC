@@ -8,34 +8,34 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
-@Setter
+@AllArgsConstructor
 @NoArgsConstructor
 public class StatisticsResponse {
 	private List<CountByDayOfWeek> daysOfWeekList;
 	private List<CountByCategory> categoriesList;
 
-	public StatisticsResponse(
-		List<CountByDayOfWeek> daysOfWeekList,
-		List<CountByCategory> categoriesList) {
-		this.daysOfWeekList = daysOfWeekList;
-		this.categoriesList = categoriesList;
-	}
-
 	@Getter
 	@AllArgsConstructor
 	@NoArgsConstructor
-	public class CountByDayOfWeek {
+	public static class CountByDayOfWeek {
 		String dayOfWeek;
 		String dateInfo;
 		Integer countArticles;
 
+		public void plusCount(){
+			this.countArticles++;
+		}
 	}
 
 	@Getter
 	@AllArgsConstructor
 	@NoArgsConstructor
-	public class CountByCategory {
+	public static class CountByCategory {
 		String categoryName;
 		Integer countArticles;
+
+		public void plusCount(){
+			this.countArticles++;
+		}
 	}
 }

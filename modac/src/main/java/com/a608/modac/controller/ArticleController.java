@@ -98,7 +98,7 @@ public class ArticleController {
     @GetMapping("statistics")
     // 최근 일주일간 요일별, 날짜별 통계 조회
     public ResponseEntity<?> findStats(@RequestParam("user") Long usersSeq) {
-        return new ResponseEntity<StatisticsResponse>(articleService., HttpStatus.OK)
+        return new ResponseEntity<StatisticsResponse>(articleService.findStats(usersSeq), HttpStatus.OK);
     }
 
 }

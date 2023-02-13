@@ -4,6 +4,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -223,42 +224,78 @@ public class ArticleServiceImpl implements ArticleService {
 	@Override
 	public StatisticsResponse findStats(final Long usersSeq) {
 		// Validation
-		User user = userRepository.findById(usersSeq).orElseThrow(() -> new NoSuchElementException("NoUSer"));
+		User user = userRepository.findById(usersSeq).orElseThrow(() -> new NoSuchElementException("NoUser"));
 
 		// 0. 최근 일주일 간 사용자가 작성한 게시글 리스트 가져오기
-		LocalDateTime nowTime = LocalDateTime.now();
-		LocalDate firstDate = LocalDate.now().minusDays(6);
-		if (nowTime.getHour() < 6) { // 6시 이전이면 아직 날짜가 안 넘어갔으므로 하루 더 전까지
-			firstDate.minusDays(1);
+		LocalDateTime nowDateTime = LocalDateTime.now();
+		if (nowDateTime.getHour() < 6) { // 6시 이전이면 아직 날짜가 안 넘어갔으므로 하루 더 전까지
+			nowDateTime.minusDays(1);
 		}
-		LocalTime time = LocalTime.parse("06:00:00"); // 날짜가 넘어가는 기준 시간
-		LocalDateTime firstDateTime = firstDate.atTime(time); // 6일 전 날짜의 시작시간
-		List<Article> articles = articleRepository.findAllByUserAndRegisteredTimeAfter(user, firstDateTime); // 최근 일주일 게시글 리스트
+		LocalDateTime firstDateTime = nowDateTime.minusDays(6);
+		firstDateTime = firstDateTime.withHour(6).withMinute(0).withSecond(0).withNano(0); // 날짜가 넘어가는 기준 시간
+		List<Article> articles = articleRepository.findAllByUserAndRegisteredTimeGreaterThanEqual(user, firstDateTime); // 최근 일주일 게시글 리스트
 		Collections.sort(articles, (o1, o2) -> o1.getRegisteredTime().isBefore(o2.getRegisteredTime())? 1 : -1);
 
 		// 1. 요일별 사용자의 게시글 수
 		List<StatisticsResponse.CountByDayOfWeek> daysOfWeekList = new ArrayList<>();
 		for(int i =  0; i<7; i++){
-			LocalDateTime startDateTime = firstDateTime.plusDays(1);
-			LocalDateTime endDateTime = startDateTime.plusDays(1).minusSeconds(1);
-			String dayOfWeek = startDateTime.getDayOfWeek().toString();
-			String dateInfo;
-			Integer countArticles = 0;
-
-
-			// StatisticsResponse.CountByDayOfWeek countByDayOfWeek = new StatisticsResponse.CountByDayOfWeek()
+			LocalDateTime startDateTime = firstDateTime.plusDays(i);
+			String dayOfWeek = startDateTime.getDayOfWeek().toString(); // 요일(영어)
+			String dateInfo = startDateTime.getMonth().getValue()+"/"+startDateTime.getDayOfMonth(); // 날짜정보 (ex: 2/17(토) )
+			switch(startDateTime.getDayOfWeek().getValue()){
+				case 1: dateInfo += "(월)";
+					break;
+				case 2: dateInfo += "(화)";
+					break;
+				case 3: dateInfo += "(수)";
+					break;
+				case 4: dateInfo += "(목)";
+					break;
+				case 5: dateInfo += "(금)";
+					break;
+				case 6: dateInfo += "(토)";
+					break;
+				case 7: dateInfo += "(일)";
+					break;
+			}
+			Integer countArticles = 0; // 게시글의 개수
+			daysOfWeekList.add(new StatisticsResponse.CountByDayOfWeek(dayOfWeek, dateInfo, countArticles));
 		}
-
-		for(int i = 0; i < 7; i++){
-			LocalDateTime startDateTime = firstDateTime.plusDays(1);
-			LocalDateTime endDateTime = startDateTime.plusDays(1).minusSeconds(1);
-
-
+		// 찾은 게시글들의 날짜에 맞게 카운트 증가
+		for(Article article : articles) {
+			LocalDate targetDate = article.getRegisteredTime().toLocalDate();
+			if(article.getRegisteredTime().getHour() < 6){
+				targetDate.minusDays(1);
+			}
+			int diffDays = Period.between(firstDateTime.toLocalDate(), targetDate).getDays();
+			daysOfWeekList.get(diffDays).plusCount();
 		}
-
 
 		// 2. 카테고리별 사용자의 게시글 수
+		List<StatisticsResponse.CountByCategory> categoriesList = new ArrayList<>();
+		categoriesList.add(new StatisticsResponse.CountByCategory("알고리즘", 0));
+		categoriesList.add(new StatisticsResponse.CountByCategory("개발", 0));
+		categoriesList.add(new StatisticsResponse.CountByCategory("CS", 0));
+		categoriesList.add(new StatisticsResponse.CountByCategory("면접", 0));
+		categoriesList.add(new StatisticsResponse.CountByCategory("기타", 0));
+		// 찾은 게시글들의 카테고리에 맞게 카운트 증가
+		for(Article article : articles) {
+			switch(article.getCategory().getName()){
+				case "알고리즘" : categoriesList.get(0).plusCount();
+					break;
+				case "개발" : categoriesList.get(1).plusCount();
+					break;
+				case "CS" : categoriesList.get(2).plusCount();
+					break;
+				case "면접" : categoriesList.get(3).plusCount();
+					break;
+				case "기타" : categoriesList.get(4).plusCount();
+					break;
+			}
+		}
 
+		// 정리된 통계 반환
+		return new StatisticsResponse(daysOfWeekList, categoriesList);
 	}
 
 }
