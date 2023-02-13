@@ -1,6 +1,7 @@
 <script setup>
 import Modal from "@/components/Modal.vue";
 import { useRoomStore } from "@/stores/room";
+import { useUserStore } from "@/stores/user";
 import { ref } from "vue";
 import CommonButton from "@/components/CommonButton.vue";
 import Wrapper from "@/components/Wrapper.vue";
@@ -10,6 +11,8 @@ import { storeToRefs } from "pinia";
 
 const roomStore = useRoomStore();
 const { room_info } = storeToRefs(roomStore);
+const userStore = useUserStore();
+const { loginUser } = storeToRefs(userStore);
 
 const roomExitConfirmModalState = ref(false);
 const openRoomExitConfirmModal = () => {
@@ -34,8 +37,13 @@ const closeRoomExitConfirmModal = (event) => {
 };
 
 const exitRoom = (event) => {
+  const payload = {
+    seq: room_info.value.seq,
+    usersSeq: loginUser.value.seq
+  }
   closeRoomExitConfirmModal(event);
   roomStore.exitRoom();
+  roomStore.api.exitRoom(payload)
   // roomStore.api.deleteRoom(room_info.value.seq);
 };
 
