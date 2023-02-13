@@ -1,9 +1,13 @@
 import dm from "@/api/dm";
 import { ref } from "vue";
 import { defineStore } from "pinia";
+import { storeToRefs } from "pinia";
+import { useUserStore } from "@/stores/user";
 import Stomp from "webstomp-client";
 import SockJS from "sockjs-client/dist/sockjs.min.js";
 
+const userStore = useUserStore();
+const { loginUser } = storeToRefs(userStore);
 
 export const useDmStore = defineStore("dm", () => {
 
@@ -75,7 +79,9 @@ export const useDmStore = defineStore("dm", () => {
       var chat = JSON.parse(res.body);
       console.log("구독으로 받은 메시지", chat);
   
-      directChatLogs.value.push(chat);
+      if(chat.user.seq != loginUser.value.seq){
+        directChatLogs.value.push(chat);
+      }
   
       liftMessage();
     }, 500);
