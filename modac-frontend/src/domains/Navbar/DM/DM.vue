@@ -1,13 +1,27 @@
 <script setup>
 import DMDropdown from "./DMDropdown.vue";
+import { useDmStore } from "@/stores/dm";
+import { useUserStore } from "@/stores/user";
+import { storeToRefs } from "pinia";
 import { ref, computed, useCssModule } from "vue";
 
+
+// store 관련
+const DMstore = useDmStore();
+const userStore = useUserStore();
+const { loginUser } = storeToRefs(userStore);
+const { isDropdownOpenState } = storeToRefs(DMstore);
+
+
+// 그 외 변수
 const $style = useCssModule();
 
-const isDropdownOpenState = ref(false);
-
 const openDropdown = () => {
+  // DM 버튼 눌렀을 때 채팅방 목록 가져오기
+  DMstore.api.fetchRoomList(loginUser.value.seq);
+
   isDropdownOpenState.value = true;
+  
 };
 
 const closeDropdown = () => {

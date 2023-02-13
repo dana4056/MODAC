@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modac.iml" filepath="$PROJECT_DIR$/.idea/modac.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/modac.modac.main.iml" filepath="$PROJECT_DIR$/.idea/modules/modac.modac.main.iml" />
+    </modules>
+  </component>
+</project>

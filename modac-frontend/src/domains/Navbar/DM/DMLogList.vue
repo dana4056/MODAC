@@ -7,13 +7,14 @@ import DMLogListItem from "@/domains/Navbar/DM/DMLogListItem.vue"
 import DMForm from "@/domains/Navbar/DM/DMForm.vue"
 import Stomp from "webstomp-client";
 import SockJS from "sockjs-client/dist/sockjs.min.js";
+import OverflowDiv from "@/components/OverflowDiv.vue";
 
 const DMstore = useDmStore();
 const userStore = useUserStore();
-var stompClient = null;
+
 
 const { loginUser } = storeToRefs(userStore);
-const { directMessageRoomSeq, directChatLogs } = storeToRefs(DMstore);
+const { directMessageRoomSeq, directChatLogs, stompClient } = storeToRefs(DMstore);
 // const logs = ref([]);
 // console.log(directChatLogs.value);
 
@@ -21,9 +22,6 @@ const { directMessageRoomSeq, directChatLogs } = storeToRefs(DMstore);
 const page = 0;
 
 const child = ref(null);
-const isSocketConnected = ref(false);
-
-connect();
 
 const enterChat = (chatMessage) => {
   if (chatMessage) {
@@ -62,7 +60,8 @@ const enterChat = (chatMessage) => {
     directChatLogs.value.push(chatData);
     
     // 소켓 send
-    stompClient.send(`/pub/messages/direct`, JSON.stringify(sendData), {});
+    console.log(stompClient);
+    stompClient.value.send(`/pub/messages/direct`, JSON.stringify(sendData), {});
   }
 };
 
@@ -74,50 +73,21 @@ function liftMessage() {
   }, 300);
 }
 
-function connect() {
-  isSocketConnected.value = true;
-  // var socket = new SockJS("http://70.12.247.126:8080/ws"); // WebSocketConfig랑 통일할 주소 , 소켓 열 주소
-  var socket = new SockJS("http://localhost:8080/ws"); // WebSocketConfig랑 통일할 주소 , 소켓 열 주소
-  stompClient = Stomp.over(socket);
-  stompClient.connect({}, onConnected, onError);
-}
-
-function onConnected() {
-  console.log("채팅룸 seq" + directMessageRoomSeq.value);
-  stompClient.subscribe(
-    `/queue/chat/rooms/enter/direct/${directMessageRoomSeq.value}`,
-    onMessageReceived
-  );
-}
-
-function onError() {
-  console.log("소켓 연결 실패");
-}
-
-function onMessageReceived(res) {
-  setTimeout(() => {
-    var chat = JSON.parse(res.body);
-    console.log("구독으로 받은 메시지", chat);
-
-    directChatLogs.value.push(chat);
-
-    liftMessage();
-  }, 500);
-}
-
 
 </script>
 
 <template>
-  <div :class="$style.chatbox_body_size" id="chatbox_body">
-    <DMLogListItem
-      v-for="chatLog in directChatLogs"
-      :key="chatLog.seq"
-      :chatLog="chatLog"
-      :loginUser="loginUser"
-    />
-  </div>
-  <DMForm :enterChat="enterChat" ref="child" />
+  <overflow-div id="chatbox_body" :class="$style.chatbox_content">
+    <div :class="$style.chatbox_content">
+      <DMLogListItem
+        v-for="chatLog in directChatLogs"
+        :key="chatLog.seq"
+        :chatLog="chatLog"
+        :loginUser="loginUser"
+      />
+    </div>
+  </overflow-div>
+  <DMForm :enterChat="enterChat" ref="child" :class="$style.form_box"/>
 </template>
 
 

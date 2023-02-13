@@ -1,5 +1,8 @@
 .study_room_wrapper_flex {
   @apply flex flex-row;
+  background-image: url('@/assets/room_background.jpg');
+  /* background-color: black; */
+  background-size: cover;
   overflow: hidden;
 }
 
