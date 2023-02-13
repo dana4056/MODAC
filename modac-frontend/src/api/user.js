@@ -14,8 +14,10 @@ export default {
     http
       .post(`/users`, user)
       .then(({ data }) => {
+        alert("회원가입이 완료되었습니다.");
+        router.push({ name: "login" }); // 룸리스트뷰로 이동
         console.log(data);
-        return data;
+        // return data;
       })
       .catch((error) => {
         console.log(error);
