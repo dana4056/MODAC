@@ -1,35 +1,19 @@
 export const doughnutChartData = {
   type: "doughnut",
-  data: {
+  data : {
     labels: ["알고리즘", "개발", "CS", "면접", "기타"],
-    datasets: [
-      {
-        label: "카테고리별 작성 횟수",
-        data: [5, 0, 2, 4, 7],
-        fill: true,
-        backgroundColor: "rgb(54, 162, 235, 0.2)",
-        borderColor: "rgb(54, 162, 235)",
-        borderWidth: 1,
-        pointBackgroundColor: "rgb(133, 105, 241)",
-        // pointBorderColor: "#fff",
-        pointHoverBackgroundColor: "#fff",
-        pointHoverBorderColor: "rgb(133, 105, 241)",
-      }
-    ]
-  },
-  options: {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: 'top',
-      },
-    },
-    scale: {
-      ticks: {
-        suggestedMin: 0,
-        // suggestedMax: 20
-      }
-    }
+    datasets: [{
+      label: 'My First Dataset',
+      data: [5, 0, 2, 4, 7],
+      backgroundColor: [
+        'rgba(255, 99, 132)',
+        'rgba(255, 159, 64)',
+        'rgba(255, 205, 86)',
+        'rgba(75, 192, 192)',
+        'rgba(54, 162, 235)',
+      ],
+      hoverOffset: 4
+    }]
   },
 };
 

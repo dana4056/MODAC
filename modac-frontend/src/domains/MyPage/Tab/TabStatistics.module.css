@@ -1,14 +1,26 @@
 .tabs_flex {
-  @apply w-full h-full flex flex-row gap-2  justify-start py-2 items-center
+  @apply w-full flex flex-row gap-2  justify-start py-2 items-center
+}
+
+.barChart{
+  height: 50%;
+  width: 50%;
 }
 
 .statistics_item {
   @apply flex w-full flex-col py-2;
   gap: 30px;
+  padding-right: 50px;
+}
+.statistics_item_bar {
+  @apply flex w-full flex-col py-2;
+  gap: 30px;
+  padding-right: 50px;
+  align-items: center;
 }
 
 .statistics_title {
-  @apply text-xl font-semibold text-left w-full pb-3
+  @apply flex justify-center text-xl font-semibold text-left w-full pb-3
 }
 
 .statisics_div {

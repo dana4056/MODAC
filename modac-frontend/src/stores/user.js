@@ -22,24 +22,27 @@ export const useUserStore = defineStore("user", () => {
   const followingList = ref([]); // 팔로잉한 사용자 리스트
   const followerList = ref([]); // 팔로워 사용자 리스트
 
-  const isLoggedIn = ref(true);
   const login = () => {
     isLoggedIn.value = true;
   };
+  
   const logout = () => {
     isLoggedIn.value = false;
-  };
+    loginUser.value = null;                 // store의 로그인 유저 삭제
+    localStorage.removeItem('jwt');         // 로컬 스토리지 토큰 삭제
+    console.log("로그아웃 완료");
+  }
 
   //action (API)
-  const api = user; // axois 비동기 함수들
-
+  const api = user;                         // axois 비동기 함수들
+  
   return {
     loginUser,
     followingList,
     followerList,
-    api,
     isLoggedIn,
     login,
     logout,
+    api,
   };
 });

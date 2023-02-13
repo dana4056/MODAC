@@ -1,7 +1,13 @@
-export const barChartData = {
+export const radarChartData = {
   type: "radar",
   data: {
-    labels: ["알고리즘", "개발", "CS", "면접", "기타"],
+    labels: [
+      "알고리즘",
+      "개발",
+      "CS",
+      "면접",
+      "기타"
+    ],
     datasets: [
       {
         label: "카테고리별 작성 횟수",
@@ -10,10 +16,8 @@ export const barChartData = {
         backgroundColor: "rgb(54, 162, 235, 0.2)",
         borderColor: "rgb(54, 162, 235)",
         borderWidth: 1,
-        pointBackgroundColor: "rgb(133, 105, 241)",
-        // pointBorderColor: "#fff",
-        pointHoverBackgroundColor: "#fff",
-        pointHoverBorderColor: "rgb(133, 105, 241)",
+        pointBackgroundColor: "rgb(54, 162, 235)",
+        pointHoverBorderColor: "rgb(54, 162, 235)",
       }
     ]
   },
@@ -26,8 +30,9 @@ export const barChartData = {
     },
     scale: {
       ticks: {
-        suggestedMin: 0,
-        // suggestedMax: 20
+        // suggestedMin: 0,
+        beginAtZero: true,
+        // stepSize:1
       }
     }
   },
@@ -36,4 +41,4 @@ export const barChartData = {
 
 
 
-export default barChartData;
+export default radarChartData;
