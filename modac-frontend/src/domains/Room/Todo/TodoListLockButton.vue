@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from "vue";
 
+// 현재 하고 있는 일을 공개할지 비공개할지에 대한 상태
 let lockState = ref(false);
 const changeLockState = () => {
   lockState.value = !lockState.value;
@@ -8,13 +9,7 @@ const changeLockState = () => {
 </script>
 
 <template>
-  <button
-    v-if="lockState"
-    type="button"
-    @click="changeLockState"
-    class="center h-8 max-h-[32px] w-8 max-w-[32px] rounded-lg bg-pink-500 text-white shadow-md shadow-pink-500/20 transition-all hover:shadow-lg hover:shadow-pink-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-    style="display: flex; align-items: center; justify-content: center"
-  >
+  <button v-if="lockState" @click="changeLockState" :class="$style.lock_button">
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 24 24"
@@ -26,13 +21,7 @@ const changeLockState = () => {
       />
     </svg>
   </button>
-  <button
-    v-else
-    type="button"
-    @click="changeLockState"
-    class="center h-8 max-h-[32px] w-8 max-w-[32px] rounded-lg bg-pink-500 text-white shadow-md shadow-pink-500/20 transition-all hover:shadow-lg hover:shadow-pink-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-    style="display: inline-flex; align-items: center; justify-content: center"
-  >
+  <button v-else @click="changeLockState" :class="$style.lock_button2">
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 24 24"
