@@ -36,18 +36,17 @@ const closeRoomExitConfirmModal = (event) => {
   }
 };
 
-const exitRoom = (event) => {
-  const payload = {
+const exitRoom = () => {
+  // 공개방
+  if (room_info.value.publicType === 1) {
+    const payload = {
     seq: room_info.value.seq,
     usersSeq: loginUser.value.seq
   }
-  closeRoomExitConfirmModal(event);
-  if (room_info.value.publicType === 1) {
     roomStore.api.exitRoom(payload)
+    roomStore.exitRoom();
   }
-  roomStore.api.findRoomList(loginUser.value.seq)
-  roomStore.exitRoom();
-};
+}
 
 const categoryValue = ref("기획");
 const changeCategoryValue = () => {
@@ -61,7 +60,7 @@ const changeCategoryValue = () => {
       <UserList />
     </div>
     <div :class="$style.main_section_down_side">
-      <RoomInformation :openRoomExitConfirmModal="openRoomExitConfirmModal" />
+      <RoomInformation :openRoomExitConfirmModal="openRoomExitConfirmModal"/>
     </div>
   </Wrapper>
   <Teleport to="body">

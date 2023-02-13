@@ -4,7 +4,7 @@ export const doughnutChartData = {
     labels: ["알고리즘", "개발", "CS", "면접", "기타"],
     datasets: [{
       label: 'My First Dataset',
-      data: [5, 0, 2, 4, 7],
+      data: [20, 20, 2, 4, 7],
       backgroundColor: [
         'rgba(255, 99, 132)',
         'rgba(255, 159, 64)',

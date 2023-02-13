@@ -7,6 +7,7 @@ import CardContent from "@/components/CardContent.vue";
 import { defineProps } from "vue";
 import { storeToRefs } from "pinia";
 import { useRoomStore } from "@/stores/room";
+import { useUserStore } from "@/stores/user";
 
 const props = defineProps({
   openRoomExitConfirmModal: Function,
@@ -14,6 +15,32 @@ const props = defineProps({
 
 const roomStore = useRoomStore();
 const { room_info } = storeToRefs(roomStore);
+const userStore = useUserStore();
+const { loginUser } = storeToRefs(userStore);
+
+const exitRoom = (event) => {
+  // 공개방
+  console.log("ASDASdasdADS",room_info.value.publicType)
+  console.log("함수", props.openRoomExitConfirmModal)
+  if (room_info.value.publicType === 1) {
+    props.openRoomExitConfirmModal(event);
+  }
+
+  // 비공개 방
+  else if (room_info.value.publicType === 0) {
+    console.log(loginUser.value.seq)
+    const payload = {
+      seq: room_info.value.seq,
+      usersSeq: loginUser.value.seq,
+      attend: false
+    }
+    roomStore.api.updateCurrentRoom(payload)
+    roomStore.exitRoom();
+  }
+  // roomStore.api.findRoomList(loginUser.value.seq)
+};
+
+
 
 </script>
 
@@ -33,7 +60,7 @@ const { room_info } = storeToRefs(roomStore);
       </span>
     </div>
     <div>
-      <SquareButton @click="props.openRoomExitConfirmModal"
+      <SquareButton @click="exitRoom"
         ><svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"

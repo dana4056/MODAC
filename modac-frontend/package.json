@@ -22,6 +22,7 @@
     "chart.js": "^2.9.4",
     "flowbite": "^1.6.3",
     "pinia": "^2.0.28",
+    "pinia-plugin-persistedstate": "^3.0.2",
     "scss": "^0.2.4",
     "sockjs-client": "^1.4.0",
     "vue": "^3.2.45",

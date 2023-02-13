@@ -18,11 +18,34 @@ const props = defineProps({
   roomItem: Object,
 });
 
+const participants = ref(roomItem.value.participants)
+
+function isParticipant (longinUser) {
+  participants.forEach(element => {
+    console.log(element)
+    console.log(loginUser.value)
+    if (element.value.userSeq === loginUser.value.seq) {
+      return true
+    }
+    else {
+      return false
+    }
+  });
+}
+
+
+function getKeyByValue(obj, value) {
+  return Object.keys(obj).find(key => obj[key] === value);
+}
+
 const { roomItem } = toRefs(props)
 
 const enterRoom = () => {
   groupChatLogs.value = [];
-  if (roomItem.value.currentSize < roomItem.value.maxSize) {
+  if (isParticipant(loginUser) === true){
+    roomStore.enterRoom()
+  }
+  else if (roomItem.value.currentSize < roomItem.value.maxSize) {
     roomStore.enterRoom();
     const payload = {
       seq: roomItem.value.seq,
