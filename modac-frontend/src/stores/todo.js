@@ -32,7 +32,6 @@ export const useTodoStore = defineStore("todo", () => {
     // api,
     todos,
     addTodoItem,
-    todos_seq,
     access_token,
   };
 });

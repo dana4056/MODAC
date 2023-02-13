@@ -247,7 +247,7 @@ export default {
 
             const store = useUserStore();
             const { loginUser } = storeToRefs(store);
-
+            console.log(loginUser.value);
             loginUser.value = response.data; // userStore에 멤버 저장
             router.push({ name: "room" }); // 룸리스트뷰로 이동
           } else {
