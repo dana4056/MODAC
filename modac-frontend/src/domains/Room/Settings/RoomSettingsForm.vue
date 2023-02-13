@@ -1,11 +1,31 @@
 <script setup>
 import { ref } from 'vue';
+import CommonButton from "@/components/CommonButton.vue";
+import { useRoomStore } from '@/stores/room.js';
+import { storeToRefs } from "pinia";
 
-let room_title = ref("");
-let room_description = ref("");
-let room_theme = ref("기본");
+const roomStore = useRoomStore();
+const { room_info } = storeToRefs(roomStore)
+
+const room_title = ref(room_info.value.title)
+const room_description = ref(room_info.value.description)
+const room_multiTheme = ref(room_info.value.multiTheme)
 
 
+
+const updateRoom = () => {
+  const payload = {
+    seq: room_info.value.seq,
+    data: {
+      title: room_title.value,
+      description: room_description.value,
+      multiTheme: room_multiTheme.value
+    }
+  }
+
+  console.log("페로",payload)
+  roomStore.api.updateRoom(payload)
+}
 
 
 </script>
@@ -19,12 +39,11 @@ let room_theme = ref("기본");
         v-model="room_title"
         cols="30"
         rows="10"
-        placeholder="방 제목입니다."
       />
     </div>
 
     <div :class="$style.room_description">
-      <label :class="$style.room_description_name" for="title">설명</label>
+      <div :class="$style.room_description_name">설명</div>
       <input
         :class="$style.setting_box_input"
         v-model="room_description"
@@ -37,13 +56,17 @@ let room_theme = ref("기본");
 
     <div :class="$style.room_theme">
       <div>테마</div>
-      <select name="" id="" v-model="room_theme">
+      <select name="" id="" v-model="room_multiTheme">
         <option value="기본" selected="selected">모닥불🔥</option>
         <option value="우주">우주🪐</option>
         <option value="바다">바다🌊</option>
         <option value="사막">사막🌞</option>
       </select>
     </div>
+    <CommonButton :class="$style.update_button"
+      @click.prevent="updateRoom"
+      >수정하기</CommonButton
+    >
   </form>
 </template>
 

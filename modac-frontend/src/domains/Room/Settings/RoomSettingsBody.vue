@@ -24,11 +24,6 @@ const deleteRoom = roomStore.deleteRoom();
       >삭제하기</CommonButton
     >
   </div>
-  <div :class="$style.delete_room">
-    <CommonButton :class="$style.delete_button"
-      >수정하기</CommonButton
-    >
-  </div>
 </template>
 
 <style lang="css" module>
