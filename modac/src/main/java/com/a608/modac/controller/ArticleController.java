@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.a608.modac.model.article.ArticleRequest;
 import com.a608.modac.model.article.ArticleResponse;
 import com.a608.modac.model.article.LikeRequest;
+import com.a608.modac.model.article.StatisticsResponse;
 import com.a608.modac.service.ArticleService;
 
 @CrossOrigin(origins = { "*" })
@@ -93,4 +94,11 @@ public class ArticleController {
     public ResponseEntity<?> countLike(@RequestParam("articlesSeq") Long articlesSeq, @RequestParam("usersSeq") Long usersSeq){
         return new ResponseEntity<Boolean>(articleService.countLike(articlesSeq, usersSeq), HttpStatus.OK);
     }
+
+    @GetMapping("statistics")
+    // 최근 일주일간 요일별, 날짜별 통계 조회
+    public ResponseEntity<?> findStats(@RequestParam("user") Long usersSeq) {
+        return new ResponseEntity<StatisticsResponse>(articleService., HttpStatus.OK)
+    }
+
 }

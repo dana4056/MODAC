@@ -1,5 +1,7 @@
 package com.a608.modac.model.article;
 
+import java.time.LocalDateTime;
+
 import com.a608.modac.model.todo.Todo;
 
 import lombok.Getter;
@@ -28,6 +30,7 @@ public class ArticleRequest {
 			.totalSecond(todo.getTotalSecond())
 			.user(todo.getUser())
 			.category(todo.getCategory())
+			.registeredTime(LocalDateTime.now())
 			.build();
 	}
 }

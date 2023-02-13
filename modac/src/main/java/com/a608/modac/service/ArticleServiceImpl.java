@@ -1,10 +1,12 @@
 package com.a608.modac.service;
 
 import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
@@ -18,6 +20,7 @@ import com.a608.modac.model.article.ArticleRequest;
 import com.a608.modac.model.article.ArticleResponse;
 import com.a608.modac.model.article.Like;
 import com.a608.modac.model.article.LikeRequest;
+import com.a608.modac.model.article.StatisticsResponse;
 import com.a608.modac.model.follow.Follow;
 import com.a608.modac.model.notification.Notification;
 import com.a608.modac.model.todo.Todo;
@@ -65,12 +68,13 @@ public class ArticleServiceImpl implements ArticleService {
 	public ArticleResponse.ArticleInfo createArticle(final ArticleRequest articleRequest) {
 		Todo todo = todoRepository.findById(articleRequest.getTodosSeq())
 			.orElseThrow(() -> new NoSuchElementException("NoTodo")); // todosSeq를 이용하여 todo 호출
-		Article save = articleRepository.save(articleRequest.toEntity(todo));// Article 빌드 후 저장
+		Article article = articleRequest.toEntity(todo);
+		Article save = articleRepository.save(article);// Article 빌드 후 저장
 		System.out.println("+++++++++++++++++++++" + save);
 
 		// 게시글 등록 시 30포인트 적립
 		Integer point = 30;
-		LocalDateTime nowLDT = LocalDateTime.now(); // 현재 시간
+		LocalDateTime nowLDT = article.getRegisteredTime(); // 현재 시간
 		DayOfWeek dayOfWeek = nowLDT.getDayOfWeek(); // 현재 요일
 		if (nowLDT.getHour() < 6) { // 현재 시간이 오전 12:00 ~ 오전 5:59일 경우
 			dayOfWeek = dayOfWeek.minus(1); // 전날로 취급함
@@ -91,12 +95,8 @@ public class ArticleServiceImpl implements ArticleService {
 	public ArticleResponse readArticlesByUsersSeq(final Long usersSeq, final Integer offset, final Integer limit) {
 		List<Article> findArticles = articleRepository.findByUser_Seq(usersSeq);
 		// 최신 날짜를 우선으로 정렬
-		final DateTimeFormatter pattern = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-		Collections.sort(findArticles, (o1, o2) -> {
-			final LocalDateTime ldt1 = LocalDateTime.parse(o1.getRegisteredTime(), pattern);
-			final LocalDateTime ldt2 = LocalDateTime.parse(o2.getRegisteredTime(), pattern);
-			return (ldt1.isBefore(ldt2)) ? 1 : -1;
-		});
+		// final DateTimeFormatter pattern = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+		Collections.sort(findArticles, (o1, o2) -> o1.getRegisteredTime().isAfter(o2.getRegisteredTime()) ? 1 : -1);
 		final Integer totalArticleCnt = findArticles.size(); // 총 게시글 수
 		final Integer totalPageCnt = ((totalArticleCnt - 1) / limit) + 1; // 총 페이지 수
 		final Integer st = (offset - 1) * limit; // 해당 페이지 시작 게시글 인덱스
@@ -120,12 +120,8 @@ public class ArticleServiceImpl implements ArticleService {
 			findArticles.addAll(articleRepository.findByUser_Seq(userSeq));
 		}
 		// 최신 날짜를 우선으로 정렬
-		final DateTimeFormatter pattern = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-		Collections.sort(findArticles, (o1, o2) -> {
-			final LocalDateTime ldt1 = LocalDateTime.parse(o1.getRegisteredTime(), pattern);
-			final LocalDateTime ldt2 = LocalDateTime.parse(o2.getRegisteredTime(), pattern);
-			return (ldt1.isBefore(ldt2)) ? 1 : -1;
-		});
+		// final DateTimeFormatter pattern = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+		Collections.sort(findArticles, (o1, o2) -> o1.getRegisteredTime().isAfter(o2.getRegisteredTime()) ? 1 : -1);
 		final Integer totalArticleCnt = findArticles.size(); // 총 게시글 수
 		final Integer totalPageCnt = ((totalArticleCnt - 1) / limit) + 1; // 총 페이지 수
 		final Integer st = (offset - 1) * limit; // 해당 페이지 시작 게시글 인덱스
@@ -216,10 +212,53 @@ public class ArticleServiceImpl implements ArticleService {
 	@Override
 	public Boolean countLike(final Long articlesSeq, final Long usersSeq) {
 		// Validation
-		Article article = articleRepository.findById(articlesSeq).orElseThrow(() -> new NoSuchElementException("NoArticle"));
+		Article article = articleRepository.findById(articlesSeq)
+			.orElseThrow(() -> new NoSuchElementException("NoArticle"));
 		User user = userRepository.findById(usersSeq).orElseThrow(() -> new NoSuchElementException("NoUser"));
 
 		// 존재하면 true, 존재하지 않으면 false 반환
 		return likeRepository.findByArticleAndUser(article, user) != null ? true : false;
 	}
+
+	@Override
+	public StatisticsResponse findStats(final Long usersSeq) {
+		// Validation
+		User user = userRepository.findById(usersSeq).orElseThrow(() -> new NoSuchElementException("NoUSer"));
+
+		// 0. 최근 일주일 간 사용자가 작성한 게시글 리스트 가져오기
+		LocalDateTime nowTime = LocalDateTime.now();
+		LocalDate firstDate = LocalDate.now().minusDays(6);
+		if (nowTime.getHour() < 6) { // 6시 이전이면 아직 날짜가 안 넘어갔으므로 하루 더 전까지
+			firstDate.minusDays(1);
+		}
+		LocalTime time = LocalTime.parse("06:00:00"); // 날짜가 넘어가는 기준 시간
+		LocalDateTime firstDateTime = firstDate.atTime(time); // 6일 전 날짜의 시작시간
+		List<Article> articles = articleRepository.findAllByUserAndRegisteredTimeAfter(user, firstDateTime); // 최근 일주일 게시글 리스트
+		Collections.sort(articles, (o1, o2) -> o1.getRegisteredTime().isBefore(o2.getRegisteredTime())? 1 : -1);
+
+		// 1. 요일별 사용자의 게시글 수
+		List<StatisticsResponse.CountByDayOfWeek> daysOfWeekList = new ArrayList<>();
+		for(int i =  0; i<7; i++){
+			LocalDateTime startDateTime = firstDateTime.plusDays(1);
+			LocalDateTime endDateTime = startDateTime.plusDays(1).minusSeconds(1);
+			String dayOfWeek = startDateTime.getDayOfWeek().toString();
+			String dateInfo;
+			Integer countArticles = 0;
+
+
+			// StatisticsResponse.CountByDayOfWeek countByDayOfWeek = new StatisticsResponse.CountByDayOfWeek()
+		}
+
+		for(int i = 0; i < 7; i++){
+			LocalDateTime startDateTime = firstDateTime.plusDays(1);
+			LocalDateTime endDateTime = startDateTime.plusDays(1).minusSeconds(1);
+
+
+		}
+
+
+		// 2. 카테고리별 사용자의 게시글 수
+
+	}
+
 }
