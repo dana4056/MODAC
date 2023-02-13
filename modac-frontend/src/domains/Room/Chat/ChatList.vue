@@ -4,19 +4,19 @@ import ChatForm from "./ChatForm.vue";
 import ChatListItem from "./ChatListItem.vue";
 import { useChatStore } from "@/stores/chat";
 import { useUserStore } from "@/stores/user";
-import { userRoomStore } from "@/stores/room";
+import { useRoomStore } from "@/stores/room";
 import { ref } from "vue";
 import Stomp from "webstomp-client";
 import SockJS from "sockjs-client/dist/sockjs.min.js";
 
 const chatStore = useChatStore();
 const userStore = useUserStore();
-const roomStore = userRoomStore();
+const roomStore = useRoomStore();
 var stompClient = null;
 
 const { loginUser } = storeToRefs(userStore);
 const { groupChatLogs } = storeToRefs(chatStore);
-const { room_info, enteredRoomNum } = storeToRefs(roomStore)
+const { room_info } = storeToRefs(roomStore)
 
 
 // 더미
