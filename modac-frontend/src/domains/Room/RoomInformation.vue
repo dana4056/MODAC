@@ -13,22 +13,22 @@ const props = defineProps({
 });
 
 const roomStore = useRoomStore();
-const { title, currentSize, maxSize, description } = storeToRefs(roomStore);
+const { room_info } = storeToRefs(roomStore);
 
 </script>
 
 <template>
   <div :class="$style.flex_wrapper">
     <div>
-      <CardTitle>{{ title }}</CardTitle>
+      <CardTitle>{{ room_info.title }}</CardTitle>
       <span>
         <CardContent :class="$style.card_content_inline"
-          >({{ currentSize }} / {{ maxSize }})</CardContent
+          >({{ room_info.currentSize }} / {{ room_info.maxSize }})</CardContent
         >
       </span>
       <span>
         <CardContent :class="$style.card_content_inline">{{
-          description
+          room_info.description
         }}</CardContent>
       </span>
     </div>

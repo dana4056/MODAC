@@ -1,22 +1,24 @@
 <template>
-  <div id="wrap" class="github_div">
-    <h1 class="font-semibold text-xl">원격 저장소 생성하기</h1>
-    <div class="github_repo_input_div">
-      <p class="github_repo_input_label font-semibold">저장소 이름 <span class="text-red-600">*</span></p>
-      <input v-model="repoName" type="text" class="github_input">
-    </div>
+  <div class="flex justify-center items-center">
+    <div id="wrap" class="github_div">
+      <h1 class="font-semibold text-xl">원격 저장소 생성하기</h1>
+      <div class="github_repo_input_div">
+        <p class="github_repo_input_label font-semibold">저장소 이름 <span class="text-red-600">*</span></p>
+        <input v-model="repoName" type="text" class="github_input">
+      </div>
 
-    <div class="github_repo_input_div">
-      <p class="github_repo_input_label">설명</p>
-      <input v-model="repoName" type="text" class="github_input h-32">
-    </div>
+      <div class="github_repo_input_div">
+        <p class="github_repo_input_label">설명</p>
+        <textarea v-model="repoName" type="text" class="github_input h-32 resize-none"></textarea>
+      </div>
 
-    <div class="github_repo_input_div_row">
-      <span class="github_repo_check_label">비공개 설정 </span>
-      <input type="checkbox" class="w-4 h-4" v-model="isPrivate">
-    </div>
+      <div class="github_repo_input_div_row">
+        <span class="github_repo_check_label">비공개 설정 </span>
+        <input type="checkbox" class="w-4 h-4" v-model="isPrivate">
+      </div>
 
-    <button @click="createRepo" class="github_new_repo_button">생성하기</button>
+      <button @click="createRepo(createNewRepo, user_info)" class="github_new_repo_button">생성하기</button>
+    </div>
   </div>
 </template>
     
@@ -28,6 +30,8 @@ import { useRoute } from 'vue-router'
 import router from "../router/index"
 
 const GITHUB_API_SERVER = "https://api.github.com"
+
+defineProps(['createNewRepo', 'user_info']);
 
 let repoName="";
 let repoDes = "";
@@ -45,7 +49,7 @@ const http = axios.create({
 
 
 
-function createRepo(){
+function createRepo(createNewRepo, user_info){
 
   const body = {
     name:repoName,
@@ -60,15 +64,19 @@ function createRepo(){
   http.post(GITHUB_API_SERVER + "/user/repos", body, {headers})
   .then((response) => {
     alert("저장소가 생성되었습니다 :->");
-    writeCommitMSG(body.name);
+    writeCommitMSG(body.name, createNewRepo, user_info);
   })
   .catch((err) => console.log(err));
 }
 
-function writeCommitMSG(repo){
-  const user = route.params.user;
+function writeCommitMSG(repo, createNewRepo, user_info){
+  // const user = route.params.user;
+  const user = user_info;
 
-  router.push(`/commit/${user}/${repo}`)
+
+  createNewRepo(user, repo);
+
+  // router.push(`/commit/${user}/${repo}`)
 }
 
 </script>
@@ -87,7 +95,7 @@ button{
 }
 
 .github_div {
-  @apply flex flex-col items-start gap-4 min-w-[50vh] min-h-[30vh] justify-center w-fit p-6;
+  @apply flex flex-col items-start gap-4 min-w-[50vh] min-h-[30vh] justify-center w-fit p-6 pt-0;
   font-family: 'Pretendard';
 }
 
@@ -110,7 +118,6 @@ button{
 .github_new_repo_button {
   @apply bg-black py-2 px-5 rounded-xl text-white text-sm self-end w-full
 }
-
 
 .github_input {
 	@apply block p-2.5 text-sm rounded-lg w-full border

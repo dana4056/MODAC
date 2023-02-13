@@ -1,27 +1,37 @@
 <template>
-  <div id="wrap" class="github_div">
-    <h1 class="font-semibold"><span class="user_github_id">{{ userName }}</span>&nbsp;님의 저장소 목록</h1>
-    <p class="text-sm">저장할 곳을 선택해주세요.</p>
-    <!-- <h2>저장소 새로 생성</h2> -->
-    <RouterLink :to="`/createRepo/${userName}`" class="github_new_repo_button">새 저장소 생성하기</RouterLink>
-    <!-- <h2>저장소 목록</h2> -->
-    <div
-      @click="writeCommitMSG(userName, el.name)"
-      v-for="el of repoEL"
-      :key="el.id"
-      class="repoEl"
-    >
-      <h2 class="font-semibold flex justify-between">
-        <div>{{ el.name }}</div>
-        <div class="text-gray-400 text-xs self-end">last push: {{ el.pushed_at }}</div>
-      </h2>
-      <p class="text-sm">{{ el.description }}</p>
-      <small class="github_topic" v-for="(topic, index) in el.topics" :key="index"
-        >#{{ topic }}&nbsp;&nbsp;</small
+  <OverflowDiv class="overflow_div">
+    <div id="wrap" class="github_div">
+      <h1 class="font-semibold"><span class="user_github_id">{{ userName }}</span>&nbsp;님의 저장소 목록</h1>
+      <p class="text-sm">저장할 곳을 선택해주세요.</p>
+      <!-- <h2>저장소 새로 생성</h2> -->
+      <button @click="moveCreateNewRepo(userName)" class="github_new_repo_button">새 저장소 생성하기</button>
+      <!-- <RouterLink :to="`/createRepo/${userName}`" class="github_new_repo_button">새 저장소 생성하기</RouterLink> -->
+      <!-- <h2>저장소 목록</h2> -->
+      <div
+        @click="selectRepo(userName, el.name)"
+        v-for="el of repoEL"
+        :key="el.id"
+        class="repoEl"
       >
-      <!-- <hr /> -->
+        <h2 class="font-semibold flex flex-wrap justify-between">
+          <div>{{ el.name }}
+          <span v-if="el.visibility==='public'" class="text-xs font-semibold text-blue-500">{{ el.visibility }}</span> 
+          <span v-else class="text-xs font-semibold text-red-500">{{ el.visibility }}</span> 
+          </div>
+          <div class="text-gray-400 text-xs self-end">last push: {{ el.pushed_at }}</div>
+        </h2>
+        
+        <p class="text-sm">
+          
+          {{ el.description }}
+        </p>
+        <small class="github_topic" v-for="(topic, index) in el.topics" :key="index"
+          >#{{ topic }}&nbsp;&nbsp;</small
+        >
+        <!-- <hr /> -->
+      </div>
     </div>
-  </div>
+  </OverflowDiv>
 </template>
 
 <script setup>
@@ -29,6 +39,7 @@ import axios from "axios";
 import { useTodoStore } from "../stores/todo.js";
 import { ref } from "vue";
 import router from "../router/index";
+import OverflowDiv from "@/components/OverflowDiv.vue";
 
 // ======================= 변수 모음 =============================
 let repoEL = ref([]);
@@ -40,6 +51,12 @@ const CLIENT_SECRETS = "e65b2850d9fc7e5de605817950d2b6e1454179ff";
 
 const store = useTodoStore();
 
+defineProps(['moveCreateNewRepo', 'selectRepo']);
+
+// const props = defineProps({
+//   createNewRepo : function,
+// });
+
 const http = axios.create({
   headers: {
     "Content-Type": "application/json;charset=utf-8",
@@ -49,24 +66,28 @@ const http = axios.create({
 
 // 인가코드(code)로 액세스 토큰 요청 후 받아와 저장(access_token)
 function fetchAccessToken() {
-  const code = new URL(window.location.href).searchParams.get("code");
+  // const code = new URL(window.location.href).searchParams.get("code");
+    const code = new URL(window.location.href).searchParams.get("code");
+  
+    const ACCESS_TOKEN_URL = `${GITHUB_AUTH_TOKEN_SERVER}?client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRETS}&code=${code}`;
+  
+    http
+      .post(ACCESS_TOKEN_URL)
+      .then((response) => {
+        // *************** DB에도 저장해줘야함 **************
+        console.log(response);
+        if (store.access_token == "") {
+          store.access_token = response.data.access_token;
+        }
+        console.log("store.access_token", store.access_token);
+      })
+      .then(() => {
+        fetchUser();
+        fetchRepoList(); // 액세스 토큰 저장되면 유저 레포 정보 요청
+      })
+      .catch((err) => console.log(err));
 
-  const ACCESS_TOKEN_URL = `${GITHUB_AUTH_TOKEN_SERVER}?client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRETS}&code=${code}`;
-
-  http
-    .post(ACCESS_TOKEN_URL)
-    .then((response) => {
-      // *************** DB에도 저장해줘야함 **************
-      console.log(response);
-      store.access_token = response.data.access_token;
-      console.log(store.access_token);
-    })
-    .then(() => {
-      fetchUser();
-      fetchRepoList(); // 액세스 토큰 저장되면 유저 레포 정보 요청
-    })
-    .catch((err) => console.log(err));
-}
+  }
 
 // 액세스 토큰(access_token)으로 사용자 정보 요청
 function fetchUser() {
@@ -91,7 +112,7 @@ function fetchRepoList() {
   };
 
   http
-    .get(GITHUB_API_SERVER + "/user/repos", { headers })
+    .get(GITHUB_API_SERVER + "/user/repos?per_page=100&sort=updated", { headers })
     .then((response) => {
       console.log(response.data);
       response.data.forEach((element) => {
@@ -101,6 +122,7 @@ function fetchRepoList() {
           description: element.description,
           pushed_at: element.pushed_at, //마지막 푸시?
           topics: element.topics,
+          visibility : element.visibility,
         };
 
         repoEL.value.push(el);
@@ -109,9 +131,12 @@ function fetchRepoList() {
     .catch((err) => console.log(err));
 }
 
-function writeCommitMSG(user, repo) {
-  router.push(`/commit/${user}/${repo}`);
-}
+// function writeCommitMSG(user, repo, createNewRepo) {
+  
+//   createNewRepo(user, repo);
+
+//   // router.push(`/commit/${user}/${repo}`);
+// }
 
 // ========================== 여기부터 로직 ==========================
 // if(!store.access_token){
@@ -134,8 +159,12 @@ fetchAccessToken();
   color: rgb(0, 89, 255);
 }
 
+.overflow_div {
+  @apply h-[80vh]
+}
+
 .github_div {
-  @apply flex flex-col gap-3 min-w-[60vh] min-h-[40vh] justify-center py-6;
+  @apply flex flex-col gap-3 min-h-[40vh] pt-3 pb-6;
 	font-family: 'Pretendard';
 }
 

@@ -65,6 +65,9 @@ const enterRoom = () => {
           <span v-if="roomItem.multiTheme === '바다'" :class="$style.item_host_theme_name">
             바다🌊
           </span>
+          <span v-if="roomItem.multiTheme === '사막'" :class="$style.item_host_theme_name">
+            사막🌞
+          </span>
         </div>
         <button @click="enterRoom" :class="$style.item_enter_button">입장하기</button>
       </div>

@@ -4,8 +4,8 @@ import RoomSettingsSound from "./RoomSettingsSound.vue";
 import CommonButton from "@/components/CommonButton.vue";
 import { useRoomStore } from "@/stores/room";
 
-const store = useRoomStore();
-const deleteRoom = store.deleteRoom();
+const roomStore = useRoomStore();
+const deleteRoom = roomStore.deleteRoom();
 </script>
 
 <template>

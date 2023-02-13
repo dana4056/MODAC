@@ -9,7 +9,7 @@
 }
 
 .dropdown_block {
-  @apply block;
+  @apply flex;
 }
 
 .dropdown_none {

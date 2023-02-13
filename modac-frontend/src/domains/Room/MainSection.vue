@@ -6,8 +6,10 @@ import CommonButton from "@/components/CommonButton.vue";
 import Wrapper from "@/components/Wrapper.vue";
 import RoomInformation from "./RoomInformation.vue";
 import UserList from "./UserList/UserList.vue";
+import { storeToRefs } from "pinia";
 
-const store = useRoomStore();
+const roomStore = useRoomStore();
+const { room_info } = storeToRefs(roomStore);
 
 const roomExitConfirmModalState = ref(false);
 const openRoomExitConfirmModal = () => {
@@ -19,19 +21,22 @@ const closeRoomExitConfirmModal = (event) => {
   const exitElement = ref();
 
   backdropElement.value = document.querySelector("#backdrop");
-  cancleElement.value = document.querySelector("#cancle")
-  exitElement.value = document.querySelector("#exit")
+  cancleElement.value = document.querySelector("#cancle");
+  exitElement.value = document.querySelector("#exit");
 
-  if (backdropElement.value === event.target 
-      || cancleElement.value === event.target 
-      || exitElement.value === event.target) {
+  if (
+    backdropElement.value === event.target ||
+    cancleElement.value === event.target ||
+    exitElement.value === event.target
+  ) {
     roomExitConfirmModalState.value = false;
   }
 };
 
 const exitRoom = (event) => {
   closeRoomExitConfirmModal(event);
-  store.exitRoom();
+  roomStore.exitRoom();
+  roomStore.api.deleteRoom(room_info.seq);
 };
 
 const categoryValue = ref("기획");

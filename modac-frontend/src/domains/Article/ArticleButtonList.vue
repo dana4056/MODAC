@@ -4,11 +4,11 @@ import { storeToRefs } from "pinia";
 
 import Modal from "@/components/Modal.vue";
 import GithubTest from "@/views/GithubTest.vue";
-import GithubTest2 from "@/views/GithubTest2.vue";
+import OverflowDiv from "@/components/OverflowDiv.vue";
 import { ref } from "vue";
 
-const store = useArticleStore();
-const { buttonState, tempArticle } = storeToRefs(store);
+const articleStore = useArticleStore();
+const { buttonState, tempArticle } = storeToRefs(articleStore);
 
 const copyText = () => {
   navigator.clipboard.writeText(tempArticle.value);
@@ -54,8 +54,17 @@ const downloadMarkdown = (content) => {
 };
 
 const clickDownloadButtonHandler = () => {
-  downloadMarkdown(tempArticle.value);
+  downloadMarkdown(tempArticle);
 };
+
+
+const backPrev = () => {
+  console.log(articleStore.githubState);
+  if (articleStore.githubState == 22) articleStore.githubState = 2;
+  else if (articleStore.githubState == 3) articleStore.githubState = 2;
+  else if (articleStore.githubState == 4) articleStore.githubState = 3;
+  console.log(articleStore.githubState);
+}
 </script>
 
 <template>
@@ -123,6 +132,15 @@ const clickDownloadButtonHandler = () => {
       v-if="githubModalState"
     >
       <div class="w-full flex justify-end">
+        <button
+          v-if="articleStore.githubState > 2"
+          :class="$style.add_room_button_exit"
+          @click="backPrev">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3" />
+          </svg>
+        </button>
+
         <button
         @click="closeGithubModal('cancle')"
         id="cancle"
