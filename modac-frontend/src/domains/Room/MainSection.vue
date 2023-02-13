@@ -42,9 +42,11 @@ const exitRoom = (event) => {
     usersSeq: loginUser.value.seq
   }
   closeRoomExitConfirmModal(event);
+  if (room_info.value.publicType === 1) {
+    roomStore.api.exitRoom(payload)
+  }
+  roomStore.api.findRoomList(loginUser.value.seq)
   roomStore.exitRoom();
-  roomStore.api.exitRoom(payload)
-  // roomStore.api.deleteRoom(room_info.value.seq);
 };
 
 const categoryValue = ref("기획");

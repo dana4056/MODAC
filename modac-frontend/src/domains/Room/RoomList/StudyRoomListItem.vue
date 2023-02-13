@@ -18,13 +18,19 @@ const props = defineProps({
 const { roomItem } = toRefs(props)
 
 const enterRoom = () => {
-  roomStore.enterRoom();
-  const payload = {
-    seq: roomItem.value.seq,
-    usersSeq: loginUser.value.seq
+  if (roomItem.value.currentSize < roomItem.value.maxSize) {
+    roomStore.enterRoom();
+    const payload = {
+      seq: roomItem.value.seq,
+      usersSeq: loginUser.value.seq
+    }
+    console.log("페이로드", payload)
+    roomStore.api.joinRoom(payload)
   }
-  console.log("페이로드", payload)
-  roomStore.api.joinRoom(payload)
+  else {
+    alert("정원이 초과되어 입장하실 수 없습니다.")
+  }
+
 }
 </script>
 

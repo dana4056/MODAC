@@ -127,6 +127,9 @@ export default {
 
             if(code == 200) {
                 console.log("스터디룸 나가기 완료: "+ JSON.stringify(response.data));
+                // const userStore = useUserStore();
+                // const { loginUser } = storeToRefs(userStore);
+                // this.findRoomList(loginUser.value.seq)
             }
             else if(code == 204) {
                 console.log("스터디룸 나가기 실패: 참가정보 없음")
