@@ -45,5 +45,9 @@ public class ArticleResponse {
 			this.user = article.getUser();
 			this.categoryName = article.getCategory().getName();
 		}
+
+		public void readContentByFilepath(String content){
+			this.filepath = content;
+		}
 	}
 }
