@@ -1,15 +1,20 @@
 import dm from "@/api/dm";
 import { ref } from "vue";
-import { defineStore } from "pinia";
-import { storeToRefs } from "pinia";
+import { defineStore , storeToRefs } from "pinia";
 import { useUserStore } from "@/stores/user";
 import Stomp from "webstomp-client";
 import SockJS from "sockjs-client/dist/sockjs.min.js";
 
 
+// const userStore = useUserStore();
+// const { loginUser } = storeToRefs(userStore);
+
+
 export const useDmStore = defineStore("dm", () => {
+
   const userStore = useUserStore();
   const { loginUser } = storeToRefs(userStore);
+
 
   //status (변수)
   const directMessageRoomList = ref([]);    // DM 채팅방 목록
