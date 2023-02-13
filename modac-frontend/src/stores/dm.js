@@ -61,9 +61,9 @@ export const useDmStore = defineStore("dm", () => {
 
   const connect = () => {
     console.log("connet함수 호출  with"+directMessageRoomSeq.value);
-    // var socket = new SockJS("http://localhost:8080/ws"); // WebSocketConfig랑 통일할 주소 , 소켓 열 주소
+    var socket = new SockJS("http://localhost:8080/ws"); // WebSocketConfig랑 통일할 주소 , 소켓 열 주소
     // var socket = new SockJS("http://70.12.247.126:8080/ws"); // WebSocketConfig랑 통일할 주소 , 소켓 열 주소
-    var socket = new SockJS("http://i8a608.p.ssafy.io:8080/ws"); // WebSocketConfig랑 통일할 주소 , 소켓 열 주소
+    // var socket = new SockJS("http://i8a608.p.ssafy.io:8080/ws"); // WebSocketConfig랑 통일할 주소 , 소켓 열 주소
     stompClient.value = Stomp.over(socket);
     stompClient.value.connect({}, function() {
       console.log("채팅룸 seq" + directMessageRoomSeq.value);

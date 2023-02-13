@@ -1,7 +1,7 @@
 import http from "@/api/http";
 import { useUserStore } from "@/stores/user";
+import { useRoomStore } from '@/stores/room';
 import { storeToRefs } from "pinia";
-import { useRouter } from "vue-router";
 import router from "@/router/index";
 
 // const headers = {
@@ -248,9 +248,15 @@ export default {
             localStorage.setItem("jwt", response.data.token); // 로컬 스토리지에 저장
 
             const store = useUserStore();
+            const roomStore = useRoomStore();
             const { loginUser } = storeToRefs(store);
+            
             console.log(loginUser.value);
             loginUser.value = response.data; // userStore에 멤버 저장
+
+            roomStore.api.findRoomList(response.data.seq);
+            
+
             router.push({ name: "room" }); // 룸리스트뷰로 이동
           } else {
             console.log("로그인 실패: 비밀번호 불일치");

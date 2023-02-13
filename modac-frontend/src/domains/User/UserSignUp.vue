@@ -218,7 +218,7 @@ const user_nickname = ref("");
 //   console.log(response);
 // };
 
-const requestSignup = async () => {
+const requestSignup = () => {
   userApi.postUser({
     email: user_email1 + "@" + user_email2,
     password: user_password.value,
