@@ -6,6 +6,7 @@ export const useRoomStore = defineStore("room", () => {
   const isEnteredRoom = ref(false);
   const isDeleteRoom = ref(false);
   const api = room;
+  const checkCode = ref(false);
 
   const room_info = ref({})
   const room_list = ref([])
@@ -105,6 +106,7 @@ export const useRoomStore = defineStore("room", () => {
 
   return {
     api,
+    checkCode,
     isEnteredRoom,
     isDeleteRoom,
     enterRoom,
