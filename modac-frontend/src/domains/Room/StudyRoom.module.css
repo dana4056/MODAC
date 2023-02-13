@@ -1,10 +1,35 @@
-.study_room_wrapper_flex {
+.study_room_modac {
   @apply flex flex-row;
-  background-image: url('@/assets/room_background.jpg');
+  background-image: url('@/assets/background/modac.png');
   /* background-color: black; */
   background-size: cover;
   overflow: hidden;
 }
+
+.study_room_beach {
+  @apply flex flex-row;
+  background-image: url('@/assets/background/beach.png');
+  /* background-color: black; */
+  background-size: cover;
+  overflow: hidden;
+}
+
+.study_room_space {
+  @apply flex flex-row;
+  background-image: url('@/assets/background/space.png');
+  /* background-color: black; */
+  background-size: cover;
+  overflow: hidden;
+}
+
+.study_room_dessert {
+  @apply flex flex-row;
+  background-image: url('@/assets/background/dessert.png');
+  /* background-color: black; */
+  background-size: cover;
+  overflow: hidden;
+}
+
 
 .side_bar_wrapper_flex {
   @apply flex flex-row;

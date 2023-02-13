@@ -6,10 +6,10 @@ import { useUserStore } from "@/stores/user";
 import Stomp from "webstomp-client";
 import SockJS from "sockjs-client/dist/sockjs.min.js";
 
-const userStore = useUserStore();
-const { loginUser } = storeToRefs(userStore);
 
 export const useDmStore = defineStore("dm", () => {
+  const userStore = useUserStore();
+  const { loginUser } = storeToRefs(userStore);
 
   //status (변수)
   const directMessageRoomList = ref([]);    // DM 채팅방 목록

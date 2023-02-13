@@ -4,62 +4,20 @@ import ChatForm from "./ChatForm.vue";
 import ChatListItem from "./ChatListItem.vue";
 import { useChatStore } from "@/stores/chat";
 import { useUserStore } from "@/stores/user";
-import { userRoomStore } from "@/stores/room";
+import { useRoomStore } from "@/stores/room";
 import { ref } from "vue";
 import Stomp from "webstomp-client";
 import SockJS from "sockjs-client/dist/sockjs.min.js";
 
 const chatStore = useChatStore();
 const userStore = useUserStore();
-const roomStore = userRoomStore();
+const roomStore = useRoomStore();
 var stompClient = null;
 
 const { loginUser } = storeToRefs(userStore);
 const { groupChatLogs } = storeToRefs(chatStore);
-const { room_info, enteredRoomNum } = storeToRefs(roomStore)
+const { room_info } = storeToRefs(roomStore)
 
-
-// 더미
-// const room = {
-//   seq: 1,
-//   title: "room1",
-//   description: "방1입니다.",
-//   maxSize: 3,
-//   currentSize: 1,
-//   multiTheme: 0,
-//   publicType: 0,
-//   invitationCode: "",
-//   participants: [
-//     {
-//       usersSeq: 1,
-//       nickname: "nick1",
-//       status: 0,
-//       attend: 1,
-//       catSkin: 2,
-//       categoriesName: "알고리즘",
-//       registeredTime: "2023-02-07 09:22:30",
-//     },
-//   ],
-//   host: {
-//     seq: 1,
-//     id: "test1",
-//     nickname: "nick1",
-//     email: "test1@naver.com",
-//     catSkin: 2,
-//     singleTheme: null,
-//     totalSecond: 0,
-//     membershipLevel: "BRONZE_LV1",
-//     point: 0,
-//     maxPoint: 50,
-//     token:
-//       "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MSIsInVzZXJTZXEiOjEsIm5pY2tuYW1lIjoibmljazEiLCJyb2xlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9VU0VSIn1dLCJpYXQiOjE2NzU2OTE5MzAsImV4cCI6MTcwNzIyNzkzMH0.d-nWBIKVboVlnjVX3FD5h5OCIFYApyy1NQnwlndTYCY",
-//   },
-//   chatRoom: {
-//     seq: 1,
-//     lastMessageSeq: 1,
-//     lastMessageTime: "String",
-//   },
-// };
 
 const child = ref(null);
 connect();
