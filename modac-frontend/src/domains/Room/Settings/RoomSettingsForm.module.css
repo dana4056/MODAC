@@ -1,16 +1,34 @@
 .room_title,
 .room_description,
+.room_theme {
+	@apply mb-4 flex items-center gap-2;
+}
+
+.room_description_name, 
 .room_title_name,
-.room_description_name {
-  @apply mb-4;
+.room_theme_name {
+	
+	@apply block text-sm font-semibold text-gray-900 dark:text-white w-14
 }
 
 .setting_box_input {
   @apply border-2 border-current;
+
+	@apply block w-full p-2.5 text-sm rounded-lg border
+	bg-gray-50 border-gray-300 text-gray-900 
+	focus:ring-blue-500 focus:border-blue-500 
+	dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white
 }
 
-.room_theme {
-  @apply flex justify-between mb-4;
+/* .room_theme {
+  @apply flex justify-between mb-4 text-sm font-semibold text-gray-900 dark:text-white;
+} */
+
+.room_theme_select {
+	@apply block w-full p-2.5 text-sm rounded-lg border
+	bg-gray-50 border-gray-300 text-gray-900 
+	focus:ring-blue-500 focus:border-blue-500 
+	dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white
 }
 
 /* .update_info_label {

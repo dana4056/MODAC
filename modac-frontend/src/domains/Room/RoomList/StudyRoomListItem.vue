@@ -21,24 +21,35 @@ const roomCodeInput = ref("");
 const { roomItem } = toRefs(props)
 
 const enterRoom = async () => {
-  let payload = {
-    seq: roomItem.value.seq,
-    roomCode: roomCodeInput,
-  }
-  const res = await roomStore.api.checkRoomCode(payload);
-
-  if (res && roomItem.value.maxSize > roomItem.value.currentSize) {  
-    roomStore.enterRoom();
-    payload = {
+  if (roomItem.value.publicType == 0) {
+    let payload = {
       seq: roomItem.value.seq,
-      usersSeq: loginUser.value.seq
+      roomCode: roomCodeInput,
     }
-    console.log("페이로드", payload)
-    roomStore.api.joinRoom(payload)
+    const res = await roomStore.api.checkRoomCode(payload);
+  
+    if (res && roomItem.value.maxSize > roomItem.value.currentSize) {  
+      roomStore.enterRoom();
+      payload = {
+        seq: roomItem.value.seq,
+        usersSeq: loginUser.value.seq
+      }
+      console.log("페이로드", payload)
+      roomStore.api.joinRoom(payload)
+    }
+    else {
+      alert("비밀번호가 일치하지 않습니다.");
+      // console.log("비밀번호가 일치하지 않습니다.")
+    }
   }
   else {
-    alert("비밀번호가 일치하지 않습니다.");
-    // console.log("비밀번호가 일치하지 않습니다.")
+      roomStore.enterRoom();
+      const payload = {
+        seq: roomItem.value.seq,
+        usersSeq: loginUser.value.seq
+      }
+      console.log("페이로드", payload)
+      roomStore.api.joinRoom(payload)
   }
 }
 

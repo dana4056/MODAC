@@ -1,7 +1,7 @@
 .setting_box_header {
-  @apply px-4 py-4 flex justify-between items-center bg-gray-300 border-b-2;
+  @apply px-6 py-3 flex justify-between items-center bg-white border-b-2 rounded-t-3xl;
 }
 
 .title {
-  @apply font-semibold text-2xl;
+  @apply font-semibold text-xl;
 }

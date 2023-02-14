@@ -32,12 +32,8 @@ export const useRoomStore = defineStore("room", () => {
     isOpenedRightSideBar.value = isOpenedRightSideBar.value ? false : true;
   };
 
-  const currentRightSideBarContent = ref(1); // 초깃값 : Room Chat
+  const currentRightSideBarContent = ref(0); // 초깃값 : Room Chat
   const changeRightSideBarContent = (targetContent) => {
-    if (targetContent === currentRightSideBarContent.value) {
-      toggleRightSideBar();
-      return;
-    }
     currentRightSideBarContent.value = targetContent;
   };
 
