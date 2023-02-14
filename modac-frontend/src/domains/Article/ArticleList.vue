@@ -1,11 +1,8 @@
 <script setup>
 import ArticleListItem from "./ArticleListItem.vue";
 import { useTodoStore } from "@/stores/todo";
-import { useArticleStore } from "@/stores/article";
 import { ref } from "vue";
-import { storeToRefs } from "pinia";
 
-// const todayTodos = [...useTodoStore().todos];
 const todoStore = useTodoStore();
 const todayTodos = ref([...todoStore.todos]);
 
@@ -24,19 +21,15 @@ const getCompleteTodos = () => {
 };
 
 const completeTodos = ref(getCompleteTodos());
-
-const articleStore = useArticleStore();
-const { articles } = storeToRefs(articleStore);
-articles.value = completeTodos.value;
 </script>
 
 <template>
   <div v-if="completeTodos.length !== 0">
     <ArticleListItem
       :class="$style.article_item"
-      v-for="article in articles"
-      :key="article.seq"
-      :article="article"
+      v-for="completeTodo in completeTodos"
+      :key="completeTodo.seq"
+      :completeTodo="completeTodo"
     />
   </div>
   <div v-else>완료한 할 일이 없습니다!</div>

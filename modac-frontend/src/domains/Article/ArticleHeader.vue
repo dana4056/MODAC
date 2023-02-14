@@ -5,11 +5,11 @@ import { useArticleStore } from "@/stores/article";
 import { storeToRefs } from "pinia";
 
 const articleStore = useArticleStore();
-const { buttonState } = storeToRefs(articleStore);
+const { completeWriteArticleState } = storeToRefs(articleStore);
 
 const publicTypeSelectedValue = ref(1);
-const nextButtonState = () => {
-  buttonState.value = true;
+const handleClickCompleteWriteButton = () => {
+  completeWriteArticleState.value = true;
 };
 </script>
 
@@ -32,7 +32,7 @@ const nextButtonState = () => {
       </div>
 
       <button
-        @click="nextButtonState"
+        @click="handleClickCompleteWriteButton"
         type="button"
         :class="$style.button_next"
       >

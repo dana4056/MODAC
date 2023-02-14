@@ -5,15 +5,15 @@ export const useArticleStore = defineStore("article", () => {
   const articles = ref([]); // 게시글 목록
 
   const publicType = ref(0);
-  let selectedState = ref(0);
-  const buttonState = ref(false);
-  let githubState = ref(1);
+  const selectedTodoSeq = ref(null);
+  const completeWriteArticleState = ref(false);
+  const githubState = ref(1);
 
   return {
     articles,
     publicType,
-    selectedState,
-    buttonState,
+    selectedTodoSeq,
+    completeWriteArticleState,
     githubState,
   };
 });
