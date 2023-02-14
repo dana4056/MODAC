@@ -19,13 +19,15 @@ const props = defineProps({
   roomItem: Object,
 });
 
-const participants = ref(props.roomItem.participants)
-const roomCodeInput = ref("");
+// const roomItem = ref(props.roomItem)
 const { roomItem } = toRefs(props)
-
+const participants = ref(roomItem.value.participants)
+const roomCodeInput = ref("");
+console.log("룸아이템", roomItem.value)
 
 function isParticipant (loginUser) {
   participants.value.forEach(element => {
+    console.log("엘레멘트", element.user)
     if (element.usersSeq === loginUser.value.seq) {
       return true
     }
@@ -35,7 +37,7 @@ function isParticipant (loginUser) {
   });
 }
 
-function needsPassword(loginUser) {
+function needsPassword() {
   if (isParticipant(loginUser) === false && roomItem.value.publicType == 0) {
     return true
   }
@@ -51,8 +53,8 @@ const enterRoom = async () => {
     // 비번 있어
     if (needsPassword(loginUser) === true){
       const payload = {
-      seq: roomItem.value.seq,
-      roomCode: roomCodeInput,
+        seq: roomItem.value.seq,
+        roomCode: roomCodeInput,
       }
       const res = await roomStore.api.checkRoomCode(payload);
       // 비번이 일치 한다면 새로 Join
@@ -119,7 +121,7 @@ const closeRoomEnterConfirmModal = (event) => {
         <!-- <div :class="$style.item_seq">{{ roomItem.seq }}</div> -->
         <div :class="$style.item_title">
 
-          <span v-if="roomItem.publicType == 1">
+          <span v-if="needsPassword">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4 inline-block">
               <path d="M18 1.5c2.9 0 5.25 2.35 5.25 5.25v3.75a.75.75 0 01-1.5 0V6.75a3.75 3.75 0 10-7.5 0v3a3 3 0 013 3v6.75a3 3 0 01-3 3H3.75a3 3 0 01-3-3v-6.75a3 3 0 013-3h9v-3c0-2.9 2.35-5.25 5.25-5.25z" />
             </svg>

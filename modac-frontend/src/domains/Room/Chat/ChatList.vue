@@ -15,9 +15,7 @@ const userStore = useUserStore();
 const roomStore = useRoomStore();
 var stompClient = null;
 
-const { loginUser } = storeToRefs(userStore);
-const { groupChatLogs } = storeToRefs(chatStore);
-const { room_info } = storeToRefs(roomStore)
+const { loginUser, groupChatLogs, room_info } = storeToRefs(userStore);
 
 
 const child = ref(null);

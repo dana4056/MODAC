@@ -19,34 +19,34 @@ const { participants, room_info } = storeToRefs(roomStore);
 
 <template>
   <UserListItem
-    v-if="room_info.participants[0]"
+    v-if="participants[0]"
     :class="`${$style.first_position} ${$style.item_box}`"
-    :userItem="room_info.participants[0]"
+    :userItem="participants[0]"
   />
   <UserListItem
-  v-if="room_info.participants[1]"
+  v-if="participants[1]"
     :class="`${$style.second_position} ${$style.item_box}`"
-    :userItem="room_info.participants[1]"
+    :userItem="participants[1]"
   />
   <UserListItem
-  v-if="room_info.participants[2]"
+  v-if="participants[2]"
     :class="`${$style.third_position} ${$style.item_box}`"
-    :userItem="room_info.participants[2]"
+    :userItem="participants[2]"
   />
   <UserListItem
-  v-if="room_info.participants[3]"
+  v-if="participants[3]"
     :class="`${$style.fouth_position} ${$style.item_box}`"
-    :userItem="room_info.participants[3]"
+    :userItem="participants[3]"
   />
   <UserListItem
-  v-if="room_info.participants[4]"
+  v-if="participants[4]"
     :class="`${$style.fifth_position} ${$style.item_box}`"
-    :userItem="room_info.participants[4]"
+    :userItem="participants[4]"
   />
   <UserListItem
-  v-if="room_info.participants[5]"
+  v-if="participants[5]"
     :class="`${$style.sixth_position} ${$style.item_box}`"
-    :userItem="room_info.participants[5]"
+    :userItem="participants[5]"
   />
 
   <!-- <div :class="$style.user_list_first_flex">
