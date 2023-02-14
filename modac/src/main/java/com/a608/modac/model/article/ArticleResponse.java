@@ -1,5 +1,6 @@
 package com.a608.modac.model.article;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import com.a608.modac.model.user.User;
@@ -23,7 +24,7 @@ public class ArticleResponse {
 		private Long seq;
 		private String title;
 		private String filepath;
-		private String registeredTime;
+		private LocalDateTime registeredTime;
 		private Byte publicType;
 		private Integer viewCount;
 		private Integer likeCount;
@@ -44,6 +45,10 @@ public class ArticleResponse {
 			this.totalSecond = article.getTotalSecond();
 			this.user = article.getUser();
 			this.categoryName = article.getCategory().getName();
+		}
+
+		public void readContentByFilepath(String content){
+			this.filepath = content;
 		}
 	}
 }

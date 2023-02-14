@@ -6,6 +6,7 @@ export const useRoomStore = defineStore("room", () => {
   const isEnteredRoom = ref(false);
   const isDeleteRoom = ref(false);
   const api = room;
+  const checkCode = ref(false);
 
   const room_info = ref({})
   const room_list = ref([])
@@ -31,12 +32,8 @@ export const useRoomStore = defineStore("room", () => {
     isOpenedRightSideBar.value = isOpenedRightSideBar.value ? false : true;
   };
 
-  const currentRightSideBarContent = ref(1); // 초깃값 : Room Chat
+  const currentRightSideBarContent = ref(0); // 초깃값 : Room Chat
   const changeRightSideBarContent = (targetContent) => {
-    if (targetContent === currentRightSideBarContent.value) {
-      toggleRightSideBar();
-      return;
-    }
     currentRightSideBarContent.value = targetContent;
   };
 
@@ -105,6 +102,7 @@ export const useRoomStore = defineStore("room", () => {
 
   return {
     api,
+    checkCode,
     isEnteredRoom,
     isDeleteRoom,
     enterRoom,

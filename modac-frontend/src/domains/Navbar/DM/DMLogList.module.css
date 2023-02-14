@@ -5,7 +5,7 @@
   }
   
 .mychat_box_content {
-  @apply mr-2 py-3 px-4 bg-blue-400 rounded-bl-3xl rounded-tl-3xl rounded-tr-xl text-white;
+  @apply mr-2 py-2 px-4 bg-blue-400 rounded-bl-3xl rounded-tl-3xl rounded-tr-xl text-white;
 }
 
 /* 상대방 채팅 쳤을 때 클래스 */

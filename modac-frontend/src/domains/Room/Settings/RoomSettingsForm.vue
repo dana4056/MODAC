@@ -53,8 +53,8 @@ const updateRoom = () => {
     </div>
 
     <div :class="$style.room_theme">
-      <div>테마</div>
-      <select name="" id="" v-model="room_multiTheme">
+      <label :class="$style.room_theme_name">테마</label>
+      <select name="" id="" v-model="room_theme" :class="$style.room_theme_select">
         <option value="기본" selected="selected">모닥불🔥</option>
         <option value="우주">우주🪐</option>
         <option value="바다">바다🌊</option>

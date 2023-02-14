@@ -3,9 +3,16 @@
 }
 
 .flex_left {
-  @apply basis-4/5;
+  @apply basis-[65%];
 }
 
 .flex_right {
-  @apply basis-1/5;
+  @apply basis-[35%] gap-2 flex flex-col justify-end text-sm;
+}
+
+.enter_button {
+  @apply flex justify-center items-center bg-gray-200 border-0 py-2
+}
+.exit_button {
+  @apply flex justify-center items-center bg-red-500 text-white border-0 py-2
 }

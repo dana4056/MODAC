@@ -11,46 +11,30 @@ const title = ref("");
 const categoriesSeq = ref("알고리즘");
 
 const handleSubmitTodoItem = async () => {
-  // Network 요청
-  const response = await todoAPI.postTodo(
+  const responseData = await todoAPI.postTodo(
     userStore.loginUser.seq,
     categoriesSeq.value,
     title.value
   );
+  console.log(responseData);
+  todoStore.addTodoItem(responseData);
 
-  // Store에 저장
-  console.log("response: ", response);
-  todoStore.addTodoItem([...response]);
-
-  // store.addTodoItem({
-  //   users_seq: 1,
-  //   title: title.value,
-  //   categories_seq: Number(newTodo.categories_seq),
-  //   status: 0,
-  // });
-
-  // // todo 입력 후 입력칸을 초기화해주기 위함
-  // newTodo.title = "";
-  // newTodo.categories_seq = 0;
-
-  // if (openState.value == true) {
-  //   showFullForm();
-  // }
+  toggleTodoCreateForm();
 };
 
 let openState = ref(false);
-const showFullForm = () => {
+const toggleTodoCreateForm = () => {
   openState.value = !openState.value;
 };
 </script>
 <template lang="">
   <div class="w-full">
-    <button @click="showFullForm" :class="$style.show_form_button">
+    <button @click="toggleTodoCreateForm" :class="$style.show_form_button">
       할 일 추가
     </button>
 
     <div v-if="openState">
-      <form @submit.prevent="submitTodoHandler">
+      <form @submit.prevent="handleSubmitTodoItem">
         <div
           class="w-full gap-7 max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
         >

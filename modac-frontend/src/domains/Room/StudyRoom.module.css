@@ -39,6 +39,7 @@
 .side_bar_content {
   @apply basis-11/12;
   @apply h-full;
+  --tw-bg-opacity:0;
 }
 
 .flex_1_12 {
@@ -56,7 +57,7 @@
 
 .move_side_bar_to_left {
   transition: transform 0.2s linear;
-  transform: translate(92%, 0px);
+  transform: translate(93%, 0px);
 }
 
 .move_side_bar_to_right {

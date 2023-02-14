@@ -3,6 +3,7 @@ package com.a608.modac.service;
 import com.a608.modac.model.article.ArticleRequest;
 import com.a608.modac.model.article.ArticleResponse;
 import com.a608.modac.model.article.LikeRequest;
+import com.a608.modac.model.article.StatisticsResponse;
 
 public interface ArticleService {
 	// 게시글 저장
@@ -30,4 +31,7 @@ public interface ArticleService {
 
 	// 게시글-유저 좋아요 관계 개수 조회
 	Boolean countLike(final Long articlesSeq, final Long usersSeq);
+
+	// 최근 일주일간 요일별, 날짜별 통계 조회
+	StatisticsResponse findStats(final Long usersSeq);
 }

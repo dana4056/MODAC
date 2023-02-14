@@ -1,5 +1,7 @@
 package com.a608.modac.model.article;
 
+import java.time.LocalDateTime;
+
 import com.a608.modac.model.todo.Todo;
 
 import lombok.Getter;
@@ -20,14 +22,15 @@ public class ArticleRequest {
 		this.content = content;
 	}
 
-	public Article toEntity(Todo todo){
+	public Article toEntity(Todo todo, String filepath){
 		return Article.builder()
 			.title(todo.getTitle())
-			.filepath(content)
+			.filepath(filepath)
 			.publicType(publicType)
 			.totalSecond(todo.getTotalSecond())
 			.user(todo.getUser())
 			.category(todo.getCategory())
+			.registeredTime(LocalDateTime.now())
 			.build();
 	}
 }

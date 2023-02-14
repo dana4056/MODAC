@@ -8,6 +8,7 @@ import { useRoomStore } from "@/stores/room";
 import { ref } from "vue";
 import Stomp from "webstomp-client";
 import SockJS from "sockjs-client/dist/sockjs.min.js";
+import OverflowDiv from "@/components/OverflowDiv.vue";
 
 const chatStore = useChatStore();
 const userStore = useUserStore();
@@ -71,8 +72,8 @@ function liftMessage() {
 }
 
 function connect() {
-  var socket = new SockJS("http://localhost:8080/ws"); // WebSocketConfig랑 통일할 주소 , 소켓 열 주소
-  // var socket = new SockJS("http://i8a608.p.ssafy.io:8080/ws"); // WebSocketConfig랑 통일할 주소 , 소켓 열 주소
+  // var socket = new SockJS("http://localhost:8080/ws"); // WebSocketConfig랑 통일할 주소 , 소켓 열 주소
+  var socket = new SockJS("https://i8a608.p.ssafy.io/api/ws"); // WebSocketConfig랑 통일할 주소 , 소켓 열 주소
   stompClient = Stomp.over(socket);
   stompClient.connect({}, onConnected, onError);
 }
@@ -104,14 +105,14 @@ function onMessageReceived(res) {
 </script>
 
 <template>
-  <div :class="$style.chatbox_body_size" id="chatbox_body">
+  <OverflowDiv :class="$style.chatbox_body_size" id="chatbox_body">
     <ChatListItem
       v-for="chatLog in groupChatLogs"
       :key="chatLog.seq"
       :chatLog="chatLog"
       :loginUser="loginUser"
     />
-  </div>
+  </OverflowDiv>
   <ChatForm :enterChat="enterChat" ref="child" />
 </template>
 

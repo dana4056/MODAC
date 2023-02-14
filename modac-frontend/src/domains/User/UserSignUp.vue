@@ -17,6 +17,7 @@
           id="loginform"
           :class="$style.login_form"
           @submit.prevent="requestSignup"
+          method="POST"
         >
           <div class="flex flex-col items-end">
             <input

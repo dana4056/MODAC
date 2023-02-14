@@ -197,22 +197,38 @@ export default {
         })
     },
     // 특정 비공개 스터디룸 입장 권한 확인(인증)
-    checkRoomCode(payload) {
-        http.get(`/rooms/${payload.seq}/authentication`, {
+    async checkRoomCode(payload) {
+        const response = await http.get(`/rooms/${payload.seq}/authentication`, {
             params : {
-                code: payload.roomCode
-            }})
-        .then((response) => {
-            const code = response.status;
-
-            if(code == 200){
-                console.log("스터디룸 입장코드 확인결과: " + response.data);
+                code: payload.roomCode.value
             }
         })
-        .catch((error) => {
-            console.log(error);
-        })
+        return response.data
     },
+
+    // checkRoomCode(payload) {
+    //     http.get(`/rooms/${payload.seq}/authentication`, {
+    //         params : {
+    //             code: payload.roomCode.value
+    //         }})
+    //     .then((response) => {
+    //         const code = response.status;
+    //         if(code == 200){
+    //             console.log("스터디룸 입장코드 확인결과: " + response.data);
+    //             const roomStore = useRoomStore();
+    //             const { checkCode } = storeToRefs(roomStore);
+    //             checkCode.value = response.data;
+    //             console.log(checkCode.value);
+                
+    //             console.log("response.data", response.data);
+    //         }
+    //         return response
+    //     })
+    //     .catch((error) => {
+    //         console.log(error);
+    //     })
+    // },
+
     // 스터디룸 검색
     searchRoom(payload) {
         http.get(`/rooms`, {
