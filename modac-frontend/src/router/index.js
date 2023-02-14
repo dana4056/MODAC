@@ -101,11 +101,11 @@ const router = createRouter({
       name: 'ServerError',
       component: ServerError
     },
-    {
-        path: '*',
-        name: 'PageNotFound',
-        component: PageNotFound
-    },
+    // {
+    //     path: '*',
+    //     name: 'PageNotFound',
+    //     component: PageNotFound
+    // },
     // {
     //   path: "/before",
     //   name: "before",

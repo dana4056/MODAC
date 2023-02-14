@@ -45,7 +45,7 @@
   </template>
   
   <script>
-  import "../css/error/ServerError.css"
+  import "./ServerError.css"
   
   export default {
   

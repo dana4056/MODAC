@@ -45,7 +45,7 @@
   </template>
   
   <script>
-  import "../css/error/PageNotFound.css"
+  import "./PageNotFound.css"
   
   export default {
   
