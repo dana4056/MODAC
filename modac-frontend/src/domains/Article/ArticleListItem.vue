@@ -14,24 +14,18 @@ const handleClickDeleteArticleButton = (seq) => {
 };
 
 const props = defineProps({
-  completeTodo: Object,
+  articleItem: Object,
+  handleClickArticleItem: Function,
 });
 
-const completeTodo = toRef(props, "completeTodo");
-
-const clickArticle = () => {
-  store.selectedState = completeTodo.value.seq;
-
-  ArticleEditor.editorTemplete =
-    "# " + store.articles[store.selectedState].title;
-};
+const articleItem = toRef(props, "articleItem");
 
 const article_item_css = computed(() => {
-  return completeTodo.value.seq === store.selectedState;
+  return articleItem.value.seq === store.selectedState;
 });
 
 // let time = computed(() => {
-//   let s = Number(completeTodo.value.totalSecond);
+//   let s = Number(articleItem.value.totalSecond);
 //   let ms = s % 1000;
 //   s = (s - ms) / 1000;
 //   let secs = s % 60;
@@ -59,7 +53,7 @@ const article_item_css = computed(() => {
   >
     <div
       class="flex flex-col justify-between gap-1 w-full"
-      @click="clickArticle"
+      @click="handleClickArticleItem(articleItem.seq)"
     >
       <div class="flex">
         <!-- <div id="clock">
@@ -67,17 +61,17 @@ const article_item_css = computed(() => {
             {{ time }}
           </span>
         </div> -->
-        <CategoryTag :categoriesName="completeTodo.categoriesName" />
+        <CategoryTag :categoriesName="articleItem.categoriesName" />
       </div>
       <div :class="$style.title">
-        {{ completeTodo.value.title }}
+        {{ articleItem.title }}
       </div>
     </div>
 
     <div class="flex">
       <DeleteButton
         :handleClickDeleteArticleButton="handleClickDeleteArticleButton"
-        :seq="article.seq"
+        :seq="articleItem.seq"
       />
     </div>
   </div>

@@ -1,6 +1,7 @@
 <script setup>
 import ArticleListItem from "./ArticleListItem.vue";
 import { useTodoStore } from "@/stores/todo";
+import { useArticleStore } from "@/stores/article";
 import { ref } from "vue";
 
 const todoStore = useTodoStore();
@@ -20,16 +21,28 @@ const getCompleteTodos = () => {
   return newTodos;
 };
 
-const completeTodos = ref(getCompleteTodos());
+const articleStore = useArticleStore();
+
+// 이거 체크해야함
+const articles = articleStore.articles;
+articles.value = getCompleteTodos();
+
+const selectedArticleItemSeq = articleStore.selectedArticleItemSeq;
+selectedArticleItemSeq.value = articles.value.length !== articles.value[0].seq;
+
+const handleClickArticleItem = (seq) => {
+  selectedArticleItemSeq.value = seq;
+};
 </script>
 
 <template>
-  <div v-if="completeTodos.length !== 0">
+  <div v-if="articleList.length !== 0">
     <ArticleListItem
       :class="$style.article_item"
-      v-for="completeTodo in completeTodos"
-      :key="completeTodo.seq"
-      :completeTodo="completeTodo"
+      v-for="articleItem in articleList"
+      :key="articleItem.seq"
+      :articleItem="articleItem"
+      :handleClickArticleItem="handleClickArticleItem"
     />
   </div>
   <div v-else>완료한 할 일이 없습니다!</div>
