@@ -78,4 +78,5 @@ public class NotificationServiceImpl implements NotificationService {
 			o1.getRegisteredTime().isBefore(o2.getRegisteredTime()) ? 1 : -1);
 		return notifications.stream().map(NotificationResponse::new).collect(Collectors.toList());
 	}
+
 }
