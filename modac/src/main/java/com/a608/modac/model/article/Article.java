@@ -36,7 +36,7 @@ public class Article {
 	private String filepath;
 
 	@Column(name="registered_time")
-	private String registeredTime;
+	private LocalDateTime registeredTime;
 
 	@Column(name="public_type")
 	private Byte publicType;
@@ -62,7 +62,7 @@ public class Article {
 	private Category category;
 
 	@Builder
-	public Article(final Long seq, final String title, final String filepath, final String registeredTime, final Byte publicType, final Integer viewCount,
+	public Article(final Long seq, final String title, final String filepath, final LocalDateTime registeredTime, final Byte publicType, final Integer viewCount,
 		final Integer likeCount, final Integer commentCount, final String totalSecond, final User user, final Category category) {
 		this.seq = seq;
 		this.title = title;
