@@ -3,7 +3,6 @@ import ArticleListItem from "./ArticleListItem.vue";
 import { useTodoStore } from "@/stores/todo";
 import { ref } from "vue";
 
-// const todayTodos = [...useTodoStore().todos];
 const todoStore = useTodoStore();
 const todayTodos = ref([...todoStore.todos]);
 
@@ -22,17 +21,15 @@ const getCompleteTodos = () => {
 };
 
 const completeTodos = ref(getCompleteTodos());
-
-console.log(todayTodos.value, completeTodos.value);
 </script>
 
 <template>
   <div v-if="completeTodos.length !== 0">
     <ArticleListItem
       :class="$style.article_item"
-      v-for="article in completeTodos"
-      :key="article.seq"
-      :article="article"
+      v-for="completeTodo in completeTodos"
+      :key="completeTodo.seq"
+      :completeTodo="completeTodo"
     />
   </div>
   <div v-else>완료한 할 일이 없습니다!</div>

@@ -7,8 +7,8 @@ const props = defineProps({
 const inputChatMessage = ref("");
 
 defineExpose({
-  inputChatMessage
-})
+  inputChatMessage,
+});
 </script>
 
 <template>
