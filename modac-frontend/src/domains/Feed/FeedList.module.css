@@ -1,5 +1,5 @@
 .feed_item {
-  @apply !text-black !w-[23%] !h-[350px] !p-0 overflow-hidden rounded-lg;
+  @apply !text-black !w-[23%] !h-[350px] !p-0 overflow-hidden rounded-lg transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300;
 }
 
 

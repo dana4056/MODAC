@@ -3,16 +3,17 @@ import Wrapper from "@/components/Wrapper.vue";
 import StudyRoomListItem from "@/domains/Room/RoomList/StudyRoomListItem.vue";
 import RoomListHeader from "@/domains/Room/RoomList/RoomListHeader.vue";
 import OverflowDiv from "@/components/OverflowDiv.vue";
-import { useRoomStore } from '@/stores/room.js';
-import { useUserStore } from '@/stores/user.js';
+import { useRoomStore } from "@/stores/room.js";
+import { useUserStore } from "@/stores/user.js";
 import { storeToRefs } from "pinia";
+import { onMounted } from "vue";
 
 const userStore = useUserStore();
 const roomStore = useRoomStore();
 
 const { loginUser } = storeToRefs(userStore);
 
-const { room_list } = storeToRefs(roomStore)
+const { room_list } = storeToRefs(roomStore);
 // seq:"Integer",
 // usersSeq:"Integer",
 // title:"String",
@@ -21,15 +22,15 @@ const { room_list } = storeToRefs(roomStore)
 // multiTheme:"String",
 // publicType:"Integer"
 // invitationCode:"String"
-
-roomStore.api.findRoomList(loginUser.value.seq)
-
-
-
+// console.log(loginUser);
+// onMounted(() => {
+//   console.log("mounted", loginUser.value);
+//   roomStore.api.findRoomList(loginUser.value.seq);
+// });
+// roomStore.api.findRoomList(loginUser.value.seq);
 </script>
 
 <template>
-
   <Wrapper :class="$style.wrapper_flex">
     <aside :class="$style.side_bar_flex_item"></aside>
     <Wrapper :class="$style.section_flex_item">

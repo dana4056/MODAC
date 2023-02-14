@@ -4,8 +4,8 @@ import RoomSettingsSound from "./RoomSettingsSound.vue";
 import CommonButton from "@/components/CommonButton.vue";
 import { useRoomStore } from "@/stores/room";
 
-const store = useRoomStore();
-const deleteRoom = store.deleteRoom();
+const roomStore = useRoomStore();
+const deleteRoom = roomStore.deleteRoom();
 </script>
 
 <template>
@@ -22,11 +22,6 @@ const deleteRoom = store.deleteRoom();
   <div :class="$style.delete_room">
     <CommonButton @click="deleteRoom" :class="$style.delete_button"
       >삭제하기</CommonButton
-    >
-  </div>
-  <div :class="$style.delete_room">
-    <CommonButton :class="$style.delete_button"
-      >수정하기</CommonButton
     >
   </div>
 </template>

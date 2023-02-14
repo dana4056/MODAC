@@ -10,6 +10,7 @@ export const useArticleStore = defineStore("article", () => {
   const publicType = ref(0);
   let selectedState = ref(0);
   const buttonState = ref(false);
+  let githubState = ref(1);
 
   return {
     api,
@@ -17,5 +18,6 @@ export const useArticleStore = defineStore("article", () => {
     publicType,
     selectedState,
     buttonState,
+    githubState,
   };
 });

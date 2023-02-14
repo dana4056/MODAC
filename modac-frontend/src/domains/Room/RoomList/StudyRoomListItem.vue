@@ -3,13 +3,16 @@ import Card from "@/components/Card.vue";
 import { defineProps, toRefs } from "vue";
 import { useRoomStore } from '@/stores/room.js';
 import { useUserStore } from '@/stores/user.js';
+import { useChatStore } from '@/stores/chat.js'
 import { storeToRefs } from "pinia";
 
 
 const userStore = useUserStore();
 const roomStore = useRoomStore();
+const chatStore = useChatStore();
 
 const { loginUser } = storeToRefs(userStore);
+const { groupChatLogs } = storeToRefs(chatStore);
 
 const props = defineProps({
   roomItem: Object,
@@ -18,6 +21,7 @@ const props = defineProps({
 const { roomItem } = toRefs(props)
 
 const enterRoom = () => {
+  groupChatLogs.value = [];
   roomStore.enterRoom();
   const payload = {
     seq: roomItem.value.seq,
@@ -64,6 +68,9 @@ const enterRoom = () => {
           </span>
           <span v-if="roomItem.multiTheme === '바다'" :class="$style.item_host_theme_name">
             바다🌊
+          </span>
+          <span v-if="roomItem.multiTheme === '사막'" :class="$style.item_host_theme_name">
+            사막🌞
           </span>
         </div>
         <button @click="enterRoom" :class="$style.item_enter_button">입장하기</button>
