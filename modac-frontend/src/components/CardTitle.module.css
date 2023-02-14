@@ -1,4 +1,4 @@
 .card_title_style {
-  @apply text-xl;
+  @apply text-lg;
   @apply font-bold;
 }

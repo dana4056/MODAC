@@ -3,10 +3,12 @@
 }
 
 .title {
-  font-weight: 700;
+  font-weight: 600;
   font-size: 23px;
   line-height: 20px;
   color: black;
-  padding: 5px;
+  /* padding: 5px; */
   @apply flex justify-between items-center;
+  
+  @apply font-semibold text-xl;
 }
