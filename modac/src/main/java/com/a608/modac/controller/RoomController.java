@@ -111,44 +111,44 @@ public class RoomController {
 	}
 
 
-	// @PostMapping("/{seq}/join")				// 멀티룸에 참여
-	// public ResponseEntity<?> joinRoom(@PathVariable("seq") final Long seq, @RequestBody String usersSeq){
-	// 	RoomResponse roomResponse = roomService.joinRoom(seq, Long.parseLong(usersSeq));
-	// 	return new ResponseEntity<RoomResponse>(roomResponse, HttpStatus.OK);
-	// }
+	@PostMapping("/{seq}/join")				// 멀티룸에 참여
+	public ResponseEntity<?> joinRoom(@PathVariable("seq") final Long seq, @RequestBody String usersSeq){
+		RoomResponse roomResponse = roomService.joinRoom(seq, Long.parseLong(usersSeq));
+		return new ResponseEntity<RoomResponse>(roomResponse, HttpStatus.OK);
+	}
 
-    //================================= 소켓 URL은 다시 봐야함 ===============================
-	@MessageMapping(value = "join/rooms/{seq}")
-	public ResponseEntity<Void> joinRoom(final ParticipantRequest participantRequest) {
-		RoomResponse roomResponse = roomService.joinRoom(participantRequest.getRoomsSeq(),
-			participantRequest.getUsersSeq());
-
-		simpMessageSendingOperations.convertAndSend(
-			"/join/rooms/" + roomResponse.getSeq(),
-			participantRequest.getUsersSeq()+"번 사용자 참가");
-
-		return new ResponseEntity<>(HttpStatus.OK);
-	} // 스터디룸 입장(구독)
-
-
-
-	// @DeleteMapping("/{seq}/join")			// 멀티룸에서 나가기
-	// public ResponseEntity<?> exitRoom(@PathVariable("seq") final Long seq, @RequestParam("user") Long usersSeq){
-	// 	roomService.exitRoom(seq, usersSeq);
+    // //================================= 소켓 URL은 다시 봐야함 ===============================
+	// @MessageMapping(value = "join/rooms/{seq}")
+	// public ResponseEntity<Void> joinRoom(final ParticipantRequest participantRequest) {
+	// 	RoomResponse roomResponse = roomService.joinRoom(participantRequest.getRoomsSeq(),
+	// 		participantRequest.getUsersSeq());
+	//
+	// 	simpMessageSendingOperations.convertAndSend(
+	// 		"/join/rooms/" + roomResponse.getSeq(),
+	// 		participantRequest.getUsersSeq()+"번 사용자 참가");
+	//
 	// 	return new ResponseEntity<>(HttpStatus.OK);
-	// }
+	// } // 스터디룸 입장(구독)
 
 
-	//================================= 소켓 URL은 다시 봐야함 ===============================
-	@MessageMapping(value = "/exit/rooms")
-	public ResponseEntity<Void> sendDirectMessage(@RequestBody final ParticipantRequest participantRequest) {
 
-		roomService.exitRoom(participantRequest.getRoomsSeq(), participantRequest.getUsersSeq());
-
-		simpMessageSendingOperations.convertAndSend(
-			"/exit/rooms/" + participantRequest.getRoomsSeq(),
-			participantRequest.getUsersSeq()+"번 사용자 퇴장");
-
+	@DeleteMapping("/{seq}/join")			// 멀티룸에서 나가기
+	public ResponseEntity<?> exitRoom(@PathVariable("seq") final Long seq, @RequestParam("user") Long usersSeq){
+		roomService.exitRoom(seq, usersSeq);
 		return new ResponseEntity<>(HttpStatus.OK);
-	} // 참가자 퇴장 (구독자들에게 알리기)
+	}
+
+
+	// //================================= 소켓 URL은 다시 봐야함 ===============================
+	// @MessageMapping(value = "/exit/rooms")
+	// public ResponseEntity<Void> sendDirectMessage(@RequestBody final ParticipantRequest participantRequest) {
+	//
+	// 	roomService.exitRoom(participantRequest.getRoomsSeq(), participantRequest.getUsersSeq());
+	//
+	// 	simpMessageSendingOperations.convertAndSend(
+	// 		"/exit/rooms/" + participantRequest.getRoomsSeq(),
+	// 		participantRequest.getUsersSeq()+"번 사용자 퇴장");
+	//
+	// 	return new ResponseEntity<>(HttpStatus.OK);
+	// } // 참가자 퇴장 (구독자들에게 알리기)
 }
