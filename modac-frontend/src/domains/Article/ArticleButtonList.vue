@@ -7,7 +7,7 @@ import OverflowDiv from "@/components/OverflowDiv.vue";
 import { ref } from "vue";
 
 const articleStore = useArticleStore();
-const { buttonState, tempArticle } = storeToRefs(articleStore);
+const { tempArticle } = storeToRefs(articleStore);
 
 const copyText = () => {
   navigator.clipboard.writeText(tempArticle.value);
@@ -66,7 +66,7 @@ const backPrev = () => {
 </script>
 
 <template>
-  <div v-if="buttonState" :class="$style.buttons">
+  <div :class="$style.buttons">
     <button @click="copyText" :class="$style.button_next">
       <svg
         xmlns="http://www.w3.org/2000/svg"
