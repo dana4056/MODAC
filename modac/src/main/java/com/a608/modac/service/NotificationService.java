@@ -17,4 +17,5 @@ public interface NotificationService {
 
 	// 알림 목록 조회
 	List<NotificationResponse> findNotifications(final Long usersSeq);
+
 }
