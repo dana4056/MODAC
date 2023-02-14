@@ -5,7 +5,7 @@ import ChatListItem from "./ChatListItem.vue";
 import { useChatStore } from "@/stores/chat";
 import { useUserStore } from "@/stores/user";
 import { useRoomStore } from "@/stores/room";
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import Stomp from "webstomp-client";
 import SockJS from "sockjs-client/dist/sockjs.min.js";
 import OverflowDiv from "@/components/OverflowDiv.vue";
@@ -16,11 +16,13 @@ const userStore = useUserStore();
 const roomStore = useRoomStore();
 var stompClient = null;
 
-const { loginUser, groupChatLogs, room_info } = storeToRefs(userStore);
-
+const { loginUser } = storeToRefs(userStore);
+const { room_info } = storeToRefs(roomStore);
+const { groupChatLogs } = storeToRefs(chatStore);
 
 const child = ref(null);
-connect();
+
+// connect();
 
 const enterChat = (chatMessage) => {
   if (chatMessage) {
@@ -63,20 +65,21 @@ const enterChat = (chatMessage) => {
   }
 };
 
-function liftMessage() {
+const liftMessage = () => {
   setTimeout(() => {
     const element = document.getElementById("chatbox_body");
     element.scrollTop = element.scrollHeight;
   }, 300);
 }
 
-function connect() {
+const connect = () => {
   var socket = new SockJS(BACKEND_API_URL + "/ws");
   stompClient = Stomp.over(socket);
   stompClient.connect({}, onConnected, onError);
 }
 
-function onConnected() {
+const onConnected = () => {
+  console.log("채팅룸 seq" + room_info.value.chatRoom);
   console.log("채팅룸 seq" + room_info.value.chatRoom.seq);
   stompClient.subscribe(
     `/topic/chat/rooms/enter/group/${room_info.value.chatRoom.seq}`,
@@ -84,11 +87,11 @@ function onConnected() {
   );
 }
 
-function onError() {
+const onError = () => {
   console.log("소켓 연결 실패");
 }
 
-function onMessageReceived(res) {
+const onMessageReceived = (res) => {
   setTimeout(() => {
     var chat = JSON.parse(res.body);
     console.log("구독으로 받은 메시지", chat);
@@ -100,6 +103,11 @@ function onMessageReceived(res) {
     liftMessage();
   }, 500);
 }
+
+onMounted(() => {
+  connect();
+});
+
 </script>
 
 <template>
