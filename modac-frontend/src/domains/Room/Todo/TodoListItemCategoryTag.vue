@@ -1,17 +1,23 @@
 <script setup>
 import { defineProps } from "vue";
 const props = defineProps({
-  categories_seq: Number,
+  categoriesName: String,
 });
 </script>
 
 <template>
   <div>
-    <span v-if="props.categories_seq == 0" :class="$style.algo">#알고리즘</span>
-    <span v-if="props.categories_seq == 1" :class="$style.cs">#CS</span>
-    <span v-if="props.categories_seq == 2" :class="$style.dev">#개발</span>
-    <span v-if="props.categories_seq == 3" :class="$style.plan">#기획</span>
-    <span v-if="props.categories_seq == 4" :class="$style.common">#기타</span>
+    <span v-if="props.categoriesName == '알고리즘'" :class="$style.algo"
+      >#알고리즘</span
+    >
+    <span v-if="props.categoriesName == 'CS'" :class="$style.cs">#CS</span>
+    <span v-if="props.categoriesName == '개발'" :class="$style.dev">#개발</span>
+    <span v-if="props.categoriesName == '기획'" :class="$style.plan"
+      >#기획</span
+    >
+    <span v-if="props.categoriesName == '기타'" :class="$style.common"
+      >#기타</span
+    >
   </div>
 </template>
 

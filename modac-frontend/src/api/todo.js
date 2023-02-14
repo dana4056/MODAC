@@ -42,7 +42,6 @@ export default {
       totalSecond,
     };
     const response = await http.put(`/todos/${todosSeq}`, payload);
-    console.log(response);
     return response.data;
 
     // .then((response) => {
@@ -62,7 +61,7 @@ export default {
   // todo 삭제
   async deleteTodo(seq) {
     const response = await http.delete(`/todos/${seq}`);
-    console.log(response);
+    // console.log(response);
     return response.data;
 
     // .then((response) => {
@@ -86,7 +85,7 @@ export default {
         user: usersSeq,
       },
     });
-    console.log(response);
+
     return response.data;
     // response.status === 200
     //   ? console.log("찾은 todo들 " + JSON.stringify(response.data))

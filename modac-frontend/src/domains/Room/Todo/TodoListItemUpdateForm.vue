@@ -1,40 +1,29 @@
 <script setup>
-import todoAPI from "@/api/todo";
-import { ref } from "vue";
-import { useTodoStore } from "../../../stores/todo";
-import { useUserStore } from "@/stores/user";
+import { defineProps, ref } from "vue";
 
-const todoStore = useTodoStore();
-const userStore = useUserStore();
+const props = defineProps({
+  toggleUpdateFormState: Function,
+  isOpenUpdateFormState: Boolean,
+  handleUpdateTodoItem: Function,
+});
 
 const title = ref("");
-const categoriesSeq = ref("알고리즘");
+const category = ref("");
 
-const handleSubmitTodoItem = async () => {
-  const responseData = await todoAPI.postTodo(
-    userStore.loginUser.seq,
-    categoriesSeq.value,
-    title.value
-  );
-  console.log(responseData);
-  todoStore.addTodoItem(responseData);
-
-  toggleTodoCreateForm();
-};
-
-let openState = ref(false);
-const toggleTodoCreateForm = () => {
-  openState.value = !openState.value;
+const handleCancleButton = () => {
+  props.toggleUpdateFormState();
+  title.value = "";
+  category.value = "";
 };
 </script>
-<template lang="">
-  <div class="w-full">
-    <button @click="toggleTodoCreateForm" :class="$style.show_form_button">
-      할 일 추가
-    </button>
 
-    <div v-if="openState">
-      <form @submit.prevent="handleSubmitTodoItem">
+<template>
+  <div v-if="props.isOpenUpdateFormState">
+    <!-- <hr
+          class="bg-white p-0 my-5 border-black border-0 border-t border-dashed"
+        /> -->
+    <div class="my-5">
+      <form @submit.prevent="props.handleUpdateTodoItem(title, category)">
         <div
           class="w-full gap-7 max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
         >
@@ -49,7 +38,7 @@ const toggleTodoCreateForm = () => {
               v-model="title"
               id="title"
               autofocus
-              :class="$style.input_style"
+              :class="$style.title_input"
               placeholder="오늘의 공부는?"
               required
             />
@@ -63,7 +52,7 @@ const toggleTodoCreateForm = () => {
             >
             <select
               id="categories_seq"
-              v-model="categoriesSeq"
+              v-model="category"
               :class="$style.select"
             >
               <option value="알고리즘" selected="selected">알고리즘</option>
@@ -74,8 +63,18 @@ const toggleTodoCreateForm = () => {
             </select>
           </div>
 
-          <!-- 추가하기 버튼 -->
-          <button type="submit" :class="$style.add_button">+ 추가하기</button>
+          <div class="inline-flex w-full">
+            <div class="flex items-center justify-between w-full">
+              <button @click="handleCancleButton" :class="$style.cancel_button">
+                ❌ 취소
+              </button>
+            </div>
+            <div class="flex items-center justify-between w-full">
+              <button type="submit" :class="$style.update_button">
+                ✔ 수정
+              </button>
+            </div>
+          </div>
         </div>
       </form>
     </div>
@@ -83,5 +82,5 @@ const toggleTodoCreateForm = () => {
 </template>
 
 <style lang="css" module>
-@import "./TodoCreateForm.module.css";
+@import "TodoListItemUpdateForm.module.css";
 </style>
