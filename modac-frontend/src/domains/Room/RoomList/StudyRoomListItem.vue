@@ -24,7 +24,7 @@ const roomCodeInput = ref("");
 const { roomItem } = toRefs(props)
 
 
-function isParticipant (longinUser) {
+function isParticipant (loginUser) {
   participants.value.forEach(element => {
     if (element.usersSeq === loginUser.value.seq) {
       return true
@@ -57,7 +57,7 @@ const enterRoom = async () => {
       const res = await roomStore.api.checkRoomCode(payload);
       // 비번이 일치 한다면 새로 Join
       if (res === true) {  
-        payload = {
+        const payload = {
           seq: roomItem.value.seq,
           usersSeq: loginUser.value.seq
         }
@@ -86,7 +86,7 @@ const enterRoom = async () => {
       }
     }
   }
-  else: {
+  else {
     alert("정원이 초과되어 입장하실 수 없습니다.")
   }
 }
