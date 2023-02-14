@@ -1,17 +1,30 @@
+import { useStatsStore } from '@/stores/statistics';
+import { storeToRefs } from "pinia"
+
+const statsStore = useStatsStore();
+const { radarData } = storeToRefs(statsStore)
+
+
 export const radarChartData = {
   type: "radar",
   data: {
     labels: [
-      "알고리즘",
-      "개발",
-      "CS",
-      "면접",
-      "기타"
+      radarData.value[0].categoryName,
+      radarData.value[1].categoryName,
+      radarData.value[2].categoryName,
+      radarData.value[3].categoryName,
+      radarData.value[4].categoryName,
     ],
     datasets: [
       {
         label: "카테고리별 작성 횟수",
-        data: [5, 0, 2, 4, 7],
+        data: [
+          radarData.value[0].countArticles,
+          radarData.value[1].countArticles,
+          radarData.value[2].countArticles,
+          radarData.value[3].countArticles,
+          radarData.value[4].countArticles,
+        ],
         fill: true,
         backgroundColor: "rgb(54, 162, 235, 0.2)",
         borderColor: "rgb(54, 162, 235)",
@@ -32,7 +45,7 @@ export const radarChartData = {
       ticks: {
         // suggestedMin: 0,
         beginAtZero: true,
-        // stepSize:1
+        stepSize:1
       }
     }
   },

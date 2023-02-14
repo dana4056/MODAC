@@ -29,6 +29,15 @@ import BarChart from './Statisics/BarChart.vue';
 import RadarChart from './Statisics/RadarChart.vue';
 import DoughnutChart from './Statisics/DoughnutChart.vue';
 
+import { useUserStore } from '@/stores/user';
+import { useStatsStore } from '@/stores/statistics';
+import { storeToRefs } from "pinia"
+
+const userStore = useUserStore();
+const statsStore = useStatsStore();
+
+const { loginUser } = storeToRefs(userStore);
+statsStore.api.getStatistics(loginUser.value.seq);
 
 
 
