@@ -16,8 +16,9 @@ const { loginUser } = storeToRefs(userStore);
   todos.value = await todoAPI.findTodoList(loginUser.value.seq);
 })();
 
+const router = useRouter();
+
 const routeToArticlePage = () => {
-  const router = useRouter();
   router.push("/article");
 };
 </script>

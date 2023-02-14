@@ -20,9 +20,24 @@ const toggleOpenState = () => {
   openState.value = !openState.value;
 };
 
-const isCheckedState = ref(false);
-watch(isCheckedState, () => {
-  handleUpdateTodoItem(title.value, categoriesName.value);
+const handleCheckTodoItem = () => {
+  todoAPI.updateTodo(
+    seq.value,
+    categoriesName.value,
+    title.value,
+    status.value,
+    totalSecond.value
+  );
+};
+
+const inputCheckBoxValue = status.value === 2 ? ref(true) : ref(false);
+watch(inputCheckBoxValue, () => {
+  if (inputCheckBoxValue.value === true) {
+    status.value = 2;
+  } else {
+    status.value = 0;
+  }
+  handleCheckTodoItem();
 });
 
 const isOpenUpdateFormState = ref(false);
@@ -41,15 +56,7 @@ const handleUpdateTodoItem = (title, categoriesName) => {
     totalSecond.value
   );
 
-  console.log(responseDate);
   todoStore.updateTodoItem(responseDate.seq, responseDate);
-  // todoStore.updateTodoItem(seq.value, {
-  //   title,
-  //   categoriesName,
-  //   status,
-  //   totalSecond,
-  //   seq,
-  // });
 };
 
 const deleteTodoItem = () => {
@@ -60,7 +67,11 @@ const deleteTodoItem = () => {
 
 <template>
   <div :class="$style.todo_item_wrapper">
-    <input type="checkbox" :class="$style.checkbox" v-model="isCheckedState" />
+    <input
+      type="checkbox"
+      :class="$style.checkbox"
+      v-model="inputCheckBoxValue"
+    />
     <div :class="$style.flex_wrapper">
       <TodoItemContent
         :toggleOpenState="toggleOpenState"

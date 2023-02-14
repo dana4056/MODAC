@@ -3,10 +3,12 @@ import ArticleListItem from "./ArticleListItem.vue";
 import { useTodoStore } from "@/stores/todo";
 import { ref } from "vue";
 
-const todayTodos = [...useTodoStore().todos];
+// const todayTodos = [...useTodoStore().todos];
+const todoStore = useTodoStore();
+const todayTodos = ref([...todoStore.todos]);
 
 const getCompleteTodos = () => {
-  const filterTodos = todayTodos.filter((elem) => {
+  const filterTodos = todayTodos.value.filter((elem) => {
     return elem.status === 2;
   });
 
@@ -20,13 +22,15 @@ const getCompleteTodos = () => {
 };
 
 const completeTodos = ref(getCompleteTodos());
+
+console.log(todayTodos.value, completeTodos.value);
 </script>
 
 <template>
   <div v-if="completeTodos.length !== 0">
     <ArticleListItem
       :class="$style.article_item"
-      v-for="article in computedArticleList"
+      v-for="article in completeTodos"
       :key="article.seq"
       :article="article"
     />
