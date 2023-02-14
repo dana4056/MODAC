@@ -1,4 +1,6 @@
 import http from "@/api/http";
+import { useFeedStore } from "@/stores/feed";
+import { storeToRefs } from "pinia";
 
 export default {
     // 게시글 작성
@@ -90,9 +92,12 @@ export default {
             }})
             .then((response) => {
                 const code = response.status;
-
                 if (code == 200) {
-                    console.log("찾은 게시글들 "+ JSON.stringify(response.data));
+                    const feedStore = useFeedStore();
+                    const { articles } = storeToRefs(feedStore);
+
+                    articles.value = response.data;
+                    
                 } else if (code == 204) {
                     alert("게시글 찾기 실패: 사용자없음");
                 }
