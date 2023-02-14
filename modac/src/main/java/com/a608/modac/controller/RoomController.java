@@ -74,18 +74,6 @@ public class RoomController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
-	// @PostMapping("/{seq}/join")				// 멀티룸에 참여
-	// public ResponseEntity<?> joinRoom(@PathVariable("seq") final Long seq, @RequestBody String usersSeq){
-	// 	RoomResponse roomResponse = roomService.joinRoom(seq, Long.parseLong(usersSeq));
-	// 	return new ResponseEntity<RoomResponse>(roomResponse, HttpStatus.OK);
-	// }
-	//
-	// @DeleteMapping("/{seq}/join")			// 멀티룸에서 나가기
-	// public ResponseEntity<?> exitRoom(@PathVariable("seq") final Long seq, @RequestParam("user") Long usersSeq){
-	// 	roomService.exitRoom(seq, usersSeq);
-	// 	return new ResponseEntity<>(HttpStatus.OK);
-	// }
-
 	@PutMapping("/{seq}/join")				// 멀티룸 참여상태 변경
 	public ResponseEntity<?> updateUserAttend(@PathVariable("seq") final Long seq, @RequestBody final ParticipantRequest participantRequest){
 		roomService.updateUserAttend(seq, participantRequest);
@@ -139,16 +127,20 @@ public class RoomController {
 	}
 
 
-	// //================================= 소켓 URL은 다시 봐야함 ===============================
-	// @MessageMapping(value = "/exit/rooms")
+	//================================= 소켓 URL은 다시 봐야함 ===============================
+	// @MessageMapping(value = "/message/enter")
 	// public ResponseEntity<Void> sendDirectMessage(@RequestBody final ParticipantRequest participantRequest) {
+	// 	//참가자 번호, 입퇴장문자열("ENTER", "EXIT"), 방번호가 담긴 DTO로 받아서
 	//
-	// 	roomService.exitRoom(participantRequest.getRoomsSeq(), participantRequest.getUsersSeq());
 	//
+	// 	// 멀티룸 퇴장 또는 입장 비즈니스 로직 호출하고 -> ("ENTER", "EXIT")에 따라 분기문
+	// 	// roomService.exitRoom(participantRequest.getRoomsSeq(), participantRequest.getUsersSeq());
+	//
+	// 	// 입퇴장 문자열 종류 전송(구독자들에게) -> ("ENTER", "EXIT") 이거 그대로 -> 프론트에서 분기해서 처리
 	// 	simpMessageSendingOperations.convertAndSend(
-	// 		"/exit/rooms/" + participantRequest.getRoomsSeq(),
-	// 		participantRequest.getUsersSeq()+"번 사용자 퇴장");
+	// 		"/enter/rooms/" + participantRequest.getRoomsSeq(),
+	// 		DTO.메시지());
 	//
 	// 	return new ResponseEntity<>(HttpStatus.OK);
-	// } // 참가자 퇴장 (구독자들에게 알리기)
+	// } // 참가자 입퇴장 (구독자들에게 알리기)
 }
