@@ -10,9 +10,6 @@ export default defineConfig({
     alias: {
       "@": fileURLToPath(new URL("./src", import.meta.url)),
     },
-  },
-  build: {
-    outDir: "../modac/src/main/resources/static"
   }
 });
 

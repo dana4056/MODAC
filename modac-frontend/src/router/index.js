@@ -15,6 +15,8 @@ import ApiTest from "../views/ApiTestView.vue";
 import ChatList from "../domains/Room/Chat/ChatList.vue";
 import MyPageView from "../views/MyPageView.vue";
 import FeedView from "@/views/FeedView.vue";
+import ServerError from '@/domains/Error/ServerError.vue'
+import PageNotFound from '@/domains/Error/PageNotFound.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -94,6 +96,16 @@ const router = createRouter({
       name: "myPage",
       component: MyPageView,
     },
+    {
+      path: '/serverError',
+      name: 'ServerError',
+      component: ServerError
+    },
+    // {
+    //     path: '*',
+    //     name: 'PageNotFound',
+    //     component: PageNotFound
+    // },
     // {
     //   path: "/before",
     //   name: "before",

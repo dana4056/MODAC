@@ -10,9 +10,6 @@ export default {
     postRoom(payload) {
         http.post(`/rooms`, payload)
             .then(({ data }) => {
-                const roomStore = useRoomStore();
-                const { room_info } = storeToRefs(roomStore);
-                room_info.value = data
                 const userStore = useUserStore()
                 const { loginUser } = storeToRefs(userStore)
                 const payload2 = {
@@ -67,23 +64,22 @@ export default {
     },
     // 스터디룸 수정
     updateRoom(payload) {
-        const payload2 = {
-            title: payload.title,
-            description: payload.description,
-            multiTheme: payload.multiTheme
-        };
-        http.put(`/rooms/${payload.seq}`, payload2)
+        http.put(`/rooms/${payload.seq}`, payload.data)
         .then((response) => {
             const code = response.status;
 
             if(code == 201) {
                 console.log("스터디룸 수정 완료: "+ JSON.stringify(response.data));
+                const roomStore = useRoomStore();
+                const { room_info } = storeToRefs(roomStore);
+                room_info.value = response.data
             }
             else if(code == 204) {
                 console.log("스터디룸 수정 실패: 스터디룸 없음")
             }
         })
         .catch((error) => {
+            console.log('에러')
             console.log(error);
         })
     },
@@ -112,7 +108,9 @@ export default {
             }})
         .then(({data}) => {
             console.log("스터디룸 참가 성공: " + JSON.stringify(data));
-            console.log("데이터", data)
+            const roomStore = useRoomStore();
+            const { room_info } = storeToRefs(roomStore);
+            room_info.value = data
         })
         .catch((error) => {
             console.log(error);
@@ -194,22 +192,38 @@ export default {
         })
     },
     // 특정 비공개 스터디룸 입장 권한 확인(인증)
-    checkRoomCode(payload) {
-        http.get(`/rooms/${payload.seq}/authentication`, {
+    async checkRoomCode(payload) {
+        const response = await http.get(`/rooms/${payload.seq}/authentication`, {
             params : {
-                code: payload.roomCode
-            }})
-        .then((response) => {
-            const code = response.status;
-
-            if(code == 200){
-                console.log("스터디룸 입장코드 확인결과: " + response.data);
+                code: payload.roomCode.value
             }
         })
-        .catch((error) => {
-            console.log(error);
-        })
+        return response.data
     },
+
+    // checkRoomCode(payload) {
+    //     http.get(`/rooms/${payload.seq}/authentication`, {
+    //         params : {
+    //             code: payload.roomCode.value
+    //         }})
+    //     .then((response) => {
+    //         const code = response.status;
+    //         if(code == 200){
+    //             console.log("스터디룸 입장코드 확인결과: " + response.data);
+    //             const roomStore = useRoomStore();
+    //             const { checkCode } = storeToRefs(roomStore);
+    //             checkCode.value = response.data;
+    //             console.log(checkCode.value);
+                
+    //             console.log("response.data", response.data);
+    //         }
+    //         return response
+    //     })
+    //     .catch((error) => {
+    //         console.log(error);
+    //     })
+    // },
+
     // 스터디룸 검색
     searchRoom(payload) {
         http.get(`/rooms`, {

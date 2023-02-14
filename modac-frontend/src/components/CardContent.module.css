@@ -1,4 +1,4 @@
 .card_content_style {
-  @apply text-base;
+  @apply text-sm;
   @apply font-light;
 }

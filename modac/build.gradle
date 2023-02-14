@@ -41,8 +41,18 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.9.0'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    implementation platform('com.amazonaws:aws-java-sdk-bom:1.11.1000')
+    implementation 'com.amazonaws:aws-java-sdk-s3'
+    implementation 'commons-io:commons-io:2.11.0'
+    implementation group: 'commons-fileupload', name: 'commons-fileupload', version: '1.4'
+    implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
 }
 
 tasks.named('test') {
     useJUnitPlatform()
+}
+
+jar {
+    enabled = false
 }

@@ -1,4 +1,4 @@
 .chat_input_box {
-    @apply w-full h-full bg-gray-200 py-5 px-3 rounded-xl;
+    @apply w-full h-full bg-white py-5 px-3 rounded-xl;
   }
   

@@ -1,18 +1,18 @@
 .list_item_style {
   @apply border;
-  @apply my-3;
+  @apply my-3 w-fit;
 }
 
 .list_item_div_col {
-  @apply flex flex-col w-full h-full items-center justify-center gap-1
+  @apply flex flex-col h-full items-center justify-center gap-1 w-fit
 }
 
 .item_title {
- @apply font-semibold text-center
+  @apply font-semibold text-center w-fit
 }
 
 .item_size {
- @apply text-blue-500 font-normal text-sm
+  @apply text-blue-500 font-normal text-sm
 }
 
 .item_description {
@@ -20,11 +20,11 @@
 }
 
 .item_host_theme {
- @apply text-gray-500 text-sm
+  @apply text-gray-500 text-sm
 }
 
 .item_host_theme_name {
- @apply font-semibold text-black text-sm
+  @apply font-semibold text-black text-sm
 }
 
 .item_enter_button {
@@ -33,4 +33,73 @@
   @apply text-gray-900 bg-gradient-to-r from-teal-200 to-lime-200 hover:bg-gradient-to-l hover:from-teal-200 hover:to-lime-200 focus:ring-4 focus:outline-none focus:ring-lime-200 dark:focus:ring-teal-700 font-medium rounded-lg text-sm px-8 py-1.5 text-center;
 
 
+}
+
+
+
+
+
+.modal_item {
+  @apply flex w-[400px] h-[400px] flex-col py-2 justify-between items-center;
+	font-family: 'Pretendard';
+}
+
+.modal_title {
+  @apply text-xl font-semibold text-left w-full pb-6 flex justify-center
+}
+
+.modal_button_group {
+	@apply w-full flex pt-1
+}
+
+.add_room_button_cancle {
+	@apply w-full text-sm text-white bg-gray-400 hover:bg-gray-600 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg px-5 py-2.5 m-1 text-center;
+	background-color: rgb(156 163 175) !important;
+}
+
+.add_room_button_add {
+	@apply w-full text-sm text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg px-5 py-2.5 m-1 text-center;
+	background-color: rgb(37, 99, 235) !important;
+}
+
+.add_room_button_add:disabled {
+	@apply border-gray-300 text-white;
+	background-color: rgb(209 213 219) !important;
+}
+/* 
+.add_room_button_add:disabled {
+	@apply border-gray-300 text-white;
+	background-color: rgb(239 68 68) !important;
+} */
+
+.add_room_div {
+	@apply pb-3 m-0.5 flex items-center w-full justify-between flex-col
+}
+
+.add_room_label {
+	@apply block text-sm font-semibold text-gray-900 dark:text-white w-24
+}
+
+.add_room_input {
+	@apply block w-4/5 p-2.5 text-sm rounded-lg border
+	bg-gray-50 border-gray-300 text-gray-900 
+	focus:ring-blue-500 focus:border-blue-500 
+	dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white
+}
+
+.add_room_input:disabled {
+	@apply bg-gray-300 border-gray-300 text-white
+}
+.add_room_p {
+  @apply my-2 text-sm text-red-600 self-center text-center
+}
+.enter_room_p {
+  @apply my-2 text-sm text-gray-600 self-center text-center
+}
+.text_red {
+  @apply text-red-600
+}
+
+.add_room_row {
+  @apply flex items-center
 }

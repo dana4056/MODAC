@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.a608.modac.model.article.Article;
@@ -50,8 +51,13 @@ public class ArticleServiceImpl implements ArticleService {
 	@Resource(name = "notificationRepository")
 	private final NotificationRepository notificationRepository;
 
-	public ArticleServiceImpl(ArticleRepository articleRepository, TodoRepository todoRepository, LikeRepository likeRepository,
-		UserRepository userRepository, FollowRepository followRepository, NotificationRepository notificationRepository) {
+	@Autowired
+	private S3Service s3Service;
+
+	public ArticleServiceImpl(ArticleRepository articleRepository, TodoRepository todoRepository,
+		LikeRepository likeRepository,
+		UserRepository userRepository, FollowRepository followRepository,
+		NotificationRepository notificationRepository) {
 		this.articleRepository = articleRepository;
 		this.todoRepository = todoRepository;
 		this.likeRepository = likeRepository;
@@ -63,9 +69,16 @@ public class ArticleServiceImpl implements ArticleService {
 	// 게시글 저장
 	@Override
 	public ArticleResponse.ArticleInfo createArticle(final ArticleRequest articleRequest) {
+		String objectKey = articleRequest.getContent();
+
+		// 게시글 내용 s3에 저장
+		// objectKey = s3Service.save(s3Service.createMultipartFile(articleRequest.getContent()));
+		// System.out.println(objectKey);
+
+		// Todo 정보를 불러와서 Article 객체 빌드
 		Todo todo = todoRepository.findById(articleRequest.getTodosSeq())
 			.orElseThrow(() -> new NoSuchElementException("NoTodo")); // todosSeq를 이용하여 todo 호출
-		Article save = articleRepository.save(articleRequest.toEntity(todo));// Article 빌드 후 저장
+		Article save = articleRepository.save(articleRequest.toEntity(todo, objectKey));// Article 빌드 후 저장
 		System.out.println("+++++++++++++++++++++" + save);
 
 		// 게시글 등록 시 30포인트 적립
@@ -142,7 +155,10 @@ public class ArticleServiceImpl implements ArticleService {
 	@Override
 	public ArticleResponse.ArticleInfo readArticleBySeq(final Long seq) {
 		Article article = articleRepository.findById(seq).orElseThrow(() -> new NoSuchElementException("NoArticle"));
-		return new ArticleResponse.ArticleInfo(article);
+		ArticleResponse.ArticleInfo articleResponse = new ArticleResponse.ArticleInfo(article);
+		// S3 서버에 백업된 게시글 내용 조회
+		// articleResponse.readContentByFilepath(s3Service.read(article.getFilepath()));
+		return articleResponse;
 	}
 
 	// 게시글 조회수 업

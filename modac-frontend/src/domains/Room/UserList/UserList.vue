@@ -12,35 +12,41 @@ const $style = useCssModule();
 //   () => `${$style.user_list_second_flex_item} ${$style.test_style}`
 // );
 
-const store = useRoomStore();
-const { participants } = storeToRefs(store);
+const roomStore = useRoomStore();
+const { participants, room_info } = storeToRefs(roomStore);
 // console.log(participants.value);
 </script>
 
 <template>
   <UserListItem
+    v-if="room_info.participants[0]"
     :class="`${$style.first_position} ${$style.item_box}`"
-    :userItem="participants[0]"
+    :userItem="room_info.participants[0]"
   />
   <UserListItem
+  v-if="room_info.participants[1]"
     :class="`${$style.second_position} ${$style.item_box}`"
-    :userItem="participants[1]"
+    :userItem="room_info.participants[1]"
   />
   <UserListItem
+  v-if="room_info.participants[2]"
     :class="`${$style.third_position} ${$style.item_box}`"
-    :userItem="participants[2]"
+    :userItem="room_info.participants[2]"
   />
   <UserListItem
+  v-if="room_info.participants[3]"
     :class="`${$style.fouth_position} ${$style.item_box}`"
-    :userItem="participants[3]"
+    :userItem="room_info.participants[3]"
   />
   <UserListItem
+  v-if="room_info.participants[4]"
     :class="`${$style.fifth_position} ${$style.item_box}`"
-    :userItem="participants[4]"
+    :userItem="room_info.participants[4]"
   />
   <UserListItem
+  v-if="room_info.participants[5]"
     :class="`${$style.sixth_position} ${$style.item_box}`"
-    :userItem="participants[5]"
+    :userItem="room_info.participants[5]"
   />
 
   <!-- <div :class="$style.user_list_first_flex">

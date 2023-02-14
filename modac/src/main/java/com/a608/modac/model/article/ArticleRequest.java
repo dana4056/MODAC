@@ -20,10 +20,10 @@ public class ArticleRequest {
 		this.content = content;
 	}
 
-	public Article toEntity(Todo todo){
+	public Article toEntity(Todo todo, String filepath){
 		return Article.builder()
 			.title(todo.getTitle())
-			.filepath(content)
+			.filepath(filepath)
 			.publicType(publicType)
 			.totalSecond(todo.getTotalSecond())
 			.user(todo.getUser())
