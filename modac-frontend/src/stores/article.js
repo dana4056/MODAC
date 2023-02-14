@@ -1,10 +1,7 @@
 import { ref } from "vue";
 import { defineStore } from "pinia";
-import article from "../api/article";
 
 export const useArticleStore = defineStore("article", () => {
-  const api = article; // axois 비동기 함수들
-
   const articles = ref([]); // 게시글 목록
 
   const publicType = ref(0);
@@ -13,7 +10,6 @@ export const useArticleStore = defineStore("article", () => {
   let githubState = ref(1);
 
   return {
-    api,
     articles,
     publicType,
     selectedState,

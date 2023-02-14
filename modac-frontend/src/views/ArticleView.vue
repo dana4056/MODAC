@@ -6,7 +6,7 @@ import ArticleBody from "@/domains/Article/ArticleBody.vue";
 <template>
   <!-- v-if="tempArticle.length !== 0" -->
   <div :class="$style.article_container_above">
-  <ArticleHeader />
+    <ArticleHeader />
     <ArticleBody />
   </div>
 </template>
