@@ -1,6 +1,6 @@
 <script setup>
 import Card from "@/components/Card.vue";
-import { defineProps, toRefs, ref } from "vue";
+import { defineProps, toRefs, ref, computed} from "vue";
 import { useRoomStore } from '@/stores/room.js';
 import { useUserStore } from '@/stores/user.js';
 import { useChatStore } from '@/stores/chat.js'
@@ -26,32 +26,50 @@ const roomCodeInput = ref("");
 console.log("룸아이템", roomItem.value)
 
 function isParticipant (loginUser) {
+  let flag = false;
+
   participants.value.forEach(element => {
-    console.log("엘레멘트", element.user)
+    console.log("엘레멘트", element.usersSeq)
+    console.log("로그인 유저", loginUser.value.seq)
     if (element.usersSeq === loginUser.value.seq) {
-      return true
+      flag = true
+      return
     }
     else {
-      return false
+      return
     }
   });
+  return flag
 }
 
-function needsPassword() {
+// 지금 모든 방에서 이게 true로 처리되는지 비밀번호 입력창이 공개방도 뜸
+// function needsPassword() {
+//   console.log("needsPassword");
+//   console.log("loginUser", loginUser.value);  
+//   console.log("roomItem.value.publicType", roomItem.value.publicType);  
+//   if (isParticipant(loginUser) === false && roomItem.value.publicType == 0) {
+//     return true
+//   }
+//   else {
+//     return false
+//   }
+// }
+
+const needsPassword = computed(() => {
   if (isParticipant(loginUser) === false && roomItem.value.publicType == 0) {
     return true
   }
   else {
     return false
   }
-}
+});
 
 const enterRoom = async () => {
   groupChatLogs.value = [];
   // 내가 들어갈 자리가 있으면 
   if (roomItem.value.maxSize > roomItem.value.currentSize) {
     // 비번 있어
-    if (needsPassword(loginUser) === true){
+    if (needsPassword.value == true){
       const payload = {
         seq: roomItem.value.seq,
         roomCode: roomCodeInput,
@@ -75,6 +93,7 @@ const enterRoom = async () => {
     else {
       // 공개방 이면 Join 요청
       if (roomItem.value.publicType == 1) {
+        console.log("공개방 입장")
         const payload = {
           seq: roomItem.value.seq,
           usersSeq: loginUser.value.seq
@@ -96,6 +115,7 @@ const enterRoom = async () => {
 const roomEnterConfirmModalState = ref(false);
 const openRoomEnterConfirmModal = () => {
   roomEnterConfirmModalState.value = true;
+  
 };
 
 const closeRoomEnterConfirmModal = (event) => {
@@ -121,7 +141,7 @@ const closeRoomEnterConfirmModal = (event) => {
         <!-- <div :class="$style.item_seq">{{ roomItem.seq }}</div> -->
         <div :class="$style.item_title">
 
-          <span v-if="needsPassword">
+          <span v-if="roomItem.publicType == 1">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4 inline-block">
               <path d="M18 1.5c2.9 0 5.25 2.35 5.25 5.25v3.75a.75.75 0 01-1.5 0V6.75a3.75 3.75 0 10-7.5 0v3a3 3 0 013 3v6.75a3 3 0 01-3 3H3.75a3 3 0 01-3-3v-6.75a3 3 0 013-3h9v-3c0-2.9 2.35-5.25 5.25-5.25z" />
             </svg>
@@ -223,8 +243,10 @@ const closeRoomEnterConfirmModal = (event) => {
           이 방에 입장하시겠습니까?
         </p>
 
+        
+        <!-- <div :class="$style.add_room_div" v-if="needsPassword"> -->
+        <div :class="$style.add_room_div" v-if="needsPassword">
 
-        <div :class="$style.add_room_div" v-if="roomItem.publicType == 0">
           <div :class="$style.add_room_row">
             <label for="room_title" :class="$style.add_room_label">초대코드 <span :class="$style.text_red">*</span><br>
             </label>
