@@ -47,7 +47,8 @@ public class TodoServiceImpl implements TodoService{
 	@Override
 	public TodoResponse updateTodo(final Long seq, final TodoRequest todoRequest){
 		Todo findTodo = todoRepository.findById(seq).orElseThrow(() -> new NoSuchElementException("NoTodo"));
-		findTodo.updateTodo(todoRequest.getTitle(), todoRequest.getStatus(), todoRequest.getTotalSecond());
+		Category category = categoryRepository.findById(todoRequest.getCategoriesName()).orElseThrow(() -> new NoSuchElementException("NoCategory"));
+		findTodo.updateTodo(todoRequest.getTitle(), todoRequest.getStatus(), todoRequest.getTotalSecond(), category);
 
 		Todo save = todoRepository.save(findTodo);
 
