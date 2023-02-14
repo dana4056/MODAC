@@ -9,8 +9,12 @@ public class ParticipantRequest {
 	private Long usersSeq;
 	private boolean attend;
 
-	public ParticipantRequest(Long usersSeq, boolean attend) {
+	// 0214추가
+	private Long roomsSeq;
+
+	public ParticipantRequest(Long usersSeq, boolean attend, Long roomsSeq) {
 		this.usersSeq = usersSeq;
 		this.attend = attend;
+		this.roomsSeq = roomsSeq;
 	}
 }
