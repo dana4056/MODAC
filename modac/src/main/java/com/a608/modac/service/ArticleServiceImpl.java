@@ -69,9 +69,12 @@ public class ArticleServiceImpl implements ArticleService {
 	// 게시글 저장
 	@Override
 	public ArticleResponse.ArticleInfo createArticle(final ArticleRequest articleRequest) {
+		String objectKey = articleRequest.getContent();
+
 		// 게시글 내용 s3에 저장
-		String objectKey = s3Service.save(s3Service.createMultipartFile(articleRequest.getContent()));
-		System.out.println(objectKey);
+		// objectKey = s3Service.save(s3Service.createMultipartFile(articleRequest.getContent()));
+		// System.out.println(objectKey);
+
 		// Todo 정보를 불러와서 Article 객체 빌드
 		Todo todo = todoRepository.findById(articleRequest.getTodosSeq())
 			.orElseThrow(() -> new NoSuchElementException("NoTodo")); // todosSeq를 이용하여 todo 호출
@@ -153,7 +156,8 @@ public class ArticleServiceImpl implements ArticleService {
 	public ArticleResponse.ArticleInfo readArticleBySeq(final Long seq) {
 		Article article = articleRepository.findById(seq).orElseThrow(() -> new NoSuchElementException("NoArticle"));
 		ArticleResponse.ArticleInfo articleResponse = new ArticleResponse.ArticleInfo(article);
-		articleResponse.readContentByFilepath(s3Service.read(article.getFilepath()));
+		// S3 서버에 백업된 게시글 내용 조회
+		// articleResponse.readContentByFilepath(s3Service.read(article.getFilepath()));
 		return articleResponse;
 	}
 
