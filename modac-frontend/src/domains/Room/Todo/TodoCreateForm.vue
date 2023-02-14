@@ -16,7 +16,7 @@ const handleSubmitTodoItem = async () => {
     categoriesSeq.value,
     title.value
   );
-
+  console.log(responseData);
   todoStore.addTodoItem(responseData);
 
   toggleTodoCreateForm();

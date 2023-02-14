@@ -7,47 +7,49 @@ import UpdateButton from "./UpdateButton.vue";
 import DeleteButton from "./DeleteButton.vue";
 import TodoListItemUpdateForm from "./TodoListItemUpdateForm.vue";
 import todoAPI from "../../../api/todo";
-import { ref, defineProps, toRefs } from "vue";
+import { ref, defineProps, toRefs, watch } from "vue";
 import { useTodoStore } from "../../../stores/todo";
 
 const props = defineProps({
   todo: Object,
 });
-
-const todo = toRefs(props.todo);
-
-const { seq, status, title, totalSecond } = toRefs(props.todo);
-
-const todoStore = useTodoStore();
+const { seq, status, title, totalSecond, categoriesName } = toRefs(props.todo);
 
 const openState = ref(false);
 const toggleOpenState = () => {
   openState.value = !openState.value;
 };
 
+const isCheckedState = ref(false);
+watch(isCheckedState, () => {
+  handleUpdateTodoItem(title.value, categoriesName.value);
+});
+
 const isOpenUpdateFormState = ref(false);
 const toggleUpdateFormState = () => {
   isOpenUpdateFormState.value = !isOpenUpdateFormState.value;
 };
 
+const todoStore = useTodoStore();
+
 const handleUpdateTodoItem = (title, categoriesName) => {
-  // console.log(title, categoriesName);
-  todoAPI.updateTodo(
+  const responseDate = todoAPI.updateTodo(
     seq.value,
     categoriesName,
     title,
     status.value,
     totalSecond.value
   );
-  console.log(1);
-  todoStore.updateTodoItem(seq.value, {
-    title,
-    categoriesName,
-    status,
-    totalSecond,
-    seq,
-  });
-  console.log(title);
+
+  console.log(responseDate);
+  todoStore.updateTodoItem(responseDate.seq, responseDate);
+  // todoStore.updateTodoItem(seq.value, {
+  //   title,
+  //   categoriesName,
+  //   status,
+  //   totalSecond,
+  //   seq,
+  // });
 };
 
 const deleteTodoItem = () => {
@@ -58,25 +60,22 @@ const deleteTodoItem = () => {
 
 <template>
   <div :class="$style.todo_item_wrapper">
-    <input type="checkbox" :class="$style.checkbox" />
+    <input type="checkbox" :class="$style.checkbox" v-model="isCheckedState" />
     <div :class="$style.flex_wrapper">
       <TodoItemContent
-        @click="toggleOpenState"
+        :toggleOpenState="toggleOpenState"
         :openState="openState"
         :status="status"
         :title="title"
       />
       <div class="flex items-center justify-between">
         <div class="flex">
-          <TodoListItemCategoryTag :categoriesName="todo.categoriesName" />
+          <TodoListItemCategoryTag :categoriesName="categoriesName" />
           <TodoListItemTimer :time="totalSecond" :status="status" />
         </div>
 
         <div class="flex gap-2" :id="`buttons_group_${props.todo.seq}`">
-          <PlayPauseButton
-            :playPauseTodoItem="playPauseTodoItem"
-            :status="props.todo.status"
-          />
+          <PlayPauseButton :status="props.todo.status" />
           <UpdateButton @click="toggleUpdateFormState" />
           <DeleteButton @click="deleteTodoItem" />
         </div>
