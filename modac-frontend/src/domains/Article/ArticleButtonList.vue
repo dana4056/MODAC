@@ -1,7 +1,6 @@
 <script setup>
 import { useArticleStore } from "@/stores/article";
 import { storeToRefs } from "pinia";
-
 import Modal from "@/components/Modal.vue";
 import GithubTest from "@/views/GithubTest.vue";
 import OverflowDiv from "@/components/OverflowDiv.vue";
@@ -15,7 +14,6 @@ const copyText = () => {
   alert("복사 완료");
 };
 
-
 // git 관련
 const githubModalState = ref(false);
 
@@ -24,19 +22,20 @@ const closeGithubModal = (element) => {
   const cancleElement = ref();
 
   backdropElement.value = document.querySelector("#backdrop");
-  cancleElement.value = document.querySelector("#cancle")
+  cancleElement.value = document.querySelector("#cancle");
 
-  if (backdropElement.value === event.target 
-      || cancleElement.value === event.target) {
-      githubModalState.value = false;
-    }
+  if (
+    backdropElement.value === event.target ||
+    cancleElement.value === event.target
+  ) {
+    githubModalState.value = false;
+  }
   if (element === "cancle") {
     githubModalState.value = false;
   }
 };
 
 const openGithubModal = () => {
-  
   githubModalState.value = true;
 };
 
@@ -57,14 +56,13 @@ const clickDownloadButtonHandler = () => {
   downloadMarkdown(tempArticle);
 };
 
-
 const backPrev = () => {
   console.log(articleStore.githubState);
   if (articleStore.githubState == 22) articleStore.githubState = 2;
   else if (articleStore.githubState == 3) articleStore.githubState = 2;
   else if (articleStore.githubState == 4) articleStore.githubState = 3;
   console.log(articleStore.githubState);
-}
+};
 </script>
 
 <template>
@@ -125,28 +123,48 @@ const backPrev = () => {
     </button>
   </div>
 
-
   <Teleport to="body">
-    <Modal
-      :closeModal="closeGithubModal"
-      v-if="githubModalState"
-    >
+    <Modal :closeModal="closeGithubModal" v-if="githubModalState">
       <div class="w-full flex justify-end">
         <button
           v-if="articleStore.githubState > 2"
           :class="$style.add_room_button_exit"
-          @click="backPrev">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3" />
+          @click="backPrev"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="w-6 h-6"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3"
+            />
           </svg>
         </button>
 
         <button
-        @click="closeGithubModal('cancle')"
-        id="cancle"
-        :class="$style.add_room_button_exit">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          @click="closeGithubModal('cancle')"
+          id="cancle"
+          :class="$style.add_room_button_exit"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="w-6 h-6"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M6 18L18 6M6 6l12 12"
+            />
           </svg>
         </button>
       </div>

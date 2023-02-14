@@ -6,8 +6,8 @@ export default axios.create({
   // baseURL: "http://70.12.247.126:8080", // 민수 로컬
   // baseURL: "http://70.12.247.121:8080", // 다은 로컬
   baseURL: "https://i8a608.p.ssafy.io/api",
-  
-    // headers: {
-    //   "Content-Type": "application/json"
-    // },
+
+  // headers: {
+  //   "Content-Type": "application/json"
+  // },
 });

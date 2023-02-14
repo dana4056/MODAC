@@ -4,34 +4,12 @@ import { ref } from "vue";
 import { useArticleStore } from "@/stores/article";
 import { storeToRefs } from "pinia";
 
-const store = useArticleStore();
-const { tempArticle, getArticles, buttonState } = storeToRefs(store);
+const articleStore = useArticleStore();
+const { completeWriteArticleState } = storeToRefs(articleStore);
 
-const publicType = ref(1);
-const nextButtonState = () => {
-  buttonState.value = true;
-};
-
-const studyFinish = () => {
-  console.log("study fin");
-  console.log(getArticles);
-  console.tempArticle = getArticles;
-  console.log(getArticles);
-};
-
-const downloadMarkdown = (content) => {
-  const encodedContent = encodeURIComponent(content);
-  const link = document.createElement("a");
-  link.setAttribute(
-    "href",
-    "data:text/markdown;charset=UTF-8," + encodedContent
-  );
-  link.setAttribute("download", "document.md"); // document를 todo 이름으로 바꾸기
-  link.click();
-};
-
-const clickDownloadButtonHandler = () => {
-  downloadMarkdown(tempArticle.value);
+const publicTypeSelectedValue = ref(1);
+const handleClickCompleteWriteButton = () => {
+  completeWriteArticleState.value = true;
 };
 </script>
 
@@ -45,21 +23,20 @@ const clickDownloadButtonHandler = () => {
       <div :class="$style.add_room_div">
         <select
           :class="$style.add_room_input"
-          v-model="publicType"
+          v-model="publicTypeSelectedValue"
           id="publicType"
         >
-          <option value="1" selected="selected">전체 피드에 업로드</option>
-          <option value="0">내 피드에만 업로드</option>
-          <option value="2">피드에 업로드하지 않기</option>
+          <option value="1" selected="selected">공개</option>
+          <option value="0">비공개</option>
         </select>
       </div>
 
       <button
-        @click="nextButtonState"
+        @click="handleClickCompleteWriteButton"
         type="button"
         :class="$style.button_next"
       >
-        작성 완료하기 →
+        작성 완료
       </button>
     </div>
 
