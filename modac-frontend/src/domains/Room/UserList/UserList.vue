@@ -1,6 +1,6 @@
 <script setup>
 import UserListItem from "./UserListItem.vue";
-import { useCssModule, computed } from "vue";
+import { useCssModule, computed, ref } from "vue";
 import { useRoomStore } from "@/stores/room";
 import { storeToRefs } from "pinia";
 const $style = useCssModule();
@@ -13,8 +13,10 @@ const $style = useCssModule();
 // );
 
 const roomStore = useRoomStore();
-const { participants, room_info } = storeToRefs(roomStore);
-// console.log(participants.value);
+const { room_info } = storeToRefs(roomStore);
+let participants = room_info.value.participants;
+console.log("참가자",participants);
+
 </script>
 
 <template>
