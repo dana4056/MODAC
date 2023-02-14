@@ -78,9 +78,9 @@ const connect = () => {
   stompClient.connect({}, onConnected, onError);
 }
 
-const onConnected = () => {
-  console.log("채팅룸 seq" + room_info.value.chatRoom);
-  console.log("채팅룸 seq" + room_info.value.chatRoom.seq);
+
+const onConnected = () => { // async ?
+
   stompClient.subscribe(
     `/topic/chat/rooms/enter/group/${room_info.value.chatRoom.seq}`,
     onMessageReceived
@@ -105,7 +105,9 @@ const onMessageReceived = (res) => {
 }
 
 onMounted(() => {
-  connect();
+  setTimeout(() => {
+    connect();
+  }, 500);
 });
 
 </script>
