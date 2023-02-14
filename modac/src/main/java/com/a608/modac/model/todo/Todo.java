@@ -59,10 +59,11 @@ public class Todo {
     public Todo() {
     }
 
-    public void updateTodo(final String title, final Byte status, final String totalSecond){
+    public void updateTodo(final String title, final Byte status, final String totalSecond, final Category category){
         this.title = title;
         this.status = status;
         this.totalSecond = totalSecond;
+        this.category = category;
     }
 
 }

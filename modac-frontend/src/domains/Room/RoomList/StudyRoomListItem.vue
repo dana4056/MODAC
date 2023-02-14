@@ -3,14 +3,17 @@ import Card from "@/components/Card.vue";
 import { defineProps, toRefs, ref } from "vue";
 import { useRoomStore } from '@/stores/room.js';
 import { useUserStore } from '@/stores/user.js';
+import { useChatStore } from '@/stores/chat.js'
 import { storeToRefs } from "pinia";
 import Modal from "@/components/Modal.vue";
 
 
 const userStore = useUserStore();
 const roomStore = useRoomStore();
+const chatStore = useChatStore();
 
 const { loginUser } = storeToRefs(userStore);
+const { groupChatLogs } = storeToRefs(chatStore);
 
 const props = defineProps({
   roomItem: Object,
@@ -21,6 +24,7 @@ const roomCodeInput = ref("");
 const { roomItem } = toRefs(props)
 
 const enterRoom = async () => {
+  groupChatLogs.value = [];
   if (roomItem.value.publicType == 0) {
     let payload = {
       seq: roomItem.value.seq,
