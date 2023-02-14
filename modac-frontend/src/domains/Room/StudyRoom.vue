@@ -10,8 +10,8 @@ import { useRoomStore } from "@/stores/room";
 import { storeToRefs } from "pinia";
 import { computed } from "vue";
 
-const store = useRoomStore();
-const { isOpenedLeftSideBar, isOpenedRightSideBar } = storeToRefs(store);
+const roomStore = useRoomStore();
+const { isOpenedLeftSideBar, isOpenedRightSideBar, room_info } = storeToRefs(roomStore);
 
 const leftSideBarStyleState = computed(() =>
   isOpenedLeftSideBar.value
@@ -23,12 +23,24 @@ const rightSideBarStyleState = computed(() =>
     ? "move_side_bar_to_default"
     : "move_side_bar_to_left"
 );
+
+const backGroundImg = computed(() => {
+    if (room_info.value.multiTheme === "기본") {
+      return "study_room_modac"
+    } else if (room_info.value.multiTheme === "우주") {
+      return "study_room_space"
+    } else if (room_info.value.multiTheme === "바다") {
+      return "study_room_beach"
+    } else {
+      return "study_room_dessert"
+    }
+  });
 </script>
 
 <template>
   <OverflowDiv>
     <Wrapper
-      :class="$style.study_room_wrapper_flex"
+      :class="$style[backGroundImg]"
     >
       <Wrapper
         :class="`${$style[leftSideBarStyleState]} ${$style.left_side_bar_wrapper} ${$style.side_bar_wrapper_flex}`"
@@ -36,7 +48,7 @@ const rightSideBarStyleState = computed(() =>
         <LeftSideBar :class="$style.side_bar_content" />
         <SideBarToggleButton
           :class="$style.flex_1_12"
-          @click="store.toggleLeftSideBar"
+          @click="roomStore.toggleLeftSideBar"
           >></SideBarToggleButton
         >
       </Wrapper>
@@ -46,7 +58,7 @@ const rightSideBarStyleState = computed(() =>
       >
         <SideBarToggleButton
           :class="`${$style.rotate_180} ${$style.flex_1_12}`"
-          @click="store.toggleRightSideBar"
+          @click="roomStore.toggleRightSideBar"
           >></SideBarToggleButton
         >
         <RightSideBar :class="$style.side_bar_content" />

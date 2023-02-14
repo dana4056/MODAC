@@ -19,41 +19,75 @@ const props = defineProps({
   roomItem: Object,
 });
 
+const participants = ref(props.roomItem.participants)
 const roomCodeInput = ref("");
-
 const { roomItem } = toRefs(props)
+
+
+function isParticipant (longinUser) {
+  participants.value.forEach(element => {
+    if (element.usersSeq === loginUser.value.seq) {
+      return true
+    }
+    else {
+      return false
+    }
+  });
+}
+
+function needsPassword(loginUser) {
+  if (isParticipant(loginUser) === false && roomItem.value.publicType == 0) {
+    return true
+  }
+  else {
+    return false
+  }
+}
 
 const enterRoom = async () => {
   groupChatLogs.value = [];
-  if (roomItem.value.publicType == 0) {
-    let payload = {
+  // 내가 들어갈 자리가 있으면 
+  if (roomItem.value.maxSize > roomItem.value.currentSize) {
+    // 비번 있어
+    if (needsPassword(loginUser) === true){
+      const payload = {
       seq: roomItem.value.seq,
       roomCode: roomCodeInput,
-    }
-    const res = await roomStore.api.checkRoomCode(payload);
-  
-    if (res && roomItem.value.maxSize > roomItem.value.currentSize) {  
-      roomStore.enterRoom();
-      payload = {
-        seq: roomItem.value.seq,
-        usersSeq: loginUser.value.seq
       }
-      console.log("페이로드", payload)
-      roomStore.api.joinRoom(payload)
+      const res = await roomStore.api.checkRoomCode(payload);
+      // 비번이 일치 한다면 새로 Join
+      if (res === true) {  
+        payload = {
+          seq: roomItem.value.seq,
+          usersSeq: loginUser.value.seq
+        }
+        roomStore.api.joinRoom(payload)
+        roomStore.enterRoom();
+      }
+      // 비번이 일치하지 않음.
+      else {
+        alert("비밀번호가 일치하지 않습니다.");
+      }
     }
+    // 비번이 필요가 없는 상태
     else {
-      alert("비밀번호가 일치하지 않습니다.");
-      // console.log("비밀번호가 일치하지 않습니다.")
+      // 공개방 이면 Join 요청
+      if (roomItem.value.publicType == 1) {
+        const payload = {
+          seq: roomItem.value.seq,
+          usersSeq: loginUser.value.seq
+        }
+        roomStore.api.joinRoom(payload)
+        roomStore.enterRoom();
+      }
+      // 비공개 방이라면 join 요청 x
+      else {
+        roomStore.enterRoom();
+      }
     }
   }
-  else {
-      roomStore.enterRoom();
-      const payload = {
-        seq: roomItem.value.seq,
-        usersSeq: loginUser.value.seq
-      }
-      console.log("페이로드", payload)
-      roomStore.api.joinRoom(payload)
+  else: {
+    alert("정원이 초과되어 입장하실 수 없습니다.")
   }
 }
 

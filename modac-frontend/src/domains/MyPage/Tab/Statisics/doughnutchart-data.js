@@ -1,10 +1,28 @@
+import { useStatsStore } from '@/stores/statistics';
+import { storeToRefs } from "pinia"
+
+const statsStore = useStatsStore();
+const { doughnutData } = storeToRefs(statsStore)
+
 export const doughnutChartData = {
   type: "doughnut",
   data : {
-    labels: ["알고리즘", "개발", "CS", "면접", "기타"],
+    labels: [
+      doughnutData.value[0].categoryName,
+      doughnutData.value[1].categoryName,
+      doughnutData.value[2].categoryName,
+      doughnutData.value[3].categoryName,
+      doughnutData.value[4].categoryName,
+    ],
     datasets: [{
       label: 'My First Dataset',
-      data: [5, 0, 2, 4, 7],
+      data: [
+        doughnutData.value[0].countArticles,
+        doughnutData.value[1].countArticles,
+        doughnutData.value[2].countArticles,
+        doughnutData.value[3].countArticles,
+        doughnutData.value[4].countArticles,
+      ],
       backgroundColor: [
         'rgba(255, 99, 132)',
         'rgba(255, 159, 64)',

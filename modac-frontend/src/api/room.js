@@ -34,7 +34,7 @@ export default {
             const code = response.status;
 
             if(code == 200){
-                console.log("스터디룸 목록: "+JSON.stringify(response.data));
+                // console.log("스터디룸 목록: "+JSON.stringify(response.data));
                 const roomStore = useRoomStore();
                 const { room_list } = storeToRefs(roomStore);
                 room_list.value = response.data
@@ -107,7 +107,7 @@ export default {
                 'Content-Type': 'text/plain'
             }})
         .then(({data}) => {
-            console.log("스터디룸 참가 성공: " + JSON.stringify(data));
+            // console.log("스터디룸 참가 성공: " + JSON.stringify(data));
             const roomStore = useRoomStore();
             const { room_info } = storeToRefs(roomStore);
             room_info.value = data
@@ -127,6 +127,9 @@ export default {
 
             if(code == 200) {
                 console.log("스터디룸 나가기 완료: "+ JSON.stringify(response.data));
+                const userStore = useUserStore();
+                const { loginUser } = storeToRefs(userStore);
+                this.findRoomList(loginUser.value.seq)
             }
             else if(code == 204) {
                 console.log("스터디룸 나가기 실패: 참가정보 없음")
@@ -145,7 +148,9 @@ export default {
         http.put(`/rooms/${payload.seq}/join`, payload2)
         .then((response) => {
             const code = response.data;
-
+            const userStore = useUserStore();
+            const { loginUser } = storeToRefs(userStore);
+            this.findRoomList(loginUser.value.seq)
             if(code == 201) {
                 console.log("참가자 상태 변경 완료: " + response.data);
             }

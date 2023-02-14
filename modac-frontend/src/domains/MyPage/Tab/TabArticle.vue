@@ -79,6 +79,15 @@
 
 <script setup>
 import { ref, computed } from "vue";
+import { useUserStore } from '@/stores/user';
+import { useStatsStore } from '@/stores/statistics';
+import { storeToRefs } from "pinia"
+
+const userStore = useUserStore();
+const statsStore = useStatsStore();
+
+const { loginUser } = storeToRefs(userStore);
+statsStore.api.getStatistics(loginUser.value.seq);
 
 const ArticleResponseList = [
   {

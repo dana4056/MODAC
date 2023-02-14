@@ -38,4 +38,8 @@ export const useUserStore = defineStore("user", () => {
     logout,
     api,
   };
-});
+},
+{
+  persist: true,
+}
+);

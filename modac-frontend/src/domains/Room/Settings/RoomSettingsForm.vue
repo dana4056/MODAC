@@ -22,8 +22,6 @@ const updateRoom = () => {
       multiTheme: room_multiTheme.value
     }
   }
-
-  console.log("페로",payload)
   roomStore.api.updateRoom(payload)
 }
 
