@@ -9,6 +9,7 @@ import { ref } from "vue";
 import Stomp from "webstomp-client";
 import SockJS from "sockjs-client/dist/sockjs.min.js";
 import OverflowDiv from "@/components/OverflowDiv.vue";
+import BACKEND_API_URL from "@/api/backend";
 
 const chatStore = useChatStore();
 const userStore = useUserStore();
@@ -17,8 +18,7 @@ var stompClient = null;
 
 const { loginUser } = storeToRefs(userStore);
 const { groupChatLogs } = storeToRefs(chatStore);
-const { room_info } = storeToRefs(roomStore)
-
+const { room_info } = storeToRefs(roomStore);
 
 const child = ref(null);
 connect();
@@ -72,8 +72,7 @@ function liftMessage() {
 }
 
 function connect() {
-  // var socket = new SockJS("http://localhost:8080/ws"); // WebSocketConfig랑 통일할 주소 , 소켓 열 주소
-  var socket = new SockJS("https://i8a608.p.ssafy.io/api/ws"); // WebSocketConfig랑 통일할 주소 , 소켓 열 주소
+  var socket = new SockJS(BACKEND_API_URL + "/ws");
   stompClient = Stomp.over(socket);
   stompClient.connect({}, onConnected, onError);
 }
@@ -95,7 +94,7 @@ function onMessageReceived(res) {
     var chat = JSON.parse(res.body);
     console.log("구독으로 받은 메시지", chat);
 
-    if(chat.user.seq != loginUser.value.seq){
+    if (chat.user.seq != loginUser.value.seq) {
       groupChatLogs.value.push(chat);
     }
 
