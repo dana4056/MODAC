@@ -8,6 +8,7 @@ import { useRoomStore } from "@/stores/room";
 import { ref } from "vue";
 import Stomp from "webstomp-client";
 import SockJS from "sockjs-client/dist/sockjs.min.js";
+import OverflowDiv from "@/components/OverflowDiv.vue";
 
 const chatStore = useChatStore();
 const userStore = useUserStore();
@@ -146,14 +147,14 @@ function onMessageReceived(res) {
 </script>
 
 <template>
-  <div :class="$style.chatbox_body_size" id="chatbox_body">
+  <OverflowDiv :class="$style.chatbox_body_size" id="chatbox_body">
     <ChatListItem
       v-for="chatLog in groupChatLogs"
       :key="chatLog.seq"
       :chatLog="chatLog"
       :loginUser="loginUser"
     />
-  </div>
+  </OverflowDiv>
   <ChatForm :enterChat="enterChat" ref="child" />
 </template>
 

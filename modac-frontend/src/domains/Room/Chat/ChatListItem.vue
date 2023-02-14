@@ -42,7 +42,7 @@ const dateStyle = computed(() => {
 
 <template>
   <div :class="sizeStyle">
-    <small>{{ dateStyle }}</small>
+    <small :class="$style.date_time">{{ dateStyle }}</small>
     <div :class="contentStyle">{{ props.chatLog.message }}</div>
     <div>
       <small v-if="props.chatLog.user.nickname != props.loginUser.nickname">{{props.chatLog.user.nickname}}</small>
