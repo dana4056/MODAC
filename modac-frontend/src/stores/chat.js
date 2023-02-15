@@ -11,4 +11,8 @@ export const useChatStore = defineStore("chat", () => {
   return {
     groupChatLogs,
   };
-});
+},
+// {
+//   persist: true,
+// }
+);

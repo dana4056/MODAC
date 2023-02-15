@@ -1,10 +1,12 @@
 <script setup>
-import { defineProps, computed, useCssModule } from "vue";
+import { defineProps, computed, useCssModule, ref } from "vue";
 
 const props = defineProps({
   chatLog: Object,
   loginUser: Object,
+  // catskin: Number
 });
+
 
 
 const $style = useCssModule();
@@ -38,6 +40,10 @@ const dateStyle = computed(() => {
   return h+":"+m;
 })
 
+const profileImgUrl = ref(
+  "/src/assets/user_cats/cat" + props.loginUser.catSkin + ".png"
+);
+
 </script>
 
 <template>
@@ -47,7 +53,8 @@ const dateStyle = computed(() => {
     <div>
       <small v-if="props.chatLog.user.nickname != props.loginUser.nickname">{{props.chatLog.user.nickname}}</small>
       <img
-        src="https://source.unsplash.com/vpOeXr5wmR4/600x600"
+        v-if="props.chatLog.user.nickname != props.loginUser.nickname"
+        :src= "profileImgUrl"
         :class="$style.chat_profile"
         alt=""
       />

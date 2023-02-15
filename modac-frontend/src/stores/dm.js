@@ -103,4 +103,8 @@ export const useDmStore = defineStore("dm", () => {
     connect,
     api,
   };
-});
+},
+{
+  persist: true,
+}
+);

@@ -21,6 +21,7 @@ onMounted(() => {
   roomStore.liftMessage();
 });
 
+
 </script>
 
 <template>

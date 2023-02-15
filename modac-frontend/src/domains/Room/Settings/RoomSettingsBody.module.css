@@ -27,3 +27,24 @@
 	focus:ring-blue-500 focus:border-blue-500 
 	dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white
 }
+
+.invite_flex {
+	@apply flex flex-col
+}
+
+.invite_code {
+	@apply mb-4 flex items-center gap-2;
+}
+
+.invite_code_name {	
+	@apply block text-sm font-semibold text-gray-900 dark:text-white w-16
+}
+
+.setting_box_input {
+  @apply border-2 border-current;
+
+	@apply block w-full p-2.5 text-sm rounded-lg border
+	bg-gray-50 border-gray-300 text-gray-900 
+	focus:ring-blue-500 focus:border-blue-500 
+	dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white
+}

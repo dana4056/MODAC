@@ -24,4 +24,8 @@ export const useArticleStore = defineStore("article", () => {
     // setArticleContent,
     publicTypeNumber,
   };
-});
+},
+{
+  persist: true,
+}
+);

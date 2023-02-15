@@ -28,5 +28,8 @@ export const useCommentStore = defineStore("comment", () => {
       // getComments,
       api,
     };
+  },
+  {
+    persist: true,
   }
 );
