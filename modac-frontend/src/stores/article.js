@@ -1,25 +1,27 @@
-import { computed, ref } from "vue";
+import { ref } from "vue";
 import { defineStore } from "pinia";
 
 export const useArticleStore = defineStore("article", () => {
-  const articles = ref([]); // 게시글 목록
-  const selectedArticleItemSeq = ref(null);
-  const categoryOfSelectedArticleItem = computed(() =>
-    articles.value.find(
-      (article) => article.seq === selectedArticleItemSeq.value
-    )
-  );
+  const articles = ref([]);
+  const deleteArticle = (seq) => {
+    articles.value = articles.value.filter((article) => article.seq !== seq);
+  };
 
-  const publicType = ref(0);
-  const completeWriteArticleState = ref(false);
-  const githubState = ref(1);
+  const selectedArticleItemSeq = ref(null);
+
+  const articleContent = ref("");
+  // const setArticleContent = (value) => {
+  //   articleContent.value = value;
+  // };
+
+  const publicTypeNumber = ref(0);
 
   return {
     articles,
+    deleteArticle,
     selectedArticleItemSeq,
-    categoryOfSelectedArticleItem,
-    publicType,
-    completeWriteArticleState,
-    githubState,
+    articleContent,
+    // setArticleContent,
+    publicTypeNumber,
   };
 });
