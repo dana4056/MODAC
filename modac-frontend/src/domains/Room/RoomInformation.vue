@@ -20,8 +20,6 @@ const { loginUser } = storeToRefs(userStore);
 
 const exitRoom = (event) => {
   // 공개방
-  console.log("ASDASdasdADS",room_info.value.publicType)
-  console.log("함수", props.openRoomExitConfirmModal)
   if (room_info.value.publicType === 1) {
     props.openRoomExitConfirmModal(event);
   }
@@ -37,7 +35,6 @@ const exitRoom = (event) => {
     roomStore.api.updateCurrentRoom(payload)
     roomStore.exitRoom();
   }
-  // roomStore.api.findRoomList(loginUser.value.seq)
 };
 
 

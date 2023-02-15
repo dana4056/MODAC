@@ -10,14 +10,8 @@ export default {
     postRoom(payload) {
         http.post(`/rooms`, payload)
             .then(({ data }) => {
-                const userStore = useUserStore()
-                const { loginUser } = storeToRefs(userStore)
-                const payload2 = {
-                    usersSeq: loginUser.value.seq,
-                    seq: data.seq
-                }
-
-                this.joinRoom(payload2)
+                const roomStore = useRoomStore()
+                roomStore.enterRoom(data.seq)
             })
             .catch((error) => {
                 console.log(error)
@@ -34,7 +28,6 @@ export default {
             const code = response.status;
 
             if(code == 200){
-                // console.log("스터디룸 목록: "+JSON.stringify(response.data));
                 const roomStore = useRoomStore();
                 const { room_list } = storeToRefs(roomStore);
                 room_list.value = response.data
@@ -46,12 +39,16 @@ export default {
         })
     },
     // 스터디룸 조회
-    findRoom(seq) {
-        http.get(`/rooms/${seq}`)
+    async findRoom(seq) {
+        await http.get(`/rooms/${seq}`)
         .then((response) => {
             const code = response.status;
 
             if(code == 200) {
+                const roomStore = useRoomStore();
+                const { room_info } = storeToRefs(roomStore);
+                room_info.value = response.data
+
                 console.log("스터디룸: "+ JSON.stringify(response.data));
             }
             else if(code == 204) {
@@ -94,45 +91,6 @@ export default {
             }
             else if(code == 204) {
                 console.log("스터디룸 삭제 실패: 스터디룸 없음")
-            }
-        })
-        .catch((error) => {
-            console.log(error);
-        })
-    },
-    // 스터디룸 참가
-    joinRoom(payload) {
-        http.post(`/rooms/${payload.seq}/join`, payload.usersSeq, {
-            headers: {
-                'Content-Type': 'text/plain'
-            }})
-        .then(({data}) => {
-            // console.log("스터디룸 참가 성공: " + JSON.stringify(data));
-            const roomStore = useRoomStore();
-            const { room_info } = storeToRefs(roomStore);
-            room_info.value = data
-        })
-        .catch((error) => {
-            console.log(error);
-        })
-    },
-    // 스터디룸 나가기
-    exitRoom(payload) {
-        http.delete(`/rooms/${payload.seq}/join`, {
-        params : {
-            user: payload.usersSeq
-        }})
-        .then((response) => {
-            const code = response.status;
-
-            if(code == 200) {
-                console.log("스터디룸 나가기 완료: "+ JSON.stringify(response.data));
-                const userStore = useUserStore();
-                const { loginUser } = storeToRefs(userStore);
-                this.findRoomList(loginUser.value.seq)
-            }
-            else if(code == 204) {
-                console.log("스터디룸 나가기 실패: 참가정보 없음")
             }
         })
         .catch((error) => {

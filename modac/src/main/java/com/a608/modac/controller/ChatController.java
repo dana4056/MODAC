@@ -65,8 +65,12 @@ public class ChatController {
 		return new ResponseEntity<>(allMessagesFromRedis, HttpStatus.OK);
 	} // redis DM 특정 채팅방 메시지 전체 조회.
 
-//	@MessageMapping(value = "/rooms/enter/direct")
-	@PostMapping("/rooms/enter/direct")
+
+
+
+	// =================================== DM ==============================================================
+	// 채팅방 입장(구독) -> 1:1 대화.
+	@MessageMapping(value = "/rooms/enter/direct")
 	public ResponseEntity<Void> enterDirectChatRoom(final DirectMessageDto directMessageDto) {
 		final DirectMessage directMessage = chatService.saveDirectMessage(directMessageDto);
 
@@ -75,12 +79,11 @@ public class ChatController {
 			directMessage.getMessage());
 
 		return new ResponseEntity<>(HttpStatus.OK);
-	} // 채팅방 입장(구독) -> 1:1 대화.
+	}
 
-//	@MessageMapping(value = "/messages/direct")
-	@PostMapping(value = "/messages/direct")
-	public ResponseEntity<Void> sendDirectMessage(@RequestBody final DirectMessageDto directMessageDto) {
-		// MessageMapping으로 바꾸면서 @RequestBody 지워야함.
+	// (채팅방 구독자에게) 메시지 보내기. -> // redis DM 채팅 메시지 저장.
+	@MessageMapping(value = "/messages/direct")
+	public ResponseEntity<Void> sendDirectMessage(final DirectMessageDto directMessageDto) {
 		final DirectMessage directMessage = chatService.saveDirectMessage(directMessageDto);
 		chatService.updateLastMessage(directMessageDto);
 
@@ -89,7 +92,11 @@ public class ChatController {
 			directMessageDto);
 
 		return new ResponseEntity<>(HttpStatus.OK);
-	} // (채팅방 구독자에게) 메시지 보내기. -> // redis DM 채팅 메시지 저장.
+	}
+
+	// ====================================================================================================
+
+
 
 	@MessageMapping(value = "/rooms/enter/group")
 	public void enterGroupChatRoom(ChatMessageRequest chatMessageRequest) {
