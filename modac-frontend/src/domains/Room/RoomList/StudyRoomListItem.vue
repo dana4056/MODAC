@@ -77,12 +77,7 @@ const enterRoom = async () => {
       const res = await roomStore.api.checkRoomCode(payload);
       // 비번이 일치 한다면 새로 Join
       if (res === true) {  
-        const payload = {
-          seq: roomItem.value.seq,
-          usersSeq: loginUser.value.seq
-        }
-        roomStore.api.joinRoom(payload)
-        roomStore.enterRoom();
+        roomStore.enterRoom(roomItem.value.seq);
       }
       // 비번이 일치하지 않음.
       else {
@@ -94,16 +89,11 @@ const enterRoom = async () => {
       // 공개방 이면 Join 요청
       if (roomItem.value.publicType == 1) {
         console.log("공개방 입장")
-        const payload = {
-          seq: roomItem.value.seq,
-          usersSeq: loginUser.value.seq
-        }
-        roomStore.api.joinRoom(payload)
-        roomStore.enterRoom();
+        roomStore.enterRoom(roomItem.value.seq);
       }
       // 비공개 방이라면 join 요청 x
       else {
-        roomStore.enterRoom();
+        roomStore.enterRoom(roomItem.value.seq);
       }
     }
   }

@@ -17,8 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.a608.modac.model.chat.DirectMessage;
-import com.a608.modac.model.chat.DirectMessageDto;
 import com.a608.modac.model.participant.ParticipantRequest;
 import com.a608.modac.model.room.RoomRequest;
 import com.a608.modac.model.room.RoomResponse;
@@ -74,18 +72,6 @@ public class RoomController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
-	// @PostMapping("/{seq}/join")				// 멀티룸에 참여
-	// public ResponseEntity<?> joinRoom(@PathVariable("seq") final Long seq, @RequestBody String usersSeq){
-	// 	RoomResponse roomResponse = roomService.joinRoom(seq, Long.parseLong(usersSeq));
-	// 	return new ResponseEntity<RoomResponse>(roomResponse, HttpStatus.OK);
-	// }
-	//
-	// @DeleteMapping("/{seq}/join")			// 멀티룸에서 나가기
-	// public ResponseEntity<?> exitRoom(@PathVariable("seq") final Long seq, @RequestParam("user") Long usersSeq){
-	// 	roomService.exitRoom(seq, usersSeq);
-	// 	return new ResponseEntity<>(HttpStatus.OK);
-	// }
-
 	@PutMapping("/{seq}/join")				// 멀티룸 참여상태 변경
 	public ResponseEntity<?> updateUserAttend(@PathVariable("seq") final Long seq, @RequestBody final ParticipantRequest participantRequest){
 		roomService.updateUserAttend(seq, participantRequest);
@@ -110,45 +96,26 @@ public class RoomController {
 		return new ResponseEntity<>(isSameCode, HttpStatus.OK);
 	}
 
-
-	@PostMapping("/{seq}/join")				// 멀티룸에 참여
-	public ResponseEntity<?> joinRoom(@PathVariable("seq") final Long seq, @RequestBody String usersSeq){
-		RoomResponse roomResponse = roomService.joinRoom(seq, Long.parseLong(usersSeq));
-		return new ResponseEntity<RoomResponse>(roomResponse, HttpStatus.OK);
-	}
-
-    // //================================= 소켓 URL은 다시 봐야함 ===============================
-	// @MessageMapping(value = "join/rooms/{seq}")
-	// public ResponseEntity<Void> joinRoom(final ParticipantRequest participantRequest) {
-	// 	RoomResponse roomResponse = roomService.joinRoom(participantRequest.getRoomsSeq(),
-	// 		participantRequest.getUsersSeq());
-	//
-	// 	simpMessageSendingOperations.convertAndSend(
-	// 		"/join/rooms/" + roomResponse.getSeq(),
-	// 		participantRequest.getUsersSeq()+"번 사용자 참가");
-	//
-	// 	return new ResponseEntity<>(HttpStatus.OK);
-	// } // 스터디룸 입장(구독)
+	@MessageMapping(value = "/message/enter")
+	public ResponseEntity<Void> sendDirectMessage(@RequestBody final ParticipantRequest participantRequest) {
+		//참가자 번호, 입퇴장문자열("ENTER", "EXIT"), 방번호가 담긴 DTO로 받아서
 
 
+		// 멀티룸 퇴장 또는 입장 비즈니스 로직 호출하고 -> (true, false)에 따라 분기문
+		if(participantRequest.isAttend()){
+			System.out.println("참가요청");
+			RoomResponse roomResponse = roomService.joinRoom(participantRequest.getRoomsSeq(), participantRequest.getUsersSeq());
 
-	@DeleteMapping("/{seq}/join")			// 멀티룸에서 나가기
-	public ResponseEntity<?> exitRoom(@PathVariable("seq") final Long seq, @RequestParam("user") Long usersSeq){
-		roomService.exitRoom(seq, usersSeq);
+			simpMessageSendingOperations.convertAndSend("/enter/rooms/" + participantRequest.getRoomsSeq(), "ENTER");
+			System.out.println("/enter/rooms/" + participantRequest.getRoomsSeq()+"로 ENTER 보냄");
+		}else{
+			System.out.println("퇴장요청");
+			roomService.exitRoom(participantRequest.getRoomsSeq(), participantRequest.getUsersSeq());
+			simpMessageSendingOperations.convertAndSend("/enter/rooms/" + participantRequest.getRoomsSeq(), "EXIT");
+		}
+
+		// 입퇴장 문자열 종류 전송(구독자들에게) -> ("ENTER", "EXIT") 이거 그대로 -> 프론트에서 분기해서 처리
+
 		return new ResponseEntity<>(HttpStatus.OK);
-	}
-
-
-	// //================================= 소켓 URL은 다시 봐야함 ===============================
-	// @MessageMapping(value = "/exit/rooms")
-	// public ResponseEntity<Void> sendDirectMessage(@RequestBody final ParticipantRequest participantRequest) {
-	//
-	// 	roomService.exitRoom(participantRequest.getRoomsSeq(), participantRequest.getUsersSeq());
-	//
-	// 	simpMessageSendingOperations.convertAndSend(
-	// 		"/exit/rooms/" + participantRequest.getRoomsSeq(),
-	// 		participantRequest.getUsersSeq()+"번 사용자 퇴장");
-	//
-	// 	return new ResponseEntity<>(HttpStatus.OK);
-	// } // 참가자 퇴장 (구독자들에게 알리기)
+	} // 참가자 입퇴장 (구독자들에게 알리기)
 }

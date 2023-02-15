@@ -18,7 +18,7 @@ export const useDmStore = defineStore("dm", () => {
   const directMessageRoomSeq = ref(0); // 선택한 DM 채팅방 목록
   const directChatLogs = ref([]); // 채팅방 내 채팅 로그 목록
   const isDropdownOpenState = ref(false); // DM창 드롭다운 여부
-  const stompClient = ref(null);
+  let stompClient = ref(null);
   // [directMessageRoomList 요소 형식]
   // seq:Integer,
   // lastMessage:String,

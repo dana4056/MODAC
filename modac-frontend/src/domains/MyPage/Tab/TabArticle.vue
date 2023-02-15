@@ -13,9 +13,9 @@
       </tr>
 
       <!-- 표 내용 부분 -->
-      <tr v-for="article in paginatedData" :key="article.seq">
-        <td :class="$style.article_table_td">{{ article.seq + 1 }}</td>
-        <td :class="$style.article_table_td">{{ article.registeredTime }}</td>
+      <tr v-for="(article, index) in paginatedData" :key="article.seq" :index="index">
+        <td :class="$style.article_table_td">{{ index + 1 }}</td>
+        <td :class="$style.article_table_td">{{ article.registeredTime.substr(0,10) }}</td>
         <td :class="$style.article_table_td">
           <!-- {{ article.categoryName }} -->
           <span v-if="article.categoryName === '알고리즘'" :class="$style.article_table_td_category_algorithm">#알고리즘</span>
@@ -78,335 +78,419 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
+import { ref, computed, onMounted } from "vue";
 import { useUserStore } from '@/stores/user';
 import { useStatsStore } from '@/stores/statistics';
+import { useFeedStore } from "@/stores/feed";
+import { useCommentStore } from "@/stores/comment.js";
 import { storeToRefs } from "pinia"
+import articleAPI from "@/api/article.js";
+import commentAPI from "@/api/comment.js";
 
 const userStore = useUserStore();
 const statsStore = useStatsStore();
+const feedStore = useFeedStore();
+const commentStore = useCommentStore();
+const { articles } = storeToRefs(feedStore);
+const { article } = storeToRefs(feedStore);
+const { comments } = storeToRefs(commentStore);
 
 const { loginUser } = storeToRefs(userStore);
 statsStore.api.getStatistics(loginUser.value.seq);
 
-const ArticleResponseList = [
-  {
-    seq: 0,
-    title: "BFS에 대하여a;lsdlfk;ajskldfjlkasjdklfjaksldjklajsdklja;klsdj;klajskgljaksljdlfajsdlfjal;sjdgklajaskjdlf;ajsl;dfjlak;sjdfklja;sldjl;ajsl;jfa;lksjlasjd;lfajslkdfjal;sjdf;lajs;dlfj;alsjdf;lkajs;lfkjalskdf;ajsf",
-    filepath: "String",
-    registeredTime: "2023-01-23",
-    publicType: "Integer",
-    viewCount: 2,
-    likeCount: 1,
-    commentCount: 3,
-    totalSecond: "String",
-    user: {
-        seq: "Integer",
-        id: "String",
-        nickname: "String",
-        email: "String",
-        password: "String",
-        singleTheme: "String",
-        totalSecond: "Integer",
-        membership: {
-            grade: "String"
-        }
-    },
-    categoryName: "알고리즘"
-  },
-  {
-    seq: 1,
-    title: "운영체제에 대하여",
-    filepath: "String",
-    registeredTime: "2023-01-24",
-    publicType: "Integer",
-    viewCount: 6,
-    likeCount: 5,
-    commentCount: 1,
-    totalSecond: "String",
-    user: {
-        seq: "Integer",
-        id: "String",
-        nickname: "String",
-        email: "String",
-        password: "String",
-        singleTheme: "String",
-        totalSecond: "Integer",
-        membership: {
-            grade: "String"
-        }
-    },
-    categoryName: "CS"
-  },
-  {
-    seq:2,
-    title: "마이페이지 개발",
-    filepath: "String",
-    registeredTime: "2023-01-31",
-    publicType: "Integer",
-    viewCount: 5,
-    likeCount: 3,
-    commentCount: 0,
-    totalSecond: "String",
-    user: {
-        seq: "Integer",
-        id: "String",
-        nickname: "String",
-        email: "String",
-        password: "String",
-        singleTheme: "String",
-        totalSecond: "Integer",
-        membership: {
-            grade: "String"
-        }
-    },
-    categoryName: "개발"
-  },
-  {
-    seq:3,
-    title: "마이페이지 개발",
-    filepath: "String",
-    registeredTime: "2023-01-31",
-    publicType: "Integer",
-    viewCount: 5,
-    likeCount: 3,
-    commentCount: 0,
-    totalSecond: "String",
-    user: {
-        seq: "Integer",
-        id: "String",
-        nickname: "String",
-        email: "String",
-        password: "String",
-        singleTheme: "String",
-        totalSecond: "Integer",
-        membership: {
-            grade: "String"
-        }
-    },
-    categoryName: "면접"
-  },
-  {
-    seq:4,
-    title: "마이페이지 개발",
-    filepath: "String",
-    registeredTime: "2023-01-31",
-    publicType: "Integer",
-    viewCount: 5,
-    likeCount: 3,
-    commentCount: 0,
-    totalSecond: "String",
-    user: {
-        seq: "Integer",
-        id: "String",
-        nickname: "String",
-        email: "String",
-        password: "String",
-        singleTheme: "String",
-        totalSecond: "Integer",
-        membership: {
-            grade: "String"
-        }
-    },
-    categoryName: "공통"
-  },
-  {
-    seq:5,
-    title: "마이페이지 개발",
-    filepath: "String",
-    registeredTime: "2023-01-31",
-    publicType: "Integer",
-    viewCount: 5,
-    likeCount: 3,
-    commentCount: 0,
-    totalSecond: "String",
-    user: {
-        seq: "Integer",
-        id: "String",
-        nickname: "String",
-        email: "String",
-        password: "String",
-        singleTheme: "String",
-        totalSecond: "Integer",
-        membership: {
-            grade: "String"
-        }
-    },
-    categoryName: "개발"
-  },
-  {
-    seq:6,
-    title: "마이페이지 개발",
-    filepath: "String",
-    registeredTime: "2023-01-31",
-    publicType: "Integer",
-    viewCount: 5,
-    likeCount: 3,
-    commentCount: 0,
-    totalSecond: "String",
-    user: {
-        seq: "Integer",
-        id: "String",
-        nickname: "String",
-        email: "String",
-        password: "String",
-        singleTheme: "String",
-        totalSecond: "Integer",
-        membership: {
-            grade: "String"
-        }
-    },
-    categoryName: "개발"
-  },
-  {
-    seq:7,
-    title: "마이페이지 개발",
-    filepath: "String",
-    registeredTime: "2023-01-31",
-    publicType: "Integer",
-    viewCount: 5,
-    likeCount: 3,
-    commentCount: 0,
-    totalSecond: "String",
-    user: {
-        seq: "Integer",
-        id: "String",
-        nickname: "String",
-        email: "String",
-        password: "String",
-        singleTheme: "String",
-        totalSecond: "Integer",
-        membership: {
-            grade: "String"
-        }
-    },
-    categoryName: "개발"
-  },
-  {
-    seq:8,
-    title: "마이페이지 개발",
-    filepath: "String",
-    registeredTime: "2023-01-31",
-    publicType: "Integer",
-    viewCount: 5,
-    likeCount: 3,
-    commentCount: 0,
-    totalSecond: "String",
-    user: {
-        seq: "Integer",
-        id: "String",
-        nickname: "String",
-        email: "String",
-        password: "String",
-        singleTheme: "String",
-        totalSecond: "Integer",
-        membership: {
-            grade: "String"
-        }
-    },
-    categoryName: "개발"
-  },
-  {
-    seq:9,
-    title: "마이페이지 개발",
-    filepath: "String",
-    registeredTime: "2023-01-31",
-    publicType: "Integer",
-    viewCount: 5,
-    likeCount: 3,
-    commentCount: 0,
-    totalSecond: "String",
-    user: {
-        seq: "Integer",
-        id: "String",
-        nickname: "String",
-        email: "String",
-        password: "String",
-        singleTheme: "String",
-        totalSecond: "Integer",
-        membership: {
-            grade: "String"
-        }
-    },
-    categoryName: "개발"
-  },
-  {
-    seq:10,
-    title: "마이페이지 개발",
-    filepath: "String",
-    registeredTime: "2023-01-31",
-    publicType: "Integer",
-    viewCount: 5,
-    likeCount: 3,
-    commentCount: 0,
-    totalSecond: "String",
-    user: {
-        seq: "Integer",
-        id: "String",
-        nickname: "String",
-        email: "String",
-        password: "String",
-        singleTheme: "String",
-        totalSecond: "Integer",
-        membership: {
-            grade: "String"
-        }
-    },
-    categoryName: "개발"
-  },
-  {
-    seq:11,
-    title: "마이페이지 개발",
-    filepath: "String",
-    registeredTime: "2023-01-31",
-    publicType: "Integer",
-    viewCount: 5,
-    likeCount: 3,
-    commentCount: 0,
-    totalSecond: "String",
-    user: {
-        seq: "Integer",
-        id: "String",
-        nickname: "String",
-        email: "String",
-        password: "String",
-        singleTheme: "String",
-        totalSecond: "Integer",
-        membership: {
-            grade: "String"
-        }
-    },
-    categoryName: "개발"
-  },
-  {
-    seq:12,
-    title: "마이페이지 개발",
-    filepath: "String",
-    registeredTime: "2023-01-31",
-    publicType: "Integer",
-    viewCount: 5,
-    likeCount: 3,
-    commentCount: 0,
-    totalSecond: "String",
-    user: {
-        seq: "Integer",
-        id: "String",
-        nickname: "String",
-        email: "String",
-        password: "String",
-        singleTheme: "String",
-        totalSecond: "Integer",
-        membership: {
-            grade: "String"
-        }
-    },
-    categoryName: "개발"
-  },
-]
+const payload = {
+  usersSeq : userStore.loginUser.seq,
+  offset : 1, 
+  limit: 100,
+}
+articleAPI.findArticleByFollowing(payload);
+
+let feeds = articles.value.articleInfoList;
+let feedArticle = article.value;
+let commentList = comments.value;
+
+onMounted(() => {
+  feeds = articles.value.articleInfoList;
+  feedArticle = article.value;
+  commentList = comments.value;
+})
+
+// store에서 불러 와야 할 아이들
+const computedFeedList = computed(() => {
+  return articles.value.articleInfoList;
+})
+
+const feedModalState = ref(false);
+let feedModalSeq = ref(null);
+
+const closeFeedModal = (element) => {
+  const backdropElement = ref();
+  const cancleElement = ref();
+
+  backdropElement.value = document.querySelector("#backdrop");
+  cancleElement.value = document.querySelector("#cancle")
+
+  if (backdropElement.value === event.target 
+      || cancleElement.value === event.target) {
+      feedModalState.value = false;
+    }
+  if (element === "cancle") {
+    feedModalState.value = false;
+  }
+};
+
+const openFeedModal = async (seq) => {
+  await articleAPI.updateViewCount(seq); // 2
+  await articleAPI.findArticle(seq); // 2
+  feedArticle = article;
+
+  feedModalSeq.value = seq;
+  feedModalState.value = true;
+  feeds = articles.value.articleInfoList;
+
+  commentList = comments;
+  await commentAPI.findCommentList(feedModalSeq.value);
+
+  commentList = comments;
+};
+
+const updateFeedModal = async (seq) => {
+  await articleAPI.findArticle(seq); // 2
+  feedArticle = article;
+  console.log("3333feedArticle.value", feedArticle.value.viewCount);
+
+  feedModalSeq.value = seq;
+  feedModalState.value = true;
+  feeds = articles.value.articleInfoList;
+
+  commentList = comments;
+  await commentAPI.findCommentList(feedModalSeq.value);
+
+  commentList = comments;
+  console.log("commentList", commentList);
+};
+
+// const ArticleResponseList = [
+//   {
+//     seq: 0,
+//     title: "BFS에 대하여a;lsdlfk;ajskldfjlkasjdklfjaksldjklajsdklja;klsdj;klajskgljaksljdlfajsdlfjal;sjdgklajaskjdlf;ajsl;dfjlak;sjdfklja;sldjl;ajsl;jfa;lksjlasjd;lfajslkdfjal;sjdf;lajs;dlfj;alsjdf;lkajs;lfkjalskdf;ajsf",
+//     filepath: "String",
+//     registeredTime: "2023-01-23",
+//     publicType: "Integer",
+//     viewCount: 2,
+//     likeCount: 1,
+//     commentCount: 3,
+//     totalSecond: "String",
+//     user: {
+//         seq: "Integer",
+//         id: "String",
+//         nickname: "String",
+//         email: "String",
+//         password: "String",
+//         singleTheme: "String",
+//         totalSecond: "Integer",
+//         membership: {
+//             grade: "String"
+//         }
+//     },
+//     categoryName: "알고리즘"
+//   },
+//   {
+//     seq: 1,
+//     title: "운영체제에 대하여",
+//     filepath: "String",
+//     registeredTime: "2023-01-24",
+//     publicType: "Integer",
+//     viewCount: 6,
+//     likeCount: 5,
+//     commentCount: 1,
+//     totalSecond: "String",
+//     user: {
+//         seq: "Integer",
+//         id: "String",
+//         nickname: "String",
+//         email: "String",
+//         password: "String",
+//         singleTheme: "String",
+//         totalSecond: "Integer",
+//         membership: {
+//             grade: "String"
+//         }
+//     },
+//     categoryName: "CS"
+//   },
+//   {
+//     seq:2,
+//     title: "마이페이지 개발",
+//     filepath: "String",
+//     registeredTime: "2023-01-31",
+//     publicType: "Integer",
+//     viewCount: 5,
+//     likeCount: 3,
+//     commentCount: 0,
+//     totalSecond: "String",
+//     user: {
+//         seq: "Integer",
+//         id: "String",
+//         nickname: "String",
+//         email: "String",
+//         password: "String",
+//         singleTheme: "String",
+//         totalSecond: "Integer",
+//         membership: {
+//             grade: "String"
+//         }
+//     },
+//     categoryName: "개발"
+//   },
+//   {
+//     seq:3,
+//     title: "마이페이지 개발",
+//     filepath: "String",
+//     registeredTime: "2023-01-31",
+//     publicType: "Integer",
+//     viewCount: 5,
+//     likeCount: 3,
+//     commentCount: 0,
+//     totalSecond: "String",
+//     user: {
+//         seq: "Integer",
+//         id: "String",
+//         nickname: "String",
+//         email: "String",
+//         password: "String",
+//         singleTheme: "String",
+//         totalSecond: "Integer",
+//         membership: {
+//             grade: "String"
+//         }
+//     },
+//     categoryName: "면접"
+//   },
+//   {
+//     seq:4,
+//     title: "마이페이지 개발",
+//     filepath: "String",
+//     registeredTime: "2023-01-31",
+//     publicType: "Integer",
+//     viewCount: 5,
+//     likeCount: 3,
+//     commentCount: 0,
+//     totalSecond: "String",
+//     user: {
+//         seq: "Integer",
+//         id: "String",
+//         nickname: "String",
+//         email: "String",
+//         password: "String",
+//         singleTheme: "String",
+//         totalSecond: "Integer",
+//         membership: {
+//             grade: "String"
+//         }
+//     },
+//     categoryName: "공통"
+//   },
+//   {
+//     seq:5,
+//     title: "마이페이지 개발",
+//     filepath: "String",
+//     registeredTime: "2023-01-31",
+//     publicType: "Integer",
+//     viewCount: 5,
+//     likeCount: 3,
+//     commentCount: 0,
+//     totalSecond: "String",
+//     user: {
+//         seq: "Integer",
+//         id: "String",
+//         nickname: "String",
+//         email: "String",
+//         password: "String",
+//         singleTheme: "String",
+//         totalSecond: "Integer",
+//         membership: {
+//             grade: "String"
+//         }
+//     },
+//     categoryName: "개발"
+//   },
+//   {
+//     seq:6,
+//     title: "마이페이지 개발",
+//     filepath: "String",
+//     registeredTime: "2023-01-31",
+//     publicType: "Integer",
+//     viewCount: 5,
+//     likeCount: 3,
+//     commentCount: 0,
+//     totalSecond: "String",
+//     user: {
+//         seq: "Integer",
+//         id: "String",
+//         nickname: "String",
+//         email: "String",
+//         password: "String",
+//         singleTheme: "String",
+//         totalSecond: "Integer",
+//         membership: {
+//             grade: "String"
+//         }
+//     },
+//     categoryName: "개발"
+//   },
+//   {
+//     seq:7,
+//     title: "마이페이지 개발",
+//     filepath: "String",
+//     registeredTime: "2023-01-31",
+//     publicType: "Integer",
+//     viewCount: 5,
+//     likeCount: 3,
+//     commentCount: 0,
+//     totalSecond: "String",
+//     user: {
+//         seq: "Integer",
+//         id: "String",
+//         nickname: "String",
+//         email: "String",
+//         password: "String",
+//         singleTheme: "String",
+//         totalSecond: "Integer",
+//         membership: {
+//             grade: "String"
+//         }
+//     },
+//     categoryName: "개발"
+//   },
+//   {
+//     seq:8,
+//     title: "마이페이지 개발",
+//     filepath: "String",
+//     registeredTime: "2023-01-31",
+//     publicType: "Integer",
+//     viewCount: 5,
+//     likeCount: 3,
+//     commentCount: 0,
+//     totalSecond: "String",
+//     user: {
+//         seq: "Integer",
+//         id: "String",
+//         nickname: "String",
+//         email: "String",
+//         password: "String",
+//         singleTheme: "String",
+//         totalSecond: "Integer",
+//         membership: {
+//             grade: "String"
+//         }
+//     },
+//     categoryName: "개발"
+//   },
+//   {
+//     seq:9,
+//     title: "마이페이지 개발",
+//     filepath: "String",
+//     registeredTime: "2023-01-31",
+//     publicType: "Integer",
+//     viewCount: 5,
+//     likeCount: 3,
+//     commentCount: 0,
+//     totalSecond: "String",
+//     user: {
+//         seq: "Integer",
+//         id: "String",
+//         nickname: "String",
+//         email: "String",
+//         password: "String",
+//         singleTheme: "String",
+//         totalSecond: "Integer",
+//         membership: {
+//             grade: "String"
+//         }
+//     },
+//     categoryName: "개발"
+//   },
+//   {
+//     seq:10,
+//     title: "마이페이지 개발",
+//     filepath: "String",
+//     registeredTime: "2023-01-31",
+//     publicType: "Integer",
+//     viewCount: 5,
+//     likeCount: 3,
+//     commentCount: 0,
+//     totalSecond: "String",
+//     user: {
+//         seq: "Integer",
+//         id: "String",
+//         nickname: "String",
+//         email: "String",
+//         password: "String",
+//         singleTheme: "String",
+//         totalSecond: "Integer",
+//         membership: {
+//             grade: "String"
+//         }
+//     },
+//     categoryName: "개발"
+//   },
+//   {
+//     seq:11,
+//     title: "마이페이지 개발",
+//     filepath: "String",
+//     registeredTime: "2023-01-31",
+//     publicType: "Integer",
+//     viewCount: 5,
+//     likeCount: 3,
+//     commentCount: 0,
+//     totalSecond: "String",
+//     user: {
+//         seq: "Integer",
+//         id: "String",
+//         nickname: "String",
+//         email: "String",
+//         password: "String",
+//         singleTheme: "String",
+//         totalSecond: "Integer",
+//         membership: {
+//             grade: "String"
+//         }
+//     },
+//     categoryName: "개발"
+//   },
+//   {
+//     seq:12,
+//     title: "마이페이지 개발",
+//     filepath: "String",
+//     registeredTime: "2023-01-31",
+//     publicType: "Integer",
+//     viewCount: 5,
+//     likeCount: 3,
+//     commentCount: 0,
+//     totalSecond: "String",
+//     user: {
+//         seq: "Integer",
+//         id: "String",
+//         nickname: "String",
+//         email: "String",
+//         password: "String",
+//         singleTheme: "String",
+//         totalSecond: "Integer",
+//         membership: {
+//             grade: "String"
+//         }
+//     },
+//     categoryName: "개발"
+//   },
+// ]
+
+// const ArticleResponseList = ref([]);
+const ArticleResponseList = computedFeedList;
 
 let page = ref(1);
 const perPage = 10;
-const data = ArticleResponseList;
+const data = ArticleResponseList.value;
 
 const paginatedData = computed(() =>
   data.slice((page.value - 1) * perPage, page.value * perPage)

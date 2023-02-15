@@ -4,19 +4,22 @@ import com.a608.modac.model.user.User;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class ChatMessageRequest {
-	private final Long usersSeq;
-	private final Long chatRoomsSeq;
-	private final String sendTime;
-	private final String message;
-	private final MessageType messageType;
-	private final ChatRoomType chatRoomType;
+	private Long usersSeq;
+	private Long chatRoomsSeq;
+	private String sendTime;
+	private String message;
+	private MessageType messageType;
+	private ChatRoomType chatRoomType;
 
 	@Builder
-	public ChatMessageRequest( final Long usersSeq, final Long chatRoomsSeq, final String sendTime,
-		final String message, final MessageType messageType, final ChatRoomType chatRoomType) {
+	public ChatMessageRequest(Long usersSeq, Long chatRoomsSeq, String sendTime, String message,
+		MessageType messageType,
+		ChatRoomType chatRoomType) {
 		this.usersSeq = usersSeq;
 		this.chatRoomsSeq = chatRoomsSeq;
 		this.sendTime = sendTime;

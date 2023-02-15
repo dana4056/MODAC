@@ -1,6 +1,6 @@
 <script setup>
 import UserListItem from "./UserListItem.vue";
-import { useCssModule, computed } from "vue";
+import { useCssModule, computed, ref } from "vue";
 import { useRoomStore } from "@/stores/room";
 import { storeToRefs } from "pinia";
 const $style = useCssModule();
@@ -13,40 +13,40 @@ const $style = useCssModule();
 // );
 
 const roomStore = useRoomStore();
-const { participants, room_info } = storeToRefs(roomStore);
-// console.log(participants.value);
+const { room_info } = storeToRefs(roomStore);
+
 </script>
 
 <template>
   <UserListItem
-    v-if="participants[0]"
+    v-if="room_info.participants[0]"
     :class="`${$style.first_position} ${$style.item_box}`"
-    :userItem="participants[0]"
+    :userItem="room_info.participants[0]"
   />
   <UserListItem
-  v-if="participants[1]"
+  v-if="room_info.participants[1]"
     :class="`${$style.second_position} ${$style.item_box}`"
-    :userItem="participants[1]"
+    :userItem="room_info.participants[1]"
   />
   <UserListItem
-  v-if="participants[2]"
+  v-if="room_info.participants[2]"
     :class="`${$style.third_position} ${$style.item_box}`"
-    :userItem="participants[2]"
+    :userItem="room_info.participants[2]"
   />
   <UserListItem
-  v-if="participants[3]"
+  v-if="room_info.participants[3]"
     :class="`${$style.fouth_position} ${$style.item_box}`"
-    :userItem="participants[3]"
+    :userItem="room_info.participants[3]"
   />
   <UserListItem
-  v-if="participants[4]"
+  v-if="room_info.participants[4]"
     :class="`${$style.fifth_position} ${$style.item_box}`"
-    :userItem="participants[4]"
+    :userItem="room_info.participants[4]"
   />
   <UserListItem
-  v-if="participants[5]"
+  v-if="room_info.participants[5]"
     :class="`${$style.sixth_position} ${$style.item_box}`"
-    :userItem="participants[5]"
+    :userItem="room_info.participants[5]"
   />
 
   <!-- <div :class="$style.user_list_first_flex">

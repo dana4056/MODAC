@@ -21,6 +21,7 @@ export const useFeedStore = defineStore("feed", () => {
   // {feed_seq: 7, status: 2}
   
   const articles = ref([]);
+  const article = ref();
 
   // const articles =  [
   //   {
@@ -634,6 +635,7 @@ export const useFeedStore = defineStore("feed", () => {
       feeds,
       getFeedList,
       articles,
+      article,
       getFeeds,
       feedTotalArticleCnt,
       totalPageCnt,

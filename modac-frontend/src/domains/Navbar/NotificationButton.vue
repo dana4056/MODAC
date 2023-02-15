@@ -1,6 +1,8 @@
 <script setup>
 import Notification from "@/components/Notification.vue";
+import OverflowDiv from "@/components/OverflowDiv.vue";
 import { ref, computed, useCssModule } from "vue";
+
 
 const $style = useCssModule();
 
@@ -24,11 +26,11 @@ const blurDropdownButtonHandler = () => {
   }
 };
 
-const dropdownStyleState = computed(() => {
-  return isDropdownOpenState.value
-    ? `${$style.dropdown} ${$style.dropdown_block}`
-    : `${$style.dropdown} ${$style.dropdown_none}`;
-});
+// const dropdownStyleState = computed(() => {
+//   return isDropdownOpenState.value
+//     ? `${$style.dropdown} ${$style.dropdown_block}`
+//     : `${$style.dropdown} ${$style.dropdown_none}`;
+// });
 </script>
 
 <template>
@@ -56,15 +58,18 @@ const dropdownStyleState = computed(() => {
       </button>
     </div>
     <div
-      id="dropdown"
-      :class="dropdownStyleState"
-      role="menu"
-      aria-orientation="vertical"
-      aria-labelledby="dropdown_button"
-      tabindex="-1"
+    v-if="isDropdownOpenState"
+    id="dropdown"
+    :class="$style.dropdown"
+    role="menu"
+    aria-orientation="vertical"
+    aria-labelledby="dropdown_button"
+    tabindex="-1"
     >
-      <Notification />
-    </div>
+      <OverflowDiv>
+        <Notification />
+      </OverflowDiv>
+      </div>
   </div>
 </template>
 

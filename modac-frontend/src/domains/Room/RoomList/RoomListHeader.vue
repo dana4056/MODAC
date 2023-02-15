@@ -107,7 +107,7 @@ const createRoom = () => {
 
   // 룸 생성 요청
   roomStore.api.postRoom(payload);
-  roomStore.enterRoom()
+  // roomStore.enterRoom()
 }
 
 const room_add_reset = () => {
@@ -149,7 +149,7 @@ const searchRoom = () => {
               <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path>
             </svg>
           </div>
-          <input @input="event => search_keyword = event.target.value" type="text" id="simple-search" :class="$style.searchbar_content_input" placeholder="원하는 방을 검색해보세요" required>
+          <input @input="event => search_keyword = event.target.value" type="text" id="simple-search" :class="$style.searchbar_content_input" placeholder="원하는 방을 검색해보세요">
         </div>
         <button type="submit" :class="$style.searchbar_content_button">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>

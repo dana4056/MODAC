@@ -1,0 +1,31 @@
+.item_container{
+  @apply -m-3 flex items-center justify-between rounded-lg p-2
+  shadow-lg ring-1 ring-black ring-opacity-5
+}
+
+.time{
+  @apply text-gray-400;
+  align-items:center;
+  justify-content: center;
+  
+}
+
+.close{
+  background-color: transparent;
+  border:none;
+  outline:none;
+  transition:all 0.2s ease-in-out;
+  padding: 0.75rem;
+  border-radius:0.5rem;
+  cursor:pointer;
+  display: flex;
+  align-items:center;
+  justify-content: center;
+}
+.close:hover{
+  background-color: #b2e4ef;
+}
+
+.new {
+  @apply bg-yellow-200
+}
