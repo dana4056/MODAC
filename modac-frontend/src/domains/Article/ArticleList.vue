@@ -1,5 +1,6 @@
 <script setup>
 import ArticleListItem from "./ArticleListItem.vue";
+import ArticleEditor2 from "./ArticleEditor2.vue";
 import { useTodoStore } from "@/stores/todo";
 import { useArticleStore } from "@/stores/article";
 import { ref, toRefs, computed } from "vue";
@@ -63,6 +64,7 @@ const handleClickArticleItem = async (seq) => {
       :articleItem="articleItem"
       :handleClickArticleItem="handleClickArticleItem"
     />
+    <ArticleEditor2 />
   </div>
   <div v-else>완료한 할 일이 없습니다!</div>
 </template>
