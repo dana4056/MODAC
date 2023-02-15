@@ -1,23 +1,25 @@
 <script setup>
-import { defineProps, ref } from "vue";
-const props = defineProps({
-  enterChat: Function,
-});
+import { ref } from "vue";
+import { useRoomStore } from "@/stores/room";
+
+const roomStore = useRoomStore();
 
 const inputChatMessage = ref("");
 
 defineExpose({
   inputChatMessage
 })
+
 </script>
 
 <template>
   <div>
-    <form action="" @submit.prevent="props.enterChat(inputChatMessage)">
+    <form action="" @submit.prevent="roomStore.enterChat(inputChatMessage)">
       <input
         :class="$style.chat_input_box"
         v-model="inputChatMessage"
         type="text"
+        id="form_el"
         placeholder="채팅을 입력하세요."
       />
     </form>

@@ -8,10 +8,11 @@ import OverflowDiv from "@/components/OverflowDiv.vue";
 
 import { useRoomStore } from "@/stores/room";
 import { storeToRefs } from "pinia";
-import { computed } from "vue";
+import { computed, onMounted} from "vue";
 
 const roomStore = useRoomStore();
 const { isOpenedLeftSideBar, isOpenedRightSideBar, room_info } = storeToRefs(roomStore);
+
 
 const leftSideBarStyleState = computed(() =>
   isOpenedLeftSideBar.value
@@ -34,6 +35,12 @@ const backGroundImg = computed(() => {
     } else {
       return "study_room_dessert"
     }
+  });
+
+  onMounted(() => {
+    setTimeout(() => {
+        roomStore.connect();
+    }, 500);
   });
 </script>
 
