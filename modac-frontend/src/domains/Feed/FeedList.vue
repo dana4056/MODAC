@@ -66,7 +66,7 @@
                     </div>
                     <div :class="$style.section_divider">|</div>
                     <div>
-                      {{ feedArticle.registeredTime }}
+                      {{ feedArticle.registeredTime.substr(0,10) + " " + feedArticle.registeredTime.substr(11,18) }}
                     </div>
                     <div :class="$style.section_divider">|</div>
                     <div>
@@ -100,9 +100,9 @@
 </template>
 
 <script setup>
-import FeedListItem from "./FeedListItem.vue"
-import FeedViewer from "./FeedViewer.vue"
-import FeedFooter from "./FeedFooter.vue"
+import FeedListItem from "@/domains/Feed/FeedListItem.vue"
+import FeedViewer from "@/domains/Feed/FeedViewer.vue"
+import FeedFooter from "@/domains/Feed/FeedFooter.vue"
 import OverflowDiv from "@/components/OverflowDiv.vue"
 import { useFeedStore } from "@/stores/feed";
 import { computed, ref, onMounted } from "vue"
