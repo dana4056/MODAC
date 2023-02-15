@@ -3,7 +3,7 @@
     <div :class="$style.login_left_flex">
       <div :class="$style.login_div_flex">
         <div :class="$style.login_description">
-          <img :src="emojiWearyCat" class="w-40 h-40 inline">
+          <img :src="emojiFire" class="w-40 h-40 inline">
           <h1 :class="$style.login_title"><span :class="$style.text_green">아이디</span>가 기억나지 않으신가요?</h1>
           <p :class="$style.login_p">가입하신 <span :class="$style.text_orange"> 이메일</span>로 찾을 수 있어요!</p>
         </div>
@@ -70,9 +70,9 @@
 </template>
 
 <script setup>
-  // import emojiFire from '../../assets/emojis/emoji-fire.png'
+  import emojiFire from '../../assets/emojis/emoji-fire.png'
   // import emojiPawPrints from '../../assets/emojis/emoji-paw-prints.png'
-  import emojiWearyCat from '../../assets/emojis/emoji-weary-cat.png'
+  // import emojiWearyCat from '../../assets/emojis/emoji-weary-cat.png'
   import emojiChartIncreasing from '../../assets/emojis/emoji-chart-increasing.png'
   // import emojiWritingHand from '../../assets/emojis/emoji-writing-hand.png'
   // import emojiCat from '../../assets/emojis/emoji-cat.png'

@@ -1,3 +1,7 @@
+.comment_list_div {
+  @apply flex gap-4 flex-col-reverse
+}
+
 .comment_list {
   @apply flex flex-col gap-4
 }

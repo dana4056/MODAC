@@ -35,28 +35,45 @@ export default {
             })
     },
     // 게시글 조회
-    findArticle(seq){
-        http.get(`/articles/${seq}`)
-            .then((response) => {
-                const code = response.status;
+    async findArticle(seq){
+        const response = await http.get(`/articles/${seq}`)
 
-                if (code == 200) {
-                    console.log(response.data)
-                } else if(code == 204) {
-                    alert("게시글 조회 실패: 게시글 없음")
-                }
-            })
-            .catch((error) => {
-                console.log(error);
-            });
+        const feedStore = useFeedStore();
+        const { article } = storeToRefs(feedStore);
+        article.value = response.data;
+
+
+            // .then((response) => {
+            //     const code = response.status;
+
+            //     if (code == 200) {
+            //         const feedStore = useFeedStore();
+            //         const { article } = storeToRefs(feedStore);
+                    
+            //         article.value = response.data;
+            //         console.log("2222article.value", article.value);
+            //     } else if(code == 204) {
+            //         alert("게시글 조회 실패: 게시글 없음")
+            //     }
+                
+            // })
+            // .catch((error) => {
+            //     console.log(error);
+            // });
     },
     // 게시글 조회수 올리기
-    updateViewCount(seq){
-        http.post(`/articles/${seq}/view`)
+    async updateViewCount(seq){
+        await http.post(`/articles/${seq}/view`)
         .then((response) => {
             const code = response.status;
 
             if (code == 200) {
+                const feedStore = useFeedStore();
+                const { article } = storeToRefs(feedStore);
+                article.value.viewCount = article.value.viewCount + 1;
+
+                console.log("article.value.viewCount", article.value.viewCount);
+
                 console.log(response.data)
             } else if(code == 204) {
                 alert("게시글 조회 실패: 게시글 없음")

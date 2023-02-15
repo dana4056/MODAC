@@ -63,7 +63,7 @@ onMounted(() => {
         </svg>
         <span>Like</span>
     </div>
-    <span>12</span>
+    <span>0</span>
     <div class="paws">
         <svg class="paw">
             <use xlink:href="#paw"></use>
