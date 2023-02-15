@@ -107,7 +107,7 @@ const createRoom = () => {
 
   // 룸 생성 요청
   roomStore.api.postRoom(payload);
-  roomStore.enterRoom()
+  // roomStore.enterRoom()
 }
 
 const room_add_reset = () => {

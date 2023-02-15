@@ -11,7 +11,6 @@ import OverflowDiv from "@/components/OverflowDiv.vue";
 const chatStore = useChatStore();
 const userStore = useUserStore();
 const roomStore = useRoomStore();
-var stompClient = null;
 
 const { groupChatLogs } = storeToRefs(chatStore);
 const { loginUser } = storeToRefs(userStore);
@@ -33,7 +32,7 @@ onMounted(() => {
       :loginUser="loginUser"
     />
   </OverflowDiv>
-  <ChatForm :enterChat="enterChat" ref="chatFormElement" />
+  <ChatForm ref="chatFormElement" />
 </template>
 
 <style lang="css" module>

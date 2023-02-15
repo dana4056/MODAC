@@ -42,16 +42,21 @@ export const useRoomStore = defineStore("room", () => {
 
 
   // 함수
-  const enterRoom = () => {
+  const enterRoom = async (roomSeq) => {
+    console.log("store의 enterRoom  seq:"+roomSeq)
+    await api.findRoom(roomSeq);      // 입장한 룸 정보 불러오기
+    connect2();                 // 소켓 연결 
     isEnteredRoom.value = true;
-    connect2();
   };
   const exitRoom = () => {
     if (stompClient != null) {
+      console.log("퇴장 요청 보냄");
+      sendEnter(0); 
       stompClient.disconnect(function () {
         console.log("DISCONNECT 소켓 연결해제")
       });
     }
+    api.findRoomList(loginUser.value.seq) // 룸리스트 정보 가져오기
     isEnteredRoom.value = false;
   };
   const deleteRoom = () => {
@@ -166,7 +171,7 @@ export const useRoomStore = defineStore("room", () => {
         chatRoomsSeq: chatData.chatRoomSeq,
         sendTime: chatData.sendTime,
         message: chatData.message,
-        MessageType: "TALK",
+        messageType: "TALK",
         chatRoomType: "GROUP",
       };
       
@@ -213,29 +218,39 @@ export const useRoomStore = defineStore("room", () => {
   
   
   const onConnected2 = () => { // async ?
+    console.log(room_info.value)
     stompClient2.subscribe(
-      `/enter/rooms/${room_info.value.chatRoom.seq}`,
+      `/enter/rooms/${room_info.value.seq}`,
       onMessageReceived2
     );
+    console.log("입장 메시지 보냄")
+    sendEnter(1);
   }
   
   const onError2 = () => {
     console.log("소켓 연결 실패");
   }
 
-  const sendEnter = (data) => {
-    stompClient.send(`/pub/message/enter`, data , {});
+  const sendEnter = (isAttend) => {
+    const data = {
+      usersSeq: loginUser.value.seq,
+      attend:isAttend,
+      roomsSeq: room_info.value.seq
+    }
+    stompClient2.send(`/pub/message/enter`, JSON.stringify(data) , {});
   }
   
   const onMessageReceived2 = (res) => {
+    
     setTimeout(() => {
-      var flag = JSON.parse(res.body);
+      api.findRoom(room_info.value.seq)
+      var flag = res.body;
       console.log("구독으로 받은 메시지", flag);
   
       if (flag == "ENTER") {
-        console.log("참가자 입장했습니다ㅏㅏ")
+        console.log("[참가자가 입장했습니다]")
       } else if (flag == "EXIT") {
-        console.log("참가자 퇴장했습니다ㅏㅏㅏ")
+        console.log("[참가자가 퇴장했습니다]")
       }
     }, 500);
   }
