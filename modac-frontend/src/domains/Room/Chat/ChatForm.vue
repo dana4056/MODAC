@@ -19,7 +19,6 @@ defineExpose({
         :class="$style.chat_input_box"
         v-model="inputChatMessage"
         type="text"
-        id="form_el"
         placeholder="채팅을 입력하세요."
       />
     </form>

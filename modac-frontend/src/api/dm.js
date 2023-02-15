@@ -15,7 +15,7 @@ export default {
             .then((response) => {
                 const DMstore = useDmStore();
                 const { directMessageRoomList } = storeToRefs(DMstore);
-                
+                console.log(response.data)
                 directMessageRoomList.value = response.data;
             })
             .catch((error) => {

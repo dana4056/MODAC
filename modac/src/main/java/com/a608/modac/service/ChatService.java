@@ -19,7 +19,6 @@ public interface ChatService {
 
 	List<DirectMessage> findAllMessagesByDirectChatRoomsSeq(final String chatRoomsSeq, final Pageable pageable);
 
-	DirectMessage enterDirectChatRoom(final DirectMessageDto directMessageDto);
 
 }
 

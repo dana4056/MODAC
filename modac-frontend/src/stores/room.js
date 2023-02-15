@@ -79,53 +79,6 @@ export const useRoomStore = defineStore("room", () => {
   const currentSize = ref(3);
   const maxSize = ref(6);
   const description = ref("싸피 8기 공통 6반");
-
-
-  // const participants = ref([
-  //   {
-  //     userSeq: 1,
-  //     nickname: "일싸피",
-  //     status: 0,
-  //     catSkin: 1,
-  //     categoriesName: "알고리즘",
-  //   },
-  //   {
-  //     userSeq: 2,
-  //     nickname: "이싸피",
-  //     status: 1,
-  //     catSkin: 2,
-  //     categoriesName: "CS",
-  //   },
-  //   {
-  //     userSeq: 3,
-  //     nickname: "삼싸피",
-  //     status: 2,
-  //     catSkin: 4,
-  //     categoriesName: "기획",
-  //   },
-  //   {
-  //     userSeq: 4,
-  //     nickname: "사싸피",
-  //     status: 0,
-  //     catSkin: 5,
-  //     categoriesName: "알고리즘",
-  //   },
-  //   {
-  //     userSeq: 5,
-  //     nickname: "오싸피",
-  //     status: 1,
-  //     catSkin: 6,
-  //     categoriesName: "CS",
-  //   },
-  //   {
-  //     userSeq: 6,
-  //     nickname: "육싸피",
-  //     status: 2,
-  //     catSkin: 3,
-  //     categoriesName: "기획",
-  //   },
-  // ]);
-  
   
   
   // ================================ 채팅관련 =================================
@@ -162,10 +115,7 @@ export const useRoomStore = defineStore("room", () => {
         sendTime: dateString + " " + timeString,
         message: chatMessage,
       };
-      
-      // 일단 배열에 추가 (하면 안되겠다 불러와야할듯 request랑 response dto가 다름)
-      groupChatLogs.value.push(chatData);
-  
+        
       const sendData = {
         usersSeq: chatData.user.seq,
         chatRoomsSeq: chatData.chatRoomSeq,
@@ -174,6 +124,8 @@ export const useRoomStore = defineStore("room", () => {
         messageType: "TALK",
         chatRoomType: "GROUP",
       };
+
+      groupChatLogs.value.push(chatData);
       
       // 소켓 send
       stompClient.send(`/pub/messages/group`, JSON.stringify(sendData), {});

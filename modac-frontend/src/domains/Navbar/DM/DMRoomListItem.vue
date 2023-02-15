@@ -1,5 +1,5 @@
 <script setup>
-import { defineProps , computed, useCssModule } from "vue";
+import { defineProps , computed, useCssModule, ref } from "vue";
 
 const props = defineProps({
   chatRoom: Object,
@@ -17,13 +17,16 @@ const lastTime = computed(() => {
   return h+":"+m;
 })
 
+const profileImgUrl = ref(
+  "/src/assets/user_cats/cat" + props.chatRoom.talker.catSkin + ".png"
+);
 </script>
 
 <template>
   <li :class="$style.dm_items" @click="getMessages(props.chatRoom.seq)">
     <div :class="$style.dm_items_left">
       <img
-        src="https://source.unsplash.com/vpOeXr5wmR4/600x600"
+        :src= "profileImgUrl"
         :class="$style.profile_img"
         alt=""
       />

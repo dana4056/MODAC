@@ -69,17 +69,6 @@ public class ChatController {
 
 
 	// =================================== DM ==============================================================
-	// 채팅방 입장(구독) -> 1:1 대화.
-	@MessageMapping(value = "/rooms/enter/direct")
-	public ResponseEntity<Void> enterDirectChatRoom(final DirectMessageDto directMessageDto) {
-		final DirectMessage directMessage = chatService.saveDirectMessage(directMessageDto);
-
-		simpMessageSendingOperations.convertAndSend(
-			"/queue/chat/rooms/enter/direct" + directMessage.getChatRoomsSeq(),
-			directMessage.getMessage());
-
-		return new ResponseEntity<>(HttpStatus.OK);
-	}
 
 	// (채팅방 구독자에게) 메시지 보내기. -> // redis DM 채팅 메시지 저장.
 	@MessageMapping(value = "/messages/direct")

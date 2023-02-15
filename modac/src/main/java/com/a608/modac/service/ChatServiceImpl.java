@@ -57,30 +57,6 @@ public class ChatServiceImpl implements ChatService {
 		return chatCachesByChatRoomsSeq;
 	} // DM 특정 채팅방 메시지 목록 조회.
 
-	@Override
-	public DirectMessage enterDirectChatRoom(final DirectMessageDto directMessageDto) {
-		final Optional<User> user = userRepository.findById(directMessageDto.getUsersSeq());
-
-		String addMessage = "";
-
-		if (user.isPresent()) {
-			if (directMessageDto.getMessageType().type().equals(MessageType.valueOf("ENTER").type())) {
-				addMessage = "님이 대화를 시작했습니다.";
-			}
-		}
-
-		final DirectMessage directMessage = DirectMessage.builder()
-			.chatRoomsSeq(String.valueOf(directMessageDto.getChatRoomsSeq()))
-			.userNickName(user.get().getNickname())
-			.sendTime(directMessageDto.getSendTime())
-			.message(directMessageDto.getMessage() + addMessage)
-			.build();
-
-		final ListOperations<String, DirectMessage> stringDirectMessageListOperations = redisTemplate.opsForList();
-		stringDirectMessageListOperations.rightPush(String.valueOf(directMessage.getChatRoomsSeq()), directMessage);
-
-		return chatDirectRepository.save(directMessage);
-	} // DM 채팅방 입장.
 
 	@Override
 	public DirectMessage saveDirectMessage(final DirectMessageDto directMessageDto) {

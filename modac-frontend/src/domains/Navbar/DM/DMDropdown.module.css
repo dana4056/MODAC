@@ -7,6 +7,7 @@
 
 .dm_container {
   @apply bg-gray-50 rounded-lg overflow-hidden w-full p-3;
+  height: 100%;
 }
 
 .dm_chatList {
