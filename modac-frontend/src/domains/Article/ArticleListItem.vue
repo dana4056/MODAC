@@ -1,27 +1,26 @@
 <script setup>
-import ArticleEditor from "./ArticleEditor.vue";
 import DeleteButton from "../Room/Todo/DeleteButton.vue";
 import CategoryTag from "./CategoryTag.vue";
 import { computed, toRef } from "vue";
 import { useArticleStore } from "../../stores/article";
 import todoAPI from "@/api/todo";
 
-const store = useArticleStore();
+const articleStore = useArticleStore();
 
 const handleClickDeleteArticleButton = (seq) => {
   todoAPI.deleteTodo(seq);
-  store.articles = store.deleteArticleItem(seq);
+  articleStore.deleteArticle(seq);
 };
 
 const props = defineProps({
   articleItem: Object,
   handleClickArticleItem: Function,
 });
-
 const articleItem = toRef(props, "articleItem");
+console.log(articleItem);
 
 const article_item_css = computed(() => {
-  return articleItem.value.seq === store.selectedState;
+  return articleItem.value.seq === articleStore.selectedState;
 });
 
 // let time = computed(() => {
@@ -50,11 +49,9 @@ const article_item_css = computed(() => {
 <template>
   <div
     :class="article_item_css ? $style.article_item_active : $style.article_item"
+    @click="handleClickArticleItem(articleItem.seq)"
   >
-    <div
-      class="flex flex-col justify-between gap-1 w-full"
-      @click="handleClickArticleItem(articleItem.seq)"
-    >
+    <div class="flex flex-col justify-between gap-1 w-full">
       <div class="flex">
         <!-- <div id="clock">
           <span :class="$style.time">

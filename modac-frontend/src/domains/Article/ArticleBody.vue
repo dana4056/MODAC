@@ -1,6 +1,6 @@
 <script setup>
 import ArticleList from "@/domains/Article/ArticleList.vue";
-import ArticleEditor from "@/domains/Article/ArticleEditor.vue";
+// import ArticleEditor from "@/domains/Article/ArticleEditor.vue";
 import OverflowDiv from "@/components/OverflowDiv.vue";
 </script>
 
@@ -12,9 +12,9 @@ import OverflowDiv from "@/components/OverflowDiv.vue";
           <ArticleList />
         </div>
       </OverflowDiv>
-      <div :class="$style.editor">
+      <!-- <div :class="$style.editor">
         <ArticleEditor />
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
