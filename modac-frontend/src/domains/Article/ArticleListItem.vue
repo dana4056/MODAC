@@ -49,11 +49,9 @@ const article_item_css = computed(() => {
 <template>
   <div
     :class="article_item_css ? $style.article_item_active : $style.article_item"
+    @click="handleClickArticleItem(articleItem.seq)"
   >
-    <div
-      class="flex flex-col justify-between gap-1 w-full"
-      @click="handleClickArticleItem(articleItem.seq)"
-    >
+    <div class="flex flex-col justify-between gap-1 w-full">
       <div class="flex">
         <!-- <div id="clock">
           <span :class="$style.time">

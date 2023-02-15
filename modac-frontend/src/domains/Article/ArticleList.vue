@@ -3,6 +3,9 @@ import ArticleListItem from "./ArticleListItem.vue";
 import { useTodoStore } from "@/stores/todo";
 import { useArticleStore } from "@/stores/article";
 import { ref, toRefs, computed } from "vue";
+import articleAPI from "@/api/article";
+import article from "@/api/article";
+import todoAPI from "@/api/todo";
 
 const todoStore = useTodoStore();
 const todayTodos = ref([...todoStore.todos]);
@@ -14,15 +17,9 @@ const getCompleteTodos = () => {
     });
   });
 
-  const getTemplateByCategories = (categoriesName) => {
-    // "알고리즘"
-    // "CS"
-    // "개발"
-    // "기획"
-    // "기타"
-    if (categoriesName === "알고리즘") {
-      // 템플릿 어떻게 가져오기로 했었지..? 물어보기
-    }
+  const getTemplateByCategories = async (todosSeq) => {
+    const todoItem = await todoAPI.findTodo(todosSeq);
+    return todoItem.templateContent;
   };
 
   const articlesFromCompleteTodos = computed(() => {
@@ -30,7 +27,7 @@ const getCompleteTodos = () => {
       elem.public_type = 0;
       elem.isSubmit = false;
       // article의 content도 추가해줘야 할 것 같은데?
-      elem.content = getTemplateByCategories(elem.categoriesName); // 템플릿 가져오기
+      elem.content = getTemplateByCategories(elem.seq); // 템플릿 가져오기
       return elem;
     });
   });
@@ -40,15 +37,20 @@ const getCompleteTodos = () => {
 
 const articleStore = useArticleStore();
 
-const { articles, selectedArticleItemSeq } = toRefs(articleStore);
+const { articles, selectedArticleItemSeq, articleContent } =
+  toRefs(articleStore);
 
 articles.value = getCompleteTodos();
 
 selectedArticleItemSeq.value =
   articles.value.length !== 0 ? articles.value[0].seq : null;
 
-const handleClickArticleItem = (seq) => {
+const handleClickArticleItem = async (seq) => {
   selectedArticleItemSeq.value = seq;
+  // const template = await
+  const template = await articles.value.find((elem) => elem.seq === seq)
+    .content;
+  articleContent.value = template;
 };
 </script>
 
