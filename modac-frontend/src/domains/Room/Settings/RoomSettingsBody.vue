@@ -3,9 +3,14 @@ import RoomSettingsForm from "./RoomSettingsForm.vue";
 import RoomSettingsSound from "./RoomSettingsSound.vue";
 import CommonButton from "@/components/CommonButton.vue";
 import { useRoomStore } from "@/stores/room";
+import { storeToRefs } from "pinia";
+import { ref } from "vue";
 
 const roomStore = useRoomStore();
 const deleteRoom = roomStore.deleteRoom();
+const { room_info } = storeToRefs(roomStore)
+const inviteCode = ref(room_info.value.invitationCode)
+
 </script>
 
 <template>
@@ -30,6 +35,21 @@ const deleteRoom = roomStore.deleteRoom();
       <option value="cat12">스킨12 - 상자 고양이</option>
     </select>
   </div>
+  <div v-if="inviteCode"
+  :class="$style.invite_flex">
+    <div :class="$style.invite_code">
+      <div :class="$style.invite_code_name">초대코드</div>
+      <input
+        :class="$style.setting_box_input"
+        v-model="inviteCode"
+        id="inviteCode"
+        cols="30"
+        rows="10"
+        disabled
+      />
+    </div>
+  </div>
+
   <div :class="$style.delete_room">
     <CommonButton :class="$style.edit_button"
       >

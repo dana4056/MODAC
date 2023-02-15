@@ -2,17 +2,21 @@
 import { ref, computed, useCssModule } from "vue";
 import { useUserStore } from "@/stores/user";
 import { useRouter } from "vue-router";
+import { storeToRefs } from "pinia";
 
 const router = useRouter();
-const store = useUserStore();
+const userStore = useUserStore();
 const $style = useCssModule();
 
+const { loginUser } = storeToRefs(userStore)
+
+
 const profileImgUrl = ref(
-  "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+  "/src/assets/user_cats/cat" + loginUser.value.catSkin + ".png"
 );
 
 const logout = () => {
-  store.logout();
+  userStore.logout();
   router.push({ name: "login" });
 };
 

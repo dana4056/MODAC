@@ -253,11 +253,12 @@ export default {
             
             console.log(loginUser.value);
             loginUser.value = response.data; // userStore에 멤버 저장
-
-            roomStore.api.findRoomList(response.data.seq);
             
-
+            roomStore.api.findRoomList(response.data.seq);
             router.push({ name: "room" }); // 룸리스트뷰로 이동
+            this.fetchFollowingUsers(loginUser.value.seq)
+            this.fetchFollowerUsers(loginUser.value.seq)
+
           } else {
             console.log("로그인 실패: 비밀번호 불일치");
           }
@@ -323,8 +324,8 @@ export default {
       .then((response) => {
         console.log(response.data);
 
-        const store = useUserStore();
-        const { followingList } = storeToRefs(store);
+        const userStore = useUserStore();
+        const { followingList } = storeToRefs(userStore);
 
         followingList.value = response.data;
       });
@@ -342,8 +343,8 @@ export default {
       .then((response) => {
         console.log(response.data);
 
-        const store = useUserStore();
-        const { followerList } = storeToRefs(store);
+        const userStore = useUserStore();
+        const { followerList } = storeToRefs(userStore);
 
         followerList.value = response.data;
       });

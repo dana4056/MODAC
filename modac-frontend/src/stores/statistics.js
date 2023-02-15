@@ -21,4 +21,8 @@ export const useStatsStore = defineStore("statistics", () => {
     radarData,
     doughnutData,
   };
-});
+},
+{
+  persist: true,
+}
+);

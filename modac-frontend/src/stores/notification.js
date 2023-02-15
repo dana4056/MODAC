@@ -10,4 +10,8 @@ export const useNotiStore = defineStore("noti", () => {
     api,
     notiList,
   };
-});
+},
+{
+  persist: true,
+}
+);

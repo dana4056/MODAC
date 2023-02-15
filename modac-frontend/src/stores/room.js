@@ -288,4 +288,8 @@ export const useRoomStore = defineStore("room", () => {
     chatFormElement,
 
   };
-});
+},
+// {
+//   persist: true,
+// }
+);

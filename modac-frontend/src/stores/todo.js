@@ -36,4 +36,8 @@ export const useTodoStore = defineStore("todo", () => {
     updateTodoItem,
     access_token,
   };
-});
+},
+{
+  persist: true,
+}
+);
