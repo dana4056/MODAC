@@ -56,17 +56,21 @@ const handleClickArticleItem = async (seq) => {
 </script>
 
 <template>
-  <div v-if="articles.length !== 0">
-    <ArticleListItem
-      :class="$style.article_item"
-      v-for="articleItem in articles"
-      :key="articleItem.seq"
-      :articleItem="articleItem"
-      :handleClickArticleItem="handleClickArticleItem"
-    />
-    <ArticleEditor2 />
-  </div>
-  <div v-else>완료한 할 일이 없습니다!</div>
+  <!-- <div v-if="articles.length !== 0"> -->
+  <ArticleListItem
+    :class="$style.article_item"
+    v-for="articleItem in articles"
+    :key="articleItem.seq"
+    :articleItem="articleItem"
+    :handleClickArticleItem="handleClickArticleItem"
+  />
+  <ArticleEditor2
+    v-for="articleItem in articles"
+    :key="articleItem.seq"
+    :articleItem="articleItem"
+  />
+  <!-- </div> -->
+  <!-- <div v-else>완료한 할 일이 없습니다!</div> -->
 </template>
 
 <style lang="css" module>

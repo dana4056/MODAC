@@ -17,7 +17,6 @@ const props = defineProps({
   handleClickArticleItem: Function,
 });
 const articleItem = toRef(props, "articleItem");
-console.log(articleItem);
 
 const article_item_css = computed(() => {
   return articleItem.value.seq === articleStore.selectedState;

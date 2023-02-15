@@ -14,7 +14,7 @@ export const useArticleStore = defineStore("article", () => {
   //   articleContent.value = value;
   // };
 
-  const publicTypeNumber = ref(0);
+  const activeEditor = ref(undefined);
 
   return {
     articles,
@@ -22,6 +22,6 @@ export const useArticleStore = defineStore("article", () => {
     selectedArticleItemSeq,
     articleContent,
     // setArticleContent,
-    publicTypeNumber,
+    activeEditor,
   };
 });
