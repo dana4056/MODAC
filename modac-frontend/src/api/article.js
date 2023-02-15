@@ -5,6 +5,7 @@ import { storeToRefs } from "pinia";
 export default {
   // 게시글 작성
   async postArticle(payload) {
+    console.log(payload);
     await http.post(`/articles`, payload);
     // .then(({ data }) => {
     //     console.log(data);
@@ -26,70 +27,71 @@ export default {
       .then((response) => {
         const code = response.status;
 
-                if (code == 200) {
-                    console.log("찾은 게시글들 "+ JSON.stringify(response.data));
-                } else if (code == 204) {
-                    alert("게시글 찾기 실패: 사용자없음");
-                }
-            })
-            .catch((error) => {
-                console.log(error);
-            })
-    },
-    // 게시글 조회
-    async findArticle(seq){
-        const response = await http.get(`/articles/${seq}`)
+        if (code == 200) {
+          console.log("찾은 게시글들 " + JSON.stringify(response.data));
+        } else if (code == 204) {
+          alert("게시글 찾기 실패: 사용자없음");
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  },
+  // 게시글 조회
+  async findArticle(seq) {
+    const response = await http.get(`/articles/${seq}`);
 
-        const feedStore = useFeedStore();
-        const { article } = storeToRefs(feedStore);
-        article.value = response.data;
+    const feedStore = useFeedStore();
+    const { article } = storeToRefs(feedStore);
+    article.value = response.data;
 
+    // .then((response) => {
+    //     const code = response.status;
 
-            // .then((response) => {
-            //     const code = response.status;
+    //     if (code == 200) {
+    //         const feedStore = useFeedStore();
+    //         const { article } = storeToRefs(feedStore);
 
-            //     if (code == 200) {
-            //         const feedStore = useFeedStore();
-            //         const { article } = storeToRefs(feedStore);
-                    
-            //         article.value = response.data;
-            //         console.log("2222article.value", article.value);
-            //     } else if(code == 204) {
-            //         alert("게시글 조회 실패: 게시글 없음")
-            //     }
-                
-            // })
-            // .catch((error) => {
-            //     console.log(error);
-            // });
-    },
-    // 게시글 조회수 올리기
-    async updateViewCount(seq){
-        await http.post(`/articles/${seq}/view`)
-        .then((response) => {
-            const code = response.status;
+    //         article.value = response.data;
+    //         console.log("2222article.value", article.value);
+    //     } else if(code == 204) {
+    //         alert("게시글 조회 실패: 게시글 없음")
+    //     }
 
-            if (code == 200) {
-                const feedStore = useFeedStore();
-                const { article } = storeToRefs(feedStore);
-                article.value.viewCount = article.value.viewCount + 1;
+    // })
+    // .catch((error) => {
+    //     console.log(error);
+    // });
+  },
+  // 게시글 조회수 올리기
+  async updateViewCount(seq) {
+    await http
+      .post(`/articles/${seq}/view`)
+      .then((response) => {
+        const code = response.status;
 
-                console.log("article.value.viewCount", article.value.viewCount);
+        if (code == 200) {
+          const feedStore = useFeedStore();
+          const { article } = storeToRefs(feedStore);
+          article.value.viewCount = article.value.viewCount + 1;
 
-                console.log(response.data)
-            } else if(code == 204) {
-                alert("게시글 조회 실패: 게시글 없음")
-            }
-        })
-        .catch((error) => {
-            console.log(error);
-        });
-    },
-    // 게시글 삭제
-    deleteArticle(seq){
-        http.delete(`/articles/${seq}`)
-        .then((response) => {
-            const code = response.status;
+          console.log("article.value.viewCount", article.value.viewCount);
+
+          console.log(response.data);
+        } else if (code == 204) {
+          alert("게시글 조회 실패: 게시글 없음");
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  },
+  // 게시글 삭제
+  deleteArticle(seq) {
+    http
+      .delete(`/articles/${seq}`)
+      .then((response) => {
+        const code = response.status;
 
         if (code == 200) {
           console.log(response.data);

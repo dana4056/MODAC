@@ -1,19 +1,21 @@
 <script setup>
 import ArticleButtonList from "@/domains/Article/ArticleButtonList.vue";
 import { ref, toRefs } from "vue";
-import articleAPI from "@/api/article";
 import { useArticleStore } from "@/stores/article";
 import { useUserStore } from "@/stores/user";
 import { useTodoStore } from "@/stores/todo";
+import articleAPI from "@/api/article";
+import todoAPI from "@/api/todo";
 
 const completeWriteArticleState = ref(false);
 const changeCompleteWriteArticleState = (state) => {
   completeWriteArticleState.value = state;
 };
 
-const requestCreateArticle = () => {
+const requestCreateArticle = async () => {
   const userStore = useUserStore();
-  const { usersSeq } = toRefs(userStore);
+  const { loginUser } = toRefs(userStore);
+  const usersSeq = loginUser.value.seq;
   const articleStore = useArticleStore();
   const { selectedArticleItemSeq, activeEditor } = toRefs(articleStore);
   const todosSeq = selectedArticleItemSeq.value;
@@ -21,8 +23,14 @@ const requestCreateArticle = () => {
 
   const currentActiveEditor = activeEditor.value;
   console.log("currentActiveEditor: ", currentActiveEditor);
-  const filepath = currentActiveEditor.getMarkdown();
-  articleAPI.postArticle({ usersSeq, todosSeq, publicType, filepath });
+  const content = currentActiveEditor.getMarkdown();
+  await articleAPI.postArticle({
+    usersSeq,
+    todosSeq,
+    publicType,
+    content,
+  });
+
   // const currentActiveEditor = document.getElementById(`editor_${todosSeq}`);
   // console.log(currentActiveEditor);
   // if (currentActiveEditor && currentActiveEditor.getMarkdown()) {
@@ -37,21 +45,22 @@ const requestCreateArticle = () => {
   // articleAPI.postArticle({ usersSeq, todosSeq, publicType, filepath });
 };
 
-const deleteTodoAndArticle = () => {
+const deleteTodoAndArticle = async () => {
   const articleStore = useArticleStore();
   const { selectedArticleItemSeq, deleteArticle } = toRefs(articleStore);
   const todoStore = useTodoStore();
   const { deleteTodoItem } = toRefs(todoStore);
-  console.log(deleteTodoItem);
-  deleteTodoItem(selectedArticleItemSeq); // todo만 지우면, article도 지워지는지 확인해보기
-  // deleteArticle(selectedArticleItemSeq);
+  deleteTodoItem.value(selectedArticleItemSeq); // todo만 지우면, article도 지워지는지 확인해보기
+  console.log(selectedArticleItemSeq);
+  deleteArticle.value(selectedArticleItemSeq);
+
+  await todoAPI.deleteTodo(selectedArticleItemSeq.value);
 };
 
 const handleClickCompleteWriteButton = async () => {
-  requestCreateArticle();
+  await requestCreateArticle();
+  await deleteTodoAndArticle();
   changeCompleteWriteArticleState(true);
-  // store 정리해주기
-  deleteTodoAndArticle();
 };
 
 const publicTypeSelectedValue = ref(1);

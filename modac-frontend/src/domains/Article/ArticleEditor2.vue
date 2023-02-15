@@ -19,6 +19,7 @@ const templateValue = ref("");
 
 const magic = async () => {
   const response = await todoAPI.findTodo(articleItem.value.seq);
+  // console.log("templateContent", response.templateContent);
   templateValue.value = response.templateContent;
 };
 
@@ -37,7 +38,6 @@ onMounted(async () => {
 });
 
 watch(selectedArticleItemSeq, () => {
-  console.log("watch");
   if (
     editor.value !== null &&
     selectedArticleItemSeq.value === articleItem.value.seq
