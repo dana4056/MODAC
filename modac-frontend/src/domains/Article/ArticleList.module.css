@@ -7,15 +7,32 @@
 }
 
 .article_item {
-  @apply mt-2 mb-2 p-3 rounded-lg flex text-black font-medium gap-3 flex;
+  @apply mt-2 mb-2 p-3 rounded-lg flex text-black font-medium gap-3 ;
 }
 
 .article_item_active {
-  @apply flex flex
+  @apply flex 
 }
 
 
-.editor{
-  @apply basis-8/12 ml-5;
-  min-width: 840px;
+.editor {
+  @apply basis-9/12 ml-5;
+  /* min-width: 840px; */
+  height: 100%;
 }
+
+.article_list {
+  @apply basis-3/12 p-2;
+  overflow: auto;
+  min-width: 300px;
+}
+
+.article_container_below {
+  @apply flex w-full;
+  height: 100%;
+}
+
+.flex_row_div_edit {
+  @apply flex items-center gap-5 justify-between w-10/12 h-5/6;
+}
+
