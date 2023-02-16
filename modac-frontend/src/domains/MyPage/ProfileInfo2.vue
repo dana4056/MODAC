@@ -2,35 +2,32 @@
 import { ref } from "vue";
 import { useUserStore } from "@/stores/user";
 import { storeToRefs } from "pinia";
+import BASE_ASSETS_URL from "@/api/BASE_ASSETS_URL";
 
 const userStore = useUserStore();
-const { loginUser } = storeToRefs(userStore)
-const { followingList } = storeToRefs(userStore)
-const { followerList } = storeToRefs(userStore)
+const { loginUser } = storeToRefs(userStore);
+const { followingList } = storeToRefs(userStore);
+const { followerList } = storeToRefs(userStore);
 
-const follower = followerList.value.length
-const following = followingList.value.length
-
+const follower = followerList.value.length;
+const following = followingList.value.length;
 
 const profileImgUrl = ref(
-  "/src/assets/user_cats/cat" + loginUser.value.catSkin + ".png"
+  BASE_ASSETS_URL + "user_cats/cat" + loginUser.value.catSkin + ".png"
 );
-
 </script>
 
 <template lang="">
   <div :class="$style.profile_info_flex">
     <div :class="$style.profile_info_group_row">
-      <img
-        :src="profileImgUrl"
-        :class="$style.chat_profile"
-        alt=""
-      />
+      <img :src="profileImgUrl" :class="$style.chat_profile" alt="" />
       <div :class="$style.flex_col">
         <div :class="$style.flex_row">
           <div :class="$style.grade_flex">
             <div :class="$style.grade_circle"></div>
-            <div :class="$style.grade_text">{{ loginUser.membershipLevel }}</div>
+            <div :class="$style.grade_text">
+              {{ loginUser.membershipLevel }}
+            </div>
           </div>
           <h1 :class="$style.profile_info_name">{{ loginUser.nickname }}</h1>
           <h3 :class="$style.profile_info_gray">{{ loginUser.email }}</h3>
@@ -47,8 +44,6 @@ const profileImgUrl = ref(
   </div>
 </template>
 
-
-
 <style lang="css" module>
-  @import "./ProfileInfo2.module.css";
+@import "./ProfileInfo2.module.css";
 </style>

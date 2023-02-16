@@ -9,6 +9,12 @@
   max-w-xs hover:scale-110 transition duration-300 ease-in-out
 }
 
+.img_class {
+  @apply overflow-hidden h-full w-full;
+  background-size: cover;
+
+}
+
 .card_description {
 	@apply h-[40%] p-4 justify-between flex flex-col
 }

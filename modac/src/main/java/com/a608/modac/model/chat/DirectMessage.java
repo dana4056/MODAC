@@ -17,11 +17,11 @@ public class DirectMessage implements Serializable {
 	private static final long serialVersionUID = -8304525817629560393L;
 	@Id
 	private final String seq;
+	private final String userNickName;
 	@Indexed
 	private final String chatRoomsSeq;
-	private final String userNickName;
-	private final String message;
 	private final String sendTime;
+	private final String message;
 
 	@Builder
 	public DirectMessage(final String seq, final String chatRoomsSeq, final String userNickName, final String message,

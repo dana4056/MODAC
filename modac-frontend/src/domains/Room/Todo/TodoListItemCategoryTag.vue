@@ -12,11 +12,11 @@ const props = defineProps({
     >
     <span v-if="props.categoriesName == 'CS'" :class="$style.cs">#CS</span>
     <span v-if="props.categoriesName == '개발'" :class="$style.dev">#개발</span>
-    <span v-if="props.categoriesName == '기획'" :class="$style.plan"
-      >#기획</span
+    <span v-if="props.categoriesName == '면접'" :class="$style.plan"
+      >#면접</span
     >
-    <span v-if="props.categoriesName == '기타'" :class="$style.common"
-      >#기타</span
+    <span v-if="props.categoriesName == '공통'" :class="$style.common"
+      >#공통</span
     >
   </div>
 </template>

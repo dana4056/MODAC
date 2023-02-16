@@ -2,7 +2,8 @@
   <div>
     <Card :class="$style.card_div" >
       <div :class="$style.card_img">
-        <img src="https://source.unsplash.com/random/600×600/?programming" class="overflow-hidden h-full w-full"/>
+        <!-- <img src="https://picsum.photos/640/480/?random" :class="$style.img_class"/> -->
+        <img src="https://source.unsplash.com/random/600×300/?programming" :class="$style.img_class"/>
       </div>
 
       <div :class="$style.card_description">

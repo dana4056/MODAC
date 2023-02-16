@@ -11,7 +11,7 @@ import { storeToRefs } from "pinia";
 
 // store 관련
 const DMstore = useDmStore();
-const { directMessageRoomList, directMessageRoomSeq, isDropdownOpenState } = storeToRefs(DMstore);
+const { directMessageRoomList, directMessageRoomSeq, isDropdownOpenState, directChatLogs } = storeToRefs(DMstore);
 
 
 const props = defineProps({
@@ -23,7 +23,7 @@ const userStore = useRoomStore();
 
 const statusMap = userStore.statusMap;
 
-const isFollowed = ref(false);
+const isFollowed = ref(true);
 const follow = () => {
   isFollowed.value = true;
 };
@@ -45,25 +45,44 @@ const followButtonStyleState = computed(() =>
 );
 
 const directChatting = () => {
+
+  for(const dmRoom of directMessageRoomList.value){
+    console.log("dmRoom"+dmRoom)
+    if(dmRoom.talker == props.talker){                // 얘랑 채팅한 적 있음(채팅방 목록에 존재)
+      directMessageRoomSeq.value = props.roomSeq;     // 해당 친구와의 채팅방 선택
+      DMstore.connect();                              // 해당 채팅방 소켓 연결
+      isDropdownOpenState.value = true;               // DM 창 열기 (드롭다운)
+
+      const payload = {
+        roomSeq:props.roomSeq,
+        page:0
+      }
+
+      DMstore.api.fetchMessages(payload);             // 클릭한 채팅방 메시지 목록 불러오기
+      return 
+    }
+  }
+
+  // 얘랑 채팅해본 적 없음 (첫 DM)
   
   const chatRoom = {
     lastMessage:"",
     lastMessageTime:"",
     talker: props.talker
   }
-
+  directChatLogs.value = [];
   directMessageRoomList.value.unshift(chatRoom);  // DM 채팅방 목록에 추가 (프론트에서만)
-  directMessageRoomSeq.value = props.roomSeq;
-  DMstore.connect();                     // 해당 채팅방 소켓 연결
+  directMessageRoomSeq.value = props.roomSeq;     // 해당 친구와의 채팅방 선택
+  DMstore.connect();                              // 해당 채팅방 소켓 연결
   isDropdownOpenState.value = true;               // DM 창 열기 (드롭다운)
 }
 </script>
 
 <template>
   <Card :class="$style.user_card">
-    <div :class="$style.user_card_item">
+    <!-- <div :class="$style.user_card_item">
       <CardTitle>{{ props.talker.nickname }}</CardTitle>
-    </div>
+    </div> -->
 
 
     <div :class="$style.user_card_item">
@@ -76,7 +95,8 @@ const directChatting = () => {
         :class="$style[followButtonStyleState]"
         @click="toggleFollowState"
       >
-        {{ followButtonState }}
+        <!-- {{ followButtonState }} -->
+        팔로우 취소
       </CommonButton>
     </div>
   </Card>

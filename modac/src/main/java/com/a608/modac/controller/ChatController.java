@@ -51,13 +51,13 @@ public class ChatController {
 	@GetMapping("/rooms")
 	public ResponseEntity<List<ChatRoomDto>> findAllChatRoom(@RequestParam("user") final Long userSeq) {
 		final List<ChatRoomDto> chatRoomDto = chatService.findAllChatRoomsByFollowingsSeq(userSeq);
-
+		System.out.println(chatRoomDto);
 		return new ResponseEntity<>(chatRoomDto, HttpStatus.OK);
 	} // 유저의 1:1 모든 채팅방 조회 -> 모든 1:1 채팅방 리스트 반환. -> 다나가 바꿈.
 
 	@GetMapping("/rooms/{chatRoomsSeq}/messages")
 	public ResponseEntity<?> findAllMessageFromRedis(@PathVariable final Long chatRoomsSeq,
-		@PageableDefault(size = 20, sort = "sendTime", direction = Sort.Direction.DESC)
+		@PageableDefault(size = 20, sort = "sendTime", direction = Sort.Direction.ASC)
 		Pageable pageable) {
 		final List<DirectMessage> allMessagesFromRedis = chatService.findAllMessagesByDirectChatRoomsSeq(
 			String.valueOf(chatRoomsSeq), pageable);
@@ -69,26 +69,16 @@ public class ChatController {
 
 
 	// =================================== DM ==============================================================
-	// 채팅방 입장(구독) -> 1:1 대화.
-	@MessageMapping(value = "/rooms/enter/direct")
-	public ResponseEntity<Void> enterDirectChatRoom(final DirectMessageDto directMessageDto) {
-		final DirectMessage directMessage = chatService.saveDirectMessage(directMessageDto);
-
-		simpMessageSendingOperations.convertAndSend(
-			"/queue/chat/rooms/enter/direct" + directMessage.getChatRoomsSeq(),
-			directMessage.getMessage());
-
-		return new ResponseEntity<>(HttpStatus.OK);
-	}
 
 	// (채팅방 구독자에게) 메시지 보내기. -> // redis DM 채팅 메시지 저장.
 	@MessageMapping(value = "/messages/direct")
 	public ResponseEntity<Void> sendDirectMessage(final DirectMessageDto directMessageDto) {
 		final DirectMessage directMessage = chatService.saveDirectMessage(directMessageDto);
-		chatService.updateLastMessage(directMessageDto);
+		chatService.updateLastMessage(directMessageDto, directMessage.getSeq());
 
+		System.out.println("★★★★★★★★★★★★★★★★★★★★"+directMessageDto);
 		simpMessageSendingOperations.convertAndSend(
-			"/queue/chat/rooms/enter/direct" + directMessageDto.getChatRoomsSeq(),
+			"/queue/chat/rooms/enter/direct/" +directMessageDto.getChatRoomsSeq(),
 			directMessageDto);
 
 		return new ResponseEntity<>(HttpStatus.OK);

@@ -96,7 +96,23 @@ public class RoomController {
 		return new ResponseEntity<>(isSameCode, HttpStatus.OK);
 	}
 
-	@MessageMapping(value = "/message/enter")
+
+
+	// @PostMapping("/{seq}/join")				// 멀티룸에 참여
+	// public ResponseEntity<?> joinRoom(@PathVariable("seq") final Long seq, @RequestBody String usersSeq){
+	// 	RoomResponse roomResponse = roomService.joinRoom(seq, Long.parseLong(usersSeq));
+	// 	return new ResponseEntity<RoomResponse>(roomResponse, HttpStatus.OK);
+	// }
+	//
+	// @DeleteMapping("/{seq}/join")			// 멀티룸에서 나가기
+	// public ResponseEntity<?> exitRoom(@PathVariable("seq") final Long seq, @RequestParam("user") Long usersSeq){
+	// 	roomService.exitRoom(seq, usersSeq);
+	// 	return new ResponseEntity<>(HttpStatus.OK);
+	// }
+
+
+
+	@MessageMapping(value = "/message/enter")		// @PostMapping("/{seq}/join") '멀티룸에 참여'였던것
 	public ResponseEntity<Void> sendDirectMessage(@RequestBody final ParticipantRequest participantRequest) {
 		//참가자 번호, 입퇴장문자열("ENTER", "EXIT"), 방번호가 담긴 DTO로 받아서
 
