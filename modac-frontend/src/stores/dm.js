@@ -1,5 +1,5 @@
 import dm from "@/api/dm";
-import { ref } from "vue";
+import { ref , watch} from "vue";
 import { defineStore, storeToRefs } from "pinia";
 import { useUserStore } from "@/stores/user";
 import Stomp from "webstomp-client";
@@ -11,14 +11,14 @@ export const useDmStore = defineStore("dm", () => {
   const userStore = useUserStore();
   const { loginUser } = storeToRefs(userStore);
 
+
+  
   //status (변수)
-  const directMessageRoomList = ref([]); // DM 채팅방 목록
+  const directMessageRoomList = ref([{"test":"test"}]); // DM 채팅방 목록
   const directMessageRoomSeq = ref(0); // 선택한 DM 채팅방 목록
   const directChatLogs = ref([]); // 채팅방 내 채팅 로그 목록
   const isDropdownOpenState = ref(false); // DM창 드롭다운 여부
   let stompClient = null;
-
-
 
   let chatListElement = ref(document);
   let chatFormElement = ref(null);
@@ -49,14 +49,16 @@ export const useDmStore = defineStore("dm", () => {
       const timeString = hours + ":" + minutes + ":" + seconds;
   
       const chatData = {
-        user: loginUser.value,
+        userNickName: loginUser.value.nickname,
         chatRoomSeq: directMessageRoomSeq.value,
         sendTime: dateString + " " + timeString,
         message: chatMessage,
       };
+
+
   
       const sendData = {
-        usersSeq: chatData.user.seq,
+        usersSeq: loginUser.value.seq,
         chatRoomsSeq: chatData.chatRoomSeq,
         sendTime: chatData.sendTime,
         message: chatData.message,
@@ -64,6 +66,8 @@ export const useDmStore = defineStore("dm", () => {
         chatRoomType: "DIRECT",
       };
   
+
+
       directChatLogs.value.push(chatData);
       
       // 소켓 send
@@ -72,9 +76,11 @@ export const useDmStore = defineStore("dm", () => {
   };
 
   const disconnect = () => {
-    stompClient.disconnect(function () {
-      console.log("DISCONNECT 소켓 연결해제")
-    });
+    if (stompClient != null) {
+      stompClient.disconnect(function () {
+        console.log("DISCONNECT 소켓 연결해제")
+      });
+    }
   }
 
 

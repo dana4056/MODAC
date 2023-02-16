@@ -7,12 +7,12 @@ export default {
 
     // DM 채팅방 리스트 불러오기
     fetchRoomList(userSeq) {      
-        console.log("채팅방 리스트 불러오기"+userSeq);
         http.get(`/chat/rooms`, {
             params:{
                 user:userSeq,
             }})
             .then((response) => {
+                console.log(userSeq+"번 유저의 채팅방 리스트 불러오기 성공");
                 const DMstore = useDmStore();
                 const { directMessageRoomList } = storeToRefs(DMstore);
                 console.log(response.data)
@@ -35,6 +35,7 @@ export default {
             const { directChatLogs } = storeToRefs(DMstore);
             
             directChatLogs.value = response.data;
+            console.log("채팅 로그들~~~~~",response.data)
         })
         .catch((error) => {
             console.log(error);

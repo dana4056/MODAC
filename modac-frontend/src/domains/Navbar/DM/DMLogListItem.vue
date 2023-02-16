@@ -6,6 +6,8 @@ const props = defineProps({
   loginUser: Object,
 });
 
+
+
 const $style = useCssModule();
 
 const dateStyle = computed(() => {
@@ -19,9 +21,11 @@ const dateStyle = computed(() => {
 
 
 const chatHostReader = computed(() => {
-  if (props.chatLog.user.seq === props.loginUser.seq) {
+  if (props.chatLog.userNickName === props.loginUser.nickname) {
+    console.log("ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁmystyle")
     return "myStyle";
   } else {
+    console.log("ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁyourChat")
     return "yourChat";
   }
 });
@@ -49,9 +53,9 @@ const profileImgUrl = ref(
     <small>{{ dateStyle }}</small>
     <div :class="contentStyle">{{ props.chatLog.message }}</div>
     <div>
-      <small v-if="props.chatLog.user.nickname != props.loginUser.nickname">{{props.chatLog.user.nickname}}</small>
+      <small v-if="props.chatLog.userNickName !== props.loginUser.nickname">{{props.chatLog.userNickName}}</small>
       <img
-        v-if="props.chatLog.user.nickname != props.loginUser.nickname"
+        v-if="props.chatLog.userNickName !== props.loginUser.nickname"
         :src="profileImgUrl"
         :class="$style.chat_profile"
         alt=""

@@ -20,6 +20,9 @@ const lastTime = computed(() => {
 const profileImgUrl = ref(
   "/src/assets/user_cats/cat" + props.chatRoom.talker.catSkin + ".png"
 );
+
+
+console.log("------------------------",props.chatRoom)
 </script>
 
 <template>

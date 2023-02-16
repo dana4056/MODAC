@@ -24,8 +24,9 @@ const getMessages = (DMRoomSeq) => {
   // 클릭한 채팅방 메시지 목록 불러오기
   DMstore.api.fetchMessages(payload);
   DMstore.connect(DMRoomSeq);
-};
 
+
+};
 
 
 </script>
