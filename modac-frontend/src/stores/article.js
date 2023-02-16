@@ -11,20 +11,27 @@ export const useArticleStore = defineStore(
 
     const selectedArticleItemSeq = ref(null);
 
-    const articleContent = ref("");
-    const setArticleContent = (value) => {
-      articleContent.value = value;
-    };
+    // const articleContent = ref("");
+    // const setArticleContent = (value) => {
+    //   articleContent.value = value;
+    // };
 
     const activeEditor = ref(undefined);
+
+    const completeWriteArticleState = ref(false);
+    const changeCompleteWriteArticleState = (state) => {
+      completeWriteArticleState.value = state;
+    };
 
     return {
       articles,
       deleteArticle,
       selectedArticleItemSeq,
-      articleContent,
-      setArticleContent,
+      // articleContent,
+      // setArticleContent,
       activeEditor,
+      completeWriteArticleState,
+      changeCompleteWriteArticleState,
     };
   },
   {

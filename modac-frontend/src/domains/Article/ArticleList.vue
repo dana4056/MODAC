@@ -39,19 +39,24 @@ const getCompleteTodos = () => {
 
 const articleStore = useArticleStore();
 
-const { articles, selectedArticleItemSeq, articleContent } =
-  toRefs(articleStore);
+const {
+  articles,
+  selectedArticleItemSeq,
+  completeWriteArticleState,
+  changeCompleteWriteArticleState,
+} = toRefs(articleStore);
 
 articles.value = getCompleteTodos();
 
 selectedArticleItemSeq.value =
   articles.value.length !== 0 ? articles.value[0].seq : null;
 
-const handleClickArticleItem = async (seq) => {
+const handleClickArticleItem = (seq) => {
   selectedArticleItemSeq.value = seq;
-  const template = await articles.value.find((elem) => elem.seq === seq)
-    .content;
-  articleContent.value = template;
+  console.log(completeWriteArticleState.value);
+  if (completeWriteArticleState.value) {
+    changeCompleteWriteArticleState.value(false);
+  }
 };
 </script>
 

@@ -21,6 +21,7 @@ const clickDropdownButtonHandler = () => {
   isDropdownOpenState.value ? closeDropdown() : openDropdown();
 };
 const blurDropdownButtonHandler = () => {
+  console.log("blurDropdownButtonHandler");
   if (isDropdownOpenState.value === true) {
     closeDropdown();
   }

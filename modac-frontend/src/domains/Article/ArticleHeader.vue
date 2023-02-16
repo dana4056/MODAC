@@ -7,10 +7,9 @@ import { useTodoStore } from "@/stores/todo";
 import articleAPI from "@/api/article";
 import todoAPI from "@/api/todo";
 
-const completeWriteArticleState = ref(false);
-const changeCompleteWriteArticleState = (state) => {
-  completeWriteArticleState.value = state;
-};
+const articleStore = useArticleStore();
+const { completeWriteArticleState, changeCompleteWriteArticleState } =
+  toRefs(articleStore);
 
 const requestCreateArticle = async () => {
   const userStore = useUserStore();
@@ -45,7 +44,7 @@ const deleteTodoAndArticle = async () => {
 const handleClickCompleteWriteButton = async () => {
   await requestCreateArticle();
   await deleteTodoAndArticle();
-  changeCompleteWriteArticleState(true);
+  changeCompleteWriteArticleState.value(true);
 };
 
 const publicTypeSelectedValue = ref(1);
