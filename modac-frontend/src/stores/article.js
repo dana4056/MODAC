@@ -12,9 +12,9 @@ export const useArticleStore = defineStore(
     const selectedArticleItemSeq = ref(null);
 
     const articleContent = ref("");
-    // const setArticleContent = (value) => {
-    //   articleContent.value = value;
-    // };
+    const setArticleContent = (value) => {
+      articleContent.value = value;
+    };
 
     const activeEditor = ref(undefined);
 
@@ -23,7 +23,7 @@ export const useArticleStore = defineStore(
       deleteArticle,
       selectedArticleItemSeq,
       articleContent,
-      // setArticleContent,
+      setArticleContent,
       activeEditor,
     };
   },

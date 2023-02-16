@@ -1,13 +1,12 @@
 <script setup>
 import { defineProps, computed, useCssModule, ref } from "vue";
+import BASE_ASSETS_URL from "@/api/BASE_ASSETS_URL";
 
 const props = defineProps({
   chatLog: Object,
   loginUser: Object,
   // catskin: Number
 });
-
-
 
 const $style = useCssModule();
 
@@ -32,18 +31,16 @@ const contentStyle = computed(() => {
 });
 
 const dateStyle = computed(() => {
-
-  const h = props.chatLog.sendTime.slice(11,13);
-  const m = props.chatLog.sendTime.slice(14,16);
+  const h = props.chatLog.sendTime.slice(11, 13);
+  const m = props.chatLog.sendTime.slice(14, 16);
   const s = props.chatLog.sendTime.slice(17);
 
-  return h+":"+m;
-})
+  return h + ":" + m;
+});
 
 const profileImgUrl = ref(
-  "/src/assets/user_cats/cat" + props.loginUser.catSkin + ".png"
+  BASE_ASSETS_URL + "user_cats/cat" + props.loginUser.catSkin + ".png"
 );
-
 </script>
 
 <template>
@@ -51,10 +48,12 @@ const profileImgUrl = ref(
     <small :class="$style.date_time">{{ dateStyle }}</small>
     <div :class="contentStyle">{{ props.chatLog.message }}</div>
     <div>
-      <small v-if="props.chatLog.user.nickname != props.loginUser.nickname">{{props.chatLog.user.nickname}}</small>
+      <small v-if="props.chatLog.user.nickname != props.loginUser.nickname">{{
+        props.chatLog.user.nickname
+      }}</small>
       <img
         v-if="props.chatLog.user.nickname != props.loginUser.nickname"
-        :src= "profileImgUrl"
+        :src="profileImgUrl"
         :class="$style.chat_profile"
         alt=""
       />
