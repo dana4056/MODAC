@@ -151,20 +151,25 @@ const closeRoomEnterConfirmModal = (event) => {
           {{ roomItem.description }}
         </div>
         <div :class="$style.item_host_theme">
-          방장 &nbsp; <span :class="$style.item_host_theme_name">{{ roomItem.host.nickname }}</span>
-          &nbsp; | &nbsp; 테마 &nbsp; 
-          <span v-if="roomItem.multiTheme === '기본'" :class="$style.item_host_theme_name">
-            모닥불🔥
-          </span>
-          <span v-if="roomItem.multiTheme === '우주'" :class="$style.item_host_theme_name">
-            우주🪐
-          </span>
-          <span v-if="roomItem.multiTheme === '바다'" :class="$style.item_host_theme_name">
-            바다🌊
-          </span>
-          <span v-if="roomItem.multiTheme === '사막'" :class="$style.item_host_theme_name">
-            사막🌞
-          </span>
+          <div>
+            방장 &nbsp; <span :class="$style.item_host_theme_name">{{ roomItem.host.nickname }}</span>
+          </div>
+          |
+          <div>
+            테마 &nbsp; 
+            <span v-if="roomItem.multiTheme === '기본'" :class="$style.item_host_theme_name">
+              모닥불🔥
+            </span>
+            <span v-if="roomItem.multiTheme === '우주'" :class="$style.item_host_theme_name">
+              우주🪐
+            </span>
+            <span v-if="roomItem.multiTheme === '바다'" :class="$style.item_host_theme_name">
+              바다🌊
+            </span>
+            <span v-if="roomItem.multiTheme === '사막'" :class="$style.item_host_theme_name">
+              사막🌞
+            </span>
+          </div>
         </div>
         <button @click="openRoomEnterConfirmModal" :class="$style.item_enter_button">입장하기</button>
       </div>
@@ -183,10 +188,7 @@ const closeRoomEnterConfirmModal = (event) => {
           입장하기
         </h1>
         
-
-
-        
-        <Card :class="$style.list_item_style">
+        <Card :class="$style.list_item_style_modal">
           <div :class="$style.list_item_div_col">
             <!-- <div :class="$style.item_seq">{{ roomItem.seq }}</div> -->
             <div :class="$style.item_title">
@@ -211,20 +213,25 @@ const closeRoomEnterConfirmModal = (event) => {
               {{ roomItem.description }}
             </div>
             <div :class="$style.item_host_theme">
-              방장 &nbsp; <span :class="$style.item_host_theme_name">{{ roomItem.host.nickname }}</span>
-              &nbsp; | &nbsp; 테마 &nbsp; 
-              <span v-if="roomItem.multiTheme === '기본'" :class="$style.item_host_theme_name">
-                모닥불🔥
-              </span>
-              <span v-if="roomItem.multiTheme === '우주'" :class="$style.item_host_theme_name">
-                우주🪐
-              </span>
-              <span v-if="roomItem.multiTheme === '바다'" :class="$style.item_host_theme_name">
-                바다🌊
-              </span>
-              <span v-if="roomItem.multiTheme === '사막'" :class="$style.item_host_theme_name">
-                사막🌞
-              </span>
+              <div>
+                방장 &nbsp; <span :class="$style.item_host_theme_name">{{ roomItem.host.nickname }}</span>
+              </div>
+              |
+              <div>
+                테마 &nbsp; 
+                <span v-if="roomItem.multiTheme === '기본'" :class="$style.item_host_theme_name">
+                  모닥불🔥
+                </span>
+                <span v-if="roomItem.multiTheme === '우주'" :class="$style.item_host_theme_name">
+                  우주🪐
+                </span>
+                <span v-if="roomItem.multiTheme === '바다'" :class="$style.item_host_theme_name">
+                  바다🌊
+                </span>
+                <span v-if="roomItem.multiTheme === '사막'" :class="$style.item_host_theme_name">
+                  사막🌞
+                </span>
+              </div>
             </div>
           </div>
         </Card>

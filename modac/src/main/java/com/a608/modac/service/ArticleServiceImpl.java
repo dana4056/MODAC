@@ -74,8 +74,8 @@ public class ArticleServiceImpl implements ArticleService {
 		String objectKey = articleRequest.getContent();
 
 		// 게시글 내용 s3에 저장
-		// objectKey = s3Service.save(s3Service.createMultipartFile(articleRequest.getContent()));
-		// System.out.println(objectKey);
+		objectKey = s3Service.save(s3Service.createMultipartFile(articleRequest.getContent()));
+		System.out.println(objectKey);
 
 		// Todo 정보를 불러와서 Article 객체 빌드
 		Todo todo = todoRepository.findById(articleRequest.getTodosSeq())
@@ -155,7 +155,7 @@ public class ArticleServiceImpl implements ArticleService {
 		Article article = articleRepository.findById(seq).orElseThrow(() -> new NoSuchElementException("NoArticle"));
 		ArticleResponse.ArticleInfo articleResponse = new ArticleResponse.ArticleInfo(article);
 		// S3 서버에 백업된 게시글 내용 조회
-		// articleResponse.readContentByFilepath(s3Service.read(article.getFilepath()));
+		articleResponse.readContentByFilepath(s3Service.read(article.getFilepath()));
 		return articleResponse;
 	}
 
@@ -294,7 +294,7 @@ public class ArticleServiceImpl implements ArticleService {
 		categoriesList.add(new StatisticsResponse.CountByCategory("개발", 0));
 		categoriesList.add(new StatisticsResponse.CountByCategory("CS", 0));
 		categoriesList.add(new StatisticsResponse.CountByCategory("면접", 0));
-		categoriesList.add(new StatisticsResponse.CountByCategory("기타", 0));
+		categoriesList.add(new StatisticsResponse.CountByCategory("공통", 0));
 		// 찾은 게시글들의 카테고리에 맞게 카운트 증가
 		for(Article article : articles) {
 			switch(article.getCategory().getName()){
@@ -306,7 +306,7 @@ public class ArticleServiceImpl implements ArticleService {
 					break;
 				case "면접" : categoriesList.get(3).plusCount();
 					break;
-				case "기타" : categoriesList.get(4).plusCount();
+				case "공통" : categoriesList.get(4).plusCount();
 					break;
 			}
 		}

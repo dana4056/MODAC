@@ -14,5 +14,6 @@
   @apply flex justify-center items-center bg-gray-200 border-0 py-2
 }
 .exit_button {
-  @apply flex justify-center items-center bg-red-500 text-white border-0 py-2
+  @apply flex justify-center items-center bg-[#ff3333] text-white border-0 py-2
+  
 }

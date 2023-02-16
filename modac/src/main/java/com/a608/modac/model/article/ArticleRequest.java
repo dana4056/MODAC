@@ -31,6 +31,7 @@ public class ArticleRequest {
 			.user(todo.getUser())
 			.category(todo.getCategory())
 			.registeredTime(LocalDateTime.now())
+			.totalSecond("0")
 			.build();
 	}
 }

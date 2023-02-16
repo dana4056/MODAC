@@ -7,7 +7,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <button @click="props.handleClickDeleteArticleButton(seq)">
+  <button @click="props.handleClickDeleteArticleButton(seq)" class="bg-transparent">
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 24 24"

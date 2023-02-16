@@ -15,31 +15,36 @@ export default {
     // });
   },
   // 사용자 게시글 전체 조회
-  findArticleByUsersSeq(payload) {
-    http
-      .get(`/articles`, {
+  async findArticleByUsersSeq(payload) {
+    const response = await http.get(`/articles`, {
         params: {
           user: payload.usersSeq,
           offset: payload.offset,
           limit: payload.limit,
         },
-      })
-      .then((response) => {
-        const code = response.status;
+    })
+      
+    const feedStore = useFeedStore();
+    const { userArticles } = storeToRefs(feedStore);
+    userArticles.value = response.data;
+    console.log("userArticles.value api", userArticles.value);
+      
+      // .then((response) => {
+      //   const code = response.status;
 
-        if (code == 200) {
-          console.log("찾은 게시글들 " + JSON.stringify(response.data));
-        } else if (code == 204) {
-          alert("게시글 찾기 실패: 사용자없음");
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+      //           if (code == 200) {
+      //               console.log("찾은 게시글들 "+ JSON.stringify(response.data));
+      //           } else if (code == 204) {
+      //               alert("게시글 찾기 실패: 사용자없음");
+      //           }
+      //       })
+      //       .catch((error) => {
+      //           console.log(error);
+      //       })
   },
-  // 게시글 조회
-  async findArticle(seq) {
-    const response = await http.get(`/articles/${seq}`);
+    // 게시글 조회
+    async findArticle(seq){
+        const response = await http.get(`/articles/${seq}`)
 
     const feedStore = useFeedStore();
     const { article } = storeToRefs(feedStore);

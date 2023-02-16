@@ -1,8 +1,8 @@
 <script setup>
 import TodoItemContent from "./TodoItemContent.vue";
 import TodoListItemCategoryTag from "./TodoListItemCategoryTag.vue";
-import TodoListItemTimer from "./TodoListItemTimer.vue";
-import PlayPauseButton from "./PlayPauseButton.vue";
+// import TodoListItemTimer from "./TodoListItemTimer.vue";
+// import PlayPauseButton from "./PlayPauseButton.vue";
 import UpdateButton from "./UpdateButton.vue";
 import DeleteButton from "./DeleteButton.vue";
 import TodoListItemUpdateForm from "./TodoListItemUpdateForm.vue";
@@ -82,12 +82,12 @@ const deleteTodoItem = () => {
       <div class="flex items-center justify-between">
         <div class="flex">
           <TodoListItemCategoryTag :categoriesName="categoriesName" />
-          <TodoListItemTimer :time="totalSecond" :status="status" />
+          <!-- <TodoListItemTimer :time="totalSecond" :status="status" /> -->
         </div>
 
         <div class="flex gap-2" :id="`buttons_group_${props.todo.seq}`">
-          <PlayPauseButton :status="props.todo.status" />
-          <UpdateButton @click="toggleUpdateFormState" />
+          <!-- <PlayPauseButton :status="props.todo.status" /> -->
+          <UpdateButton @click="toggleUpdateFormState"/>
           <DeleteButton @click="deleteTodoItem" />
         </div>
       </div>

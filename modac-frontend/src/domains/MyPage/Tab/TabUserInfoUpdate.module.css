@@ -39,12 +39,12 @@
 
 .update_info_save {
 	/* @apply flex justify-center w-60 text-sm rounded-lg py-1 px-5 m-1 text-center text-white bg-blue-700	hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 */
-	@apply w-full text-sm text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg px-5 py-2.5 m-1 text-center
+	@apply w-full text-sm text-white bg-[#3b82f6] hover:bg-blue-800 focus:ring-4 focus:outline-none font-medium rounded-lg px-5 py-2.5 m-1 text-center
 
 }
 
 .update_info_nickname_button_div {
 	@apply flex justify-center px-8 py-2 mx-4 
-	text-sm text-white bg-gray-400 hover:bg-gray-500 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center
+	text-sm text-white bg-[#6474ad] hover:bg-gray-500 focus:ring-4 focus:outline-none rounded-lg text-center
 
 }

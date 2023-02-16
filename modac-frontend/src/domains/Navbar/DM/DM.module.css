@@ -6,6 +6,7 @@
   @apply absolute right-0 z-10 mt-2 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none;
   width: 50rem;
   height: 28rem;
+  font-family: "Pretendard";
 }
 
 .dropdown_block {
@@ -14,4 +15,9 @@
 
 .dropdown_none {
   @apply hidden;
+}
+
+.dm_div {
+
+  font-family: "Pretendard";
 }

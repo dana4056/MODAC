@@ -59,17 +59,21 @@ const changeCategoryValue = () => {
     <Modal
       v-if="roomExitConfirmModalState"
       :closeModal="closeRoomExitConfirmModal"
+      :class="$style.modal_div"
     >
       <h1 :class="$style.modal_header">스터디룸에서 나가시겠습니까?</h1>
-      <CommonButton
-        @click="closeRoomExitConfirmModal"
-        :class="$style.cancle_button"
-        id="cancle"
-        >취소</CommonButton
-      >
-      <CommonButton @click="exitRoom" :class="$style.exit_button" id="exit"
-        >나가기</CommonButton
-      >
+        <div :class="$style.modal_button_group">
+          <button
+            type="button"
+            @click="closeRoomExitConfirmModal"
+            :class="$style.cancle_button"
+            id = "cancle">취소</button>
+
+          <button @click="exitRoom"
+            :class="$style.exit_button" 
+            id="exit">나가기</button>
+
+        </div>
     </Modal>
   </Teleport>
 </template>

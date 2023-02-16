@@ -5,13 +5,11 @@ import { useUserStore } from "@/stores/user";
 import { storeToRefs } from "pinia";
 import { ref, computed, useCssModule } from "vue";
 
-
 // store 관련
 const DMstore = useDmStore();
 const userStore = useUserStore();
 const { loginUser } = storeToRefs(userStore);
 const { isDropdownOpenState , directChatLogs} = storeToRefs(DMstore);
-
 
 // 그 외 변수
 const $style = useCssModule();
@@ -36,9 +34,9 @@ const clickDropdownButtonHandler = () => {
 
 const blurDropdownButtonHandler = () => {
   // 개발 도중에 드랍다운이 닫히지 않도록 주석처리한 부분
-  // if (isDropdownOpenState.value === true) {
-  //   closeDropdown();
-  // }
+  if (isDropdownOpenState.value === true) {
+    closeDropdown();
+  }
 };
 
 const dropdownStyleState = computed(() => {
@@ -49,7 +47,7 @@ const dropdownStyleState = computed(() => {
 </script>
 
 <template>
-  <div class="relative ml-3">
+  <div class="relative ml-3" :class="$style.dm_div">
     <div>
       <button
         @click="clickDropdownButtonHandler"

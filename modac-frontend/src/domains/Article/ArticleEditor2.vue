@@ -27,7 +27,7 @@ onMounted(async () => {
   await magic();
   editor.value = new Editor({
     el: document.getElementById("editor_" + articleItem.value.seq),
-    height: "200px",
+    height: "550px",
     width: "25%",
     initialValue: templateValue.value,
     initialEditType: "markdown",

@@ -15,16 +15,28 @@ import ApiTest from "../views/ApiTestView.vue";
 import ChatList from "../domains/Room/Chat/ChatList.vue";
 import MyPageView from "../views/MyPageView.vue";
 import FeedView from "@/views/FeedView.vue";
-import ServerError from '@/domains/Error/ServerError.vue'
-import PageNotFound from '@/domains/Error/PageNotFound.vue'
+import ServerError from "@/domains/Error/ServerError.vue";
+import PageNotFound from "@/domains/Error/PageNotFound.vue";
+import { useUserStore } from "@/stores/user.js";
+import { ref } from "vue";
+import { storeToRefs } from "pinia";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path: "/login",
+      path: "/",
       name: "login",
       component: UserLogin,
+      beforeEnter(to, from, next) {
+        const userStore = useUserStore();
+        const { loginUser } = storeToRefs(userStore);
+        if (loginUser.value) {
+          next({ name: "room" });
+        } else {
+          next();
+        }
+      },
     },
     {
       path: "/test",
@@ -35,31 +47,85 @@ const router = createRouter({
       path: "/signup",
       name: "UserSignUp",
       component: UserSignUp,
+      beforeEnter(to, from, next) {
+        const userStore = useUserStore();
+        const { loginUser } = storeToRefs(userStore);
+        if (loginUser.value) {
+          next({ name: "room" });
+        } else {
+          next();
+        }
+      },
     },
     {
       path: "/findid",
       name: "UserFindId",
       component: UserFindId,
+      beforeEnter(to, from, next) {
+        const userStore = useUserStore();
+        const { loginUser } = storeToRefs(userStore);
+        if (loginUser.value) {
+          next({ name: "room" });
+        } else {
+          next();
+        }
+      },
     },
     {
       path: "/findpass",
       name: "UserFindPassword",
       component: UserFindPassword,
+      beforeEnter(to, from, next) {
+        const userStore = useUserStore();
+        const { loginUser } = storeToRefs(userStore);
+        if (loginUser.value) {
+          next({ name: "room" });
+        } else {
+          next();
+        }
+      },
     },
     {
       path: "/room",
       name: "room",
       component: RoomView,
+      beforeEnter(to, from, next) {
+        const userStore = useUserStore();
+        const { loginUser } = storeToRefs(userStore);
+        if (!loginUser.value) {
+          next({ name: "login" });
+        } else {
+          next();
+        }
+      },
     },
     {
       path: "/article",
       name: "article",
       component: ArticleView,
+      beforeEnter(to, from, next) {
+        const userStore = useUserStore();
+        const { loginUser } = storeToRefs(userStore);
+        if (!loginUser.value) {
+          next({ name: "login" });
+        } else {
+          next();
+        }
+      },
     },
     {
       path: "/feed",
       name: "feed",
       component: FeedView,
+      beforeEnter(to, from, next) {
+        const userStore = useUserStore();
+        const { loginUser } = storeToRefs(userStore);
+        if (!loginUser.value) {
+          next({ name: "login" });
+        } else {
+          next();
+        }
+      },
     },
     {
       path: "/before",
@@ -95,11 +161,20 @@ const router = createRouter({
       path: "/myPage",
       name: "myPage",
       component: MyPageView,
+      beforeEnter(to, from, next) {
+        const userStore = useUserStore();
+        const { loginUser } = storeToRefs(userStore);
+        if (!loginUser.value) {
+          next({ name: "login" });
+        } else {
+          next();
+        }
+      },
     },
     {
-      path: '/serverError',
-      name: 'ServerError',
-      component: ServerError
+      path: "/serverError",
+      name: "ServerError",
+      component: ServerError,
     },
     // {
     //     path: '*',
