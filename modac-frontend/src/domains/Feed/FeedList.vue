@@ -104,27 +104,26 @@ import FeedListItem from "@/domains/Feed/FeedListItem.vue"
 import FeedViewer from "@/domains/Feed/FeedViewer.vue"
 import FeedFooter from "@/domains/Feed/FeedFooter.vue"
 import OverflowDiv from "@/components/OverflowDiv.vue"
-import { useFeedStore } from "@/stores/feed";
+
 import { computed, ref, onMounted } from "vue"
-import Modal from "@/components/Modal.vue";
-import articleAPI from "@/api/article.js";
 import { useUserStore } from "@/stores/user.js";
-import { storeToRefs } from "pinia";
+import { useFeedStore } from "@/stores/feed";
 import { useCommentStore } from "@/stores/comment.js";
+import { storeToRefs } from "pinia";
+import userAPI from "@/api/user.js";
+import articleAPI from "@/api/article.js";
 import commentAPI from "@/api/comment.js";
-
-// const store = useFeedStore();
-
-// // 화면 생성 시 실행되어야 할 함수
-// store.getFeeds();
+import Modal from "@/components/Modal.vue";
 
 const userStore = useUserStore();
 const feedStore = useFeedStore();
 const commentStore = useCommentStore();
 
+const { loginUser } = storeToRefs(userStore);
 const { articles } = storeToRefs(feedStore);
 const { article } = storeToRefs(feedStore);
 const { comments } = storeToRefs(commentStore);
+const isFollowing = ref(false);
 
 const payload = {
   usersSeq : userStore.loginUser.seq,
@@ -189,8 +188,16 @@ const openFeedModal = async (seq) => {
   await commentAPI.findCommentList(feedModalSeq.value);
 
   commentList = comments;
+
+
+  console.log("from", loginUser.value.seq);
+  console.log("to", feedArticle.value.user.seq);
+  const payload = {
+    fromSeq : loginUser.value.seq,
+    toSeq : feedArticle.value.user.seq
+  }
+  await userAPI.isFollowing(payload)
   
-  // console.log(commentList);
 };
 
 const updateFeedModal = async (seq) => {

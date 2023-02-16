@@ -47,7 +47,7 @@ const dropdownStyleState = computed(() => {
 </script>
 
 <template>
-  <div class="relative ml-3">
+  <div class="relative ml-3" :class="$style.dm_div">
     <div>
       <button
         @click="clickDropdownButtonHandler"

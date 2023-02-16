@@ -168,12 +168,13 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from "vue";
+import { ref, computed } from "vue";
 import { useUserStore } from '@/stores/user';
 import { useStatsStore } from '@/stores/statistics';
 import { useFeedStore } from "@/stores/feed";
 import { useCommentStore } from "@/stores/comment.js";
 import { storeToRefs } from "pinia"
+
 import articleAPI from "@/api/article.js";
 import commentAPI from "@/api/comment.js";
 import FeedViewer from "@/domains/Feed/FeedViewer.vue"
@@ -185,10 +186,10 @@ const userStore = useUserStore();
 const statsStore = useStatsStore();
 const feedStore = useFeedStore();
 const commentStore = useCommentStore();
+
 const { userArticles } = storeToRefs(feedStore);
 const { article } = storeToRefs(feedStore);
 const { comments } = storeToRefs(commentStore);
-
 const { loginUser } = storeToRefs(userStore);
 
 statsStore.api.getStatistics(loginUser.value.seq);
@@ -203,23 +204,12 @@ articleAPI.findArticleByUsersSeq(payload);
 
 // store에서 불러 와야 할 아이들
 const myArticles = computed(() => {
-  // articleAPI.findArticleByUsersSeq(payload);
   console.log("userArticles.value.articleInfoList", userArticles.value.articleInfoList);
   return userArticles.value.articleInfoList;
 })
 
-// let myArticles = userArticles.value.articleInfoList;
 let myArticle = article.value;
 let commentList = comments.value;
-
-// console.table(myArticles.value);
-// console.log(myArticles);
-
-// onMounted(() => {
-  // myArticles.value = userArticles.value.articleInfoList;
-  // myArticle = article.value;
-  // commentList = comments.value;
-// })
 
 const feedModalState = ref(false);
 let feedModalSeq = ref(null);
@@ -274,6 +264,8 @@ const updateFeedModal = async (seq) => {
 // const ArticleResponseList = ref([]);
 // const articleResponseList = computedFeedList;
 
+
+// 기존 페이지네이션 코드들
 // let page = ref(1);
 // const perPage = 10;
 // const data = articleResponseList.value;

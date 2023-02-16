@@ -1,6 +1,11 @@
 .list_item_style {
   @apply border;
-  @apply my-3 w-fit;
+  @apply my-3 w-[23%] flex items-center justify-center;
+}
+
+.list_item_style_modal {
+  @apply border;
+  @apply my-3 w-full flex items-center justify-center;
 }
 
 .list_item_div_col {
@@ -20,7 +25,7 @@
 }
 
 .item_host_theme {
-  @apply text-gray-500 text-sm
+  @apply text-gray-500 text-sm flex flex-wrap justify-center gap-2
 }
 
 .item_host_theme_name {
@@ -30,7 +35,7 @@
 .item_enter_button {
   /* @apply border-gray-500 border rounded-lg py-1 px-8 w-fit mt-2 text-sm font-medium; */
   @apply rounded-lg py-1 px-8 w-fit mt-2 text-sm font-medium;
-  @apply text-gray-900 bg-gradient-to-r from-teal-200 to-lime-200 hover:bg-gradient-to-l hover:from-teal-200 hover:to-lime-200 focus:ring-4 focus:outline-none focus:ring-lime-200 dark:focus:ring-teal-700 font-medium rounded-lg text-sm px-8 py-1.5 text-center;
+  @apply text-white bg-[#6474ad] font-medium rounded-lg text-sm px-8 py-1.5 text-center;
 
 
 }
@@ -58,13 +63,11 @@
 }
 
 .add_room_button_add {
-	@apply w-full text-sm text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg px-5 py-2.5 m-1 text-center;
-	background-color: rgb(37, 99, 235) !important;
+	@apply w-full text-sm text-white bg-[#3b82f6] hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg px-5 py-2.5 m-1 text-center;
 }
 
 .add_room_button_add:disabled {
-	@apply border-gray-300 text-white;
-	background-color: rgb(209 213 219) !important;
+	@apply border-gray-300 text-white bg-[#aab0be];
 }
 /* 
 .add_room_button_add:disabled {
