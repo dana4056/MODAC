@@ -1,5 +1,5 @@
 .card_style{
-  @apply flex justify-end;
+  @apply flex justify-end gap-1 text-xs;
   align-items: flex-end;
   justify-content: flex-start;
   align-items: center;
@@ -7,7 +7,7 @@
 }
 
 .inline_block_style {
-  @apply inline-block;
+  @apply inline-block text-base;
 }
 
 .rounded_div {
@@ -18,4 +18,8 @@
 
 .friend_profile {
   @apply inline-block object-cover h-8 w-8 m-1 rounded-full;
+}
+
+.friend_list_card {
+  @apply p-2 text-sm
 }

@@ -50,7 +50,7 @@ const inviteCode = ref(room_info.value.invitationCode)
     </div>
   </div>
 
-  <div :class="$style.delete_room">
+  <div :class="$style.edit_cat">
     <CommonButton :class="$style.edit_button"
       >
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">

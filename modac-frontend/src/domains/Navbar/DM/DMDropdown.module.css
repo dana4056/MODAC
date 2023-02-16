@@ -2,6 +2,7 @@
   @apply flex w-full h-full;
 }
 .dm_container_wrap{
+  @apply bg-[#e5e7eb];
   width: 28%;
 }
 

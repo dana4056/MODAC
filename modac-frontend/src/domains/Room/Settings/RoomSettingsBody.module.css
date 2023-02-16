@@ -7,18 +7,18 @@
 	@apply block text-sm font-semibold text-gray-900 dark:text-white w-14;
 }
 
-.delete_room {
+.edit_cat, .delete_room {
   @apply flex flex-col items-end;
 }
 
 .edit_button {
   /* height: 50%; */
-  @apply bg-[#3b82f6] text-white mt-2 flex gap-1 items-center px-3 py-2 text-sm;
+  @apply bg-[#6474ad] text-white mt-2 flex gap-1 items-center px-3 py-2 text-sm;
 }
 
 .delete_button {
   /* height: 50%; */
-  @apply bg-[#ff3333] mt-2 flex gap-1 items-center text-white px-3 py-2 text-sm;
+  @apply bg-[#f26365] mt-2 flex gap-1 items-center text-white px-3 py-2 text-sm;
 }
 
 .cat_theme_select {

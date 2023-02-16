@@ -7,10 +7,12 @@ import OverflowDiv from "@/components/OverflowDiv.vue";
 import { ref } from "vue";
 
 const articleStore = useArticleStore();
-const { tempArticle } = storeToRefs(articleStore);
+const { activeEditor } = storeToRefs(articleStore);
 
 const copyText = () => {
-  navigator.clipboard.writeText(tempArticle.value);
+  const currentActiveEditor = activeEditor.value;
+  const content = currentActiveEditor.getMarkdown();
+  navigator.clipboard.writeText(content);
   alert("복사 완료");
 };
 
@@ -39,9 +41,9 @@ const openGithubModal = () => {
   githubModalState.value = true;
 };
 
-// const githubCommit = () => {};
-
-const downloadMarkdown = (content) => {
+const downloadMarkdown = () => {
+  const currentActiveEditor = activeEditor.value;
+  const content = currentActiveEditor.getMarkdown();
   const encodedContent = encodeURIComponent(content);
   const link = document.createElement("a");
   link.setAttribute(
@@ -53,7 +55,7 @@ const downloadMarkdown = (content) => {
 };
 
 const clickDownloadButtonHandler = () => {
-  downloadMarkdown(tempArticle);
+  downloadMarkdown();
 };
 
 const backPrev = () => {

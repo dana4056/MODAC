@@ -18,9 +18,9 @@ const props = defineProps({
         <CardTitle :class="$style.display_inline_block">{{
           props.userItem.nickname
         }}</CardTitle>
-        <UserStatusIndicator
+        <!-- <UserStatusIndicator
           :status="props.userItem.status"
-        ></UserStatusIndicator>
+        ></UserStatusIndicator> -->
       </div>
       <div>
         <img
