@@ -294,7 +294,7 @@ public class ArticleServiceImpl implements ArticleService {
 		categoriesList.add(new StatisticsResponse.CountByCategory("개발", 0));
 		categoriesList.add(new StatisticsResponse.CountByCategory("CS", 0));
 		categoriesList.add(new StatisticsResponse.CountByCategory("면접", 0));
-		categoriesList.add(new StatisticsResponse.CountByCategory("기타", 0));
+		categoriesList.add(new StatisticsResponse.CountByCategory("공통", 0));
 		// 찾은 게시글들의 카테고리에 맞게 카운트 증가
 		for(Article article : articles) {
 			switch(article.getCategory().getName()){
@@ -306,7 +306,7 @@ public class ArticleServiceImpl implements ArticleService {
 					break;
 				case "면접" : categoriesList.get(3).plusCount();
 					break;
-				case "기타" : categoriesList.get(4).plusCount();
+				case "공통" : categoriesList.get(4).plusCount();
 					break;
 			}
 		}
