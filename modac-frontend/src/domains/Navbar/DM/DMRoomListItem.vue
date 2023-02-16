@@ -18,9 +18,9 @@ const lastTime = computed(() => {
   return h+":"+m;
 })
 
-const profileImgUrl = ref(
-  BASE_ASSETS_URL + "user_cats/cat" + loginUser.value.catSkin + ".png"
-);
+// const profileImgUrl = ref(
+//   BASE_ASSETS_URL + "user_cats/cat" + props.loginUser.catSkin + ".png"
+// );
 
 
 </script>x

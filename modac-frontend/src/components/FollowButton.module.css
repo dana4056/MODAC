@@ -1,8 +1,8 @@
 .follow_to_unfollow{
 
-  @apply bg-gray-500 hover:bg-gray-300 text-white font-bold py-2 px-4 rounded-full
+  @apply bg-[#6474ad] hover:bg-gray-300 text-white font-semibold text-xs py-2 px-4 rounded-full
 }
 
 .unfollow_to_follow{
-  @apply bg-blue-500 hover:bg-blue-300 text-white font-bold py-2 px-4 rounded-full
+  @apply bg-[#f26365] hover:bg-[#f33d40] text-white font-semibold text-xs py-2 px-4 rounded-full
 }

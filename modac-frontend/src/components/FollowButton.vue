@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref, onMounted, useCssModule } from 'vue'
+import { computed, onMounted, useCssModule } from 'vue'
 import { useUserStore } from "@/stores/user.js";
 import { useFeedStore } from "@/stores/feed.js";
 import { storeToRefs } from "pinia";
@@ -15,7 +15,7 @@ let feedArticle = article.value;
 
 // let is_followed = ref(false)
 let followbtn = null
-const button_content = computed(() => isFollowing.value ? '언팔' : '팔로')
+const button_content = computed(() => isFollowing.value ? '친구 해제' : '친구 추가')
 const button_css = computed(() => isFollowing.value ? 'unfollow_to_follow' : 'follow_to_unfollow')
 
 const follow = async () => {

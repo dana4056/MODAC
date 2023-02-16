@@ -12,7 +12,7 @@
 }
 
 .user_card_button_message {
-  @apply bg-white;
+  @apply bg-transparent border-0;
 }
 
 .user_card_button_follow {

@@ -4,7 +4,7 @@
 
 .flex_wrapper {
   @apply flex flex-row items-center;
-  @apply min-w-[400px];
+  @apply min-w-[300px];
   @apply bg-gray-200 rounded-lg;
   --tw-bg-opacity:0.6;
 	font-family: 'Pretendard';

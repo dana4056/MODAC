@@ -15,7 +15,15 @@
 }
 
 .dropdown {
-  @apply absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none text-black;
+  @apply absolute right-0 z-10 mt-2 w-fit origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none text-black;
   font-family: "Pretendard";
-  top: -2.5rem;
+  top: -7rem;
+}
+
+.user_dropdown_div {
+  @apply flex flex-col p-4 gap-2 w-fit
+}
+
+.user_dropdown_title {
+  @apply font-semibold gap-2 flex items-center flex-wrap w-fit
 }
