@@ -3,12 +3,8 @@ import Card from "@/components/Card.vue";
 import CardTitle from "@/components/CardTitle.vue";
 import CardContent from "@/components/CardContent.vue";
 import UserCard from "@/domains/User/UserCard.vue";
-<<<<<<< HEAD
-import UserStatusIndicator from "@/components/UserStatusIndicator.vue";
 import BASE_ASSETS_URL from "@/api/BASE_ASSETS_URL";
-=======
 // import UserStatusIndicator from "@/components/UserStatusIndicator.vue";
->>>>>>> 3c6066167b77509467dcf8de5972d5740eea1810
 import { useCssModule } from "vue";
 import { ref, computed } from "vue";
 import { useRoomStore } from "@/stores/room";
