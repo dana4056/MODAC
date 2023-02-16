@@ -1,6 +1,6 @@
 <script setup>
 import TodoTitle from "@/domains/Room/Todo/TodoTitle.vue";
-import TodoListLockButton from "../Todo/TodoListLockButton.vue";
+// import TodoListLockButton from "../Todo/TodoListLockButton.vue";
 import TodoList from "@/domains/Room/Todo/TodoList.vue";
 import TodoCreateForm from "@/domains/Room/Todo/TodoCreateForm.vue";
 import RightSideBarHeader from "./RightSideBarHeader.vue";
@@ -12,7 +12,7 @@ import RightSideBarBody from "./RightSideBarBody.vue";
     <RightSideBarHeader class="w-full flex">
       <TodoTitle />
       <template v-slot:button>
-        <TodoListLockButton />
+        <!-- <TodoListLockButton /> -->
       </template>
     </RightSideBarHeader>
     <RightSideBarBody>

@@ -22,7 +22,7 @@
         </div>
         <div :class="$style.card_date_and_info">
           <div :class="$style.card_date">
-            {{ feed.registeredTime }}
+            {{ feed.registeredTime.substr(0,10) }}
           </div>
           <div class="flex gap-3">
             <div class="flex items-center gap-1">

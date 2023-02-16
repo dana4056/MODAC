@@ -22,6 +22,7 @@ export const useUserStore = defineStore(
     // });
     const followingList = ref([]); // 팔로잉한 사용자 리스트
     const followerList = ref([]); // 팔로워 사용자 리스트
+    const isFollowing = ref(false);
 
     const logout = () => {
       loginUser.value = null; // store의 로그인 유저 삭제
@@ -36,6 +37,7 @@ export const useUserStore = defineStore(
       loginUser,
       followingList,
       followerList,
+      isFollowing,
       logout,
       api,
     };

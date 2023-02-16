@@ -1,5 +1,5 @@
 .show_form_button {
-  @apply text-white bg-gradient-to-r text-sm from-blue-900 to-pink-200 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg px-5 py-2 text-center mr-1 mb-1 w-full;
+  @apply text-white text-sm bg-[#3b82f6] dark:focus:ring-purple-800 font-medium rounded-lg px-5 py-2 text-center mr-1 mb-1 w-full;
 }
 
 .input_style {
