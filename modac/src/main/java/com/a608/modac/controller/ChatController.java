@@ -51,7 +51,7 @@ public class ChatController {
 	@GetMapping("/rooms")
 	public ResponseEntity<List<ChatRoomDto>> findAllChatRoom(@RequestParam("user") final Long userSeq) {
 		final List<ChatRoomDto> chatRoomDto = chatService.findAllChatRoomsByFollowingsSeq(userSeq);
-
+		System.out.println(chatRoomDto);
 		return new ResponseEntity<>(chatRoomDto, HttpStatus.OK);
 	} // 유저의 1:1 모든 채팅방 조회 -> 모든 1:1 채팅방 리스트 반환. -> 다나가 바꿈.
 
@@ -77,7 +77,7 @@ public class ChatController {
 		chatService.updateLastMessage(directMessageDto);
 
 		simpMessageSendingOperations.convertAndSend(
-			"/queue/chat/rooms/enter/direct" + directMessageDto.getChatRoomsSeq(),
+			"/queue/chat/rooms/enter/direct" +directMessageDto.getChatRoomsSeq(),
 			directMessageDto);
 
 		return new ResponseEntity<>(HttpStatus.OK);

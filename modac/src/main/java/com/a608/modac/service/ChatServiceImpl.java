@@ -82,10 +82,14 @@ public class ChatServiceImpl implements ChatService {
 
 	@Override
 	public void updateLastMessage(final DirectMessageDto directMessageDto) {
-		final Optional<ChatRoom> chatRoomOptional = chatRoomRepository.findById(directMessageDto.getChatRoomsSeq());
 
-		chatRoomOptional.ifPresent(chatRoom -> chatRoomRepository.findById(directMessageDto.getChatRoomsSeq())
-			.ifPresent(room -> room.updateChatRoom(chatRoom.getLastMessageSeq(), chatRoom.getLastMessageTime())));
+		ChatRoom chatRoom = chatRoomRepository.findById(directMessageDto.getChatRoomsSeq())
+			.orElseThrow(() -> new NoSuchElementException("NoChatRoom"));
+
+		System.out.println("chatRoom:"+chatRoom);
+
+		chatRoom.updateChatRoom(directMessageDto.getMessage(), directMessageDto.getSendTime());
+		chatRoomRepository.save(chatRoom);
 
 	} // 채팅 메시지 업데이트.
 
@@ -95,32 +99,30 @@ public class ChatServiceImpl implements ChatService {
 
 		return ChatRoomDto.builder()
 			.seq(roomsSeq)
-			.lastMessageSeq(chatRoom.getLastMessageSeq())
+			.lastMessage(chatRoom.getLastMessageSeq())
 			.lastMessageTime(chatRoom.getLastMessageTime())
 			.build();
 	} // 특정 채팅룸 찾기. -> 입장할 때 사용.
 
 	public List<ChatRoomDto> findAllChatRoomsByFollowingsSeq(final Long userSeq) {
 		final List<Follow> follows = followRepository.findAllByFromUser_SeqOrToUser_Seq(userSeq, userSeq);
+		System.out.println("=============================================follws"+follows);
+
 		HashMap<Long, ChatRoom> chatRooms = new HashMap<>();
 		final User myUser = userRepository.findById(userSeq).orElseThrow(() -> new NoSuchElementException("NoUser"));
+		System.out.println("=============================================myUser"+myUser);
 
 		//  user가 속한 모든 팔로우 관계의 채팅방에서
 		for (Follow follow : follows) {
 
 			User talker; // 나랑 대화하는 상대방 유저
 
-			// 1. 기본적으로 내가 FromUser라고 가정해볼께 (일단 특정 user를 가리켜야 오류가 안나서 그래!)
-			//    그럼 상대방은 ToUser 유저일꺼야 맞지
 			talker = follow.getToUser();
 
-			// 2. 근데 내가 사실 ToUser였다면 상대방은 FromUser일꺼야
-			//    그렇다면 맞게 정정해주자
 			if (follow.getToUser().equals(myUser)) {
 				talker = follow.getFromUser();
 			}
 			ChatRoom chatRoom = follow.getChatRoom();
-			// 최근 메세지가 존재하는 채팅방에 상대방의 usersSeq를 key로, chatRoom을 value로 넣어주기
 			if (chatRoom.getLastMessageSeq() != null) {
 				chatRooms.put(talker.getSeq(), chatRoom);
 			}
@@ -131,12 +133,11 @@ public class ChatServiceImpl implements ChatService {
 				userRepository.findById(entry.getKey()).orElseThrow(() -> new NoSuchElementException("NoUser")));
 			ChatRoom chatRoom = entry.getValue(); // 채팅방
 
-			ChatMessage chatMessage = chatMessageRepository.findById(chatRoom.getLastMessageSeq())
-				.orElseThrow(NoSuchElementException::new);
+			// ChatMessage chatMessage = chatMessageRepository.findById()
+			// 	.orElseThrow(NoSuchElementException::new);
 			ChatRoomDto chatRoomDto = ChatRoomDto.builder()
 				.seq(chatRoom.getSeq())
 				.lastMessageSeq(chatRoom.getLastMessageSeq())
-				.lastMessage(chatMessage.getMessage())
 				.lastMessageTime(chatRoom.getLastMessageTime())
 				.talker(talker).build();
 
