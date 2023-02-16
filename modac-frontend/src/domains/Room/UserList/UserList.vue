@@ -14,7 +14,6 @@ const $style = useCssModule();
 
 const roomStore = useRoomStore();
 const { room_info } = storeToRefs(roomStore);
-
 </script>
 
 <template>
@@ -24,27 +23,27 @@ const { room_info } = storeToRefs(roomStore);
     :userItem="room_info.participants[0]"
   />
   <UserListItem
-  v-if="room_info.participants[1]"
+    v-if="room_info.participants[1]"
     :class="`${$style.second_position} ${$style.item_box}`"
     :userItem="room_info.participants[1]"
   />
   <UserListItem
-  v-if="room_info.participants[2]"
+    v-if="room_info.participants[2]"
     :class="`${$style.third_position} ${$style.item_box}`"
     :userItem="room_info.participants[2]"
   />
   <UserListItem
-  v-if="room_info.participants[3]"
-    :class="`${$style.fouth_position} ${$style.item_box}`"
+    v-if="room_info.participants[3]"
+    :class="`${$style.fourth_position} ${$style.item_box}`"
     :userItem="room_info.participants[3]"
   />
   <UserListItem
-  v-if="room_info.participants[4]"
+    v-if="room_info.participants[4]"
     :class="`${$style.fifth_position} ${$style.item_box}`"
     :userItem="room_info.participants[4]"
   />
   <UserListItem
-  v-if="room_info.participants[5]"
+    v-if="room_info.participants[5]"
     :class="`${$style.sixth_position} ${$style.item_box}`"
     :userItem="room_info.participants[5]"
   />
