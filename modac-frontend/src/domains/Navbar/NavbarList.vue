@@ -16,13 +16,13 @@ import NavbarLogo from "./NavbarLogo.vue";
           >스터디룸</RouterLink
         >
 
-        <RouterLink
+        <!-- <RouterLink
           id="routerlink"
           to="/article"
           href="#"
           :class="$style.navbar_item_unselected"
           >TIL</RouterLink
-        >
+        > -->
 
         <RouterLink
           id="routerlink"
