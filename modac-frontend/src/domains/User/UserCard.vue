@@ -23,7 +23,7 @@ const userStore = useRoomStore();
 
 const statusMap = userStore.statusMap;
 
-const isFollowed = ref(false);
+const isFollowed = ref(true);
 const follow = () => {
   isFollowed.value = true;
 };
@@ -61,9 +61,9 @@ const directChatting = () => {
 
 <template>
   <Card :class="$style.user_card">
-    <div :class="$style.user_card_item">
+    <!-- <div :class="$style.user_card_item">
       <CardTitle>{{ props.talker.nickname }}</CardTitle>
-    </div>
+    </div> -->
 
 
     <div :class="$style.user_card_item">
@@ -76,7 +76,8 @@ const directChatting = () => {
         :class="$style[followButtonStyleState]"
         @click="toggleFollowState"
       >
-        {{ followButtonState }}
+        <!-- {{ followButtonState }} -->
+        팔로우 취소
       </CommonButton>
     </div>
   </Card>

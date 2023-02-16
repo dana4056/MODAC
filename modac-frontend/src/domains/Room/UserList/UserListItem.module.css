@@ -6,5 +6,6 @@
 }
 
 .display_inline_block {
-  @apply inline-block;
+  @apply inline-block bg-black font-medium text-sm py-1 px-3 rounded-xl border-white border-2;
+  --tw-bg-opacity: 0.5;
 }

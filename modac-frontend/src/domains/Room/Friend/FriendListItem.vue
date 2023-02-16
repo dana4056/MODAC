@@ -43,7 +43,7 @@ const toggleUserCard = (event) => {
 </script>
 
 <template lang="">
-  <Card :id="`user_card-${props.friendItem.seq}`" @click="toggleUserCard">
+  <Card :id="`user_card-${props.friendItem.seq}`" @click="toggleUserCard" :class="$style.friend_list_card">
     <div :class="$style.card_style">
       <img
           :src="`src/assets/user_cats/cat${props.friendItem.toUser.catSkin}.png`"

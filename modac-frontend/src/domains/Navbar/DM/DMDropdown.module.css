@@ -2,11 +2,12 @@
   @apply flex w-full h-full;
 }
 .dm_container_wrap{
+  @apply bg-[#e5e7eb];
   width: 28%;
 }
 
 .dm_container {
-  @apply bg-gray-50 rounded-lg overflow-hidden w-full p-3;
+  @apply bg-[#e5e7eb] rounded-lg overflow-hidden w-full px-2;
 }
 
 .dm_chatList {
