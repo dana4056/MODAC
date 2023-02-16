@@ -19,7 +19,7 @@ const props = defineProps({
 const articleItem = toRef(props, "articleItem");
 
 const article_item_css = computed(() => {
-  return articleItem.value.seq === articleStore.selectedState;
+  return articleItem.value.seq === articleStore.selectedArticleItemSeq;
 });
 
 // let time = computed(() => {
