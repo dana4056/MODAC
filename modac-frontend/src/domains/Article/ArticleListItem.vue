@@ -19,7 +19,7 @@ const props = defineProps({
 const articleItem = toRef(props, "articleItem");
 
 const article_item_css = computed(() => {
-  return articleItem.value.seq === articleStore.selectedState;
+  return articleItem.value.seq === articleStore.selectedArticleItemSeq;
 });
 
 // let time = computed(() => {
@@ -57,7 +57,10 @@ const article_item_css = computed(() => {
             {{ time }}
           </span>
         </div> -->
-        <CategoryTag :categoriesName="articleItem.categoriesName" />
+        <CategoryTag
+          :categoriesName="articleItem.categoriesName"
+          :class="$style.category_text"
+        />
       </div>
       <div :class="$style.title">
         {{ articleItem.title }}

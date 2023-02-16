@@ -17,6 +17,9 @@ const props = defineProps({
     <span v-if="props.categoriesName === '개발'" :class="$style.develop_style"
       >#개발</span
     >
+    <span v-if="props.categoriesName === '면접'" :class="$style.develop_style"
+      >#면접</span
+    >
     <span v-if="props.categoriesName === '공통'" :class="$style.common_style"
       >#공통</span
     >
