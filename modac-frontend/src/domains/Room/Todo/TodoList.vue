@@ -26,7 +26,7 @@ const routeToArticlePage = () => {
 <template>
   <div :class="$style.todo_body_wrapper">
     <div :class="$style.todolist_wrapper">
-      <div v-if="todos.length !== 0" class="w-full">
+      <div v-if="todos.length !== 0" :class="$style.item_wrapper">
         <TodoListItem
           v-for="todo in todos"
           :key="todo.seq"

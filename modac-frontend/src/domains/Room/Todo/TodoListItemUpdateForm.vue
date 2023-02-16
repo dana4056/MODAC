@@ -58,8 +58,8 @@ const handleCancleButton = () => {
               <option value="알고리즘" selected="selected">알고리즘</option>
               <option value="CS">CS</option>
               <option value="개발">개발</option>
-              <option value="기획">기획</option>
-              <option value="기타">기타</option>
+              <option value="면접">면접</option>
+              <option value="공통">공통</option>
             </select>
           </div>
 

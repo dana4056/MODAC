@@ -17,11 +17,16 @@
   overflow: auto;
   word-break: break-all;
   height: 60vh;
+  @apply w-full;
 }
 
 .todolist_wrapper::-webkit-scrollbar {
   width: 0px;
   background: transparent;
+}
+
+.item_wrapper {
+  @apply w-full flex flex-col-reverse;
 }
 
 .send_button {

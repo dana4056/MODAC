@@ -9,6 +9,12 @@ const userStore = useUserStore();
 
 const title = ref("");
 const categoriesSeq = ref("알고리즘");
+const setTitle = () => {
+  title.value = "";
+};
+const setCategoriesSeq = () => {
+  categoriesSeq.value = "알고리즘";
+};
 
 const handleSubmitTodoItem = async () => {
   const responseData = await todoAPI.postTodo(
@@ -16,6 +22,10 @@ const handleSubmitTodoItem = async () => {
     categoriesSeq.value,
     title.value
   );
+
+  setTitle();
+  setCategoriesSeq();
+
   console.log(responseData);
   todoStore.addTodoItem(responseData);
 
@@ -69,8 +79,8 @@ const toggleTodoCreateForm = () => {
               <option value="알고리즘" selected="selected">알고리즘</option>
               <option value="CS">CS</option>
               <option value="개발">개발</option>
-              <option value="기획">기획</option>
-              <option value="기타">기타</option>
+              <option value="면접">면접</option>
+              <option value="공통">공통</option>
             </select>
           </div>
 
