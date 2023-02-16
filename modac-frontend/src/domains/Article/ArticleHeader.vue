@@ -30,19 +30,6 @@ const requestCreateArticle = async () => {
     publicType,
     content,
   });
-
-  // const currentActiveEditor = document.getElementById(`editor_${todosSeq}`);
-  // console.log(currentActiveEditor);
-  // if (currentActiveEditor && currentActiveEditor.getMarkdown()) {
-  //   const filepath = currentActiveEditor.getMarkdown();
-  //   articleAPI.postArticle({ usersSeq, todosSeq, publicType, filepath });
-  // }
-
-  // const currentActiveEditor = document.getElementById(`editor_${todosSeq}`);
-  // console.log("currentActiveEditor: ", currentActiveEditor);
-  // const filepath = currentActiveEditor.getMarkdown();
-  // console.log("filepath: ", filepath);
-  // articleAPI.postArticle({ usersSeq, todosSeq, publicType, filepath });
 };
 
 const deleteTodoAndArticle = async () => {
@@ -50,9 +37,8 @@ const deleteTodoAndArticle = async () => {
   const { selectedArticleItemSeq, deleteArticle } = toRefs(articleStore);
   const todoStore = useTodoStore();
   const { deleteTodoItem } = toRefs(todoStore);
-  deleteTodoItem.value(selectedArticleItemSeq); // todo만 지우면, article도 지워지는지 확인해보기
-  console.log(selectedArticleItemSeq);
-  deleteArticle.value(selectedArticleItemSeq);
+  deleteTodoItem.value(selectedArticleItemSeq.value);
+  deleteArticle.value(selectedArticleItemSeq.value);
 
   await todoAPI.deleteTodo(selectedArticleItemSeq.value);
 };
