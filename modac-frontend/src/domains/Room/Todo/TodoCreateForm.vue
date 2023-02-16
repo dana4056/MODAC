@@ -9,6 +9,12 @@ const userStore = useUserStore();
 
 const title = ref("");
 const categoriesSeq = ref("알고리즘");
+const setTitle = () => {
+  title.value = "";
+};
+const setCategoriesSeq = () => {
+  categoriesSeq.value = "알고리즘";
+};
 
 const handleSubmitTodoItem = async () => {
   const responseData = await todoAPI.postTodo(
@@ -16,6 +22,10 @@ const handleSubmitTodoItem = async () => {
     categoriesSeq.value,
     title.value
   );
+
+  setTitle();
+  setCategoriesSeq();
+
   console.log(responseData);
   todoStore.addTodoItem(responseData);
 
