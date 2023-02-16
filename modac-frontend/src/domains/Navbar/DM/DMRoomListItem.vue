@@ -13,6 +13,10 @@ import catSkin9 from "@/assets/user_cats/cat9.png"
 import catSkin10 from "@/assets/user_cats/cat10.png"
 import catSkin11 from "@/assets/user_cats/cat11.png"
 import catSkin12 from "@/assets/user_cats/cat12.png"
+import { useUserStore } from "@/stores/user";
+import { storeToRefs } from "pinia";
+const userStore = useUserStore();
+const { loginUser } = storeToRefs(userStore);
 
 
 const catSkin = computed(() => {
@@ -58,6 +62,8 @@ const catSkin = computed(() => {
 const props = defineProps({
   chatRoom: Object,
   getMessages: Function,
+  seq: Number,
+
 });
 
 const $style = useCssModule();

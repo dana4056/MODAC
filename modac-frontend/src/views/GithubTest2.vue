@@ -8,7 +8,7 @@
       <p class="text-sm">저장할 곳을 선택해주세요.</p>
       <!-- <h2>저장소 새로 생성</h2> -->
       <button
-        @click="moveCreateNewRepo.value(userName)"
+        @click="moveCreateNewRepo(userName)"
         class="github_new_repo_button"
       >
         새 저장소 생성하기
@@ -16,7 +16,7 @@
       <!-- <RouterLink :to="`/createRepo/${userName}`" class="github_new_repo_button">새 저장소 생성하기</RouterLink> -->
       <!-- <h2>저장소 목록</h2> -->
       <div
-        @click="selectRepo.value(userName, el.name)"
+        @click="selectRepo(userName, el.name)"
         v-for="el of repoEL"
         :key="el.id"
         class="repoEl"
