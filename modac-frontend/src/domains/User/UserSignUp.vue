@@ -139,7 +139,7 @@
 
       <div :class="$style.login_sns_flex">
         <div :class="$style.login_options">
-          <RouterLink id="routerlink" to="/login">로그인</RouterLink>
+          <RouterLink id="routerlink" to="/">로그인</RouterLink>
           <p>|</p>
           <RouterLink id="routerlink" to="/findid">아이디 찾기</RouterLink>
           <p>|</p>
