@@ -37,3 +37,7 @@
 .title {
   @apply text-ellipsis whitespace-nowrap overflow-hidden;
 }
+
+.category_text {
+  @apply text-gray-600;
+}
