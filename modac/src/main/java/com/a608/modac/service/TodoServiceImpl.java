@@ -5,6 +5,7 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.a608.modac.model.category.Category;
@@ -27,6 +28,10 @@ public class TodoServiceImpl implements TodoService{
 		this.userRepository = userRepository;
 		this.categoryRepository = categoryRepository;
 	}
+
+	@Autowired
+	private S3Service s3Service;
+
 	@Override
 	public TodoResponse saveTodo(final TodoRequest todoRequest) {
 
@@ -41,7 +46,10 @@ public class TodoServiceImpl implements TodoService{
 	@Override
 	public TodoResponse findTodo(final Long seq) {
 		Todo todo = todoRepository.findById(seq).orElseThrow(() -> new NoSuchElementException("NoTodo"));
-		return new TodoResponse(todo);
+		TodoResponse todoResponse = new TodoResponse(todo);
+		// String templateContent = s3Service.read(todo.getCategory().getTemplateFilepath()); // S3에 저장된 템플릿 정보 가져오기
+		// todoResponse.setTemplateContent(templateContent); // 템플릿 정보를 TodoResponse에 담기
+		return todoResponse;
 	}
 
 	@Override

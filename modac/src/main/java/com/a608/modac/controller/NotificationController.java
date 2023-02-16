@@ -43,8 +43,8 @@ public class NotificationController {
 
 	// 새 알림 읽음 처리
 	@PutMapping
-	public ResponseEntity<?> updateAllIsRead(@RequestParam("user") final Long usersSeq) {
-		notificationService.updateAllIsRead(usersSeq);
+	public ResponseEntity<?> updateAllIsRead(@RequestBody String usersSeq) {
+		notificationService.updateAllIsRead(Long.parseLong(usersSeq));
 		return new ResponseEntity<String>(HttpStatus.OK);
 	}
 
