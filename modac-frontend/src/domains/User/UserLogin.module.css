@@ -1,8 +1,9 @@
 .login_all_flex {
-  @apply flex h-full bg-gradient-to-b from-black via-sky-900 to-orange-300 text-white justify-center;
+  @apply flex h-full  text-white justify-center;
+  /* bg-gradient-to-b from-black via-sky-900 to-orange-300; */
   font-family: 'Pretendard';
+  background: linear-gradient(to bottom,#00145C 0%,pink 160%);
 }
-
 .login_left_flex {
   @apply flex w-1/2 gap-3 flex-col justify-center pl-24
 }

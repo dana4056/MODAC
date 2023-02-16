@@ -9,7 +9,7 @@ export default {
             user : usersSeq
         }})
     .then((response) => {
-        console.log("response.data",response.data)
+        // console.log("response.data",response.data)
         const code = response.status;
         const statsStore = useStatsStore();
         const { barData } = storeToRefs(statsStore);
@@ -19,8 +19,8 @@ export default {
         barData.value = response.data.daysOfWeekList
         radarData.value = response.data.categoriesList
         doughnutData.value = response.data.categoriesList
-        console.log("gggg", barData.value[0])
-        console.log("asdasd", barData.value[0].dayOfWeek)
+        // console.log("gggg", barData.value[0])
+        // console.log("asdasd", barData.value[0].dayOfWeek)
 
         // barData.value = data.daysOfWeekList
         // radarData.value = data.categoriesList
@@ -28,11 +28,11 @@ export default {
 
 
         if(code == 200){
-            console.log("통계 데이터: " + JSON.stringify(response.data));
+            // console.log("통계 데이터: " + JSON.stringify(response.data));
         }
     })
     .catch((error) => {
-        console.log("에러",error);
+        // console.log("에러",error);
     })
   }
 }

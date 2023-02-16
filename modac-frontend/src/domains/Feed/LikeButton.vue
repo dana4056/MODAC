@@ -1,4 +1,18 @@
 <script setup>
+
+import { useFeedStore } from "@/stores/feed.js";
+import { useUserStore } from "@/stores/user.js";
+import { storeToRefs } from "pinia";
+import articleAPI from "@/api/article.js";
+
+const userStore = useUserStore();
+const feedStore = useFeedStore();
+const { article } = storeToRefs(feedStore);
+const { loginUser } = storeToRefs(userStore);
+
+let feedArticle = article.value;
+// 현재 좋아요 한 상태인지 조회 필요, 조회되어 있으면 눌린 상태로 시작
+
 import { onMounted } from 'vue';
 let confettiAmount = 60,
     confettiColors = [
@@ -28,6 +42,15 @@ onMounted(() => {
     elem.addEventListener('click', e => {
         let number = elem.children[1].textContent;
         if(!elem.classList.contains('animation')) {
+          // 좋아요
+          
+          console.log("usersSeq", loginUser.value.seq);
+          console.log("articlesSeq", article.value.seq);
+          const payload = {
+            "usersSeq":loginUser.value.seq,
+            "articlesSeq":article.value.seq
+          }
+          articleAPI.likeArticle(payload);
             elem.classList.add('animation');
             for(let i = 0; i < confettiAmount; i++) {
                 createConfetti(elem);
@@ -43,6 +66,7 @@ onMounted(() => {
                 }, 600);
             }, 260);
         } else {
+            // 좋아요 취소
             elem.classList.remove('animation', 'liked', 'confetti');
             elem.children[1].textContent = parseInt(number) - 1;
         }
@@ -63,7 +87,7 @@ onMounted(() => {
         </svg>
         <span>Like</span>
     </div>
-    <span>0</span>
+    <span>{{ feedArticle.likeCount }}</span>
     <div class="paws">
         <svg class="paw">
             <use xlink:href="#paw"></use>

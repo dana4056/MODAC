@@ -4,6 +4,7 @@
   align-content: flex-start;
   justify-content: space-between;
 	font-family: 'Pretendard';
+  background: linear-gradient(to bottom,#00145C 0%,pink 160%);
 }
 .wrapper_flex_div {
   @apply flex flex-row;

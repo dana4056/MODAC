@@ -7,13 +7,12 @@
     <hr class="mt-5">
     <div>
       <div class="flex font-semibold text-xl items-center gap-2 bg-gray-100 py-6 px-4 mb-5">
-        <!-- {{ article.value.user.nickname }} -->
         {{ userNickname }}
         <div :class="$style.comment_membership" class="h-fit">
-          <!-- {{ article.value.user.membershipLevel }} -->
           {{ userMembership }}
         </div>
-        <FollowButton class="text-sm rounded-lg py-1"></FollowButton>
+        <FollowButton v-if="myUserSeq != userSeq" class="text-sm rounded-lg py-1">
+        </FollowButton>
       </div>
     </div>
     <div>댓글 <span class="font-semibold text-red-600"> {{ commentListCount }}</span>개</div>
@@ -23,6 +22,7 @@
                 :class="$style.comment_textarea" 
                 ref="textarea"
                 v-model="comment"
+                required
                 @input="resizeTextarea"></textarea>
       <button type="button" 
               :class="$style.add_button"
@@ -67,20 +67,23 @@
 
 <script setup>
 
-import { useFeedStore } from "@/stores/feed.js";
 import { ref, onMounted, computed } from "vue"
+import { useFeedStore } from "@/stores/feed.js";
+import { useCommentStore } from "@/stores/comment.js";
+import { useUserStore } from "@/stores/user.js";
+import { storeToRefs } from "pinia";
+
+import commentAPI from "@/api/comment.js";
 import LikeButton from "./LikeButton.vue";
 import FollowButton from "@/components/FollowButton.vue";
-import { useCommentStore } from "@/stores/comment.js";
-import commentAPI from "@/api/comment.js";
-import { storeToRefs } from "pinia";
-import { useUserStore } from "@/stores/user.js";
 
 const commentStore = useCommentStore();
 const feedStore = useFeedStore();
 const userStore = useUserStore();
 const { comments } = storeToRefs(commentStore);
 const { article } = storeToRefs(feedStore);
+const { loginUser } = storeToRefs(userStore);
+// const { isFollowing } = storeToRefs(userStore);
 let feedArticle = article.value;
 
 const props = defineProps({
@@ -98,6 +101,8 @@ const commentListCount = computed(() => {
 
 const userNickname = article.value.user.nickname;
 const userMembership = article.value.user.membershipLevel;
+const userSeq = article.value.user.seq;
+const myUserSeq = loginUser.value.seq;
 
 const textarea = ref(null);
 const comment = ref("");
@@ -107,27 +112,30 @@ const resizeTextarea = () => {
 }
 
 const comment_add = async () => {
-  // comment.value를 댓글 작성 시 보내면 됨!
-  const payload = {
-    articlesSeq : props.feedModalSeq,
-    usersSeq : userStore.loginUser.seq,
-    content : comment.value
+  if (comment.value === "") {
+    alert("댓글을 입력해주세요.")
   }
-
-  commentAPI.postComment(payload);
-  comment.value = "";
-
-  await props.updateFeedModal();
-  commentList = comments;
-  feedArticle.commentCount = feedArticle.commentCount + 1;
-  console.log("feedArticle.commentCount 업뎃됐니?!?!?", feedArticle.commentCount)
+  else {
+    // comment.value를 댓글 작성 시 보내면 됨!
+    const payload = {
+      articlesSeq : props.feedModalSeq,
+      usersSeq : userStore.loginUser.seq,
+      content : comment.value
+    }
   
-  console.log(commentList);
+    commentAPI.postComment(payload);
+    comment.value = "";
+  
+    await props.updateFeedModal();
+    commentList = comments;
+    feedArticle.commentCount = feedArticle.commentCount + 1;
+  }
 }
 
 onMounted(() => {
   resizeTextarea()
 })
+
 
 </script>
 

@@ -248,13 +248,12 @@ export default {
             localStorage.setItem("jwt", response.data.token); // 로컬 스토리지에 저장
 
             const store = useUserStore();
-            const roomStore = useRoomStore();
             const { loginUser } = storeToRefs(store);
             
             console.log(loginUser.value);
             loginUser.value = response.data; // userStore에 멤버 저장
             
-            roomStore.api.findRoomList(response.data.seq);
+
             router.push({ name: "room" }); // 룸리스트뷰로 이동
             this.fetchFollowingUsers(loginUser.value.seq)
             this.fetchFollowerUsers(loginUser.value.seq)
@@ -282,34 +281,29 @@ export default {
   },
 
   // 팔로잉
-  following(payload) {
-    http
-      .post(`/users/follow`, payload)
-      .then((response) => {
-        const code = response.status;
+  async following(payload) {
+    const response = await http.post(`/users/follow`, payload);
 
-        if (code == 201) {
-          console.log(payload.toSeq + "번 유저 팔로잉 성공");
-        } else if (code == 204) {
-          console.log("사용자를 찾을 수 없음");
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    if (response.status == 201) {
+      console.log(payload.toSeq + "번 유저 팔로잉 성공");
+    } else if (response.status == 204) {
+      console.log("사용자를 찾을 수 없음");
+    }
+
+    // console.log("response", response);
   },
 
   // 언팔로잉
-  unfollowing(followSeq) {
-    http.delete(`/users/follow/${followSeq}`).then((response) => {
-      const code = response.status;
+  async unfollowing(followSeq) {
+    const response = await http.delete(`/users/follow/${followSeq}`)
 
-      if (code == 200) {
-        console.log("언팔로우 성공");
-      } else if (code == 204) {
-        console.log("언팔로우 실패: 팔로잉 정보 없음");
-      }
-    });
+    if (response.status == 200) {
+      console.log("언팔로우 성공");
+    } else if (response.status == 204) {
+      console.log("언팔로우 실패: 팔로잉 정보 없음");
+    }
+
+    // console.log("response", response);
   },
 
   // 팔로잉 회원목록 조회(친구 조회)
@@ -331,7 +325,7 @@ export default {
       });
   },
 
-  // 팔로잉 회원목록 조회(친구 조회)
+  // 팔로워 회원목록 조회(친구 조회)
   fetchFollowerUsers(userSeq) {
     http
       .get(`/users`, {
@@ -351,16 +345,19 @@ export default {
   },
 
   // 팔로잉 여부 조회
-  isFollowing(payload) {
-    http
-      .get("/users/follow", {
-        params: {
-          from: payload.fromSeq,
-          to: payload.toSeq,
-        },
-      })
-      .then((response) => {
-        console.log(response.data);
-      });
+  async isFollowing(payload) {
+    await http.get("/users/follow", {
+      params: {
+        from: payload.fromSeq,
+        to: payload.toSeq,
+      },
+    })
+    .then((response) => {
+      const userStore = useUserStore();
+      const { isFollowing } = storeToRefs(userStore);
+
+      isFollowing.value = response.data;
+      console.log("isFollowing.value", isFollowing.value);
+    });
   },
 };
