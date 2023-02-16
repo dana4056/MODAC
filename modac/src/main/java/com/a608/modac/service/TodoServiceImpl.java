@@ -47,8 +47,8 @@ public class TodoServiceImpl implements TodoService{
 	public TodoResponse findTodo(final Long seq) {
 		Todo todo = todoRepository.findById(seq).orElseThrow(() -> new NoSuchElementException("NoTodo"));
 		TodoResponse todoResponse = new TodoResponse(todo);
-		// String templateContent = s3Service.read(todo.getCategory().getTemplateFilepath()); // S3에 저장된 템플릿 정보 가져오기
-		// todoResponse.setTemplateContent(templateContent); // 템플릿 정보를 TodoResponse에 담기
+		String templateContent = s3Service.read(todo.getCategory().getTemplateFilepath()); // S3에 저장된 템플릿 정보 가져오기
+		todoResponse.setTemplateContent(templateContent); // 템플릿 정보를 TodoResponse에 담기
 		return todoResponse;
 	}
 
