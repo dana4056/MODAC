@@ -1,5 +1,5 @@
 .dm_items {
-  @apply flex justify-between w-full items-center bg-white mt-2 p-2 hover:shadow-lg rounded cursor-pointer transition;
+  @apply flex justify-between w-full items-center bg-white mt-2 p-2 hover:shadow-lg rounded-lg cursor-pointer transition;
 }
 
 .dm_items_left {
