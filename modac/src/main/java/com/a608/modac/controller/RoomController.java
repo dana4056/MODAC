@@ -72,7 +72,7 @@ public class RoomController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
-	@PutMapping("/{seq}/join")				// 멀티룸 참여상태 변경
+	@PutMapping("/{seq}/")				// 멀티룸 참여상태 변경
 	public ResponseEntity<?> updateUserAttend(@PathVariable("seq") final Long seq, @RequestBody final ParticipantRequest participantRequest){
 		roomService.updateUserAttend(seq, participantRequest);
 		return new ResponseEntity<>(HttpStatus.OK);
