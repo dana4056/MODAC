@@ -289,7 +289,7 @@ export const useRoomStore = defineStore("room", () => {
 
   };
 },
-// {
-//   persist: true,
-// }
+{
+  persist: true,
+}
 );
