@@ -8,6 +8,58 @@ import BASE_ASSETS_URL from "@/api/BASE_ASSETS_URL";
 import { useCssModule } from "vue";
 import { ref, computed } from "vue";
 import { useRoomStore } from "@/stores/room";
+import catSkin1 from "@/assets/user_cats/cat1.png"
+import catSkin2 from "@/assets/user_cats/cat2.png"
+import catSkin3 from "@/assets/user_cats/cat3.png"
+import catSkin4 from "@/assets/user_cats/cat4.png"
+import catSkin5 from "@/assets/user_cats/cat5.png"
+import catSkin6 from "@/assets/user_cats/cat6.png"
+import catSkin7 from "@/assets/user_cats/cat7.png"
+import catSkin8 from "@/assets/user_cats/cat8.png"
+import catSkin9 from "@/assets/user_cats/cat9.png"
+import catSkin10 from "@/assets/user_cats/cat10.png"
+import catSkin11 from "@/assets/user_cats/cat11.png"
+import catSkin12 from "@/assets/user_cats/cat12.png"
+
+
+const catSkin = computed(() => {
+  if( props.friendItem.toUser.catSkin === 1){
+    return catSkin1
+  }
+  else if(props.friendItem.toUser.catSkin === 2){
+    return catSkin2
+  }
+  else if(props.friendItem.toUser.catSkin === 3){
+    return catSkin3
+  }
+  else if(props.friendItem.toUser.catSkin === 4){
+    return catSkin4
+  }
+  else if(props.friendItem.toUser.catSkin === 5){
+    return catSkin5
+  }
+  else if(props.friendItem.toUser.catSkin === 6){
+    return catSkin6
+  }
+  else if(props.friendItem.toUser.catSkin === 7){
+    return catSkin7
+  }
+  else if(props.friendItem.toUser.catSkin === 8){
+    return catSkin8
+  }
+  else if(props.friendItem.toUser.catSkin === 9){
+    return catSkin9
+  }
+  else if(props.friendItem.toUser.catSkin === 10){
+    return catSkin10
+  }
+  else if(props.friendItem.toUser.catSkin === 11){
+    return catSkin11
+  }
+  else if(props.friendItem.toUser.catSkin === 12){
+    return catSkin12
+  }
+});
 
 const $style = useCssModule();
 
@@ -39,18 +91,13 @@ const toggleUserCard = (event) => {
     return isUserCardOpen.value ? closeUserCard() : openUserCard();
   }
 };
-
-const profileImgUrl = ref(
-  BASE_ASSETS_URL + "user_cats/cat" + props.friendItem.toUser.catSkin + ".png"
-);
-
 </script>
 
 <template lang="">
   <Card :id="`user_card-${props.friendItem.seq}`" @click="toggleUserCard" :class="$style.friend_list_card">
     <div :class="$style.card_style">
       <img
-          :src="profileImgUrl"
+          :src="catSkin"
           :class="$style.friend_profile"
           alt=""
         />
