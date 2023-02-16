@@ -44,7 +44,7 @@ const contentStyle = computed(() => {
 });
 
 const profileImgUrl = ref(
-  BASE_ASSETS_URL + "user_cats/cat" + loginUser.value.catSkin + ".png"
+  BASE_ASSETS_URL + "user_cats/cat" + props.loginUser.catSkin + ".png"
 );
 
 </script>
