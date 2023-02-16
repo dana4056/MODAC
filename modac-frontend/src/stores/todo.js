@@ -28,8 +28,7 @@ export const useTodoStore = defineStore(
       console.log(todos, isRef(todos), isReactive(todos));
     };
 
-    // const access_token = "";
-    const access_token = "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";
+    const access_token = "";
 
     return {
       // api,

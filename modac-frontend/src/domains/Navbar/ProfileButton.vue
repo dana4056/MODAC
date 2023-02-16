@@ -3,16 +3,16 @@ import { ref, computed, useCssModule } from "vue";
 import { useUserStore } from "@/stores/user";
 import { useRouter } from "vue-router";
 import { storeToRefs } from "pinia";
+import BASE_ASSETS_URL from "@/api/BASE_ASSETS_URL";
 
 const router = useRouter();
 const userStore = useUserStore();
 const $style = useCssModule();
 
-const { loginUser } = storeToRefs(userStore)
-
+const { loginUser } = storeToRefs(userStore);
 
 const profileImgUrl = ref(
-  "/src/assets/user_cats/cat" + loginUser.value.catSkin + ".png"
+  BASE_ASSETS_URL + "user_cats/cat" + loginUser.value.catSkin + ".png"
 );
 
 const logout = () => {

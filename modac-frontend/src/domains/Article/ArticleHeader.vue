@@ -22,7 +22,6 @@ const requestCreateArticle = async () => {
   const publicType = publicTypeSelectedValue.value;
 
   const currentActiveEditor = activeEditor.value;
-  console.log("currentActiveEditor: ", currentActiveEditor);
   const content = currentActiveEditor.getMarkdown();
   await articleAPI.postArticle({
     usersSeq,

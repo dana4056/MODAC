@@ -49,7 +49,6 @@ selectedArticleItemSeq.value =
 
 const handleClickArticleItem = async (seq) => {
   selectedArticleItemSeq.value = seq;
-  // const template = await
   const template = await articles.value.find((elem) => elem.seq === seq)
     .content;
   articleContent.value = template;
@@ -58,28 +57,28 @@ const handleClickArticleItem = async (seq) => {
 
 <template>
   <!-- <div v-if="articles.length !== 0"> -->
-<div :class="$style.flex_row_div_edit">
-  <div :class="$style.article_container_below">
-    <OverflowDiv class="overflow-x-hidden">
-      <div :class="$style.article_list">
-        <ArticleListItem
-          :class="$style.article_item"
+  <div :class="$style.flex_row_div_edit">
+    <div :class="$style.article_container_below">
+      <OverflowDiv class="overflow-x-hidden">
+        <div :class="$style.article_list">
+          <ArticleListItem
+            :class="$style.article_item"
+            v-for="articleItem in articles"
+            :key="articleItem.seq"
+            :articleItem="articleItem"
+            :handleClickArticleItem="handleClickArticleItem"
+          />
+        </div>
+      </OverflowDiv>
+      <div :class="$style.editor">
+        <ArticleEditor2
           v-for="articleItem in articles"
           :key="articleItem.seq"
           :articleItem="articleItem"
-          :handleClickArticleItem="handleClickArticleItem"
         />
-    </div>
-    </OverflowDiv>
-    <div :class="$style.editor">
-      <ArticleEditor2
-        v-for="articleItem in articles"
-        :key="articleItem.seq"
-        :articleItem="articleItem"
-      />
+      </div>
     </div>
   </div>
-</div>
   <!-- </div> -->
   <!-- <div v-else>완료한 할 일이 없습니다!</div> -->
 </template>
