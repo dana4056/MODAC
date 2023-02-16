@@ -31,7 +31,7 @@ onMounted(async () => {
     width: "25%",
     initialValue: templateValue.value,
     initialEditType: "markdown",
-    // theme: "dark",
+    theme: "dark",
     language: "ko-KR",
     autofocus: true,
   });
