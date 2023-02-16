@@ -3,6 +3,7 @@ import Card from "@/components/Card.vue";
 import CardTitle from "@/components/CardTitle.vue";
 import CardContent from "@/components/CardContent.vue";
 import UserCard from "@/domains/User/UserCard.vue";
+import BASE_ASSETS_URL from "@/api/BASE_ASSETS_URL";
 // import UserStatusIndicator from "@/components/UserStatusIndicator.vue";
 import { useCssModule } from "vue";
 import { ref, computed } from "vue";
@@ -38,13 +39,18 @@ const toggleUserCard = (event) => {
     return isUserCardOpen.value ? closeUserCard() : openUserCard();
   }
 };
+
+const profileImgUrl = ref(
+  BASE_ASSETS_URL + "user_cats/cat" + props.friendItem.toUser.catSkin + ".png"
+);
+
 </script>
 
 <template lang="">
   <Card :id="`user_card-${props.friendItem.seq}`" @click="toggleUserCard" :class="$style.friend_list_card">
     <div :class="$style.card_style">
       <img
-          :src="`src/assets/user_cats/cat${props.friendItem.toUser.catSkin}.png`"
+          :src="profileImgUrl"
           :class="$style.friend_profile"
           alt=""
         />

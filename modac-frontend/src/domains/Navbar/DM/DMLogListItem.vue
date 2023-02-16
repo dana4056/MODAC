@@ -1,5 +1,6 @@
 <script setup>
 import { defineProps, computed, useCssModule, ref } from "vue";
+import BASE_ASSETS_URL from "@/api/BASE_ASSETS_URL";
 
 const props = defineProps({
   chatLog:Object,
@@ -43,7 +44,7 @@ const contentStyle = computed(() => {
 });
 
 const profileImgUrl = ref(
-  "/src/assets/user_cats/cat" + props.loginUser.catSkin + ".png"
+  BASE_ASSETS_URL + "user_cats/cat" + props.loginUser.catSkin + ".png"
 );
 
 </script>
