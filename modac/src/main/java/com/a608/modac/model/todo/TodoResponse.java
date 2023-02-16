@@ -10,6 +10,8 @@ public class TodoResponse {
     private Byte status;
     private String totalSecond;
     private String categoriesName;
+    private String templateContent;
+
     @Builder
     public TodoResponse(Todo todo){
         this.seq = todo.getSeq();
@@ -17,6 +19,10 @@ public class TodoResponse {
         this.status = todo.getStatus();
         this.totalSecond = todo.getTotalSecond();
         this.categoriesName = todo.getCategory().getName();
+    }
+
+    public void setTemplateContent(String templateContent){
+        this.templateContent = templateContent;
     }
 
 }

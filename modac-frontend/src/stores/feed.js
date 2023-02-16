@@ -81,5 +81,10 @@ export const useFeedStore = defineStore("feed", () => {
       feedTotalArticleCnt,
       totalPageCnt,
     };
+  },
+  {
+    persist: true,
   }
+
+
 );

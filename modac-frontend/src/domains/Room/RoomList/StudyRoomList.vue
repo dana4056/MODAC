@@ -6,7 +6,6 @@ import OverflowDiv from "@/components/OverflowDiv.vue";
 import { useRoomStore } from "@/stores/room.js";
 import { useUserStore } from "@/stores/user.js";
 import { storeToRefs } from "pinia";
-import { onMounted } from "vue";
 
 const userStore = useUserStore();
 const roomStore = useRoomStore();
@@ -14,20 +13,7 @@ const roomStore = useRoomStore();
 const { loginUser } = storeToRefs(userStore);
 
 const { room_list } = storeToRefs(roomStore);
-// seq:"Integer",
-// usersSeq:"Integer",
-// title:"String",
-// description:"String",
-// maxSize:"Integer",
-// multiTheme:"String",
-// publicType:"Integer"
-// invitationCode:"String"
-// console.log(loginUser);
-// onMounted(() => {
-//   console.log("mounted", loginUser.value);
-//   roomStore.api.findRoomList(loginUser.value.seq);
-// });
-// roomStore.api.findRoomList(loginUser.value.seq);
+roomStore.api.findRoomList(loginUser.value.seq);
 </script>
 
 <template>
