@@ -11,6 +11,8 @@ const { loginUser } = storeToRefs(userStore);
 
 
 const getMessages = (DMRoomSeq) => {
+
+
   // 클릭한 채팅방 번호 저장
   directMessageRoomSeq.value = DMRoomSeq;
 
@@ -22,8 +24,9 @@ const getMessages = (DMRoomSeq) => {
   // 클릭한 채팅방 메시지 목록 불러오기
   DMstore.api.fetchMessages(payload);
   DMstore.connect(DMRoomSeq);
-};
 
+
+};
 
 
 </script>
@@ -32,7 +35,7 @@ const getMessages = (DMRoomSeq) => {
   <ul v-if="directMessageRoomList.length != 0">
     <DMRoomListItem
       v-for="roomItem in directMessageRoomList"
-      :getMessages = "getMessages"
+      :getMessages="getMessages"
       :key="roomItem.seq"
       :chatRoom="roomItem"
       :seq="roomItem.seq"

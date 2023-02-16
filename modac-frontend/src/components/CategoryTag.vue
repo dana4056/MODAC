@@ -5,8 +5,8 @@ const categoryStyleMap = {
   알고리즘: "study_category_style_algorithm",
   CS: "study_category_style_cs",
   개발: "study_category_style_develop",
-  기획: "study_category_style_planning",
-  기타: "study_category_style_etc",
+  면접: "study_category_style_planning",
+  공통: "study_category_style_etc",
 };
 
 const props = defineProps({

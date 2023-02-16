@@ -24,19 +24,20 @@ public class ChatRoom {
     private Long seq;
 
     @Column(name = "last_message_seq")
-    private Long lastMessageSeq;
+    private String lastMessageSeq;
 
     @Column(name = "last_message_time")
     private String lastMessageTime;
 
     @Builder
-    public ChatRoom(final Long seq, final Long lastMessageSeq, final String lastMessageTime) {
+    public ChatRoom(final Long seq, final String lastMessageSeq, final String lastMessageTime) {
         this.seq = seq;
         this.lastMessageSeq = lastMessageSeq;
         this.lastMessageTime = lastMessageTime;
     }
 
-    public void updateChatRoom(final Long lastMessageSeq, final String lastMessageTime){
+    public void updateChatRoom(final String lastMessageSeq, final String lastMessageTime){
+        System.out.println("++++++++++++++++++++++++++++업댓"+lastMessageSeq +lastMessageTime);
         this.lastMessageSeq = lastMessageSeq;
         this.lastMessageTime = lastMessageTime;
     }

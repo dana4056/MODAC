@@ -4,17 +4,19 @@ import com.a608.modac.model.user.User;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Getter
 @ToString
+@NoArgsConstructor
 public class DirectMessageDto {
-	private final Long usersSeq;
-	private final Long chatRoomsSeq;
-	private final String sendTime;
-	private final String message;
-	private final MessageType messageType;
-	private final ChatRoomType chatRoomType;
+	private Long usersSeq;
+	private Long chatRoomsSeq;
+	private String sendTime;
+	private String message;
+	private MessageType messageType;
+	private ChatRoomType chatRoomType;
 
 	@Builder
 	public DirectMessageDto(final Long usersSeq, final Long chatRoomsSeq, final String sendTime, final String message,

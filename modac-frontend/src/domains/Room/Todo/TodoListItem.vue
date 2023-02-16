@@ -87,8 +87,8 @@ const deleteTodoItem = () => {
 
         <div class="flex gap-2" :id="`buttons_group_${props.todo.seq}`">
           <!-- <PlayPauseButton :status="props.todo.status" /> -->
-          <UpdateButton @click="toggleUpdateFormState"/>
-          <DeleteButton @click="deleteTodoItem" />
+          <UpdateButton :toggleUpdateFormState="toggleUpdateFormState" />
+          <DeleteButton :deleteTodoItem="deleteTodoItem" />
         </div>
       </div>
       <TodoListItemUpdateForm

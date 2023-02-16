@@ -24,7 +24,7 @@ public class ChatMessageResponse {
 
 	public static ChatMessageResponse fromEntity(final ChatMessage chatMessage, final User user) {
 		return ChatMessageResponse.builder()
-			.chatRoomsSeq(chatMessage.getSeq())
+			.chatRoomsSeq(chatMessage.getChatRoom().getSeq())
 			.user(new UserResponse(user))
 			.message(chatMessage.getMessage())
 			.sendTime(chatMessage.getSendTime())

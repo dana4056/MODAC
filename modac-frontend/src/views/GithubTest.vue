@@ -95,11 +95,13 @@ let has_token = true;
 // const CLIENT_SECRETS = "aec761c51a6ac87040a4cf40304b3413809355e9";
 
 function authorization() {
-  // const CLIENT_ID = "afaeda1b95f27932a431";
-  // const CLIENT_SECRETS = "aec761c51a6ac87040a4cf40304b3413809355e9";
+  const CLIENT_ID = "afaeda1b95f27932a431";
+  const CLIENT_SECRETS = "aec761c51a6ac87040a4cf40304b3413809355e9";
 
   // window.location.assign(`https://github.com/login/oauth/authorize?client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRETS}&scope=repo`);
-  // window.open(`https://github.com/login/oauth/authorize?client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRETS}&scope=repo`);
+  window.open(
+    `https://github.com/login/oauth/authorize?client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRETS}&scope=repo`
+  );
 
   articleStore.githubState = 0;
 }

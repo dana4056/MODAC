@@ -9,7 +9,7 @@ import com.a608.modac.model.chat.DirectMessage;
 import com.a608.modac.model.chat.DirectMessageDto;
 
 public interface ChatService {
-	void updateLastMessage(final DirectMessageDto directMessagedto);
+	void updateLastMessage(final DirectMessageDto directMessagedto, final String msgSeq);
 
 	ChatRoomDto findChatRoomBySeq(final Long roomsSeq);
 	List<ChatRoomDto> findAllChatRoomsByFollowingsSeq(final Long userSeq);
@@ -19,7 +19,6 @@ public interface ChatService {
 
 	List<DirectMessage> findAllMessagesByDirectChatRoomsSeq(final String chatRoomsSeq, final Pageable pageable);
 
-	DirectMessage enterDirectChatRoom(final DirectMessageDto directMessageDto);
 
 }
 

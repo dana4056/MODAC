@@ -23,8 +23,7 @@ import lombok.ToString;
 @Table(name = "chat_messages")
 public class ChatMessage {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long seq;
+	private String seq;
 
 	@ManyToOne
 	@JoinColumn(name = "users_seq")
@@ -41,7 +40,7 @@ public class ChatMessage {
 	private String message;
 
 	@Builder
-	public ChatMessage(final Long seq, final User user, final ChatRoom chatRoom, final String sendTime,
+	public ChatMessage(final String seq, final User user, final ChatRoom chatRoom, final String sendTime,
 		final String message) {
 		this.seq = seq;
 		this.user = user;

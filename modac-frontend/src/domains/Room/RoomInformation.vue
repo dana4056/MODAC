@@ -14,18 +14,20 @@ const props = defineProps({
 });
 
 const roomStore = useRoomStore();
-const { room_info } = storeToRefs(roomStore);
+const { room_info, isEnteredRoom } = storeToRefs(roomStore);
 const userStore = useUserStore();
 const { loginUser } = storeToRefs(userStore);
 
 const exitRoom = (event) => {
   // 공개방
   if (room_info.value.publicType === 1) {
+    console.log("RoomInformation - 공개방 나가기 클릭")
     props.openRoomExitConfirmModal(event);
   }
 
   // 비공개 방
   else if (room_info.value.publicType === 0) {
+    console.log("RoomInformation - 비공개방 나가기 클릭")
     console.log(loginUser.value.seq)
     const payload = {
       seq: room_info.value.seq,
@@ -33,7 +35,7 @@ const exitRoom = (event) => {
       attend: false
     }
     roomStore.api.updateCurrentRoom(payload)
-    roomStore.exitRoom();
+    roomStore.exitPrivateRoom();
   }
 };
 
