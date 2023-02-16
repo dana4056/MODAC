@@ -3,8 +3,12 @@ import Card from "@/components/Card.vue";
 import CardTitle from "@/components/CardTitle.vue";
 import CardContent from "@/components/CardContent.vue";
 import UserCard from "@/domains/User/UserCard.vue";
+<<<<<<< HEAD
 import UserStatusIndicator from "@/components/UserStatusIndicator.vue";
 import BASE_ASSETS_URL from "@/api/BASE_ASSETS_URL";
+=======
+// import UserStatusIndicator from "@/components/UserStatusIndicator.vue";
+>>>>>>> 3c6066167b77509467dcf8de5972d5740eea1810
 import { useCssModule } from "vue";
 import { ref, computed } from "vue";
 import { useRoomStore } from "@/stores/room";
@@ -17,12 +21,12 @@ const props = defineProps({
 
 const store = useRoomStore();
 
-const userStatusIndicatorStyleState = computed(
-  () =>
-    `${$style.rounded_div} ${
-      $style[store.statusStyleMap[props.friendItem.status]]
-    } ${$style.inline_block_style}`
-);
+// const userStatusIndicatorStyleState = computed(
+//   () =>
+//     `${$style.rounded_div} ${
+//       $style[store.statusStyleMap[props.friendItem.status]]
+//     } ${$style.inline_block_style}`
+// );
 
 const isUserCardOpen = ref(false);
 const openUserCard = () => {
@@ -34,10 +38,8 @@ const closeUserCard = () => {
 
 const userCardElement = ref(undefined);
 const toggleUserCard = (event) => {
-  userCardElement.value = document.querySelector(
-    `#user_card-${props.friendItem.seq}`
-  );
-  if (userCardElement.value === event.target) {
+  userCardElement.value = document.querySelector("notClickBackground");
+  if (userCardElement.value !== event.target) {
     return isUserCardOpen.value ? closeUserCard() : openUserCard();
   }
 };
@@ -64,6 +66,7 @@ const profileImgUrl = ref(
         v-if="isUserCardOpen"
         :talker="props.friendItem.toUser"
         :roomSeq="props.friendItem.chatRoom.seq"
+        :id="notClickBackground"
       />
   </Card>
 </template>

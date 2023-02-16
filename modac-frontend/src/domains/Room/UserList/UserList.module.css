@@ -1,24 +1,24 @@
 /* position으로 리팩토링 */
 .item_box {
   /* @apply h-5 w-5; */
-  @apply h-[14rem] w-[14rem];
+  @apply h-[12rem] w-[12rem];
   @apply p-2;
   @apply absolute;
 }
 
-.first_position {
+.fifth_position {
   @apply left-[5vw] bottom-[15vh];
 }
-.second_position {
+.third_position {
   @apply left-[20vw] bottom-[25vh];
 }
-.third_position {
+.first_position {
   @apply left-[35vw] bottom-[20vh];
 }
-.fouth_position {
+.second_position {
   @apply right-[35vw] bottom-[25vh];
 }
-.fifth_position {
+.fourth_position {
   @apply right-[20vw] bottom-[30vh];
 }
 .sixth_position {

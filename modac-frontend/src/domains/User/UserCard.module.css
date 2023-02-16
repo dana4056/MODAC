@@ -8,17 +8,17 @@
   /* @apply basis-1/5; */
   @apply p-1;
   /* @apply m-1; */
-  @apply w-full
+  /* @apply w-full */
 }
 
 .user_card_button_message {
-  @apply bg-white w-full;
+  @apply bg-white;
 }
 
 .user_card_button_follow {
-  @apply bg-[#3b82f6] w-full text-white;
+  @apply bg-[#3b82f6] text-white px-2;
 }
 
 .user_card_button_unfollow {
-  @apply bg-[#ff3333] w-full text-white
+  @apply bg-[#ff3333] text-white px-2
 }
