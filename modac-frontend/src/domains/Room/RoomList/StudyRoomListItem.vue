@@ -23,14 +23,11 @@ const props = defineProps({
 const { roomItem } = toRefs(props)
 const participants = ref(roomItem.value.participants)
 const roomCodeInput = ref("");
-console.log("룸아이템", roomItem.value)
 
 function isParticipant (loginUser) {
   let flag = false;
 
   participants.value.forEach(element => {
-    console.log("엘레멘트", element.usersSeq)
-    console.log("로그인 유저", loginUser.value.seq)
     if (element.usersSeq === loginUser.value.seq) {
       flag = true
       return

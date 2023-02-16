@@ -10,5 +10,7 @@ import com.a608.modac.model.chat.ChatMessage;
 
 @Repository
 public interface ChatMessageRepository extends JpaRepository<ChatMessage, Long> {
-	List<ChatMessage> findChatMessagesByChatRoom_Seq(final Long chatRoom_seq, final Pageable pageable);
+	List<ChatMessage> findChatMessagesByChatRoom_Seq(final String chatRoom_seq, final Pageable pageable);
+
+
 }

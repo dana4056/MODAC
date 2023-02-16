@@ -97,6 +97,46 @@ export default {
             console.log(error);
         })
     },
+    // 스터디룸 참가
+    joinRoom(payload) {
+        http.post(`/rooms/${payload.seq}/join`, payload.usersSeq, {
+            headers: {
+                'Content-Type': 'text/plain'
+            }})
+        .then(({data}) => {
+            // console.log("스터디룸 참가 성공: " + JSON.stringify(data));
+            const roomStore = useRoomStore();
+            const { room_info } = storeToRefs(roomStore);
+            room_info.value = data
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+    },
+    // 스터디룸 나가기
+    exitRoom(payload) {
+        http.delete(`/rooms/${payload.seq}/join`, {
+        params : {
+            user: payload.usersSeq
+        }})
+        .then((response) => {
+            const code = response.status;
+
+            if(code == 200) {
+                console.log("스터디룸 나가기 완료: "+ JSON.stringify(response.data));
+                const userStore = useUserStore();
+                const { loginUser } = storeToRefs(userStore);
+                this.findRoomList(loginUser.value.seq)
+            }
+            else if(code == 204) {
+                console.log("스터디룸 나가기 실패: 참가정보 없음")
+            }
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+    },
+    
     // 비공개 스터디룸 접속 시 접속 상태변경
     updateCurrentRoom(payload) {
         const payload2 = {
@@ -109,7 +149,7 @@ export default {
             const userStore = useUserStore();
             const { loginUser } = storeToRefs(userStore);
             this.findRoomList(loginUser.value.seq)
-            if(code == 201) {
+            if(code == 200) {
                 console.log("참가자 상태 변경 완료: " + response.data);
             }
             else if(code == 204) {
