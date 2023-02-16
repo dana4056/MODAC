@@ -9,6 +9,8 @@ import org.springframework.stereotype.Repository;
 import com.a608.modac.model.chat.ChatMessage;
 
 @Repository
-public interface ChatMessageRepository extends JpaRepository<ChatMessage, String> {
+public interface ChatMessageRepository extends JpaRepository<ChatMessage, Long> {
 	List<ChatMessage> findChatMessagesByChatRoom_Seq(final String chatRoom_seq, final Pageable pageable);
+
+
 }

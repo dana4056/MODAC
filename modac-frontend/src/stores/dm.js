@@ -14,7 +14,7 @@ export const useDmStore = defineStore("dm", () => {
 
   
   //status (변수)
-  const directMessageRoomList = ref([{"test":"test"}]); // DM 채팅방 목록
+  const directMessageRoomList = ref([]); // DM 채팅방 목록
   const directMessageRoomSeq = ref(0); // 선택한 DM 채팅방 목록
   const directChatLogs = ref([]); // 채팅방 내 채팅 로그 목록
   const isDropdownOpenState = ref(false); // DM창 드롭다운 여부
@@ -106,7 +106,7 @@ export const useDmStore = defineStore("dm", () => {
       var chat = JSON.parse(res.body);
       console.log("구독으로 받은 메시지", chat);
 
-      if (chat.user.seq != loginUser.value.seq) {
+      if (chat.usersSeq != loginUser.value.seq) {
         directChatLogs.value.push(chat);
       }
 

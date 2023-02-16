@@ -57,7 +57,7 @@ public class ChatController {
 
 	@GetMapping("/rooms/{chatRoomsSeq}/messages")
 	public ResponseEntity<?> findAllMessageFromRedis(@PathVariable final Long chatRoomsSeq,
-		@PageableDefault(size = 20, sort = "sendTime", direction = Sort.Direction.DESC)
+		@PageableDefault(size = 20, sort = "sendTime", direction = Sort.Direction.ASC)
 		Pageable pageable) {
 		final List<DirectMessage> allMessagesFromRedis = chatService.findAllMessagesByDirectChatRoomsSeq(
 			String.valueOf(chatRoomsSeq), pageable);
@@ -74,10 +74,11 @@ public class ChatController {
 	@MessageMapping(value = "/messages/direct")
 	public ResponseEntity<Void> sendDirectMessage(final DirectMessageDto directMessageDto) {
 		final DirectMessage directMessage = chatService.saveDirectMessage(directMessageDto);
-		chatService.updateLastMessage(directMessageDto);
+		chatService.updateLastMessage(directMessageDto, directMessage.getSeq());
 
+		System.out.println("★★★★★★★★★★★★★★★★★★★★"+directMessageDto);
 		simpMessageSendingOperations.convertAndSend(
-			"/queue/chat/rooms/enter/direct" +directMessageDto.getChatRoomsSeq(),
+			"/queue/chat/rooms/enter/direct/" +directMessageDto.getChatRoomsSeq(),
 			directMessageDto);
 
 		return new ResponseEntity<>(HttpStatus.OK);

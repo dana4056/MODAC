@@ -50,6 +50,7 @@ export const useRoomStore = defineStore(
     connect2();                 // 소켓 연결 
     isEnteredRoom.value = true;
   };
+
   const exitRoom = () => {
     if (stompClient != null) {
       console.log("퇴장 요청 보냄");
@@ -61,6 +62,16 @@ export const useRoomStore = defineStore(
     api.findRoomList(loginUser.value.seq) // 룸리스트 정보 가져오기
     isEnteredRoom.value = false;
   };
+
+  const exitPrivateRoom = () => {
+    if (stompClient != null) {
+      stompClient.disconnect(function () {
+        console.log("DISCONNECT 소켓 연결해제")
+      });
+    }
+    isEnteredRoom.value = false;
+  };
+
   const deleteRoom = () => {
     isDeleteRoom.value = true;
   };
@@ -160,112 +171,11 @@ export const useRoomStore = defineStore(
       if (chat.user.seq != loginUser.value.seq) {
         groupChatLogs.value.push(chat);
       }
-      api.findRoomList(loginUser.value.seq); // 룸리스트 정보 가져오기
-      isEnteredRoom.value = false;
-    };
-    const deleteRoom = () => {
-      isDeleteRoom.value = true;
-    };
+      liftMessage();
+    }, 500);
+  };
 
-    const toggleLeftSideBar = () => {
-      isOpenedLeftSideBar.value = isOpenedLeftSideBar.value ? false : true;
-    };
-    const toggleRightSideBar = () => {
-      isOpenedRightSideBar.value = isOpenedRightSideBar.value ? false : true;
-    };
-
-    const changeRightSideBarContent = (targetContent) => {
-      currentRightSideBarContent.value = targetContent;
-    };
-
-    const seq = ref(0);
-    const title = ref("");
-    const currentSize = ref(0);
-    const maxSize = ref(0);
-    const description = ref("");
-
-
-
-    // ================================ 채팅관련 =================================
-    let chatListElement = ref(document);
-    let chatFormElement = ref(null);
-
-    const liftMessage = () => {
-      setTimeout(() => {
-        chatListElement.value.scrollTop = chatListElement.value.scrollHeight;
-      }, 300);
-    };
-
-    const enterChat = (chatMessage) => {
-      if (chatMessage) {
-        liftMessage();
-
-        // 채팅 input창 초기화
-        chatFormElement.value.inputChatMessage = "";
-
-        const date = new Date();
-        const year = date.getFullYear();
-        const month = ("0" + (date.getMonth() + 1)).slice(-2);
-        const day = ("0" + date.getDate()).slice(-2);
-        const dateString = year + "-" + month + "-" + day;
-        const hours = ("0" + date.getHours()).slice(-2);
-        const minutes = ("0" + date.getMinutes()).slice(-2);
-        const seconds = ("0" + date.getSeconds()).slice(-2);
-        const timeString = hours + ":" + minutes + ":" + seconds;
-
-        const chatData = {
-          user: loginUser.value,
-          chatRoomSeq: room_info.value.chatRoom.seq,
-          sendTime: dateString + " " + timeString,
-          message: chatMessage,
-        };
-
-        // 일단 배열에 추가 (하면 안되겠다 불러와야할듯 request랑 response dto가 다름)
-        groupChatLogs.value.push(chatData);
-
-        const sendData = {
-          usersSeq: chatData.user.seq,
-          chatRoomsSeq: chatData.chatRoomSeq,
-          sendTime: chatData.sendTime,
-          message: chatData.message,
-          messageType: "TALK",
-          chatRoomType: "GROUP",
-        };
-
-        // 소켓 send
-        stompClient.send(`/pub/messages/group`, JSON.stringify(sendData), {});
-      }
-    };
-
-    const connect = () => {
-      var socket = new SockJS(BACKEND_API_URL + "/ws");
-      stompClient = Stomp.over(socket);
-      stompClient.connect({}, onConnected, onError);
-    };
-
-    const onConnected = () => {
-      // async ?
-      stompClient.subscribe(
-        `/topic/chat/rooms/enter/group/${room_info.value.chatRoom.seq}`,
-        onMessageReceived
-      );
-    };
-
-    const onError = () => {
-      console.log("소켓 연결 실패");
-    };
-
-    const onMessageReceived = (res) => {
-      setTimeout(() => {
-        var chat = JSON.parse(res.body);
-        console.log("구독으로 받은 메시지", chat);
-
-        if (chat.user.seq != loginUser.value.seq) {
-          groupChatLogs.value.push(chat);
-        }
-        liftMessage();
-      }, 500);
-    };
+    
     // =============================== 참가자 관련 ========================
     const connect2 = () => {
       var socket = new SockJS(BACKEND_API_URL + "/ws");
@@ -318,6 +228,7 @@ export const useRoomStore = defineStore(
       isDeleteRoom,
       enterRoom,
       exitRoom,
+      exitPrivateRoom,
       deleteRoom,
       isOpenedLeftSideBar,
       toggleLeftSideBar,

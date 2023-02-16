@@ -24,7 +24,6 @@ roomStore.api.findRoomList(loginUser.value.seq);
       <OverflowDiv class="h-[80%]">
         <section :class="$style.wrapper_flex_div">
           <StudyRoomListItem
-            :class="$style.study_room_flex_item"
             v-for="roomItem in room_list"
             :key="roomItem.seq"
             :roomItem="roomItem"

@@ -34,9 +34,9 @@ const clickDropdownButtonHandler = () => {
 
 const blurDropdownButtonHandler = () => {
   // 개발 도중에 드랍다운이 닫히지 않도록 주석처리한 부분
-  if (isDropdownOpenState.value === true) {
-    closeDropdown();
-  }
+  // if (isDropdownOpenState.value === true) {
+  //   closeDropdown();
+  // }
 };
 
 const dropdownStyleState = computed(() => {

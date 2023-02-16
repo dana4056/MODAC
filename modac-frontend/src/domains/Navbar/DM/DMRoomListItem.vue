@@ -22,8 +22,7 @@ const profileImgUrl = ref(
 );
 
 
-console.log("------------------------",props.chatRoom)
-</script>
+</script>x
 
 <template>
   <li :class="$style.dm_items" @click="getMessages(props.chatRoom.seq)">

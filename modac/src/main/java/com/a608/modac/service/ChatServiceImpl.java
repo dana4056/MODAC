@@ -81,14 +81,14 @@ public class ChatServiceImpl implements ChatService {
 	} // DM 채팅 메시지 저장.
 
 	@Override
-	public void updateLastMessage(final DirectMessageDto directMessageDto) {
+	public void updateLastMessage(final DirectMessageDto directMessageDto, final String msgSeq) {
 
 		ChatRoom chatRoom = chatRoomRepository.findById(directMessageDto.getChatRoomsSeq())
 			.orElseThrow(() -> new NoSuchElementException("NoChatRoom"));
 
 		System.out.println("chatRoom:"+chatRoom);
 
-		chatRoom.updateChatRoom(directMessageDto.getMessage(), directMessageDto.getSendTime());
+		chatRoom.updateChatRoom(msgSeq, directMessageDto.getSendTime());
 		chatRoomRepository.save(chatRoom);
 
 	} // 채팅 메시지 업데이트.
@@ -106,11 +106,9 @@ public class ChatServiceImpl implements ChatService {
 
 	public List<ChatRoomDto> findAllChatRoomsByFollowingsSeq(final Long userSeq) {
 		final List<Follow> follows = followRepository.findAllByFromUser_SeqOrToUser_Seq(userSeq, userSeq);
-		System.out.println("=============================================follws"+follows);
 
 		HashMap<Long, ChatRoom> chatRooms = new HashMap<>();
 		final User myUser = userRepository.findById(userSeq).orElseThrow(() -> new NoSuchElementException("NoUser"));
-		System.out.println("=============================================myUser"+myUser);
 
 		//  user가 속한 모든 팔로우 관계의 채팅방에서
 		for (Follow follow : follows) {
@@ -133,8 +131,7 @@ public class ChatServiceImpl implements ChatService {
 				userRepository.findById(entry.getKey()).orElseThrow(() -> new NoSuchElementException("NoUser")));
 			ChatRoom chatRoom = entry.getValue(); // 채팅방
 
-			// ChatMessage chatMessage = chatMessageRepository.findById()
-			// 	.orElseThrow(NoSuchElementException::new);
+
 			ChatRoomDto chatRoomDto = ChatRoomDto.builder()
 				.seq(chatRoom.getSeq())
 				.lastMessageSeq(chatRoom.getLastMessageSeq())
