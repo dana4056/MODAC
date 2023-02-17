@@ -1,0 +1,112 @@
+.modal_item {
+  @apply flex w-full h-full flex-col py-2;
+	font-family: 'Pretendard';
+}
+
+.modal_title {
+  @apply text-xl font-semibold text-left w-full pb-6 flex justify-between
+}
+
+.modal_button_group {
+	@apply w-full flex pt-1
+}
+
+.add_room_button_cancle {
+	@apply w-full text-sm text-white bg-[#e5e7eb] hover:bg-gray-600 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg px-5 py-2.5 m-1 text-center;
+}
+
+.add_room_button_add {
+	@apply w-full text-sm text-white bg-[#3b82f6] hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg px-5 py-2.5 m-1 text-center;
+}
+
+.add_room_button_add:disabled {
+	@apply border-gray-300 text-white bg-[#aab0be];
+}
+/* 
+.add_room_button_add:disabled {
+	@apply border-gray-300 text-white;
+	background-color: rgb(239 68 68) !important;
+} */
+
+.add_room_button_reset {
+	@apply w-fit text-xs text-white bg-[#ff3333] hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 rounded-lg px-5 py-1.5 m-1 text-center ;
+}
+
+.add_room_div {
+	@apply pb-3 m-0.5 flex items-center w-full justify-between
+}
+
+.add_room_label {
+	@apply block text-sm font-semibold text-gray-900 dark:text-white w-24
+}
+
+.add_room_input {
+	@apply block w-4/5 p-2.5 text-sm rounded-lg border
+	bg-gray-50 border-gray-300 text-gray-900 
+	focus:ring-blue-500 focus:border-blue-500 
+	dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white
+}
+
+.add_room_input:disabled {
+	@apply bg-gray-300 border-gray-300 text-white
+}
+
+.add_room_radio_group_div {
+	@apply pb-3 m-0.5 flex items-center w-full justify-start
+}
+
+.add_room_radio_div {
+	@apply flex items-center
+}
+
+.add_room_radio_label {
+	@apply block text-sm font-semibold text-gray-900 dark:text-white w-14
+}
+.add_room_p {
+  @apply my-2 text-sm text-red-600 self-center text-center
+}
+
+.text_red {
+ @apply text-red-600
+}
+
+.page_title {
+	@apply font-bold text-2xl text-white
+}
+
+.room_add_button {
+  @apply rounded-lg py-1 px-8 w-fit;
+	@apply text-white  dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center bg-[#3b82f6];
+}
+
+.flex_row_div {
+	@apply flex items-center gap-5 justify-between py-8
+}
+
+.flex_row {
+	@apply flex items-center gap-5 justify-between
+}
+
+.searchbar_flex {
+	@apply flex items-center
+}
+
+.searchbar_content_bar {
+	@apply relative w-full
+}
+
+.searchbar_content_icon {
+	@apply absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none
+}
+
+.searchbar_content_icon_svg {
+	@apply w-5 h-5 text-gray-500 dark:text-gray-400
+}
+
+.searchbar_content_input {
+	@apply bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500
+}
+
+.searchbar_content_button {
+	@apply p-2.5 ml-2 text-sm font-medium text-white rounded-lg dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 bg-[#3b82f6];
+}

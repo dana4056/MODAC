@@ -1,0 +1,113 @@
+.button_flex {
+  @apply flex flex-row rounded-b-3xl;
+  align-items: center;
+  text-align: center;
+  background: #fff;
+  /* considerable whitespace surrounding the navigation's items */
+  padding: 0.5rem 0.5rem;
+  /* border-radius: 0 0 30px 30px; */
+  box-shadow: 0 1px 15px rgba(0, 0, 0, 0.1);
+}
+
+.buttons{
+  color: inherit;
+  text-decoration: none;
+  margin: 0 0.2rem;
+  /* display the svg icon and span elements side by side, vertically aligned */
+  display: flex;
+  align-items: center;
+  /* include padding for the background applied on the active item */
+  padding: 0.25rem 1rem;
+  border-radius: 30px;
+  /* position relative for the pseudo element */
+  position: relative;
+  /* custom properties for the colors picked up by the elements when clicked (and updated for each link in the script) */
+  --hover-bg: #ff620020;
+  --hover-c: #ff6200;
+  background: none;
+}
+
+.buttons::before {
+  position: absolute; 
+  content: "";
+  top: 50%;
+  left: 0;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  /* positioned to the left of the anchor link and scaled to 0 */
+  transform: translate(0%, -50%) scale(0);
+  visibility: visible;
+  opacity: 1;
+
+}
+
+.buttons.active {
+  background: var(--hover-bg);
+  color: var(--hover-c);
+}
+
+.buttons.active:before {
+  background: var(--hover-c);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.4s ease-out;
+}
+
+.buttons.active .icons {
+  margin-right: 0;
+}
+
+.buttons.active .titles {
+  visibility: visible;
+  opacity: 1;
+  transition: all 0.2s ease-out;
+}
+
+
+.buttons .icons {
+  margin-right: -2.5rem;
+  width: 28px;
+  height: 28px;
+  pointer-events: none;
+  transition: margin 0.2s ease-out;
+}
+.buttons .titles {
+  opacity: 0;
+  visibility: hidden;
+  font-weight: bolder;
+  font-size: 0.8rem;
+  padding-left: 0.5rem; 
+  width: max-content;
+}
+
+
+
+
+
+
+
+
+
+.button_item {
+  @apply basis-1/4;
+}
+
+
+
+@media (max-width: 500px) {
+  .button_flex {
+    flex-direction: column;
+    justify-self: start;
+    border-radius: 0 30px 30px 0;
+    padding: 2rem 1.15rem 2rem 0.75rem;
+  }
+  /* change the margin separating the anchor link elements now dividing the elements vertically */
+  .buttons {
+    margin: 0.5rem 0;
+  }
+  /* remove the negative margin from the svg elements, as the width is to be taken in full */
+  .icons {
+    margin: 0;
+  }
+}

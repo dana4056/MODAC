@@ -1,0 +1,43 @@
+.temp1 {
+  color: blue;
+}
+
+#delete {
+  color: black;
+}
+
+.time {
+  @apply bg-indigo-100 text-indigo-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-indigo-400 border border-indigo-400;
+}
+
+.article_item {
+  @apply flex flex-row mt-2 mb-2 p-3 rounded-lg text-black font-medium gap-3 bg-gray-400 justify-between;
+}
+
+.article_item_active {
+  @apply flex flex-row bg-[#232428] !text-white border-gray-500 border justify-between;
+}
+
+.algo_style {
+  @apply bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300;
+}
+
+.cs_style {
+  @apply bg-yellow-100 text-yellow-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-yellow-900 dark:text-yellow-300;
+}
+
+.develop_style {
+  @apply bg-red-100 text-red-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300;
+}
+
+.common_style {
+  @apply bg-gray-100 text-gray-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-gray-700 dark:text-gray-300;
+}
+
+.title {
+  @apply text-ellipsis whitespace-nowrap overflow-hidden;
+}
+
+.category_text {
+  @apply text-gray-600;
+}

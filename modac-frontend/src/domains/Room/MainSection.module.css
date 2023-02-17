@@ -1,0 +1,36 @@
+.modal_div {
+	font-family: 'Pretendard';
+}
+
+.modal_button_group {
+  @apply flex w-full  
+}
+
+.main_section {
+  @apply basis-1/2;
+	font-family: 'Pretendard';
+}
+
+.modal_header {
+  @apply text-xl font-bold;
+  @apply mx-3 my-9;
+}
+
+.cancle_button {
+  @apply w-full text-sm text-black bg-[#e5e7eb] hover:bg-[#cccccc] focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg px-5 py-2.5 m-1 text-center;
+}
+
+.exit_button {
+  @apply w-full text-sm text-white bg-[#ff3333] hover:bg-[#a21010] focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg px-5 py-2.5 m-1 text-center;
+}
+
+.main_section_top_side {
+  /* @apply h-5/6; */
+  height: 83%;
+}
+
+.main_section_down_side {
+  /* @apply h-1/6; */
+  height: 15%;
+  @apply flex justify-center;
+}

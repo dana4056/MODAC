@@ -1,0 +1,12 @@
+.right_side_bar {
+  height: 100%;
+  @apply basis-1/4;
+  @apply bg-gray-200 text-gray-900;
+  @apply py-3;
+  @apply rounded;
+  font-family: "Pretendard";
+}
+
+.right_side_bar_content {
+  height: 92%;
+}

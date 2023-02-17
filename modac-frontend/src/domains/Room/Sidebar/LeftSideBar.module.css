@@ -1,0 +1,6 @@
+.left_side_bar {
+  /* @apply basis-1/4; */
+  @apply bg-gray-200 text-gray-900;
+  @apply px-0 py-3;
+  /* @apply opacity-60; */
+}

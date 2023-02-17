@@ -1,0 +1,4 @@
+.card_title_style {
+  @apply text-lg;
+  @apply font-bold;
+}

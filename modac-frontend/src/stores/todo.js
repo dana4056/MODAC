@@ -1,49 +1,45 @@
-import { reactive, ref } from "vue";
+import { ref, isRef, isReactive } from "vue";
 import { defineStore } from "pinia";
-import axios from "axios";
+// import todo from "../api/todo";
 
-export const useTodoStore = defineStore("todo", () => {
-  const todos = reactive([]);
-  const userId = ref(null);
-  const backendServerUrl = ref("localhost");
+export const useTodoStore = defineStore(
+  "todo",
+  () => {
+    const todos = ref([]);
 
-  const addTodoItem = (inputTodoItem) => {
-    console.log(inputTodoItem);
-    todos.push(inputTodoItem);
-  };
+    const addTodoItem = (inputTodoItem) => {
+      todos.value.push(inputTodoItem);
+    };
 
-  const getTodoList = () => {
-    console.log(2);
-    axios({
-      method: "get",
-      url: `${backendServerUrl}/todo/list`,
-      params: {
-        users_seq: userId,
-      },
-    })
-      .then((res) => {
-        console.log(res.data);
-        todos.value = res.data;
-      })
-      .catch((err) => {
-        console.log(err);
+    const deleteTodoItem = (seq) => {
+      console.log("deleteTodoItem ");
+      todos.value = todos.value.filter((todo) => todo.seq !== seq);
+    };
+
+    const updateTodoItem = (seq, inputTodoItem) => {
+      todos.value = todos.value.map((todo) => {
+        console.log(todo);
+        if (todo.seq === seq) {
+          return inputTodoItem;
+        } else {
+          return todo;
+        }
       });
-  };
+      console.log(todos, isRef(todos), isReactive(todos));
+    };
 
-  const createTodoListItem = () => {
-    console.log("post request 실행");
-    axios({
-      methods: "post",
-      url: `${backendServerUrl}/todo`,
-      data: {},
-    });
-  };
+    const access_token = "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";
 
-  return {
-    todos,
-    addTodoItem,
-    backendServerUrl,
-    getTodoList,
-    createTodoListItem,
-  };
-});
+    return {
+      // api,
+      todos,
+      addTodoItem,
+      deleteTodoItem,
+      updateTodoItem,
+      access_token,
+    };
+  }
+  // {
+  //   persist: true,
+  // }
+);

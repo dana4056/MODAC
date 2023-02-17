@@ -1,18 +1,49 @@
-<template lang="">
-  <div>
-    <p>{{ todos }}</p>
+<script setup>
+import TodoListItem from "./TodoListItem.vue";
+import { useTodoStore } from "../../../stores/todo";
+import { useUserStore } from "@/stores/user";
+import { storeToRefs } from "pinia";
+import todoAPI from "@/api/todo";
+import { useRouter } from "vue-router";
+
+const todoStore = useTodoStore();
+const { todos } = storeToRefs(todoStore);
+
+const userStore = useUserStore();
+const { loginUser } = storeToRefs(userStore);
+
+(async () => {
+  todos.value = await todoAPI.findTodoList(loginUser.value.seq);
+})();
+
+const router = useRouter();
+
+const routeToArticlePage = () => {
+  router.push("/article");
+};
+</script>
+
+<template>
+  <div :class="$style.todo_body_wrapper">
+    <div :class="$style.todolist_wrapper">
+      <div v-if="todos.length !== 0" :class="$style.item_wrapper">
+        <TodoListItem
+          v-for="todo in todos"
+          :key="todo.seq"
+          :todo="todo"
+          class="w-full"
+        />
+      </div>
+      <div v-else>오늘 할 일을 등록하세요</div>
+    </div>
+    <div style="text-align: right">
+      <button @click="routeToArticlePage" :class="$style.send_button">
+        오늘 공부 정리하기
+      </button>
+    </div>
   </div>
 </template>
 
-<script setup>
-import { useTodoStore } from "../../../stores/todo";
-import { ref } from "vue";
-
-const store = useTodoStore();
-// const todos = store.todos;
-const todos = ref([]);
-
-store.getTodoList();
-</script>
-
-<style lang=""></style>
+<style lang="css" module>
+@import "./TodoList.module.css";
+</style>

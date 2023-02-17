@@ -1,14 +1,37 @@
-<script setup></script>
+<script setup>
+import Navbar from "@/domains/Navbar/Navbar.vue";
+import Wrapper from "./components/Wrapper.vue";
+import { useUserStore } from "@/stores/user";
+import { storeToRefs } from "pinia";
+import { useRouter } from "vue-router";
+
+const userStore = useUserStore();
+const { loginUser } = storeToRefs(userStore);
+
+const router = useRouter();
+
+const routePageForEnteredUser = () => {
+  console.log('route', loginUser.value)
+  if (!loginUser.value) {
+    router.push({ name: "login" });
+  } 
+};
+
+routePageForEnteredUser();
+</script>
 
 <template>
-  <header>
-    <nav>
-      <RouterLink to="/todoList">투두 리스트</RouterLink><br />
-      <RouterLink to="/studyRoom">스터디 룸</RouterLink>
-    </nav>
-  </header>
-
-  <RouterView />
+  <Wrapper :class="$style.app_wrapper">
+    <div v-if="loginUser" id="header" :class="$style.app_navbar">
+      <Navbar />
+    </div>
+    <div id="body" :class="$style.app_section">
+      <RouterView />
+    </div>
+    <div id="footer"></div>
+  </Wrapper>
 </template>
 
-<style scoped></style>
+<style lang="css" module>
+@import "./App.module.css";
+</style>

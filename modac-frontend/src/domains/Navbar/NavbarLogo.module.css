@@ -1,0 +1,10 @@
+.logo_wrapper {
+  @apply flex flex-shrink-0 items-center;	
+  font-family: 'Fredoka One';
+}
+
+.logo_text {
+  @apply text-orange-400 text-2xl flex items-end;
+  letter-spacing: 2px;
+}
+

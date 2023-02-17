@@ -1,0 +1,16 @@
+.navbar_flex_wrapper {
+  @apply flex flex-1 items-center justify-center h-full sm:items-stretch sm:justify-start;
+  font-family: "Pretendard";
+}
+
+.navbar_list_flex_wrapper {
+  @apply flex space-x-4 h-full items-center;
+}
+
+.navbar_item_selected {
+  @apply bg-gray-900 text-white px-5 py-3 rounded-md text-sm font-medium;
+}
+
+.navbar_item_unselected {
+  @apply text-gray-300  hover:text-orange-500 px-5 py-4 rounded-md text-xl font-bold;
+}

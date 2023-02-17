@@ -1,0 +1,8 @@
+.common_button {
+  /* width: 160px; */
+  /* height: 46px; */
+  @apply p-1;
+  border: 1.5px solid #cccccc;
+  border-radius: 5px;
+  background-color: #dddddd;
+}

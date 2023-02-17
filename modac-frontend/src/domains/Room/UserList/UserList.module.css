@@ -1,0 +1,44 @@
+/* position으로 리팩토링 */
+.item_box {
+  /* @apply h-5 w-5; */
+  @apply h-[11rem] w-[11rem];
+  @apply p-2;
+  @apply absolute;
+}
+
+.fifth_position {
+  @apply left-[5vw] bottom-[15vh];
+}
+.third_position {
+  @apply left-[18vw] bottom-[25vh];
+}
+.first_position {
+  @apply left-[30vw] bottom-[20vh];
+}
+.second_position {
+  @apply right-[30vw] bottom-[25vh];
+}
+.fourth_position {
+  @apply right-[18vw] bottom-[30vh];
+}
+.sixth_position {
+  @apply right-[5vw] bottom-[20vh];
+}
+
+/* .user_list_first_flex {
+  @apply flex flex-row;
+  @apply h-full w-full;
+} */
+
+/* .user_list_first_flex_item {
+  @apply basis-1/3;
+} */
+
+/* .user_list_second_flex {
+  @apply w-1/3;
+  @apply flex flex-col;
+} */
+
+/* .user_list_second_flex_item {
+  @apply basis-1/3;
+} */

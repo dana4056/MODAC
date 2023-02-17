@@ -1,0 +1,29 @@
+.card_style {
+  @apply h-full w-full;
+  /* background-color: gray; */
+  background-color: transparent;
+  color: white;
+}
+
+.user_card_button {
+  @apply cursor-pointer text-center;
+}
+
+.display_inline_block {
+  @apply inline-block bg-black font-medium text-sm py-1 px-3 rounded-xl border-white border-2;
+  --tw-bg-opacity: 0.5;
+}
+
+.dropdown {
+  @apply absolute right-0 z-10 mt-2 w-fit origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none text-black;
+  font-family: "Pretendard";
+  top: -7rem;
+}
+
+.user_dropdown_div {
+  @apply flex flex-col p-4 gap-2 w-fit
+}
+
+.user_dropdown_title {
+  @apply font-semibold gap-2 flex items-center flex-wrap w-fit
+}
