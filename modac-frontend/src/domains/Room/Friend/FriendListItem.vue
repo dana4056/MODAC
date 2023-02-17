@@ -8,18 +8,18 @@ import BASE_ASSETS_URL from "@/api/BASE_ASSETS_URL";
 import { useCssModule } from "vue";
 import { ref, computed } from "vue";
 import { useRoomStore } from "@/stores/room";
-import catSkin1 from "@/assets/user_cats/cat1.png"
-import catSkin2 from "@/assets/user_cats/cat2.png"
-import catSkin3 from "@/assets/user_cats/cat3.png"
-import catSkin4 from "@/assets/user_cats/cat4.png"
-import catSkin5 from "@/assets/user_cats/cat5.png"
-import catSkin6 from "@/assets/user_cats/cat6.png"
-import catSkin7 from "@/assets/user_cats/cat7.png"
-import catSkin8 from "@/assets/user_cats/cat8.png"
-import catSkin9 from "@/assets/user_cats/cat9.png"
-import catSkin10 from "@/assets/user_cats/cat10.png"
-import catSkin11 from "@/assets/user_cats/cat11.png"
-import catSkin12 from "@/assets/user_cats/cat12.png"
+import catSkin1 from "@/assets/user_cats_background/cat1.png"
+import catSkin2 from "@/assets/user_cats_background/cat2.png"
+import catSkin3 from "@/assets/user_cats_background/cat3.png"
+import catSkin4 from "@/assets/user_cats_background/cat4.png"
+import catSkin5 from "@/assets/user_cats_background/cat5.png"
+import catSkin6 from "@/assets/user_cats_background/cat6.png"
+import catSkin7 from "@/assets/user_cats_background/cat7.png"
+import catSkin8 from "@/assets/user_cats_background/cat8.png"
+import catSkin9 from "@/assets/user_cats_background/cat9.png"
+import catSkin10 from "@/assets/user_cats_background/cat10.png"
+import catSkin11 from "@/assets/user_cats_background/cat11.png"
+import catSkin12 from "@/assets/user_cats_background/cat12.png"
 
 
 const catSkin = computed(() => {
