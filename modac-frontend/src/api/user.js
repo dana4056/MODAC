@@ -3,6 +3,7 @@ import { useUserStore } from "@/stores/user";
 import { useRoomStore } from '@/stores/room';
 import { storeToRefs } from "pinia";
 import router from "@/router/index";
+import Message from "vue-m-message"
 
 // const headers = {
 //     'Content-Type': 'application/json'
@@ -243,7 +244,9 @@ export default {
 
         if (code == 200) {
           if (response.data) {
-            alert("로그인 성공");
+            // alert("로그인 성공");
+            Message.success("로그인 성공",{position:"top-right", closable:true});
+
             console.log(response.data.token);
             localStorage.setItem("jwt", response.data.token); // 로컬 스토리지에 저장
 
@@ -259,10 +262,10 @@ export default {
             this.fetchFollowerUsers(loginUser.value.seq)
 
           } else {
-            console.log("로그인 실패: 비밀번호 불일치");
+            Message.error("비밀번호가 일치하지 않습니다",{title:"로그인 실패", closable:true});
           }
         } else if (code == 204) {
-          alert("로그인 실패: 회원없음");
+          Message.error("해당 회원을 찾을 수 없습니다",{title:"로그인 실패", closable:true});
         }
       })
       .catch((error) => {

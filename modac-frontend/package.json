@@ -26,6 +26,7 @@
     "scss": "^0.2.4",
     "sockjs-client": "^1.4.0",
     "vue": "^3.2.45",
+    "vue-m-message": "^4.0.2",
     "vue-router": "^4.1.6",
     "webstomp-client": "^1.2.6"
   },

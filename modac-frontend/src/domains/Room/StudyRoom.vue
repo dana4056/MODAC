@@ -8,7 +8,7 @@ import OverflowDiv from "@/components/OverflowDiv.vue";
 
 import { useRoomStore } from "@/stores/room";
 import { storeToRefs } from "pinia";
-import { computed, onMounted} from "vue";
+import { computed, onBeforeMount, onMounted} from "vue";
 
 const roomStore = useRoomStore();
 const { isOpenedLeftSideBar, isOpenedRightSideBar, room_info } = storeToRefs(roomStore);
@@ -26,22 +26,33 @@ const rightSideBarStyleState = computed(() =>
 );
 
 const backGroundImg = computed(() => {
-    if (room_info.value.multiTheme === "기본") {
-      return "study_room_modac"
-    } else if (room_info.value.multiTheme === "우주") {
-      return "study_room_space"
-    } else if (room_info.value.multiTheme === "바다") {
-      return "study_room_beach"
-    } else {
-      return "study_room_dessert"
-    }
-  });
+  if (room_info.value.multiTheme === "기본") {
+    return "study_room_modac"
+  } else if (room_info.value.multiTheme === "우주") {
+    return "study_room_space"
+  } else if (room_info.value.multiTheme === "바다") {
+    return "study_room_beach"
+  } else {
+    return "study_room_dessert"
+  }
+});
 
-  onMounted(() => {
-    setTimeout(() => {
-        roomStore.connect();
-    }, 500);
-  });
+const unLoadEvent = (event) => {
+  roomStore.exitRoom();
+  event.preventDefault();
+  event.returnValue = '';
+}
+
+onMounted(() => {
+  window.addEventListener('beforeunload', unLoadEvent);
+  setTimeout(() => {
+      roomStore.connect();
+  }, 500);
+});
+
+onBeforeMount(() => {
+  window.removeEventListener('beforeunload', unLoadEvent);
+})
 </script>
 
 <template>
