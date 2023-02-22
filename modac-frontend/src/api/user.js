@@ -51,14 +51,18 @@ export default {
         const code = response.status;
 
         if (code == 201) {
-          console.log("수정 완료");
-          console.log(response.data);
+          alert("유저 정보 수정 완료")
+          console.log("리스폰스",response.data);
+          const store = useUserStore();
+          const { loginUser } = storeToRefs(store);
+          loginUser.value = response.data; // userStore에 멤버 저장
+          console.log("바뀐 정보",loginUser.value);
         } else if (code == 204) {
           alert("회원정보 수정 실패: 회원 없음");
         }
       })
       .catch((error) => {
-        console.log(error);
+        console.log("실패실패실패",error);
       });
   },
 
