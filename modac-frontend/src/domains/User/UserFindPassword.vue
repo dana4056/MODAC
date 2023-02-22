@@ -5,7 +5,7 @@
         <div :class="$style.login_description">
           <img :src="emojiFire" class="w-40 h-40 inline">
           <h1 :class="$style.login_title"><span :class="$style.text_green">비밀번호</span>가 기억나지 않으신가요?</h1>
-          <p :class="$style.login_p">가입하신 <span :class="$style.text_orange"> 이메일</span>로 찾을 수 있어요!</p>
+          <p :class="$style.login_p">가입하신 <span :class="$style.text_orange"> 이메일</span>을 인증해주세요!</p>
         </div>
         <form id="loginform" :class="$style.login_form">
           <!-- <div>
@@ -33,8 +33,16 @@
               <option value="ssafy.com">ssafy.com</option>
             </select>
           </div>
+          <div :class="$style.update_info_div">
+            <input type="text" 
+                    v-model="user_email1" 
+                    id="user_email"
+                    :class="$style.update_info_input_email"
+                    placeholder="인증코드" 
+                    required>
+          </div>
 
-          <button type="submit" id="login-button" :class="$style.login_form_login_button" @click="auth.value.isLoggedin = true">비밀번호 찾기</button>
+          <button type="submit" id="login-button" :class="$style.login_form_login_button" @click="sendEmail">이메일 인증</button>
         </form>
       </div>
 
@@ -71,30 +79,17 @@
 
 <script setup>
   import emojiFire from '../../assets/emojis/emoji-fire.png'
-  // import emojiPawPrints from '../../assets/emojis/emoji-paw-prints.png'
-  // import emojiWearyCat from '../../assets/emojis/emoji-weary-cat.png'
   import emojiChartIncreasing from '../../assets/emojis/emoji-chart-increasing.png'
-  // import emojiWritingHand from '../../assets/emojis/emoji-writing-hand.png'
-  // import emojiCat from '../../assets/emojis/emoji-cat.png'
+  import Message from "vue-m-message"
 
-  // import { useAuthStore } from '../../stores/auth.js'
-  // import { ref } from 'vue';
-  // const store = useAuthStore();
-  // const auths = ref([]);
-  // auths.value = store;
-
-  // const login = () => {
-  //   auths.value.login();
-  // }
-  // const logout = () => {
-  //   auths.value.logout();
-  // }
-
-  // loginstate.value = store.
 
   
-let user_email1 = "";
-let user_email2 = "naver.com";
+  let user_email1 = "";
+  let user_email2 = "naver.com";
+
+  const sendEmail = () => {
+    Message.success("로그인 성공",{position:"top-right", closable:true});
+  }
 
 </script>
 

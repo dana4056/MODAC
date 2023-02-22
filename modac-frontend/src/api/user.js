@@ -15,8 +15,9 @@ export default {
     http
       .post(`/users`, user)
       .then(({ data }) => {
-        alert("회원가입이 완료되었습니다.");
-        router.push({ name: "login" }); // 룸리스트뷰로 이동
+        Message.success("회원가입이 완료되었습니다 :-)",{position:"top-right", closable:true});
+
+        router.push({ name: "login" }); 
         console.log(data);
         // return data;
       })
@@ -52,10 +53,9 @@ export default {
         const code = response.status;
 
         if (code == 201) {
-          console.log("수정 완료");
-          console.log(response.data);
+          Message.success("회원정보가 수정되었습니다 :-)",{position:"top-right", closable:true});
         } else if (code == 204) {
-          alert("회원정보 수정 실패: 회원 없음");
+          Message.error("존재하지 않는 회원입니다 :-(",{position:"top-right", closable:true});
         }
       })
       .catch((error) => {
@@ -75,9 +75,9 @@ export default {
         const code = response.status;
 
         if (code == 201) {
-          console.log("비밀번호 변경 완료");
+          Message.success("비밀번호 변경이 완료되었습니다 :-)",{position:"top-right", closable:true});
         } else if (code == 204) {
-          alert("비번 찾기 실패: 회원없음");
+          Message.error("존재하지 않는 회원입니다 :-(",{position:"top-right", closable:true});
         }
       })
       .catch((error) => {
@@ -99,7 +99,7 @@ export default {
         if (code == 201) {
           console.log(response.data);
         } else if (code == 204) {
-          alert("포인트 수정 실패: 회원없음");
+          Message.error("존재하지 않는 회원입니다 :-(",{position:"top-right", closable:true});
         }
       })
       .catch((error) => {
@@ -115,9 +115,10 @@ export default {
         const code = response.status;
 
         if (code == 200) {
-          console.log("회원 탈퇴 완료");
+          Message.error("탈퇴가 완료되었습니다.",{position:"top-right", closable:true});
+          router.push({ name: "login" }); 
         } else if (code == 204) {
-          alert("회원 탈퇴 실패: 회원없음");
+          Message.error("존재하지 않는 회원입니다 :-(",{position:"top-right", closable:true});
         }
       })
       .catch((error) => {
@@ -139,7 +140,7 @@ export default {
         if (code == 200) {
           console.log("찾은 ID: " + response.data);
         } else if (code == 204) {
-          alert("아이디 찾기 실패 : 회원없음");
+          Message.error("존재하지 않는 회원입니다 :-(",{position:"top-right", closable:true});
         }
       })
       .catch((error) => {
@@ -161,7 +162,7 @@ export default {
         if (code == 200) {
           console.log("찾은 PW: " + response.data);
         } else if (code == 204) {
-          alert("비번 찾기 실패 : 회원없음");
+          Message.error("존재하지 않는 회원입니다 :-(",{position:"top-right", closable:true});
         }
       })
       .catch((error) => {
@@ -244,19 +245,15 @@ export default {
 
         if (code == 200) {
           if (response.data) {
-            // alert("로그인 성공");
-            Message.success("로그인 성공",{position:"top-right", closable:true});
 
-            console.log(response.data.token);
+            Message.success(response.data.nickname+"님 환영합니다 :-)",{closable:true});
             localStorage.setItem("jwt", response.data.token); // 로컬 스토리지에 저장
 
             const store = useUserStore();
             const { loginUser } = storeToRefs(store);
             
-            console.log(loginUser.value);
             loginUser.value = response.data; // userStore에 멤버 저장
             
-
             router.push({ name: "room" }); // 룸리스트뷰로 이동
             this.fetchFollowingUsers(loginUser.value.seq)
             this.fetchFollowerUsers(loginUser.value.seq)
@@ -273,15 +270,7 @@ export default {
       });
   },
 
-  // 로그아웃
-  logout() {
-    const store = useUserStore();
-    const { loginUser } = storeToRefs(store);
 
-    loginUser.value = null; // store의 로그인 유저 삭제
-    localStorage.removeItem("jwt"); // 로컬 스토리지 토큰 삭제
-    console.log("로그아웃 완료");
-  },
 
   // 팔로잉
   async following(payload) {

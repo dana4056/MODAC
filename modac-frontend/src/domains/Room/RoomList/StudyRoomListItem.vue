@@ -6,6 +6,7 @@ import { useUserStore } from '@/stores/user.js';
 import { useChatStore } from '@/stores/chat.js'
 import { storeToRefs } from "pinia";
 import Modal from "@/components/Modal.vue";
+import Message from "vue-m-message"
 
 
 const userStore = useUserStore();
@@ -78,14 +79,13 @@ const enterRoom = async () => {
       }
       // 비번이 일치하지 않음.
       else {
-        alert("비밀번호가 일치하지 않습니다.");
+        Message.error("비밀번호가 일치하지 않습니다 :-(",{position:"top-right", closable:true});
       }
     }
     // 비번이 필요가 없는 상태
     else {
       // 공개방 이면 Join 요청
       if (roomItem.value.publicType == 1) {
-        console.log("공개방 입장")
         roomStore.enterRoom(roomItem.value.seq);
       }
       // 비공개 방이라면 join 요청 x
@@ -95,7 +95,7 @@ const enterRoom = async () => {
     }
   }
   else {
-    alert("정원이 초과되어 입장하실 수 없습니다.")
+    Message.error("정원이 초과되어 입장하실 수 없습니다 :-(",{position:"top-right", closable:true});
   }
 }
 

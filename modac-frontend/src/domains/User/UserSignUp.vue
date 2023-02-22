@@ -194,6 +194,7 @@ import emojiChartIncreasing from "../../assets/emojis/emoji-chart-increasing.png
 
 import { ref, computed } from "vue";
 import userApi from "../../api/user.js";
+import Message from "vue-m-message"
 
 let user_email1 = "";
 let user_email2 = "naver.com";
@@ -351,8 +352,8 @@ const checkByte = (obj) => {
       obj.target.id == "user_password_input" ||
       obj.target.id == "user_password_check_input"
     )
-      alert("최대 16Byte까지만 입력가능합니다.");
-    else alert("최대 20Byte까지만 입력가능합니다.");
+      Message.error("최대 16Byte까지만 입력가능합니다.",{position:"top-right", closable:true});
+    else Message.error("최대 20Byte까지만 입력가능합니다.",{position:"top-right", closable:true});
 
     if (obj.target.id == "user_id") user_signup_check_id.value = false;
     else if (obj.target.id == "user_nickname")
