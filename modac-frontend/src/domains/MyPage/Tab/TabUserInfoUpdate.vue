@@ -10,16 +10,12 @@ const { loginUser } = storeToRefs(userStore)
 const user_id = ref(loginUser.value.id);
 const user_nickname = ref(loginUser.value.nickname);
 const user_email = ref(loginUser.value.email);
+
 const user_email1 = user_email.value.split("@")[0]
 const user_email2 = user_email.value.split("@")[1]
 
-
-
-
-const updateInfo = () => ref({
-  "user_nickname" : user_nickname,
-  "user_email" : user_email
-})
+const email_input1 = ref("")
+const email_input2 = ref(user_email2)
 
 
 const checkPassword = () => {
@@ -42,10 +38,11 @@ const updateUserInfo = () => {
     const payload = {
       userSeq: loginUser.value.seq,
       update:{
-        nickname: loginUser.value.nickname,
-        email: user_email1 + "@" + user_email2
+        nickname: user_nickname.value,
+        email: email_input1.value + "@" + email_input2.value
       }
-    }    
+    }
+    console.log("콘솔",payload)
     userStore.api.updateUser(payload)
   }
 }
@@ -83,35 +80,35 @@ const updateUserInfo = () => {
       <div :class="$style.update_info_div">
         <label for="user_email" :class="$style.update_info_label">이메일</label>
         <input type="text" 
-                v-model="user_email1" 
+                v-model="email_input1" 
                 id="user_email"
                 :class="$style.update_info_input_email"
-                placeholder="이메일" 
+                :placeholder="user_email1"
                 required>
 
         &nbsp;&nbsp;&nbsp;@&nbsp;&nbsp;&nbsp;
 
         <select id="user_email2" 
-                v-model="user_email2"
+                v-model="email_input2"
                 :class="$style.update_info_input_email">
           <option value="naver.com" selected="selected">naver.com</option>
           <option value="gmail.com">gmail.com</option>
           <option value="ssafy.com">ssafy.com</option>
         </select>
         <button :class="$style.update_info_nickname_button_div"
-                type="submit">
+                @click="checkEmail">
           중복 확인하기
         </button>
       </div>
 
       <!-- 추가하기 버튼 -->
+      <div :class="$style.update_info_save_div">
+        <button :class="$style.update_info_save"
+                type="submit">
+          저장하기
+        </button>
+      </div>
     </form>
-    <div :class="$style.update_info_save_div">
-      <button :class="$style.update_info_save"
-              @click="updateUserInfo">
-        저장하기
-      </button>
-    </div>
   </div>
 
 </template>

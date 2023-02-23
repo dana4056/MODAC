@@ -45,6 +45,7 @@ export default {
 
   // 회원정보 수정
   updateUser(payload) {
+    console.log(payload)
     http
       .put(`/users/${payload.userSeq}`, payload.update)
       .then((response) => {
@@ -68,6 +69,7 @@ export default {
 
   // 비밀번호 수정
   updatePW(payload) {
+    console.log(payload)
     http
       .put(`/users/${payload.userSeq}/password`, payload.password, {
         headers: {
@@ -82,6 +84,12 @@ export default {
         } else if (code == 204) {
           alert("비번 찾기 실패: 회원없음");
         }
+      })
+      .then(() => {
+        this.logout()
+      })
+      .then(() => {
+        router.push({ name: "login" });
       })
       .catch((error) => {
         console.log(error);
@@ -119,9 +127,14 @@ export default {
 
         if (code == 200) {
           console.log("회원 탈퇴 완료");
+          alert("탈퇴 완료");
         } else if (code == 204) {
           alert("회원 탈퇴 실패: 회원없음");
         }
+        this.logout()
+      })
+      .then(() => {
+        router.push({ name: "login" });
       })
       .catch((error) => {
         console.log(error);
