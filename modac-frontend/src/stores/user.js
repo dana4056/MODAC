@@ -15,7 +15,7 @@ export const useUserStore = defineStore(
     const logout = () => {
       loginUser.value = null; // store의 로그인 유저 삭제
       localStorage.removeItem("jwt"); // 로컬 스토리지 토큰 삭제
-      Message.success("로그아웃 되었습니다 :-)",{position:"top-right", closable:true});
+      Message.success("로그아웃 되었습니다 :-)",{closable:true});
     };
 
     //action (API)

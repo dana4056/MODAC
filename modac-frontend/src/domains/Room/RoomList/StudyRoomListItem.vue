@@ -79,7 +79,7 @@ const enterRoom = async () => {
       }
       // 비번이 일치하지 않음.
       else {
-        Message.error("비밀번호가 일치하지 않습니다 :-(",{position:"top-right", closable:true});
+        Message.error("비밀번호가 일치하지 않습니다 :-(",{closable:true});
       }
     }
     // 비번이 필요가 없는 상태
@@ -95,7 +95,7 @@ const enterRoom = async () => {
     }
   }
   else {
-    Message.error("정원이 초과되어 입장하실 수 없습니다 :-(",{position:"top-right", closable:true});
+    Message.error("정원이 초과되어 입장하실 수 없습니다 :-(",{closable:true});
   }
 }
 

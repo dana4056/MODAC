@@ -72,8 +72,8 @@ const checkByte = (obj) => {
   }
 
   if(totalByte>maxByte){
-    if(obj.target.id == "room_title") Message.info("최대 30Byte까지만 입력가능합니다",{position:"top-right", closable:true});
-    else Message.info("최대 100Byte까지만 입력가능합니다",{position:"top-right", closable:true});
+    if(obj.target.id == "room_title") Message.info("최대 30Byte까지만 입력가능합니다",{closable:true});
+    else Message.info("최대 100Byte까지만 입력가능합니다",{closable:true});
 
     if(obj.target.id == "room_title") room_add_check_title.value = false;
     else if(obj.target.id == "room_description") room_add_check_description.value = false;

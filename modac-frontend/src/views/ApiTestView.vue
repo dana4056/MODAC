@@ -62,8 +62,8 @@ const user_data6 = {
 
 const user_data7 = {
   // 팔로잉 여부 조회 데이터
-  fromSeq: 1,
-  toSeq: 14,
+  fromSeq: 421,
+  toSeq: 43,
 };
 
 // ================================
@@ -164,6 +164,7 @@ const data17 = {
 //==========================================================================
 
 function click() {
+  alert("hjisdf")
   /********** 파라미터가 객체형식인 것은 위에 정리 / 아닌건 그냥 기입 *************/
   // store.api.postUser(data1);                   // 회원가입
   // store.api.fetchUser(2);                      // 회원정보 조회

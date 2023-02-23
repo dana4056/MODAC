@@ -14,7 +14,7 @@ const copyText = () => {
   const currentActiveEditor = activeEditor.value;
   const content = currentActiveEditor.getMarkdown();
   navigator.clipboard.writeText(content);
-  Message.info("복사되었습니다 :-)",{position:"top-right", closable:true});
+  Message.info("복사되었습니다 :-)",{closable:true});
 };
 
 // git 관련

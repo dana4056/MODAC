@@ -3,6 +3,7 @@ import UserLogin from "../domains/User/UserLogin.vue";
 import UserSignUp from "../domains/User/UserSignUp.vue";
 import UserFindId from "../domains/User/UserFindId.vue";
 import UserFindPassword from "../domains/User/UserFindPassword.vue";
+import UserChangePassword from "../domains/User/UserChangePassword.vue"
 import RoomView from "@/views/RoomView.vue";
 import ArticleView from "../views/ArticleView.vue";
 import TestView from "@/views/TestView.vue";
@@ -75,6 +76,20 @@ const router = createRouter({
       path: "/findpass",
       name: "UserFindPassword",
       component: UserFindPassword,
+      beforeEnter(to, from, next) {
+        const userStore = useUserStore();
+        const { loginUser } = storeToRefs(userStore);
+        if (loginUser.value) {
+          next({ name: "room" });
+        } else {
+          next();
+        }
+      },
+    },
+    {
+      path: "/changepw",
+      name: "UserChangePassword",
+      component: UserChangePassword,
       beforeEnter(to, from, next) {
         const userStore = useUserStore();
         const { loginUser } = storeToRefs(userStore);

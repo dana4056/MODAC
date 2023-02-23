@@ -15,7 +15,7 @@ export default {
     http
       .post(`/users`, user)
       .then(({ data }) => {
-        Message.success("회원가입이 완료되었습니다 :-)",{position:"top-right", closable:true});
+        Message.success("회원가입이 완료되었습니다 :-)",{closable:true});
 
         router.push({ name: "login" }); 
         console.log(data);
@@ -53,9 +53,9 @@ export default {
         const code = response.status;
 
         if (code == 201) {
-          Message.success("회원정보가 수정되었습니다 :-)",{position:"top-right", closable:true});
+          Message.success("회원정보가 수정되었습니다 :-)",{closable:true});
         } else if (code == 204) {
-          Message.error("존재하지 않는 회원입니다 :-(",{position:"top-right", closable:true});
+          Message.error("존재하지 않는 회원입니다 :-(",{closable:true});
         }
       })
       .catch((error) => {
@@ -75,9 +75,9 @@ export default {
         const code = response.status;
 
         if (code == 201) {
-          Message.success("비밀번호 변경이 완료되었습니다 :-)",{position:"top-right", closable:true});
+          Message.success("비밀번호 변경이 완료되었습니다 :-)",{closable:true});
         } else if (code == 204) {
-          Message.error("존재하지 않는 회원입니다 :-(",{position:"top-right", closable:true});
+          Message.error("존재하지 않는 회원입니다 :-(",{closable:true});
         }
       })
       .catch((error) => {
@@ -99,7 +99,7 @@ export default {
         if (code == 201) {
           console.log(response.data);
         } else if (code == 204) {
-          Message.error("존재하지 않는 회원입니다 :-(",{position:"top-right", closable:true});
+          Message.error("존재하지 않는 회원입니다 :-(",{closable:true});
         }
       })
       .catch((error) => {
@@ -115,10 +115,10 @@ export default {
         const code = response.status;
 
         if (code == 200) {
-          Message.error("탈퇴가 완료되었습니다.",{position:"top-right", closable:true});
+          Message.error("탈퇴가 완료되었습니다.",{closable:true});
           router.push({ name: "login" }); 
         } else if (code == 204) {
-          Message.error("존재하지 않는 회원입니다 :-(",{position:"top-right", closable:true});
+          Message.error("존재하지 않는 회원입니다 :-(",{closable:true});
         }
       })
       .catch((error) => {
@@ -140,7 +140,7 @@ export default {
         if (code == 200) {
           console.log("찾은 ID: " + response.data);
         } else if (code == 204) {
-          Message.error("존재하지 않는 회원입니다 :-(",{position:"top-right", closable:true});
+          Message.error("존재하지 않는 회원입니다 :-(",{closable:true});
         }
       })
       .catch((error) => {
@@ -162,7 +162,7 @@ export default {
         if (code == 200) {
           console.log("찾은 PW: " + response.data);
         } else if (code == 204) {
-          Message.error("존재하지 않는 회원입니다 :-(",{position:"top-right", closable:true});
+          Message.error("존재하지 않는 회원입니다 :-(",{closable:true});
         }
       })
       .catch((error) => {

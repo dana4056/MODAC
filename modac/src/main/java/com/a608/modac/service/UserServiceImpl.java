@@ -17,6 +17,7 @@ import com.a608.modac.model.chat.ChatRoom;
 import com.a608.modac.model.chat.DirectMessage;
 import com.a608.modac.model.follow.Follow;
 import com.a608.modac.model.follow.FollowRequest;
+import com.a608.modac.model.follow.FollowResponse;
 import com.a608.modac.model.notification.Notification;
 import com.a608.modac.model.user.User;
 import com.a608.modac.model.user.UserRequest;
@@ -215,9 +216,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean isFollowing(Long fromSeq, Long toSeq){
+    public FollowResponse isFollowing(Long fromSeq, Long toSeq){
         Follow follow = followRepository.findFollowByFromUser_SeqAndToUser_Seq(fromSeq, toSeq);
-        return follow != null;
+
+        if(follow == null){
+            return null;
+        }else{
+            return FollowResponse.fromEntity(follow);
+        }
     }
 
     // 암호화 하는 함수

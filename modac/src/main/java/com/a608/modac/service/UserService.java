@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.a608.modac.model.follow.Follow;
 import com.a608.modac.model.follow.FollowRequest;
+import com.a608.modac.model.follow.FollowResponse;
 import com.a608.modac.model.user.UserRequest;
 import com.a608.modac.model.user.UserResponse;
 
@@ -42,5 +43,5 @@ public interface UserService {
 
 	UserResponse updatePoint(Long seq, String point); // 포인트 추가
 
-	boolean isFollowing(Long fromSeq, Long toSeq);
+	FollowResponse isFollowing(Long fromSeq, Long toSeq);
 }
