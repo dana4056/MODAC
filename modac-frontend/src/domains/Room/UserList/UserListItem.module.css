@@ -15,7 +15,7 @@
 }
 
 .dropdown {
-  @apply absolute right-[2rem] top-[-7rem] z-10 mt-2 w-fit origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none text-black;
+  @apply absolute right-[2rem] top-[-7rem] mt-2 w-fit origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none text-black;
   font-family: "Pretendard";
 }
 
