@@ -1,7 +1,13 @@
-<script setup></script>
+<script setup>
+import { defineProps } from "vue";
+const props = defineProps({
+  deleteTodoItem: Function,
+  seq: Number,
+});
+</script>
 
 <template>
-  <button>
+  <button @click="props.deleteTodoItem(seq)" class="bg-transparent">
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 24 24"

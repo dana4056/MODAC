@@ -2,7 +2,10 @@
   @apply flex flex-row;
   background-image: url('@/assets/background/modac.png');
   /* background-color: black; */
-  background-size: cover;
+  /* background-size: cover; */
+  background-size: 100% 125%;
+  background-position-x: center;
+  background-position-y: bottom;
   overflow: hidden;
 }
 
@@ -10,7 +13,10 @@
   @apply flex flex-row;
   background-image: url('@/assets/background/beach.png');
   /* background-color: black; */
-  background-size: cover;
+  /* background-size: cover; */
+  background-size: 100% 125%;
+  background-position-x: center;
+  background-position-y: bottom;
   overflow: hidden;
 }
 
@@ -18,7 +24,10 @@
   @apply flex flex-row;
   background-image: url('@/assets/background/space.png');
   /* background-color: black; */
-  background-size: cover;
+  /* background-size: cover; */
+  background-size: 100% 125%;
+  background-position-x: center;
+  background-position-y: bottom;
   overflow: hidden;
 }
 
@@ -26,7 +35,10 @@
   @apply flex flex-row;
   background-image: url('@/assets/background/dessert.png');
   /* background-color: black; */
-  background-size: cover;
+  /* background-size: cover; */
+  background-size: 100% 125%;
+  background-position-x: center;
+  background-position-y: bottom;
   overflow: hidden;
 }
 

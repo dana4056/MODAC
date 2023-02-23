@@ -3,8 +3,21 @@
 }
 
 .flex_wrapper {
-  @apply flex flex-row justify-around items-center;
-  @apply w-6/12;
+  @apply flex flex-row items-center;
+  @apply min-w-[300px];
   @apply bg-gray-200 rounded-lg;
   --tw-bg-opacity:0.6;
+	font-family: 'Pretendard';
+}
+
+.room_info_and_button {
+  @apply flex gap-3 w-full p-4 items-center
+}
+
+.room_info_div {
+  @apply flex flex-col justify-center items-center gap-1 w-full
+}
+
+.room_info_title_size {
+  @apply flex gap-1 items-center
 }

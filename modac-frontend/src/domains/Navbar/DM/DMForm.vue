@@ -1,19 +1,24 @@
 <script setup>
-import { defineProps, ref } from "vue";
-const props = defineProps({
-  enterChat: Function,
-});
+import { ref } from "vue";
+import { useDmStore } from "@/stores/dm"
+
+// import { defineProps, ref } from "vue";
+// const props = defineProps({
+//   enterChat: Function,
+// });
+
+const DMstore = useDmStore();
 
 const inputChatMessage = ref("");
 
 defineExpose({
-  inputChatMessage
-})
+  inputChatMessage,
+});
 </script>
 
 <template>
   <div>
-    <form action="" @submit.prevent="props.enterChat(inputChatMessage)">
+    <form action="" @submit.prevent="DMstore.enterChat(inputChatMessage)">
       <input
         :class="$style.chat_input_box"
         v-model="inputChatMessage"

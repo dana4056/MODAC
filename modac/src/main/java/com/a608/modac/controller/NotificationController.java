@@ -30,26 +30,29 @@ public class NotificationController {
 
 	// 알림 생성
 	@PostMapping
-	public ResponseEntity<?> createNotification(@RequestBody final NotificationRequest notificationRequest){
-		return new ResponseEntity<NotificationResponse>(notificationService.createNotification(notificationRequest), HttpStatus.CREATED);
+	public ResponseEntity<?> createNotification(@RequestBody final NotificationRequest notificationRequest) {
+		return new ResponseEntity<NotificationResponse>(notificationService.createNotification(notificationRequest),
+			HttpStatus.CREATED);
 	}
 
 	// 새 알림 개수 조회
 	@GetMapping
-	public ResponseEntity<?> countUnreadNotification(@RequestParam("user") final Long usersSeq){
+	public ResponseEntity<?> countUnreadNotification(@RequestParam("user") final Long usersSeq) {
 		return new ResponseEntity<Integer>(notificationService.countUnreadNotification(usersSeq), HttpStatus.OK);
 	}
 
 	// 새 알림 읽음 처리
 	@PutMapping
-	public ResponseEntity<?> updateAllIsRead(@RequestParam("user") final Long usersSeq){
-		notificationService.updateAllIsRead(usersSeq);
+	public ResponseEntity<?> updateAllIsRead(@RequestBody String usersSeq) {
+		notificationService.updateAllIsRead(Long.parseLong(usersSeq));
 		return new ResponseEntity<String>(HttpStatus.OK);
 	}
 
 	// 알림 목록 조회
 	@GetMapping("/list")
-	public ResponseEntity<?> findNotifications(@RequestParam("user") final Long usersSeq){
-		return new ResponseEntity<List<NotificationResponse>>(notificationService.findNotifications(usersSeq), HttpStatus.OK);
+	public ResponseEntity<?> findNotifications(@RequestParam("user") final Long usersSeq) {
+		return new ResponseEntity<List<NotificationResponse>>(notificationService.findNotifications(usersSeq),
+			HttpStatus.OK);
 	}
+
 }

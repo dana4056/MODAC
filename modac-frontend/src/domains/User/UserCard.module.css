@@ -1,33 +1,24 @@
 .user_card {
-  @apply bg-gray-200;
+  @apply bg-gray-100;
   @apply rounded-sm;
-  @apply flex flex-col items-center;
+  @apply flex items-center w-full;
 }
 
 .user_card_item {
-  @apply basis-1/5;
+  /* @apply basis-1/5; */
   @apply p-1;
   /* @apply m-1; */
+  /* @apply w-full */
 }
 
 .user_card_button_message {
-  @apply bg-blue-300;
-}
-
-.user_card_button_message:hover {
-  @apply bg-blue-400;
+  @apply bg-transparent border-0;
 }
 
 .user_card_button_follow {
-  @apply bg-cyan-300;
-}
-.user_card_button_follow:hover {
-  @apply bg-cyan-400;
+  @apply bg-[#3b82f6] text-white px-2;
 }
 
 .user_card_button_unfollow {
-  @apply bg-red-500;
-}
-.user_card_button_unfollow:hover {
-  @apply bg-red-600;
+  @apply bg-[#ff3333] text-white px-2
 }

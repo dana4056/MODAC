@@ -3,6 +3,7 @@ import { useUserStore } from "@/stores/user";
 import { useRoomStore } from '@/stores/room';
 import { storeToRefs } from "pinia";
 import router from "@/router/index";
+import Message from "vue-m-message"
 
 // const headers = {
 //     'Content-Type': 'application/json'
@@ -14,8 +15,9 @@ export default {
     http
       .post(`/users`, user)
       .then(({ data }) => {
-        alert("회원가입이 완료되었습니다.");
-        router.push({ name: "login" }); // 룸리스트뷰로 이동
+        Message.success("회원가입이 완료되었습니다 :-)",{closable:true});
+
+        router.push({ name: "login" }); 
         console.log(data);
         // return data;
       })
@@ -51,10 +53,9 @@ export default {
         const code = response.status;
 
         if (code == 201) {
-          console.log("수정 완료");
-          console.log(response.data);
+          Message.success("회원정보가 수정되었습니다 :-)",{closable:true});
         } else if (code == 204) {
-          alert("회원정보 수정 실패: 회원 없음");
+          Message.error("존재하지 않는 회원입니다 :-(",{closable:true});
         }
       })
       .catch((error) => {
@@ -74,9 +75,9 @@ export default {
         const code = response.status;
 
         if (code == 201) {
-          console.log("비밀번호 변경 완료");
+          Message.success("비밀번호 변경이 완료되었습니다 :-)",{closable:true});
         } else if (code == 204) {
-          alert("비번 찾기 실패: 회원없음");
+          Message.error("존재하지 않는 회원입니다 :-(",{closable:true});
         }
       })
       .catch((error) => {
@@ -98,7 +99,7 @@ export default {
         if (code == 201) {
           console.log(response.data);
         } else if (code == 204) {
-          alert("포인트 수정 실패: 회원없음");
+          Message.error("존재하지 않는 회원입니다 :-(",{closable:true});
         }
       })
       .catch((error) => {
@@ -114,9 +115,10 @@ export default {
         const code = response.status;
 
         if (code == 200) {
-          console.log("회원 탈퇴 완료");
+          Message.error("탈퇴가 완료되었습니다.",{closable:true});
+          router.push({ name: "login" }); 
         } else if (code == 204) {
-          alert("회원 탈퇴 실패: 회원없음");
+          Message.error("존재하지 않는 회원입니다 :-(",{closable:true});
         }
       })
       .catch((error) => {
@@ -138,7 +140,7 @@ export default {
         if (code == 200) {
           console.log("찾은 ID: " + response.data);
         } else if (code == 204) {
-          alert("아이디 찾기 실패 : 회원없음");
+          Message.error("존재하지 않는 회원입니다 :-(",{closable:true});
         }
       })
       .catch((error) => {
@@ -160,7 +162,7 @@ export default {
         if (code == 200) {
           console.log("찾은 PW: " + response.data);
         } else if (code == 204) {
-          alert("비번 찾기 실패 : 회원없음");
+          Message.error("존재하지 않는 회원입니다 :-(",{closable:true});
         }
       })
       .catch((error) => {
@@ -243,26 +245,24 @@ export default {
 
         if (code == 200) {
           if (response.data) {
-            alert("로그인 성공");
-            console.log(response.data.token);
+
+            Message.success(response.data.nickname+"님 환영합니다 :-)",{closable:true});
             localStorage.setItem("jwt", response.data.token); // 로컬 스토리지에 저장
 
             const store = useUserStore();
-            const roomStore = useRoomStore();
             const { loginUser } = storeToRefs(store);
             
-            console.log(loginUser.value);
             loginUser.value = response.data; // userStore에 멤버 저장
-
-            roomStore.api.findRoomList(response.data.seq);
             
-
             router.push({ name: "room" }); // 룸리스트뷰로 이동
+            this.fetchFollowingUsers(loginUser.value.seq)
+            this.fetchFollowerUsers(loginUser.value.seq)
+
           } else {
-            console.log("로그인 실패: 비밀번호 불일치");
+            Message.error("비밀번호가 일치하지 않습니다",{title:"로그인 실패", closable:true});
           }
         } else if (code == 204) {
-          alert("로그인 실패: 회원없음");
+          Message.error("해당 회원을 찾을 수 없습니다",{title:"로그인 실패", closable:true});
         }
       })
       .catch((error) => {
@@ -270,45 +270,32 @@ export default {
       });
   },
 
-  // 로그아웃
-  logout() {
-    const store = useUserStore();
-    const { loginUser } = storeToRefs(store);
 
-    loginUser.value = null; // store의 로그인 유저 삭제
-    localStorage.removeItem("jwt"); // 로컬 스토리지 토큰 삭제
-    console.log("로그아웃 완료");
-  },
 
   // 팔로잉
-  following(payload) {
-    http
-      .post(`/users/follow`, payload)
-      .then((response) => {
-        const code = response.status;
+  async following(payload) {
+    const response = await http.post(`/users/follow`, payload);
 
-        if (code == 201) {
-          console.log(payload.toSeq + "번 유저 팔로잉 성공");
-        } else if (code == 204) {
-          console.log("사용자를 찾을 수 없음");
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    if (response.status == 201) {
+      console.log(payload.toSeq + "번 유저 팔로잉 성공");
+    } else if (response.status == 204) {
+      console.log("사용자를 찾을 수 없음");
+    }
+
+    // console.log("response", response);
   },
 
   // 언팔로잉
-  unfollowing(followSeq) {
-    http.delete(`/users/follow/${followSeq}`).then((response) => {
-      const code = response.status;
+  async unfollowing(followSeq) {
+    const response = await http.delete(`/users/follow/${followSeq}`)
 
-      if (code == 200) {
-        console.log("언팔로우 성공");
-      } else if (code == 204) {
-        console.log("언팔로우 실패: 팔로잉 정보 없음");
-      }
-    });
+    if (response.status == 200) {
+      console.log("언팔로우 성공");
+    } else if (response.status == 204) {
+      console.log("언팔로우 실패: 팔로잉 정보 없음");
+    }
+
+    // console.log("response", response);
   },
 
   // 팔로잉 회원목록 조회(친구 조회)
@@ -323,14 +310,14 @@ export default {
       .then((response) => {
         console.log(response.data);
 
-        const store = useUserStore();
-        const { followingList } = storeToRefs(store);
+        const userStore = useUserStore();
+        const { followingList } = storeToRefs(userStore);
 
         followingList.value = response.data;
       });
   },
 
-  // 팔로잉 회원목록 조회(친구 조회)
+  // 팔로워 회원목록 조회(친구 조회)
   fetchFollowerUsers(userSeq) {
     http
       .get(`/users`, {
@@ -342,24 +329,27 @@ export default {
       .then((response) => {
         console.log(response.data);
 
-        const store = useUserStore();
-        const { followerList } = storeToRefs(store);
+        const userStore = useUserStore();
+        const { followerList } = storeToRefs(userStore);
 
         followerList.value = response.data;
       });
   },
 
   // 팔로잉 여부 조회
-  isFollowing(payload) {
-    http
-      .get("/users/follow", {
-        params: {
-          from: payload.fromSeq,
-          to: payload.toSeq,
-        },
-      })
-      .then((response) => {
-        console.log(response.data);
-      });
+  async isFollowing(payload) {
+    await http.get("/users/follow", {
+      params: {
+        from: payload.fromSeq,
+        to: payload.toSeq,
+      },
+    })
+    .then((response) => {
+      const userStore = useUserStore();
+      const { isFollowing } = storeToRefs(userStore);
+
+      isFollowing.value = response.data;
+      console.log("isFollowing.value", isFollowing.value);
+    });
   },
 };

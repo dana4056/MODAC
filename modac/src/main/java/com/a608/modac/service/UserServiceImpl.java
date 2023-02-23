@@ -1,6 +1,11 @@
 package com.a608.modac.service;
 
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.time.LocalDateTime;
+import java.util.Base64;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -12,6 +17,7 @@ import com.a608.modac.model.chat.ChatRoom;
 import com.a608.modac.model.chat.DirectMessage;
 import com.a608.modac.model.follow.Follow;
 import com.a608.modac.model.follow.FollowRequest;
+import com.a608.modac.model.follow.FollowResponse;
 import com.a608.modac.model.notification.Notification;
 import com.a608.modac.model.user.User;
 import com.a608.modac.model.user.UserRequest;
@@ -34,6 +40,8 @@ public class UserServiceImpl implements UserService {
 	private final RedisTemplate<String, DirectMessage> redisTemplate;
 	private final ChatDirectRepository chatDirectRepository;
 
+    static int KEY_STRETCHING = 1000;
+
     public UserServiceImpl(UserRepository userRepository, FollowRepository followRepository,
         ChatRoomRepository chatRoomRepository, NotificationRepository notificationRepository,
         JwtTokenProvider jwtTokenProvider,
@@ -49,13 +57,22 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserResponse saveUser(UserRequest userRequest) { // 회원 저장
+    public UserResponse saveUser(UserRequest userRequest) throws NoSuchAlgorithmException { // 회원 저장
         // 고양이 스킨 번호 랜덤 (1~12)
         double min = 1;
         double max = 12;
         byte skin = (byte) ((Math.random() * (max - min)) + min);
 
-        User save = userRepository.save(userRequest.toEntity(skin));
+        // salt 생성
+        String salt = "";
+        salt = createsalt(salt);
+
+        // 비밀번호 암호화
+        String pw = userRequest.getPassword() + salt;
+        pw = encryption(pw, KEY_STRETCHING);
+        userRequest.setPassword(pw);
+
+        User save = userRepository.save(userRequest.toEntity(skin, salt));
         System.out.println(save);
         return new UserResponse(save);
     }
@@ -117,10 +134,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserResponse login(UserRequest userRequest) {
+    public UserResponse login(UserRequest userRequest) throws NoSuchAlgorithmException {
         User user = userRepository.findUserById(userRequest.getId()).orElseThrow(() -> new NoSuchElementException("NoUser"));
 
-        if(user.getPassword().equals(userRequest.getPassword())){
+        String salt = user.getSalt();
+        String pass = userRequest.getPassword() + salt;
+        pass = encryption(pass, KEY_STRETCHING);
+
+        if(user.getPassword().equals(pass)){
            //로그인 성공
             String token = jwtTokenProvider.createToken(user);
             UserResponse userResponse = new UserResponse(user);
@@ -195,9 +216,41 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean isFollowing(Long fromSeq, Long toSeq){
+    public FollowResponse isFollowing(Long fromSeq, Long toSeq){
         Follow follow = followRepository.findFollowByFromUser_SeqAndToUser_Seq(fromSeq, toSeq);
-        return follow != null;
+
+        if(follow == null){
+            return null;
+        }else{
+            return FollowResponse.fromEntity(follow);
+        }
+    }
+
+    // 암호화 하는 함수
+    private String encryption(String pass, int KEY_STRETCHING) throws NoSuchAlgorithmException {
+        String hex = "";
+        for (int i = 0; i < KEY_STRETCHING; i++) {
+            MessageDigest msg = MessageDigest.getInstance("SHA-512");
+            msg.update(pass.getBytes());
+            hex = String.format("%128x", new BigInteger(1, msg.digest()));
+
+            pass = hex;
+        }
+        return pass;
+    }
+
+    // salt 생성 함수
+    private String createsalt(String salt) {
+        try {
+            SecureRandom random = SecureRandom.getInstance("SHA1PRNG");
+            byte[] bytes = new byte[16];
+            random.nextBytes(bytes);
+            salt = new String(Base64.getEncoder().encode(bytes));
+
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return salt;
     }
 
 }

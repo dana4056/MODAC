@@ -23,6 +23,7 @@ import { useArticleStore } from "../stores/article";
 import {ref} from "vue";
 import { useRoute } from 'vue-router'
 import router from "../router/index"
+import { storeToRefs } from "pinia";
 
 let title="";
 let commitMSG = "";
@@ -38,12 +39,16 @@ const http = axios.create({
   },
 });
 
+const { activeEditor } = storeToRefs(articleStore);
+const currentActiveEditor = activeEditor.value;
+const content = currentActiveEditor.getMarkdown();
+
 defineProps(['user_info', 'repo_info', 'createCommit']);
 
   // const encodingContents1 = articleStore.tempArticle;
   // const encodingContents2 = encodeURIComponent(articleStore.tempArticle);
   // const encodingContents3 = btoa(encodeURIComponent(articleStore.tempArticle));
-  const encodingContents4 = btoa(unescape(encodeURIComponent(articleStore.tempArticle)));
+  const encodingContents4 = btoa(unescape(encodeURIComponent(content)));
 
 function commitToRepo(user_info, repo_info, createCommit){
   // alert("msg:"+commitMSG);
@@ -66,7 +71,7 @@ function commitToRepo(user_info, repo_info, createCommit){
   // console.log("user", user, "repo", repo);
   http.put(GITHUB_API_SERVER + `/repos/${user}/${repo}/contents/${title}.md`, body, {headers})
   .then((response) => {
-      alert("원격저장소에 정상적으로 Commit 되었습니다 :->")
+      Message.success("원격저장소에 정상적으로 Commit 되었습니다 :-)",{closable:true});
       createCommit();
       // router.push(`/repo/${user}/${repo}`)
   })

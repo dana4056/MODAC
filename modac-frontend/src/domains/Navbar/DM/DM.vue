@@ -5,13 +5,11 @@ import { useUserStore } from "@/stores/user";
 import { storeToRefs } from "pinia";
 import { ref, computed, useCssModule } from "vue";
 
-
 // store 관련
 const DMstore = useDmStore();
 const userStore = useUserStore();
 const { loginUser } = storeToRefs(userStore);
-const { isDropdownOpenState } = storeToRefs(DMstore);
-
+const { isDropdownOpenState , directChatLogs} = storeToRefs(DMstore);
 
 // 그 외 변수
 const $style = useCssModule();
@@ -20,12 +18,14 @@ const openDropdown = () => {
   // DM 버튼 눌렀을 때 채팅방 목록 가져오기
   DMstore.api.fetchRoomList(loginUser.value.seq);
 
+  directChatLogs.value = [];
   isDropdownOpenState.value = true;
-  
 };
 
 const closeDropdown = () => {
   isDropdownOpenState.value = false;
+  //소켓 연결 해제
+  DMstore.disconnect();
 };
 
 const clickDropdownButtonHandler = () => {
@@ -47,7 +47,7 @@ const dropdownStyleState = computed(() => {
 </script>
 
 <template>
-  <div class="relative ml-3">
+  <div class="relative ml-3" :class="$style.dm_div">
     <div>
       <button
         @click="clickDropdownButtonHandler"

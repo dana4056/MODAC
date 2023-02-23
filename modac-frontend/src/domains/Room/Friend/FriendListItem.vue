@@ -3,10 +3,63 @@ import Card from "@/components/Card.vue";
 import CardTitle from "@/components/CardTitle.vue";
 import CardContent from "@/components/CardContent.vue";
 import UserCard from "@/domains/User/UserCard.vue";
-import UserStatusIndicator from "@/components/UserStatusIndicator.vue";
+import BASE_ASSETS_URL from "@/api/BASE_ASSETS_URL";
+// import UserStatusIndicator from "@/components/UserStatusIndicator.vue";
 import { useCssModule } from "vue";
 import { ref, computed } from "vue";
 import { useRoomStore } from "@/stores/room";
+import catSkin1 from "@/assets/user_cats_background/cat1.png"
+import catSkin2 from "@/assets/user_cats_background/cat2.png"
+import catSkin3 from "@/assets/user_cats_background/cat3.png"
+import catSkin4 from "@/assets/user_cats_background/cat4.png"
+import catSkin5 from "@/assets/user_cats_background/cat5.png"
+import catSkin6 from "@/assets/user_cats_background/cat6.png"
+import catSkin7 from "@/assets/user_cats_background/cat7.png"
+import catSkin8 from "@/assets/user_cats_background/cat8.png"
+import catSkin9 from "@/assets/user_cats_background/cat9.png"
+import catSkin10 from "@/assets/user_cats_background/cat10.png"
+import catSkin11 from "@/assets/user_cats_background/cat11.png"
+import catSkin12 from "@/assets/user_cats_background/cat12.png"
+
+
+const catSkin = computed(() => {
+  if( props.friendItem.toUser.catSkin === 1){
+    return catSkin1
+  }
+  else if(props.friendItem.toUser.catSkin === 2){
+    return catSkin2
+  }
+  else if(props.friendItem.toUser.catSkin === 3){
+    return catSkin3
+  }
+  else if(props.friendItem.toUser.catSkin === 4){
+    return catSkin4
+  }
+  else if(props.friendItem.toUser.catSkin === 5){
+    return catSkin5
+  }
+  else if(props.friendItem.toUser.catSkin === 6){
+    return catSkin6
+  }
+  else if(props.friendItem.toUser.catSkin === 7){
+    return catSkin7
+  }
+  else if(props.friendItem.toUser.catSkin === 8){
+    return catSkin8
+  }
+  else if(props.friendItem.toUser.catSkin === 9){
+    return catSkin9
+  }
+  else if(props.friendItem.toUser.catSkin === 10){
+    return catSkin10
+  }
+  else if(props.friendItem.toUser.catSkin === 11){
+    return catSkin11
+  }
+  else if(props.friendItem.toUser.catSkin === 12){
+    return catSkin12
+  }
+});
 
 const $style = useCssModule();
 
@@ -16,12 +69,12 @@ const props = defineProps({
 
 const store = useRoomStore();
 
-const userStatusIndicatorStyleState = computed(
-  () =>
-    `${$style.rounded_div} ${
-      $style[store.statusStyleMap[props.friendItem.status]]
-    } ${$style.inline_block_style}`
-);
+// const userStatusIndicatorStyleState = computed(
+//   () =>
+//     `${$style.rounded_div} ${
+//       $style[store.statusStyleMap[props.friendItem.status]]
+//     } ${$style.inline_block_style}`
+// );
 
 const isUserCardOpen = ref(false);
 const openUserCard = () => {
@@ -33,20 +86,18 @@ const closeUserCard = () => {
 
 const userCardElement = ref(undefined);
 const toggleUserCard = (event) => {
-  userCardElement.value = document.querySelector(
-    `#user_card-${props.friendItem.seq}`
-  );
-  if (userCardElement.value === event.target) {
+  userCardElement.value = document.querySelector("notClickBackground");
+  if (userCardElement.value !== event.target) {
     return isUserCardOpen.value ? closeUserCard() : openUserCard();
   }
 };
 </script>
 
 <template lang="">
-  <Card :id="`user_card-${props.friendItem.seq}`" @click="toggleUserCard">
+  <Card :id="`user_card-${props.friendItem.seq}`" @click="toggleUserCard" :class="$style.friend_list_card">
     <div :class="$style.card_style">
       <img
-          :src="`src/assets/user_cats/cat${props.friendItem.toUser.catSkin}.png`"
+          :src="catSkin"
           :class="$style.friend_profile"
           alt=""
         />
@@ -58,6 +109,7 @@ const toggleUserCard = (event) => {
         v-if="isUserCardOpen"
         :talker="props.friendItem.toUser"
         :roomSeq="props.friendItem.chatRoom.seq"
+        :id="notClickBackground"
       />
   </Card>
 </template>

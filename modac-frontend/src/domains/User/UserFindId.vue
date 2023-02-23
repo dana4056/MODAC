@@ -3,7 +3,7 @@
     <div :class="$style.login_left_flex">
       <div :class="$style.login_div_flex">
         <div :class="$style.login_description">
-          <img :src="emojiWearyCat" class="w-40 h-40 inline">
+          <img :src="emojiFire" class="w-40 h-40 inline">
           <h1 :class="$style.login_title"><span :class="$style.text_green">아이디</span>가 기억나지 않으신가요?</h1>
           <p :class="$style.login_p">가입하신 <span :class="$style.text_orange"> 이메일</span>로 찾을 수 있어요!</p>
         </div>
@@ -40,7 +40,7 @@
 
       <div :class="$style.login_sns_flex">
         <div :class="$style.login_options">
-          <RouterLink id="routerlink" to="/login">로그인</RouterLink>
+          <RouterLink id="routerlink" to="/">로그인</RouterLink>
           <p>|</p>
           <RouterLink id="routerlink" to="/signup">회원가입</RouterLink>
           <p>|</p>
@@ -62,17 +62,17 @@
       
       </div>
     </div>
-    <div :class="$style.login_right_flex">  <img src="https://tailwindui.com/img/component-images/dark-project-app-screenshot.png" alt="Product screenshot" class=" rounded-xl shadow-xl ring-1 ring-gray-400/10 self-center fixed -right-24 top-48 h-3/5 w-1/2" /></div>
-    <img :src="emojiChartIncreasing" class="w-40 h-40 inline fixed top-24 right-12">
+    <div :class="$style.login_right_flex">  <img src="@/assets/img/img.png" alt="Product screenshot" class=" rounded-xl shadow-xl ring-1 ring-gray-400/10 self-center fixed -right-16 top-52 h-3/5 w-1/2" /></div>
+    <!-- <img :src="emojiChartIncreasing" class="w-40 h-40 inline fixed top-24 right-12"> -->
     <!-- <img :src="emojiWritingHand" class="w-32 h-32 inline fixed top-96 " style="right:38%">
     <img :src="emojiCat" class="w-32 h-32 inline fixed bottom-10 right-12"> -->
   </div>
 </template>
 
 <script setup>
-  // import emojiFire from '../../assets/emojis/emoji-fire.png'
+  import emojiFire from '../../assets/emojis/emoji-fire.png'
   // import emojiPawPrints from '../../assets/emojis/emoji-paw-prints.png'
-  import emojiWearyCat from '../../assets/emojis/emoji-weary-cat.png'
+  // import emojiWearyCat from '../../assets/emojis/emoji-weary-cat.png'
   import emojiChartIncreasing from '../../assets/emojis/emoji-chart-increasing.png'
   // import emojiWritingHand from '../../assets/emojis/emoji-writing-hand.png'
   // import emojiCat from '../../assets/emojis/emoji-cat.png'

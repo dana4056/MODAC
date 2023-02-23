@@ -2,17 +2,73 @@
 import { ref, computed, useCssModule } from "vue";
 import { useUserStore } from "@/stores/user";
 import { useRouter } from "vue-router";
+import { storeToRefs } from "pinia";
+import BASE_ASSETS_URL from "@/api/BASE_ASSETS_URL";
+import catSkin1 from "@/assets/user_cats_background/cat1.png"
+import catSkin2 from "@/assets/user_cats_background/cat2.png"
+import catSkin3 from "@/assets/user_cats_background/cat3.png"
+import catSkin4 from "@/assets/user_cats_background/cat4.png"
+import catSkin5 from "@/assets/user_cats_background/cat5.png"
+import catSkin6 from "@/assets/user_cats_background/cat6.png"
+import catSkin7 from "@/assets/user_cats_background/cat7.png"
+import catSkin8 from "@/assets/user_cats_background/cat8.png"
+import catSkin9 from "@/assets/user_cats_background/cat9.png"
+import catSkin10 from "@/assets/user_cats_background/cat10.png"
+import catSkin11 from "@/assets/user_cats_background/cat11.png"
+import catSkin12 from "@/assets/user_cats_background/cat12.png"
+
+
+const catSkin = computed(() => {
+  if( loginUser.value.catSkin === 1){
+    return catSkin1
+  }
+  else if(loginUser.value.catSkin === 2){
+    return catSkin2
+  }
+  else if(loginUser.value.catSkin === 3){
+    return catSkin3
+  }
+  else if(loginUser.value.catSkin === 4){
+    return catSkin4
+  }
+  else if(loginUser.value.catSkin === 5){
+    return catSkin5
+  }
+  else if(loginUser.value.catSkin === 6){
+    return catSkin6
+  }
+  else if(loginUser.value.catSkin === 7){
+    return catSkin7
+  }
+  else if(loginUser.value.catSkin === 8){
+    return catSkin8
+  }
+  else if(loginUser.value.catSkin === 9){
+    return catSkin9
+  }
+  else if(loginUser.value.catSkin === 10){
+    return catSkin10
+  }
+  else if(loginUser.value.catSkin === 11){
+    return catSkin11
+  }
+  else if(loginUser.value.catSkin === 12){
+    return catSkin12
+  }
+});
 
 const router = useRouter();
-const store = useUserStore();
+const userStore = useUserStore();
 const $style = useCssModule();
 
+const { loginUser } = storeToRefs(userStore);
+
 const profileImgUrl = ref(
-  "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+  BASE_ASSETS_URL + "user_cats/cat" + loginUser.value.catSkin + ".png"
 );
 
 const logout = () => {
-  store.logout();
+  userStore.logout();
   router.push({ name: "login" });
 };
 
@@ -59,7 +115,7 @@ const dropdownStyleState = computed(() => {
         aria-expanded="false"
         aria-haspopup="true"
       >
-        <img class="h-8 w-8 rounded-full" :src="profileImgUrl" alt="" />
+        <img class="h-8 w-8 rounded-full" :src="catSkin" alt="" />
       </button>
     </div>
 

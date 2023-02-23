@@ -10,14 +10,8 @@ export default {
     postRoom(payload) {
         http.post(`/rooms`, payload)
             .then(({ data }) => {
-                const userStore = useUserStore()
-                const { loginUser } = storeToRefs(userStore)
-                const payload2 = {
-                    usersSeq: loginUser.value.seq,
-                    seq: data.seq
-                }
-
-                this.joinRoom(payload2)
+                const roomStore = useRoomStore()
+                roomStore.enterRoom(data.seq)
             })
             .catch((error) => {
                 console.log(error)
@@ -34,7 +28,6 @@ export default {
             const code = response.status;
 
             if(code == 200){
-                // console.log("스터디룸 목록: "+JSON.stringify(response.data));
                 const roomStore = useRoomStore();
                 const { room_list } = storeToRefs(roomStore);
                 room_list.value = response.data
@@ -46,12 +39,16 @@ export default {
         })
     },
     // 스터디룸 조회
-    findRoom(seq) {
-        http.get(`/rooms/${seq}`)
+    async findRoom(seq) {
+        await http.get(`/rooms/${seq}`)
         .then((response) => {
             const code = response.status;
 
             if(code == 200) {
+                const roomStore = useRoomStore();
+                const { room_info } = storeToRefs(roomStore);
+                room_info.value = response.data
+
                 console.log("스터디룸: "+ JSON.stringify(response.data));
             }
             else if(code == 204) {
@@ -139,6 +136,7 @@ export default {
             console.log(error);
         })
     },
+    
     // 비공개 스터디룸 접속 시 접속 상태변경
     updateCurrentRoom(payload) {
         const payload2 = {
@@ -151,7 +149,7 @@ export default {
             const userStore = useUserStore();
             const { loginUser } = storeToRefs(userStore);
             this.findRoomList(loginUser.value.seq)
-            if(code == 201) {
+            if(code == 200) {
                 console.log("참가자 상태 변경 완료: " + response.data);
             }
             else if(code == 204) {

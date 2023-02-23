@@ -15,8 +15,9 @@ export default {
 
   // todo 조회
   async findTodo(seq) {
+    // console.log("findTodo", seq);
     const response = await http.get(`/todos/${seq}`);
-    console.log(response);
+    // console.log(response.data.);
     return response.data;
 
     // .then((response) => {

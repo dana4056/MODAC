@@ -32,8 +32,10 @@
 }
 
 .update_button{
-	height: 50%;
-  @apply bg-yellow-300 m-2;
+	/* height: 50%; */
+  /* @apply bg-yellow-300 m-2; */
+	@apply bg-[#6474ad] text-white m-2 flex gap-1 items-center px-3 py-2 text-sm w-fit self-end
+
 }
 /* .update_info_label {
 	@apply block mb-2 text-sm font-semibold text-gray-900 dark:text-white w-14
@@ -45,3 +47,7 @@
 	focus:ring-blue-500 focus:border-blue-500 
 	dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white
 } */
+
+.room_setting_form {
+	@apply flex flex-col
+}

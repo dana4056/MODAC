@@ -5,7 +5,7 @@
 .todolist_wrapper {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   padding: 0px;
   gap: 7px;
 
@@ -17,6 +17,7 @@
   overflow: auto;
   word-break: break-all;
   height: 60vh;
+  @apply w-full;
 }
 
 .todolist_wrapper::-webkit-scrollbar {
@@ -24,6 +25,10 @@
   background: transparent;
 }
 
+.item_wrapper {
+  @apply w-full flex flex-col-reverse;
+}
+
 .send_button {
-  @apply text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2;
+  @apply text-white bg-[#6474ad] font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2;
 }

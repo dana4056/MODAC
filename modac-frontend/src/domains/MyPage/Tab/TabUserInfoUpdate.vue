@@ -65,6 +65,7 @@
 <script setup>
 
 import { ref } from "vue";
+import Message from "vue-m-message"
 
 let user_id = "kimssafy";
 let user_nickname = "김싸피";
@@ -80,15 +81,14 @@ let updateInfo = () => ref({
 
 const checkPassword = () => {
   // 닉네임 중복 검사 요청 보내기
-
-  alert("해당 닉네임은 사용 가능합니다.");
+  Message.info("해당 닉네임은 사용 가능합니다 :-)",{closable:true});
 }
 
 const checkEmail = () => {
   // 이메일 중복 검사 요청 보내기
   // 나중에 이메일 인증 요청 하는 걸로 변경할 것
 
-  alert("해당 이메일은 사용 가능합니다.");
+  Message.info("해당 이메일은 사용 가능합니다 :-)",{closable:true});
 }
 
 const updateUserInfo = () => {
@@ -96,7 +96,6 @@ const updateUserInfo = () => {
 
   if (confirm("정말 수정하시겠습니까?") == true) {
     // 회원정보 수정 함수 실행!!
-    alert("수정 완료");
   }
 }
 

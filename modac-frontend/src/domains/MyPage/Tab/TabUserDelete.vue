@@ -46,9 +46,7 @@ let user_password = "password";
 const deleteUser = () => {
   if (confirm("정말 탈퇴하시겠습니까?") == true) {
     // 회원 탈퇴 함수 실행!!
-    alert("탈퇴 완료");
 
-    // 홈으로 돌아가서 로그인 화면을 띄워줄 것
   }
 }
 

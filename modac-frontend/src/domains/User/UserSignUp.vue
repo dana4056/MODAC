@@ -139,7 +139,7 @@
 
       <div :class="$style.login_sns_flex">
         <div :class="$style.login_options">
-          <RouterLink id="routerlink" to="/login">로그인</RouterLink>
+          <RouterLink id="routerlink" to="/">로그인</RouterLink>
           <p>|</p>
           <RouterLink id="routerlink" to="/findid">아이디 찾기</RouterLink>
           <p>|</p>
@@ -159,17 +159,11 @@
         </div> -->
       </div>
     </div>
-    <div :class="$style.login_right_flex">
-      <img
-        src="https://tailwindui.com/img/component-images/dark-project-app-screenshot.png"
-        alt="Product screenshot"
-        class="rounded-xl shadow-xl ring-1 ring-gray-400/10 self-center fixed -right-24 top-48 h-3/5 w-1/2"
-      />
-    </div>
-    <img
+    <div :class="$style.login_right_flex">  <img src="@/assets/img/img.png" alt="Product screenshot" class=" rounded-xl shadow-xl ring-1 ring-gray-400/10 self-center fixed -right-16 top-52 h-3/5 w-1/2" /></div>
+    <!-- <img
       :src="emojiChartIncreasing"
       class="w-40 h-40 inline fixed top-24 right-12"
-    />
+    /> -->
     <!-- <img :src="emojiWritingHand" class="w-32 h-32 inline fixed top-96 " style="right:38%"> -->
     <!-- <img :src="emojiCat" class="w-32 h-32 inline fixed bottom-10 right-12"> -->
   </div>
@@ -200,6 +194,7 @@ import emojiChartIncreasing from "../../assets/emojis/emoji-chart-increasing.png
 
 import { ref, computed } from "vue";
 import userApi from "../../api/user.js";
+import Message from "vue-m-message"
 
 let user_email1 = "";
 let user_email2 = "naver.com";
@@ -357,8 +352,8 @@ const checkByte = (obj) => {
       obj.target.id == "user_password_input" ||
       obj.target.id == "user_password_check_input"
     )
-      alert("최대 16Byte까지만 입력가능합니다.");
-    else alert("최대 20Byte까지만 입력가능합니다.");
+      Message.error("최대 16Byte까지만 입력가능합니다.",{position:"top-right", closable:true});
+    else Message.error("최대 20Byte까지만 입력가능합니다.",{position:"top-right", closable:true});
 
     if (obj.target.id == "user_id") user_signup_check_id.value = false;
     else if (obj.target.id == "user_nickname")

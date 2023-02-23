@@ -1,11 +1,12 @@
 <script setup>
 import Card from "@/components/Card.vue";
-import { defineProps, toRefs, ref } from "vue";
+import { defineProps, toRefs, ref, computed} from "vue";
 import { useRoomStore } from '@/stores/room.js';
 import { useUserStore } from '@/stores/user.js';
 import { useChatStore } from '@/stores/chat.js'
 import { storeToRefs } from "pinia";
 import Modal from "@/components/Modal.vue";
+import Message from "vue-m-message"
 
 
 const userStore = useUserStore();
@@ -19,81 +20,89 @@ const props = defineProps({
   roomItem: Object,
 });
 
-const participants = ref(props.roomItem.participants)
-const roomCodeInput = ref("");
+// const roomItem = ref(props.roomItem)
 const { roomItem } = toRefs(props)
-
+const participants = ref(roomItem.value.participants)
+const roomCodeInput = ref("");
 
 function isParticipant (loginUser) {
+  let flag = false;
+
   participants.value.forEach(element => {
     if (element.usersSeq === loginUser.value.seq) {
-      return true
+      flag = true
+      return
     }
     else {
-      return false
+      return
     }
   });
+  return flag
 }
 
-function needsPassword(loginUser) {
+// 지금 모든 방에서 이게 true로 처리되는지 비밀번호 입력창이 공개방도 뜸
+// function needsPassword() {
+//   console.log("needsPassword");
+//   console.log("loginUser", loginUser.value);  
+//   console.log("roomItem.value.publicType", roomItem.value.publicType);  
+//   if (isParticipant(loginUser) === false && roomItem.value.publicType == 0) {
+//     return true
+//   }
+//   else {
+//     return false
+//   }
+// }
+
+const needsPassword = computed(() => {
   if (isParticipant(loginUser) === false && roomItem.value.publicType == 0) {
     return true
   }
   else {
     return false
   }
-}
+});
 
 const enterRoom = async () => {
   groupChatLogs.value = [];
   // 내가 들어갈 자리가 있으면 
   if (roomItem.value.maxSize > roomItem.value.currentSize) {
     // 비번 있어
-    if (needsPassword(loginUser) === true){
+    if (needsPassword.value == true){
       const payload = {
-      seq: roomItem.value.seq,
-      roomCode: roomCodeInput,
+        seq: roomItem.value.seq,
+        roomCode: roomCodeInput,
       }
       const res = await roomStore.api.checkRoomCode(payload);
       // 비번이 일치 한다면 새로 Join
       if (res === true) {  
-        const payload = {
-          seq: roomItem.value.seq,
-          usersSeq: loginUser.value.seq
-        }
-        roomStore.api.joinRoom(payload)
-        roomStore.enterRoom();
+        roomStore.enterRoom(roomItem.value.seq);
       }
       // 비번이 일치하지 않음.
       else {
-        alert("비밀번호가 일치하지 않습니다.");
+        Message.error("비밀번호가 일치하지 않습니다 :-(",{closable:true});
       }
     }
     // 비번이 필요가 없는 상태
     else {
       // 공개방 이면 Join 요청
       if (roomItem.value.publicType == 1) {
-        const payload = {
-          seq: roomItem.value.seq,
-          usersSeq: loginUser.value.seq
-        }
-        roomStore.api.joinRoom(payload)
-        roomStore.enterRoom();
+        roomStore.enterRoom(roomItem.value.seq);
       }
       // 비공개 방이라면 join 요청 x
       else {
-        roomStore.enterRoom();
+        roomStore.enterRoom(roomItem.value.seq);
       }
     }
   }
   else {
-    alert("정원이 초과되어 입장하실 수 없습니다.")
+    Message.error("정원이 초과되어 입장하실 수 없습니다 :-(",{closable:true});
   }
 }
 
 const roomEnterConfirmModalState = ref(false);
 const openRoomEnterConfirmModal = () => {
   roomEnterConfirmModalState.value = true;
+  
 };
 
 const closeRoomEnterConfirmModal = (event) => {
@@ -139,20 +148,25 @@ const closeRoomEnterConfirmModal = (event) => {
           {{ roomItem.description }}
         </div>
         <div :class="$style.item_host_theme">
-          방장 &nbsp; <span :class="$style.item_host_theme_name">{{ roomItem.host.nickname }}</span>
-          &nbsp; | &nbsp; 테마 &nbsp; 
-          <span v-if="roomItem.multiTheme === '기본'" :class="$style.item_host_theme_name">
-            모닥불🔥
-          </span>
-          <span v-if="roomItem.multiTheme === '우주'" :class="$style.item_host_theme_name">
-            우주🪐
-          </span>
-          <span v-if="roomItem.multiTheme === '바다'" :class="$style.item_host_theme_name">
-            바다🌊
-          </span>
-          <span v-if="roomItem.multiTheme === '사막'" :class="$style.item_host_theme_name">
-            사막🌞
-          </span>
+          <div>
+            방장 &nbsp; <span :class="$style.item_host_theme_name">{{ roomItem.host.nickname }}</span>
+          </div>
+          |
+          <div>
+            테마 &nbsp; 
+            <span v-if="roomItem.multiTheme === '기본'" :class="$style.item_host_theme_name">
+              모닥불🔥
+            </span>
+            <span v-if="roomItem.multiTheme === '우주'" :class="$style.item_host_theme_name">
+              우주🪐
+            </span>
+            <span v-if="roomItem.multiTheme === '바다'" :class="$style.item_host_theme_name">
+              바다🌊
+            </span>
+            <span v-if="roomItem.multiTheme === '사막'" :class="$style.item_host_theme_name">
+              사막🌞
+            </span>
+          </div>
         </div>
         <button @click="openRoomEnterConfirmModal" :class="$style.item_enter_button">입장하기</button>
       </div>
@@ -171,10 +185,7 @@ const closeRoomEnterConfirmModal = (event) => {
           입장하기
         </h1>
         
-
-
-        
-        <Card :class="$style.list_item_style">
+        <Card :class="$style.list_item_style_modal">
           <div :class="$style.list_item_div_col">
             <!-- <div :class="$style.item_seq">{{ roomItem.seq }}</div> -->
             <div :class="$style.item_title">
@@ -199,20 +210,25 @@ const closeRoomEnterConfirmModal = (event) => {
               {{ roomItem.description }}
             </div>
             <div :class="$style.item_host_theme">
-              방장 &nbsp; <span :class="$style.item_host_theme_name">{{ roomItem.host.nickname }}</span>
-              &nbsp; | &nbsp; 테마 &nbsp; 
-              <span v-if="roomItem.multiTheme === '기본'" :class="$style.item_host_theme_name">
-                모닥불🔥
-              </span>
-              <span v-if="roomItem.multiTheme === '우주'" :class="$style.item_host_theme_name">
-                우주🪐
-              </span>
-              <span v-if="roomItem.multiTheme === '바다'" :class="$style.item_host_theme_name">
-                바다🌊
-              </span>
-              <span v-if="roomItem.multiTheme === '사막'" :class="$style.item_host_theme_name">
-                사막🌞
-              </span>
+              <div>
+                방장 &nbsp; <span :class="$style.item_host_theme_name">{{ roomItem.host.nickname }}</span>
+              </div>
+              |
+              <div>
+                테마 &nbsp; 
+                <span v-if="roomItem.multiTheme === '기본'" :class="$style.item_host_theme_name">
+                  모닥불🔥
+                </span>
+                <span v-if="roomItem.multiTheme === '우주'" :class="$style.item_host_theme_name">
+                  우주🪐
+                </span>
+                <span v-if="roomItem.multiTheme === '바다'" :class="$style.item_host_theme_name">
+                  바다🌊
+                </span>
+                <span v-if="roomItem.multiTheme === '사막'" :class="$style.item_host_theme_name">
+                  사막🌞
+                </span>
+              </div>
             </div>
           </div>
         </Card>
@@ -221,8 +237,10 @@ const closeRoomEnterConfirmModal = (event) => {
           이 방에 입장하시겠습니까?
         </p>
 
+        
+        <!-- <div :class="$style.add_room_div" v-if="needsPassword"> -->
+        <div :class="$style.add_room_div" v-if="needsPassword">
 
-        <div :class="$style.add_room_div" v-if="roomItem.publicType == 0">
           <div :class="$style.add_room_row">
             <label for="room_title" :class="$style.add_room_label">초대코드 <span :class="$style.text_red">*</span><br>
             </label>

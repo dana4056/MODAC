@@ -1,38 +1,53 @@
 <script setup>
 import ArticleButtonList from "@/domains/Article/ArticleButtonList.vue";
-import { ref } from "vue";
+import { ref, toRefs } from "vue";
 import { useArticleStore } from "@/stores/article";
-import { storeToRefs } from "pinia";
+import { useUserStore } from "@/stores/user";
+import { useTodoStore } from "@/stores/todo";
+import articleAPI from "@/api/article";
+import todoAPI from "@/api/todo";
 
-const store = useArticleStore();
-const { tempArticle, getArticles, buttonState } = storeToRefs(store);
+const articleStore = useArticleStore();
+const { completeWriteArticleState, changeCompleteWriteArticleState } =
+  toRefs(articleStore);
 
-const publicType = ref(1);
-const nextButtonState = () => {
-  buttonState.value = true;
+const requestCreateArticle = async () => {
+  const userStore = useUserStore();
+  const { loginUser } = toRefs(userStore);
+  const usersSeq = loginUser.value.seq;
+  const articleStore = useArticleStore();
+  const { selectedArticleItemSeq, activeEditor } = toRefs(articleStore);
+  const todosSeq = selectedArticleItemSeq.value;
+  const publicType = publicTypeSelectedValue.value;
+
+  const currentActiveEditor = activeEditor.value;
+  const content = currentActiveEditor.getMarkdown();
+  await articleAPI.postArticle({
+    usersSeq,
+    todosSeq,
+    publicType,
+    content,
+  });
 };
 
-const studyFinish = () => {
-  console.log("study fin");
-  console.log(getArticles);
-  console.tempArticle = getArticles;
-  console.log(getArticles);
+const deleteTodoAndArticle = async () => {
+  const articleStore = useArticleStore();
+  const { selectedArticleItemSeq, deleteArticle } = toRefs(articleStore);
+  const todoStore = useTodoStore();
+  const { deleteTodoItem } = toRefs(todoStore);
+  deleteTodoItem.value(selectedArticleItemSeq.value);
+  deleteArticle.value(selectedArticleItemSeq.value);
+
+  await todoAPI.deleteTodo(selectedArticleItemSeq.value);
 };
 
-const downloadMarkdown = (content) => {
-  const encodedContent = encodeURIComponent(content);
-  const link = document.createElement("a");
-  link.setAttribute(
-    "href",
-    "data:text/markdown;charset=UTF-8," + encodedContent
-  );
-  link.setAttribute("download", "document.md"); // document를 todo 이름으로 바꾸기
-  link.click();
+const handleClickCompleteWriteButton = async () => {
+  await requestCreateArticle();
+  await deleteTodoAndArticle();
+  changeCompleteWriteArticleState.value(true);
 };
 
-const clickDownloadButtonHandler = () => {
-  downloadMarkdown(tempArticle.value);
-};
+const publicTypeSelectedValue = ref(1);
 </script>
 
 <template>
@@ -41,29 +56,28 @@ const clickDownloadButtonHandler = () => {
       <h1 :class="$style.page_title">TIL 작성하기</h1>
     </div>
 
-    <div v-if="!buttonState" :class="$style.buttons">
+    <div v-if="!completeWriteArticleState" :class="$style.buttons">
       <div :class="$style.add_room_div">
         <select
           :class="$style.add_room_input"
-          v-model="publicType"
+          v-model="publicTypeSelectedValue"
           id="publicType"
         >
-          <option value="1" selected="selected">전체 피드에 업로드</option>
-          <option value="0">내 피드에만 업로드</option>
-          <option value="2">피드에 업로드하지 않기</option>
+          <option value="1" selected="selected">공개</option>
+          <option value="0">비공개</option>
         </select>
       </div>
 
       <button
-        @click="nextButtonState"
+        @click="handleClickCompleteWriteButton"
         type="button"
         :class="$style.button_next"
       >
-        작성 완료하기 →
+        작성 완료
       </button>
     </div>
 
-    <ArticleButtonList />
+    <ArticleButtonList v-else />
   </div>
 </template>
 

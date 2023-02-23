@@ -1,9 +1,69 @@
 <script setup>
-import { defineProps , computed, useCssModule } from "vue";
+import { defineProps , computed, useCssModule, ref } from "vue";
+import BASE_ASSETS_URL from "@/api/BASE_ASSETS_URL";
+import catSkin1 from "@/assets/user_cats_background/cat1.png"
+import catSkin2 from "@/assets/user_cats_background/cat2.png"
+import catSkin3 from "@/assets/user_cats_background/cat3.png"
+import catSkin4 from "@/assets/user_cats_background/cat4.png"
+import catSkin5 from "@/assets/user_cats_background/cat5.png"
+import catSkin6 from "@/assets/user_cats_background/cat6.png"
+import catSkin7 from "@/assets/user_cats_background/cat7.png"
+import catSkin8 from "@/assets/user_cats_background/cat8.png"
+import catSkin9 from "@/assets/user_cats_background/cat9.png"
+import catSkin10 from "@/assets/user_cats_background/cat10.png"
+import catSkin11 from "@/assets/user_cats_background/cat11.png"
+import catSkin12 from "@/assets/user_cats_background/cat12.png"
+import { useUserStore } from "@/stores/user";
+import { storeToRefs } from "pinia";
+const userStore = useUserStore();
+const { loginUser } = storeToRefs(userStore);
+
+
+const catSkin = computed(() => {
+  if( loginUser.value.catSkin === 1){
+    return catSkin1
+  }
+  else if(loginUser.value.catSkin === 2){
+    return catSkin2
+  }
+  else if(loginUser.value.catSkin === 3){
+    return catSkin3
+  }
+  else if(loginUser.value.catSkin === 4){
+    return catSkin4
+  }
+  else if(loginUser.value.catSkin === 5){
+    return catSkin5
+  }
+  else if(loginUser.value.catSkin === 6){
+    return catSkin6
+  }
+  else if(loginUser.value.catSkin === 7){
+    return catSkin7
+  }
+  else if(loginUser.value.catSkin === 8){
+    return catSkin8
+  }
+  else if(loginUser.value.catSkin === 9){
+    return catSkin9
+  }
+  else if(loginUser.value.catSkin === 10){
+    return catSkin10
+  }
+  else if(loginUser.value.catSkin === 11){
+    return catSkin11
+  }
+  else if(loginUser.value.catSkin === 12){
+    return catSkin12
+  }
+});
+
 
 const props = defineProps({
   chatRoom: Object,
   getMessages: Function,
+  seq: Number,
+
 });
 
 const $style = useCssModule();
@@ -17,13 +77,18 @@ const lastTime = computed(() => {
   return h+":"+m;
 })
 
-</script>
+// const profileImgUrl = ref(
+//   BASE_ASSETS_URL + "user_cats/cat" + props.loginUser.catSkin + ".png"
+// );
+
+
+</script>x
 
 <template>
   <li :class="$style.dm_items" @click="getMessages(props.chatRoom.seq)">
     <div :class="$style.dm_items_left">
       <img
-        src="https://source.unsplash.com/vpOeXr5wmR4/600x600"
+        :src= "catSkin"
         :class="$style.profile_img"
         alt=""
       />

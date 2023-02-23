@@ -1,3 +1,7 @@
+.comment_list_div {
+  @apply flex gap-4 flex-col-reverse
+}
+
 .comment_list {
   @apply flex flex-col gap-4
 }
@@ -44,5 +48,5 @@
 }
 
 .add_button {
-  @apply w-fit text-white !bg-[#24292F] hover:bg-[#24292F]/90 rounded-xl text-sm px-5 py-2.5 text-center inline-flex items-center dark:hover:bg-[#050708]/30 mb-6;
+  @apply w-fit text-white !bg-[#6474ad] hover:bg-[#24292F]/90 rounded-xl text-sm px-5 py-2.5 text-center inline-flex items-center dark:hover:bg-[#050708]/30 mb-6;
 }

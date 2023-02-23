@@ -12,18 +12,15 @@
 }
 
 .add_room_button_cancle {
-	@apply w-full text-sm text-white bg-gray-400 hover:bg-gray-600 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg px-5 py-2.5 m-1 text-center;
-	background-color: rgb(156 163 175) !important;
+	@apply w-full text-sm text-white bg-[#e5e7eb] hover:bg-gray-600 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg px-5 py-2.5 m-1 text-center;
 }
 
 .add_room_button_add {
-	@apply w-full text-sm text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg px-5 py-2.5 m-1 text-center;
-	background-color: rgb(37, 99, 235) !important;
+	@apply w-full text-sm text-white bg-[#3b82f6] hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg px-5 py-2.5 m-1 text-center;
 }
 
 .add_room_button_add:disabled {
-	@apply border-gray-300 text-white;
-	background-color: rgb(209 213 219) !important;
+	@apply border-gray-300 text-white bg-[#aab0be];
 }
 /* 
 .add_room_button_add:disabled {
@@ -32,8 +29,7 @@
 } */
 
 .add_room_button_reset {
-	@apply w-fit text-xs text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 rounded-lg px-5 py-1.5 m-1 text-center ;
-	background-color: rgb(220 38 38) !important;
+	@apply w-fit text-xs text-white bg-[#ff3333] hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 rounded-lg px-5 py-1.5 m-1 text-center ;
 }
 
 .add_room_div {
@@ -75,17 +71,12 @@
 }
 
 .page_title {
-	@apply font-bold text-2xl
+	@apply font-bold text-2xl text-white
 }
 
 .room_add_button {
   @apply rounded-lg py-1 px-8 w-fit;
-	@apply text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center;
-	background-image: linear-gradient(to bottom right, var(--tw-gradient-stops)) !important;
-	--tw-gradient-from: #9333ea;
-  --tw-gradient-to: rgb(147 51 234 / 0);
-  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
-	--tw-gradient-to: #3b82f6;
+	@apply text-white  dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center bg-[#3b82f6];
 }
 
 .flex_row_div {
@@ -117,6 +108,5 @@
 }
 
 .searchbar_content_button {
-	@apply p-2.5 ml-2 text-sm font-medium text-white bg-blue-700 rounded-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800;
-	background-color: rgb(29 78 216) !important;
+	@apply p-2.5 ml-2 text-sm font-medium text-white rounded-lg dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 bg-[#3b82f6];
 }

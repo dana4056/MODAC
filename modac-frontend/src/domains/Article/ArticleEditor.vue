@@ -1,98 +1,91 @@
 <script setup>
 import Editor from "@toast-ui/editor";
 import "@toast-ui/editor/dist/toastui-editor.css";
-import "@toast-ui/editor/dist/theme/toastui-editor-dark.css"; // 다크테마 적용하기
+import "@toast-ui/editor/dist/theme/toastui-editor-dark.css";
+// import { ref, onMounted, toRefs, computed } from "vue";
+// import { useArticleStore } from "@/stores/article";
+// import todoAPI from "@/api/todo";
 
-import { ref, onMounted, computed } from "vue";
-import { useArticleStore } from "../../stores/article";
-const store = useArticleStore();
+// import "@toast-ui/editor/dist/theme/toastui-editor-dark.css";
+import { ref, onMounted, toRefs, computed } from "vue";
+import { useArticleStore } from "@/stores/article";
+import todoAPI from "@/api/todo";
 
-// created에서 editor 변수 생성
-// mounted에서 editor에 Editor 인스턴스를 할당
 const editor = ref(null);
-onMounted(() => {
+const templateValue = ref("");
+
+const magic = async () => {
+  const response = await todoAPI.findTodo(2);
+  templateValue.value = response.templateContent;
+};
+
+onMounted(async () => {
+  await magic();
   editor.value = new Editor({
     el: document.querySelector("#editor"),
     height: "100%",
     width: "25%",
-    initialValue: initialValue.value, // Editor에 처음으로 적혀있는 글
+    initialValue: templateValue.value,
     initialEditType: "markdown",
-    theme: "dark", // 다크테마 적용하기
+    theme: "dark",
     language: "ko-KR",
-
-    // previewStyle: "vertical", // 기본은 tab인듯
-    // previewHighLight: false,
     autofocus: true,
   });
 });
 
-// Editor 내부 데이터를 가져오기
-// 1안. Editor 의 데이터가 변할 때 마다 데이터를 저장? => 성능 이슈 가능성
-// 2안. 다른 Article로 넘어간다면, 현재 가지고 있는 데이터가 저장되지 않음을 고지함. => 사용성이 이상함
-// (결론) 일단 1안으로 구현
-const editorContent = ref("");
-const getMarkdownText = () => {
-  editorContent.value = editor.value.getMarkdown();
-};
-onMounted(() => {
-  editor.value.addHook("change", () => {
-    // addHook 함수는 Editor에 대해서 Event가 발생했을 때 실행시킬 함수를 등록한다.
-    // addHook 함수의 첫번째 인자를 "blur"로 설정한다면 괜찮을지 체크(다른 Article을 선택했을 때, Article을 제출했을 때 => 과연 blur가 잘 작동할 것인가? 확인 필요
-    editorContent.value = editor.value.getMarkdown();
-    console.log("editorContent.value", editorContent.value);
+// const editor = ref(null);
 
-    store.tempArticle = editorContent.value;
-    console.log("store.tempArticle", store.tempArticle);
+// const templateValue = ref("");
 
-    // setTemplete();
-    // getMarkdownText();
-    // store.tempArticle = editorContent.value;
-  });
-  editor.value.addHook("focus", () => {
-    setTemplete();
-    getMarkdownText();
-    store.tempArticle = editorContent.value;
-    console.log("store.tempArticle", store.tempArticle);
-    // document.querySelector("#editor").style.transitionDuration = "0.5s";
-    // document.querySelector("#editor").style.opacity = "100%";
-  });
-  editor.value.addHook("blur", () => {
-    // setTemplete();
-    getMarkdownText();
-    store.tempArticle = editorContent.value;
-    console.log("store.tempArticle", store.tempArticle);
-    // document.querySelector("#editor").style.transitionDuration = "0.5s";
-    // document.querySelector("#editor").style.opacity = "50%";
-  });
-  // setTemplete();
-});
+// const magic = async () => {
+//   const response = await todoAPI.findTodo(2);
+//   console.log(1);
+//   return response.templateContent;
+// };
 
-const setTemplete = () => {
-  if (
-    editorTemplete[0].innerText !==
-    "# " + store.articles[store.selectedState]?.title
-  )
-    editorTemplete[0].innerText =
-      "# " + store.articles[store.selectedState]?.title;
+// console.log(2);
+
+// onMounted(async () => {
+//   console.log(3);
+//   templateValue.value = await magic();
+//   editor.value = new Editor({
+//     el: document.querySelector("#editor"),
+//     height: "100%",
+//     width: "25%",
+//     initialValue: templateValue,
+//     initialEditType: "markdown",
+//     theme: "dark",
+//     language: "ko-KR",
+//     autofocus: true,
+//   });
+// });
+
+const setTemplate = (template) => {
+  // const contentTag = document.getElementsByClassName(
+  //   "toastui-editor-md-heading toastui-editor-md-heading1"
+  // );
+  const contentTag = document.querySelector(".ProseMirror");
+  contentTag.innerText = template;
+  // if (editor.value !== null) {
+  //   editor.value.setMarkdown("this is template content", true);
+  // }
+
+  // editor.value.setMarkdown(template, true);
 };
 
-const initialValue = computed(() => {
-  // editor.value.setMarkdown("# " + store.articles[store.selectedState].title);
+// onMounted(() => {
+//   editor.value.addHook("change", () => {
+//     articleContent.value = editor.value.getMarkdown();
+//   });
+// });
 
-  return "# " + store.articles[store.selectedState]?.title;
-});
-
-var editorTemplete = document.getElementsByClassName(
-  "toastui-editor-md-heading toastui-editor-md-heading1"
-);
-
-defineExpose({
-  setTemplete,
-});
+const templateExample = templateValue;
 </script>
 
 <template>
   <div id="editor"></div>
+  <button @click="setTemplate(templateExample)">저장</button>
+  <button @click="magic">마크다운 템플릿 불러오고 저장하기</button>
 </template>
 
 <style lang=""></style>

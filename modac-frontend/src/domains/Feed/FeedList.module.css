@@ -1,5 +1,5 @@
 .feed_item {
-  @apply !text-black !w-[23%] !h-[350px] !p-0 overflow-hidden rounded-lg transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300;
+  @apply !text-black !w-[22%] !h-[350px] !p-0 overflow-hidden rounded-lg transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300;
 }
 
 
@@ -73,11 +73,9 @@
 }
 
 .add_room_button_cancle {
-	@apply w-full text-sm text-white bg-gray-400 hover:bg-gray-600 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg px-5 py-2.5 m-1 text-center;
-	background-color: rgb(156 163 175) !important;
+	@apply w-full text-sm text-white bg-[#e5e7eb] hover:bg-gray-600 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg px-5 py-2.5 m-1 text-center;
 }
 
 .add_room_button_add {
-	@apply w-full text-sm text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg px-5 py-2.5 m-1 text-center;
-	background-color: rgb(37, 99, 235) !important;
+	@apply w-full text-sm text-white bg-[#3b82f6] hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg px-5 py-2.5 m-1 text-center;
 }

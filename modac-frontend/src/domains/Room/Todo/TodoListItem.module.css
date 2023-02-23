@@ -4,8 +4,8 @@
   padding: 13px 15px;
   gap: 5px;
   border-radius: 5px;
-  background: rgba(236, 236, 236, 0.9);
-  @apply m-1;
+  /* background: rgba(236, 236, 236, 0.9); */
+  @apply mb-2 bg-white;
 }
 
 .checkbox {

@@ -74,8 +74,8 @@ public class ArticleServiceImpl implements ArticleService {
 		String objectKey = articleRequest.getContent();
 
 		// 게시글 내용 s3에 저장
-		// objectKey = s3Service.save(s3Service.createMultipartFile(articleRequest.getContent()));
-		// System.out.println(objectKey);
+		objectKey = s3Service.save(s3Service.createMultipartFile(articleRequest.getContent()));
+		System.out.println(objectKey);
 
 		// Todo 정보를 불러와서 Article 객체 빌드
 		Todo todo = todoRepository.findById(articleRequest.getTodosSeq())
@@ -105,10 +105,10 @@ public class ArticleServiceImpl implements ArticleService {
 	// 사용자 아이디로 게시글 목록 조회
 	@Override
 	public ArticleResponse readArticlesByUsersSeq(final Long usersSeq, final Integer offset, final Integer limit) {
-		List<Article> findArticles = articleRepository.findByUser_Seq(usersSeq);
+		User myUser = userRepository.findById(usersSeq).orElseThrow(() -> new NoSuchElementException("NoUser"));
+		List<Article> findArticles = articleRepository.findByUser(myUser);
 		// 최신 날짜를 우선으로 정렬
-		// final DateTimeFormatter pattern = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-		Collections.sort(findArticles, (o1, o2) -> o1.getRegisteredTime().isAfter(o2.getRegisteredTime()) ? 1 : -1);
+		Collections.sort(findArticles, (o1, o2) -> o1.getRegisteredTime().isBefore(o2.getRegisteredTime()) ? 1 : -1);
 		final Integer totalArticleCnt = findArticles.size(); // 총 게시글 수
 		final Integer totalPageCnt = ((totalArticleCnt - 1) / limit) + 1; // 총 페이지 수
 		final Integer st = (offset - 1) * limit; // 해당 페이지 시작 게시글 인덱스
@@ -124,16 +124,19 @@ public class ArticleServiceImpl implements ArticleService {
 	// 팔로잉 게시글 목록 조회
 	@Override
 	public ArticleResponse readArticlesByFollowing(final Long usersSeq, final Integer offset, final Integer limit) {
+		User myUser = userRepository.findById(usersSeq).orElseThrow(() -> new NoSuchElementException("NoUser"));
 		List<Follow> followingList = followRepository.findAllByFromUser_Seq(usersSeq);
 		// 팔로잉하는 모든 사람의 게시글 가져오기
 		List<Article> findArticles = new ArrayList<>();
 		for (Follow following : followingList) {
-			Long userSeq = following.getToUser().getSeq();
-			findArticles.addAll(articleRepository.findByUser_Seq(userSeq));
+			User user = userRepository.findById(following.getToUser().getSeq())
+				.orElseThrow(() -> new NoSuchElementException("NoUser"));
+			findArticles.addAll(articleRepository.findAllByUserAndPublicType(user, (byte)1));
 		}
+		// 내 게시글 전부 가져오기
+		findArticles.addAll(articleRepository.findByUser(myUser));
 		// 최신 날짜를 우선으로 정렬
-		// final DateTimeFormatter pattern = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-		Collections.sort(findArticles, (o1, o2) -> o1.getRegisteredTime().isAfter(o2.getRegisteredTime()) ? 1 : -1);
+		Collections.sort(findArticles, (o1, o2) -> o1.getRegisteredTime().isBefore(o2.getRegisteredTime()) ? 1 : -1);
 		final Integer totalArticleCnt = findArticles.size(); // 총 게시글 수
 		final Integer totalPageCnt = ((totalArticleCnt - 1) / limit) + 1; // 총 페이지 수
 		final Integer st = (offset - 1) * limit; // 해당 페이지 시작 게시글 인덱스
@@ -152,7 +155,7 @@ public class ArticleServiceImpl implements ArticleService {
 		Article article = articleRepository.findById(seq).orElseThrow(() -> new NoSuchElementException("NoArticle"));
 		ArticleResponse.ArticleInfo articleResponse = new ArticleResponse.ArticleInfo(article);
 		// S3 서버에 백업된 게시글 내용 조회
-		// articleResponse.readContentByFilepath(s3Service.read(article.getFilepath()));
+		articleResponse.readContentByFilepath(s3Service.read(article.getFilepath()));
 		return articleResponse;
 	}
 
@@ -291,7 +294,7 @@ public class ArticleServiceImpl implements ArticleService {
 		categoriesList.add(new StatisticsResponse.CountByCategory("개발", 0));
 		categoriesList.add(new StatisticsResponse.CountByCategory("CS", 0));
 		categoriesList.add(new StatisticsResponse.CountByCategory("면접", 0));
-		categoriesList.add(new StatisticsResponse.CountByCategory("기타", 0));
+		categoriesList.add(new StatisticsResponse.CountByCategory("공통", 0));
 		// 찾은 게시글들의 카테고리에 맞게 카운트 증가
 		for(Article article : articles) {
 			switch(article.getCategory().getName()){
@@ -303,7 +306,7 @@ public class ArticleServiceImpl implements ArticleService {
 					break;
 				case "면접" : categoriesList.get(3).plusCount();
 					break;
-				case "기타" : categoriesList.get(4).plusCount();
+				case "공통" : categoriesList.get(4).plusCount();
 					break;
 			}
 		}

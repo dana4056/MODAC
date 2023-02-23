@@ -1,23 +1,40 @@
 import { ref } from "vue";
 import { defineStore } from "pinia";
-import article from "../api/article";
 
-export const useArticleStore = defineStore("article", () => {
-  const api = article; // axois 비동기 함수들
+export const useArticleStore = defineStore(
+  "article",
+  () => {
+    const articles = ref([]);
+    const deleteArticle = (seq) => {
+      articles.value = articles.value.filter((article) => article.seq !== seq);
+    };
 
-  const articles = ref([]); // 게시글 목록
+    const selectedArticleItemSeq = ref(null);
 
-  const publicType = ref(0);
-  let selectedState = ref(0);
-  const buttonState = ref(false);
-  let githubState = ref(1);
+    // const articleContent = ref("");
+    // const setArticleContent = (value) => {
+    //   articleContent.value = value;
+    // };
 
-  return {
-    api,
-    articles,
-    publicType,
-    selectedState,
-    buttonState,
-    githubState,
-  };
-});
+    const activeEditor = ref(undefined);
+
+    const completeWriteArticleState = ref(false);
+    const changeCompleteWriteArticleState = (state) => {
+      completeWriteArticleState.value = state;
+    };
+
+    return {
+      articles,
+      deleteArticle,
+      selectedArticleItemSeq,
+      // articleContent,
+      // setArticleContent,
+      activeEditor,
+      completeWriteArticleState,
+      changeCompleteWriteArticleState,
+    };
+  },
+  {
+    persist: true,
+  }
+);
