@@ -1,9 +1,9 @@
 import http from "@/api/http";
 import { useUserStore } from "@/stores/user";
-import { useRoomStore } from '@/stores/room';
+import { useRoomStore } from "@/stores/room";
 import { storeToRefs } from "pinia";
 import router from "@/router/index";
-import Message from "vue-m-message"
+import Message from "vue-m-message";
 
 // const headers = {
 //     'Content-Type': 'application/json'
@@ -15,9 +15,12 @@ export default {
     http
       .post(`/users`, user)
       .then(({ data }) => {
-        Message.success("회원가입이 완료되었습니다 :-)",{position:"top-right", closable:true});
+        Message.success("회원가입이 완료되었습니다 :-)", {
+          position: "top-right",
+          closable: true,
+        });
 
-        router.push({ name: "login" }); 
+        router.push({ name: "login" });
         console.log(data);
         // return data;
       })
@@ -53,9 +56,15 @@ export default {
         const code = response.status;
 
         if (code == 201) {
-          Message.success("회원정보가 수정되었습니다 :-)",{position:"top-right", closable:true});
+          Message.success("회원정보가 수정되었습니다 :-)", {
+            position: "top-right",
+            closable: true,
+          });
         } else if (code == 204) {
-          Message.error("존재하지 않는 회원입니다 :-(",{position:"top-right", closable:true});
+          Message.error("존재하지 않는 회원입니다 :-(", {
+            position: "top-right",
+            closable: true,
+          });
         }
       })
       .catch((error) => {
@@ -75,9 +84,15 @@ export default {
         const code = response.status;
 
         if (code == 201) {
-          Message.success("비밀번호 변경이 완료되었습니다 :-)",{position:"top-right", closable:true});
+          Message.success("비밀번호 변경이 완료되었습니다 :-)", {
+            position: "top-right",
+            closable: true,
+          });
         } else if (code == 204) {
-          Message.error("존재하지 않는 회원입니다 :-(",{position:"top-right", closable:true});
+          Message.error("존재하지 않는 회원입니다 :-(", {
+            position: "top-right",
+            closable: true,
+          });
         }
       })
       .catch((error) => {
@@ -99,7 +114,10 @@ export default {
         if (code == 201) {
           console.log(response.data);
         } else if (code == 204) {
-          Message.error("존재하지 않는 회원입니다 :-(",{position:"top-right", closable:true});
+          Message.error("존재하지 않는 회원입니다 :-(", {
+            position: "top-right",
+            closable: true,
+          });
         }
       })
       .catch((error) => {
@@ -115,10 +133,16 @@ export default {
         const code = response.status;
 
         if (code == 200) {
-          Message.error("탈퇴가 완료되었습니다.",{position:"top-right", closable:true});
-          router.push({ name: "login" }); 
+          Message.error("탈퇴가 완료되었습니다.", {
+            position: "top-right",
+            closable: true,
+          });
+          router.push({ name: "login" });
         } else if (code == 204) {
-          Message.error("존재하지 않는 회원입니다 :-(",{position:"top-right", closable:true});
+          Message.error("존재하지 않는 회원입니다 :-(", {
+            position: "top-right",
+            closable: true,
+          });
         }
       })
       .catch((error) => {
@@ -140,7 +164,10 @@ export default {
         if (code == 200) {
           console.log("찾은 ID: " + response.data);
         } else if (code == 204) {
-          Message.error("존재하지 않는 회원입니다 :-(",{position:"top-right", closable:true});
+          Message.error("존재하지 않는 회원입니다 :-(", {
+            position: "top-right",
+            closable: true,
+          });
         }
       })
       .catch((error) => {
@@ -162,7 +189,10 @@ export default {
         if (code == 200) {
           console.log("찾은 PW: " + response.data);
         } else if (code == 204) {
-          Message.error("존재하지 않는 회원입니다 :-(",{position:"top-right", closable:true});
+          Message.error("존재하지 않는 회원입니다 :-(", {
+            position: "top-right",
+            closable: true,
+          });
         }
       })
       .catch((error) => {
@@ -245,32 +275,36 @@ export default {
 
         if (code == 200) {
           if (response.data) {
-
-            Message.success(response.data.nickname+"님 환영합니다 :-)",{closable:true});
+            Message.success(response.data.nickname + "님 환영합니다 :-)", {
+              closable: true,
+            });
             localStorage.setItem("jwt", response.data.token); // 로컬 스토리지에 저장
 
             const store = useUserStore();
             const { loginUser } = storeToRefs(store);
-            
-            loginUser.value = response.data; // userStore에 멤버 저장
-            
-            router.push({ name: "room" }); // 룸리스트뷰로 이동
-            this.fetchFollowingUsers(loginUser.value.seq)
-            this.fetchFollowerUsers(loginUser.value.seq)
 
+            loginUser.value = response.data; // userStore에 멤버 저장
+
+            router.push({ name: "room" }); // 룸리스트뷰로 이동
+            this.fetchFollowingUsers(loginUser.value.seq);
+            this.fetchFollowerUsers(loginUser.value.seq);
           } else {
-            Message.error("비밀번호가 일치하지 않습니다",{title:"로그인 실패", closable:true});
+            Message.error("비밀번호가 일치하지 않습니다", {
+              title: "로그인 실패",
+              closable: true,
+            });
           }
         } else if (code == 204) {
-          Message.error("해당 회원을 찾을 수 없습니다",{title:"로그인 실패", closable:true});
+          Message.error("해당 회원을 찾을 수 없습니다", {
+            title: "로그인 실패",
+            closable: true,
+          });
         }
       })
       .catch((error) => {
         console.log(error);
       });
   },
-
-
 
   // 팔로잉
   async following(payload) {
@@ -287,7 +321,7 @@ export default {
 
   // 언팔로잉
   async unfollowing(followSeq) {
-    const response = await http.delete(`/users/follow/${followSeq}`)
+    const response = await http.delete(`/users/follow/${followSeq}`);
 
     if (response.status == 200) {
       console.log("언팔로우 성공");
@@ -327,7 +361,7 @@ export default {
         },
       })
       .then((response) => {
-        console.log(response.data);
+        // console.log(response.data);
 
         const userStore = useUserStore();
         const { followerList } = storeToRefs(userStore);
@@ -338,18 +372,19 @@ export default {
 
   // 팔로잉 여부 조회
   async isFollowing(payload) {
-    await http.get("/users/follow", {
+    const response = await http.get("/users/follow", {
       params: {
         from: payload.fromSeq,
         to: payload.toSeq,
       },
-    })
-    .then((response) => {
-      const userStore = useUserStore();
-      const { isFollowing } = storeToRefs(userStore);
-
-      isFollowing.value = response.data;
-      console.log("isFollowing.value", isFollowing.value);
     });
+    return response;
+    // .then((response) => {
+    //   const userStore = useUserStore();
+    //   const { isFollowing } = storeToRefs(userStore);
+
+    //   isFollowing.value = response.data;
+    //   // console.log("isFollowing.value", isFollowing.value);
+    // });
   },
 };
