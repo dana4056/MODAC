@@ -8,13 +8,7 @@
           <p :class="$style.login_p">가입하신 <span :class="$style.text_orange"> 이메일</span>을 인증해주세요!</p>
         </div>
         <form id="loginform" :class="$style.login_form">
-          <!-- <div>
-            <input type="text" placeholder="아이디를 입력하세요" :class="$style.login_form_input">
-          </div>
-          <div>
-            <input type="password" placeholder="비밀번호를 입력하세요" :class="$style.login_form_input">
-          </div> -->
-          
+         
           <div :class="$style.update_info_div">
             <input type="text" 
                     v-model="user_email1" 
@@ -24,7 +18,6 @@
                     required>
 
             &nbsp;@&nbsp;
-
             <select id="user_email2" 
                     v-model="user_email2"
                     :class="$style.update_info_input_email">
@@ -33,16 +26,19 @@
               <option value="ssafy.com">ssafy.com</option>
             </select>
           </div>
-          <div :class="$style.update_info_div">
-            <input type="text" 
-                    v-model="user_email1" 
-                    id="user_email"
-                    :class="$style.update_info_input_email"
-                    placeholder="인증코드" 
-                    required>
+
+          <div class="flex flex-col items-end">
+            <input
+              :class="$style[auth_box_css]"
+              v-model="input_auth_code"
+              id="auth_code"
+              placeholder="인증코드"
+            />
+            <!-- <span id="user_nickname_byte">00:00</span> -->
           </div>
 
-          <button type="submit" id="login-button" :class="$style.login_form_login_button" @click="sendEmail">이메일 인증</button>
+          <button :class="$style[send_btn_css]" @click.prevent="sendEmail">인증번호 받기</button>
+          <button :class="$style[check_btn_css]" @click.prevent="checkCode">인증번호 확인</button>
         </form>
       </div>
 
@@ -81,15 +77,58 @@
   import emojiFire from '../../assets/emojis/emoji-fire.png'
   import emojiChartIncreasing from '../../assets/emojis/emoji-chart-increasing.png'
   import Message from "vue-m-message"
-
+  import { computed, ref } from "vue";
+  import emailjs from "emailjs-com";
+  import router from '@/router/index';
 
   
   let user_email1 = "";
   let user_email2 = "naver.com";
+  let auth_code = ref("");
+  let input_auth_code = ref("");
+
+  emailjs.init("0E83o7tHXtm88OdjH");
+
+  
 
   const sendEmail = () => {
-    Message.success("로그인 성공",{position:"top-right", closable:true});
+    
+    auth_code.value = Math.floor(( Math.random() * ( 1000000 - 111111 )  ) + 111111);
+    console.log(auth_code.value)
+    Message.info("인증번호가 메일로 전송되었습니다 :-)",{closable:true});
+
+    const templateParams = {	
+      code: auth_code.value,
+      email : user_email1+"@"+user_email2,
+    };
+    emailjs.send("A608", "template_3xt57p4", templateParams);
+
   }
+
+  const checkCode = () => {
+    if(auth_code.value == input_auth_code.value){
+      Message.success("인증번호를 확인하였습니다 :-)",{closable:true});
+      router.push("/changepw");
+    }else{
+      Message.error("인증번호가 틀렸습니다 :-(",{closable:true});
+
+    }
+  }
+  
+  const auth_box_css = computed(() => {
+    if (auth_code.value === "") return "login_form_input_hide";
+    else return "login_form_input";
+  });
+
+  const send_btn_css = computed(() => {
+    if (auth_code.value === "") return "login_form_login_button";
+    else return "login_form_login_button_hide";
+  });
+
+  const check_btn_css = computed(() => {
+    if (auth_code.value === "") return "login_form_login_button_hide";
+    else return "login_form_login_button";
+  });
 
 </script>
 

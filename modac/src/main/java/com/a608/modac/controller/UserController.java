@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.a608.modac.model.follow.Follow;
 import com.a608.modac.model.follow.FollowRequest;
+import com.a608.modac.model.follow.FollowResponse;
 import com.a608.modac.model.user.UserRequest;
 import com.a608.modac.model.user.UserResponse;
 import com.a608.modac.service.UserService;
@@ -134,8 +135,8 @@ public class UserController {
 
 	@GetMapping("/follow")
 	public ResponseEntity<?> isFollowingThatUser(@RequestParam("from") Long fromSeq, @RequestParam("to") Long toSeq) {
-		boolean isFollowing = userService.isFollowing(fromSeq, toSeq);
-		return new ResponseEntity<>(isFollowing, HttpStatus.OK);
+		FollowResponse followResponse = userService.isFollowing(fromSeq, toSeq);
+		return new ResponseEntity<>(followResponse, HttpStatus.OK);
 	}
 
 }

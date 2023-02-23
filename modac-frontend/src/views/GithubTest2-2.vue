@@ -64,7 +64,7 @@ function createRepo(createNewRepo, user_info){
 
   http.post(GITHUB_API_SERVER + "/user/repos", body, {headers})
   .then((response) => {
-    Message.success("저장소가 생성되었습니다 :-)",{position:"top-right", closable:true});
+    Message.success("저장소가 생성되었습니다 :-)",{closable:true});
     writeCommitMSG(body.name, createNewRepo, user_info);
   })
   .catch((err) => console.log(err));
