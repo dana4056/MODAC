@@ -4,6 +4,13 @@ import CardTitle from "@/components/CardTitle.vue";
 import CardContent from "@/components/CardContent.vue";
 import CommonButton from "@/components/CommonButton.vue";
 import Wrapper from "@/components/Wrapper.vue";
+import { storeToRefs } from "pinia";
+import { useRoomStore } from "@/stores/user";
+import { useUserStore } from "@/stores/user";
+import { defineProps } from "vue";
+const roomStore = useRoomStore();
+const userStore = useUserStore();
+const { loginUser } = storeToRefs(userStore);
 
 const props = defineProps({
   favoritesRoom: Object,
@@ -16,12 +23,15 @@ const roomChange = async() => {
         attend: false
       }
       roomStore.api.updateCurrentRoom(payload)
-      roomStore.changePrivateRoom();
-  await roomstore.enterRoom(props.seq);
+      roomStore.disconnectSocket(); // 기존 소켓 해제
+  await roomstore.enterRoom(props.favoritesRoom.seq);
 }
 
 const roomDelete = () => {
-
+  roomStore.deleteRoom(props.favoritesRoom.seq)
+  .then(() => {
+    roomStore.api.findPrivateRoomList(loginUser.value.seq)
+  })
 }
 
 </script>
@@ -30,13 +40,13 @@ const roomDelete = () => {
   <Card :class="$style.flex_wrapper">
     <Wrapper :class="$style.flex_left">
       <CardTitle>
-        {{ props.favoritesRoom.name }}
+        {{ props.favoritesRoom.title }}
       </CardTitle>
       <CardContent>
         {{ props.favoritesRoom.description }}
       </CardContent>
-      <CardContent>방장 {{ props.favoritesRoom.host }}</CardContent>
-      <CardContent> 테마 {{ props.favoritesRoom.theme }}</CardContent>
+      <CardContent>방장 {{ props.favoritesRoom.host.nickname }}</CardContent>
+      <CardContent> 테마 {{ props.favoritesRoom.multiTheme }}</CardContent>
     </Wrapper>
     <Wrapper :class="$style.flex_right">
       <CommonButton :class="$style.enter_button" @click="roomChange">

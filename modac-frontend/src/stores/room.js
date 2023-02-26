@@ -19,7 +19,6 @@ export const useRoomStore = defineStore(
 
     // 변수
     const isEnteredRoom = ref(false);
-    const isDeleteRoom = ref(false);
     const api = room;
     const checkCode = ref(false);
     const room_info = ref({});
@@ -67,6 +66,7 @@ export const useRoomStore = defineStore(
     isEnteredRoom.value = false;
   };
 
+  
   const exitPrivateRoom = () => {
     if (stompClient != null) {
       stompClient.disconnect(function () {
@@ -76,7 +76,8 @@ export const useRoomStore = defineStore(
     isEnteredRoom.value = false;
   };
 
-  const changePrivateRoom = () => {
+  // 즐겨찾기 이동시 Socket 해제
+  const disconnectSocket = () => {
     if (stompClient != null) {
       stompClient.disconnect(function () {
         console.log("DISCONNECT 소켓 연결해제")
@@ -84,8 +85,12 @@ export const useRoomStore = defineStore(
     }
   };
 
-  const deleteRoom = () => {
-    isDeleteRoom.value = true;
+  const deleteRoom = (roomseq) => {
+    const payload = {
+      seq : roomseq,
+      usersSeq : loginUser.value.seq
+    }
+    api.exitRoom(payload)
   };
 
   const toggleLeftSideBar = () => {
@@ -237,7 +242,6 @@ export const useRoomStore = defineStore(
       api,
       checkCode,
       isEnteredRoom,
-      isDeleteRoom,
       enterRoom,
       exitRoom,
       exitPrivateRoom,
@@ -265,7 +269,9 @@ export const useRoomStore = defineStore(
       enterChat,
       chatListElement,
       chatFormElement,
+      // 즐겨찾기 관련
       favorite_room_list,
+      disconnectSocket,
     };
   }
   // {
