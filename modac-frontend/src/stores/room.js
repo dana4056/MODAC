@@ -24,6 +24,7 @@ export const useRoomStore = defineStore(
     const checkCode = ref(false);
     const room_info = ref({});
     const room_list = ref([]);
+    const favorite_room_list = ref([]);
     const isOpenedLeftSideBar = ref(false);
     const isOpenedRightSideBar = ref(false);
     const currentRightSideBarContent = ref(0); // 초깃값 : Room Chat
@@ -46,7 +47,10 @@ export const useRoomStore = defineStore(
   // 함수
   const enterRoom = async (roomSeq) => {
     console.log("store의 enterRoom  seq:"+roomSeq)
-    await api.findRoom(roomSeq);      // 입장한 룸 정보 불러오기
+    await api.findRoom(roomSeq)      // 입장한 룸 정보 불러오기
+    .then(() => {
+      api.findPrivateRoomList(loginUser.value.seq); // 방 입장시 즐겨찾기 방 목록 조회
+    })
     connect2();                 // 소켓 연결 
     isEnteredRoom.value = true;
   };
@@ -70,6 +74,14 @@ export const useRoomStore = defineStore(
       });
     }
     isEnteredRoom.value = false;
+  };
+
+  const changePrivateRoom = () => {
+    if (stompClient != null) {
+      stompClient.disconnect(function () {
+        console.log("DISCONNECT 소켓 연결해제")
+      });
+    }
   };
 
   const deleteRoom = () => {
@@ -253,6 +265,7 @@ export const useRoomStore = defineStore(
       enterChat,
       chatListElement,
       chatFormElement,
+      favorite_room_list,
     };
   }
   // {
