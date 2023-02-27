@@ -47,24 +47,29 @@ export default {
 
   // 회원정보 수정
   updateUser(payload) {
+    console.log(payload)
     http
       .put(`/users/${payload.userSeq}`, payload.update)
       .then((response) => {
         const code = response.status;
 
         if (code == 201) {
+          const store = useUserStore();
+          const { loginUser } = storeToRefs(store);
+          loginUser.value = response.data; // userStore에 멤버 저장
           Message.success("회원정보가 수정되었습니다 :-)",{closable:true});
         } else if (code == 204) {
           Message.error("존재하지 않는 회원입니다 :-(",{closable:true});
         }
       })
       .catch((error) => {
-        console.log(error);
+        console.log("실패실패실패",error);
       });
   },
 
   // 비밀번호 수정
   updatePW(payload) {
+    console.log(payload)
     http
       .put(`/users/${payload.userSeq}/password`, payload.password, {
         headers: {
@@ -79,6 +84,12 @@ export default {
         } else if (code == 204) {
           Message.error("존재하지 않는 회원입니다 :-(",{closable:true});
         }
+      })
+      .then(() => {
+        this.logout()
+      })
+      .then(() => {
+        router.push({ name: "login" });
       })
       .catch((error) => {
         console.log(error);
@@ -120,6 +131,10 @@ export default {
         } else if (code == 204) {
           Message.error("존재하지 않는 회원입니다 :-(",{closable:true});
         }
+        this.logout()
+      })
+      .then(() => {
+        router.push({ name: "login" });
       })
       .catch((error) => {
         console.log(error);
