@@ -49,7 +49,7 @@ const handleClickButton = () => {
 
 // const messageButtonState = ref("대화하기");
 const buttonState = computed(() =>
-  isFollowed.value === true ? "언팔로우" : "팔로우"
+  isFollowed.value === true ? "친구 해제" : "친구 추가"
 );
 const followButtonStyleState = computed(() =>
   isFollowed.value === true

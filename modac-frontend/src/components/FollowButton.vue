@@ -41,8 +41,9 @@ const unfollow = async () => {
 
 // 이거 어케 알고 보내줄 건지 물어봐야 함
   const followSeq = null;
-  await userAPI.unfollowing(followSeq);
 
+  await userAPI.unfollowing(followSeq);
+  
   isFollowing.value = false
   console.log("isFollowing.value", isFollowing.value);
   followbtn.classList.add($style.follow_to_unfollow)
