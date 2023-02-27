@@ -28,6 +28,7 @@ import {useTodoStore} from "../stores/todo.js"
 // import {ref} from "vue";
 import { useRoute } from 'vue-router'
 import router from "../router/index"
+import Message from "vue-m-message"
 
 const GITHUB_API_SERVER = "https://api.github.com"
 
@@ -63,7 +64,7 @@ function createRepo(createNewRepo, user_info){
 
   http.post(GITHUB_API_SERVER + "/user/repos", body, {headers})
   .then((response) => {
-    alert("저장소가 생성되었습니다 :->");
+    Message.success("저장소가 생성되었습니다 :-)",{closable:true});
     writeCommitMSG(body.name, createNewRepo, user_info);
   })
   .catch((err) => console.log(err));

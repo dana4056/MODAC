@@ -1,6 +1,7 @@
 import http from "@/api/http";
 import { useFeedStore } from "@/stores/feed";
 import { storeToRefs } from "pinia";
+import Message from "vue-m-message"
 
 export default {
   // 게시글 작성
@@ -84,7 +85,8 @@ export default {
 
           console.log(response.data);
         } else if (code == 204) {
-          alert("게시글 조회 실패: 게시글 없음");
+          // alert("게시글 조회 실패: 게시글 없음");
+          Message.error("존재하지 않는 게시글입니다 :-(",{position:"top-right",closable:true});
         }
       })
       .catch((error) => {
@@ -101,7 +103,8 @@ export default {
         if (code == 200) {
           console.log(response.data);
         } else if (code == 204) {
-          alert("게시글 조회 실패: 게시글 없음");
+          // alert("게시글 조회 실패: 게시글 없음");
+          Message.error("존재하지 않는 게시글입니다 :-(",{position:"top-right",closable:true});
         }
       })
       .catch((error) => {
@@ -126,7 +129,8 @@ export default {
 
           articles.value = response.data;
         } else if (code == 204) {
-          alert("게시글 찾기 실패: 사용자없음");
+          // alert("게시글 찾기 실패: 사용자없음");
+          Message.error("존재하지 않는 사용자입니다 :-(",{position:"top-right",closable:true});
         }
       })
       .catch((error) => {
@@ -143,7 +147,8 @@ export default {
         if (code == 201) {
           console.log(response.data);
         } else if (code == 204) {
-          alert("게시글 좋아요 실패: 게시글 없음");
+          // alert("게시글 좋아요 실패: 게시글 없음");
+          Message.error("존재하지 않는 게시글입니다 :-(",{position:"top-right",closable:true});
         }
       })
       .catch((error) => {
@@ -165,7 +170,8 @@ export default {
         if (code == 200) {
           console.log(response.data);
         } else if (code == 204) {
-          alert("게시글 좋아요 취소 실패: 게시글 없음");
+          // alert("게시글 좋아요 취소 실패: 게시글 없음");
+          Message.error("존재하지 않는 게시글입니다 :-(",{position:"top-right",closable:true});
         }
       })
       .catch((error) => {
@@ -187,7 +193,8 @@ export default {
         if (code == 200) {
           console.log(response.data);
         } else if (code == 204) {
-          alert("게시글 조회 실패: 게시글 없음");
+          // alert("게시글 조회 실패: 게시글 없음");
+          Message.error("존재하지 않는 게시글입니다 :-(",{position:"top-right",closable:true});
         }
       })
       .catch((error) => {

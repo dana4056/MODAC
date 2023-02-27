@@ -12,13 +12,18 @@ public class UserRequest {
 	private String email;
 	private String password;
 
-	public User toEntity(Byte skin) {
+	public void setPassword(String password){
+		this.password = password;
+	}
+
+	public User toEntity(Byte skin, String salt) {
 		return User.builder()
 			.seq(seq)
 			.id(id)
 			.nickname(nickname)
 			.email(email)
 			.password(password)
+			.salt(salt)
 			.catSkin(skin)
 			.build();
 	}

@@ -71,7 +71,7 @@ function commitToRepo(user_info, repo_info, createCommit){
   // console.log("user", user, "repo", repo);
   http.put(GITHUB_API_SERVER + `/repos/${user}/${repo}/contents/${title}.md`, body, {headers})
   .then((response) => {
-      alert("원격저장소에 정상적으로 Commit 되었습니다 :->")
+      Message.success("원격저장소에 정상적으로 Commit 되었습니다 :-)",{closable:true});
       createCommit();
       // router.push(`/repo/${user}/${repo}`)
   })

@@ -76,10 +76,8 @@ const dateStyle = computed(() => {
 
 const chatHostReader = computed(() => {
   if (props.chatLog.userNickName === props.loginUser.nickname) {
-    console.log("ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁmystyle")
     return "myStyle";
   } else {
-    console.log("ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁyourChat")
     return "yourChat";
   }
 });

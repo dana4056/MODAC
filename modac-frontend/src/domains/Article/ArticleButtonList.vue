@@ -5,6 +5,7 @@ import Modal from "@/components/Modal.vue";
 import GithubTest from "@/views/GithubTest.vue";
 import OverflowDiv from "@/components/OverflowDiv.vue";
 import { ref } from "vue";
+import Message from "vue-m-message"
 
 const articleStore = useArticleStore();
 const { activeEditor } = storeToRefs(articleStore);
@@ -13,7 +14,7 @@ const copyText = () => {
   const currentActiveEditor = activeEditor.value;
   const content = currentActiveEditor.getMarkdown();
   navigator.clipboard.writeText(content);
-  alert("복사 완료");
+  Message.info("복사되었습니다 :-)",{closable:true});
 };
 
 // git 관련

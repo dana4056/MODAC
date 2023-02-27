@@ -1,5 +1,6 @@
 package com.a608.modac.controller;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.a608.modac.model.follow.Follow;
 import com.a608.modac.model.follow.FollowRequest;
+import com.a608.modac.model.follow.FollowResponse;
 import com.a608.modac.model.user.UserRequest;
 import com.a608.modac.model.user.UserResponse;
 import com.a608.modac.service.UserService;
@@ -36,7 +38,7 @@ public class UserController {
 	}
 
 	@PostMapping                        //회원 가입
-	public ResponseEntity<?> signUp(@RequestBody final UserRequest userRequest) {
+	public ResponseEntity<?> signUp(@RequestBody final UserRequest userRequest) throws NoSuchAlgorithmException {
 		System.out.println("user info: " + userRequest.toString());
 		log.info("user info:" + userRequest.toString());
 		UserResponse userResponse = userService.saveUser(userRequest);
@@ -103,7 +105,7 @@ public class UserController {
 	}
 
 	@PostMapping("/login")            // 로그인
-	public ResponseEntity<?> login(@RequestBody UserRequest userRequest) {
+	public ResponseEntity<?> login(@RequestBody UserRequest userRequest) throws NoSuchAlgorithmException {
 		UserResponse loginUser = userService.login(userRequest);
 		return new ResponseEntity<>(loginUser, HttpStatus.OK);
 	}
@@ -133,8 +135,8 @@ public class UserController {
 
 	@GetMapping("/follow")
 	public ResponseEntity<?> isFollowingThatUser(@RequestParam("from") Long fromSeq, @RequestParam("to") Long toSeq) {
-		boolean isFollowing = userService.isFollowing(fromSeq, toSeq);
-		return new ResponseEntity<>(isFollowing, HttpStatus.OK);
+		FollowResponse followResponse = userService.isFollowing(fromSeq, toSeq);
+		return new ResponseEntity<>(followResponse, HttpStatus.OK);
 	}
 
 }

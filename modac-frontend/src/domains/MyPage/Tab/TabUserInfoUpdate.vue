@@ -21,14 +21,14 @@ const email_input2 = ref(user_email2)
 const checkPassword = () => {
   // 닉네임 중복 검사 요청 보내기
 
-  alert("해당 닉네임은 사용 가능합니다.");
+  Message.info("해당 닉네임은 사용 가능합니다 :-)",{closable:true});
 }
 
 const checkEmail = () => {
   // 이메일 중복 검사 요청 보내기
   // 나중에 이메일 인증 요청 하는 걸로 변경할 것
 
-  alert("해당 이메일은 사용 가능합니다.");
+  Message.info("해당 이메일은 사용 가능합니다 :-)",{closable:true});
 }
 
 const updateUserInfo = () => {
@@ -112,8 +112,6 @@ const updateUserInfo = () => {
   </div>
 
 </template>
-
-
 
 <style lang="css" module>
   @import "./TabUserInfoUpdate.module.css";

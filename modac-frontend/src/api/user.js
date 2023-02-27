@@ -1,8 +1,9 @@
 import http from "@/api/http";
 import { useUserStore } from "@/stores/user";
-import { useRoomStore } from '@/stores/room';
+import { useRoomStore } from "@/stores/room";
 import { storeToRefs } from "pinia";
 import router from "@/router/index";
+import Message from "vue-m-message";
 
 // const headers = {
 //     'Content-Type': 'application/json'
@@ -14,8 +15,9 @@ export default {
     http
       .post(`/users`, user)
       .then(({ data }) => {
-        alert("회원가입이 완료되었습니다.");
-        router.push({ name: "login" }); // 룸리스트뷰로 이동
+        Message.success("회원가입이 완료되었습니다 :-)",{closable:true});
+
+        router.push({ name: "login" });
         console.log(data);
         // return data;
       })
@@ -52,14 +54,12 @@ export default {
         const code = response.status;
 
         if (code == 201) {
-          alert("유저 정보 수정 완료")
-          console.log("리스폰스",response.data);
           const store = useUserStore();
           const { loginUser } = storeToRefs(store);
           loginUser.value = response.data; // userStore에 멤버 저장
-          console.log("바뀐 정보",loginUser.value);
+          Message.success("회원정보가 수정되었습니다 :-)",{closable:true});
         } else if (code == 204) {
-          alert("회원정보 수정 실패: 회원 없음");
+          Message.error("존재하지 않는 회원입니다 :-(",{closable:true});
         }
       })
       .catch((error) => {
@@ -80,9 +80,9 @@ export default {
         const code = response.status;
 
         if (code == 201) {
-          console.log("비밀번호 변경 완료");
+          Message.success("비밀번호 변경이 완료되었습니다 :-)",{closable:true});
         } else if (code == 204) {
-          alert("비번 찾기 실패: 회원없음");
+          Message.error("존재하지 않는 회원입니다 :-(",{closable:true});
         }
       })
       .then(() => {
@@ -110,7 +110,7 @@ export default {
         if (code == 201) {
           console.log(response.data);
         } else if (code == 204) {
-          alert("포인트 수정 실패: 회원없음");
+          Message.error("존재하지 않는 회원입니다 :-(",{closable:true});
         }
       })
       .catch((error) => {
@@ -126,10 +126,10 @@ export default {
         const code = response.status;
 
         if (code == 200) {
-          console.log("회원 탈퇴 완료");
-          alert("탈퇴 완료");
+          Message.error("탈퇴가 완료되었습니다.",{closable:true});
+          router.push({ name: "login" }); 
         } else if (code == 204) {
-          alert("회원 탈퇴 실패: 회원없음");
+          Message.error("존재하지 않는 회원입니다 :-(",{closable:true});
         }
         this.logout()
       })
@@ -155,7 +155,7 @@ export default {
         if (code == 200) {
           console.log("찾은 ID: " + response.data);
         } else if (code == 204) {
-          alert("아이디 찾기 실패 : 회원없음");
+          Message.error("존재하지 않는 회원입니다 :-(",{closable:true});
         }
       })
       .catch((error) => {
@@ -177,7 +177,7 @@ export default {
         if (code == 200) {
           console.log("찾은 PW: " + response.data);
         } else if (code == 204) {
-          alert("비번 찾기 실패 : 회원없음");
+          Message.error("존재하지 않는 회원입니다 :-(",{closable:true});
         }
       })
       .catch((error) => {
@@ -260,41 +260,35 @@ export default {
 
         if (code == 200) {
           if (response.data) {
-            alert("로그인 성공");
-            console.log(response.data.token);
+            Message.success(response.data.nickname + "님 환영합니다 :-)", {
+              closable: true,
+            });
             localStorage.setItem("jwt", response.data.token); // 로컬 스토리지에 저장
 
             const store = useUserStore();
             const { loginUser } = storeToRefs(store);
-            
-            console.log(loginUser.value);
+
             loginUser.value = response.data; // userStore에 멤버 저장
-            
 
             router.push({ name: "room" }); // 룸리스트뷰로 이동
-            this.fetchFollowingUsers(loginUser.value.seq)
-            this.fetchFollowerUsers(loginUser.value.seq)
-
+            this.fetchFollowingUsers(loginUser.value.seq);
+            this.fetchFollowerUsers(loginUser.value.seq);
           } else {
-            console.log("로그인 실패: 비밀번호 불일치");
+            Message.error("비밀번호가 일치하지 않습니다", {
+              title: "로그인 실패",
+              closable: true,
+            });
           }
         } else if (code == 204) {
-          alert("로그인 실패: 회원없음");
+          Message.error("해당 회원을 찾을 수 없습니다", {
+            title: "로그인 실패",
+            closable: true,
+          });
         }
       })
       .catch((error) => {
         console.log(error);
       });
-  },
-
-  // 로그아웃
-  logout() {
-    const store = useUserStore();
-    const { loginUser } = storeToRefs(store);
-
-    loginUser.value = null; // store의 로그인 유저 삭제
-    localStorage.removeItem("jwt"); // 로컬 스토리지 토큰 삭제
-    console.log("로그아웃 완료");
   },
 
   // 팔로잉
@@ -312,7 +306,7 @@ export default {
 
   // 언팔로잉
   async unfollowing(followSeq) {
-    const response = await http.delete(`/users/follow/${followSeq}`)
+    const response = await http.delete(`/users/follow/${followSeq}`);
 
     if (response.status == 200) {
       console.log("언팔로우 성공");
@@ -352,7 +346,7 @@ export default {
         },
       })
       .then((response) => {
-        console.log(response.data);
+        // console.log(response.data);
 
         const userStore = useUserStore();
         const { followerList } = storeToRefs(userStore);
@@ -363,18 +357,19 @@ export default {
 
   // 팔로잉 여부 조회
   async isFollowing(payload) {
-    await http.get("/users/follow", {
+    const response = await http.get("/users/follow", {
       params: {
         from: payload.fromSeq,
         to: payload.toSeq,
       },
-    })
-    .then((response) => {
-      const userStore = useUserStore();
-      const { isFollowing } = storeToRefs(userStore);
-
-      isFollowing.value = response.data;
-      console.log("isFollowing.value", isFollowing.value);
     });
+    return response;
+    // .then((response) => {
+    //   const userStore = useUserStore();
+    //   const { isFollowing } = storeToRefs(userStore);
+
+    //   isFollowing.value = response.data;
+    //   // console.log("isFollowing.value", isFollowing.value);
+    // });
   },
 };
