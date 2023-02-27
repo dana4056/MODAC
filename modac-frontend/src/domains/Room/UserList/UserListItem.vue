@@ -84,9 +84,13 @@ const requestCheckFollowing = async () => {
     toSeq: props.userItem.usersSeq,
   });
   if (response.data === "") {
+    console.log("친구 삭제하기", isFollowingState.value)
     isFollowingState.value = null;
+    userAPI.fetchFollowingUsers(loginUser.value.seq);
   } else {
+    console.log("친구 추가하기",isFollowingState.value)
     isFollowingState.value = response.data.seq;
+    userAPI.fetchFollowingUsers(loginUser.value.seq);
   }
 };
 
@@ -96,11 +100,13 @@ const handleClickFollowButton = async () => {
     toSeq: props.userItem.usersSeq,
   });
   requestCheckFollowing();
+  closeDropdown()
 };
 
 const handleClickUnfollowButton = async () => {
   await userAPI.unfollowing(isFollowingState.value);
   requestCheckFollowing();
+  closeDropdown()
 };
 </script>
 

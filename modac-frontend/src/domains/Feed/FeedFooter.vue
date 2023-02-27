@@ -13,6 +13,14 @@
         </div>
         <FollowButton v-if="myUserSeq != userSeq" class="text-sm rounded-lg py-1">
         </FollowButton>
+        <div v-if="myUserSeq == userSeq" class="w-full flex justify-end text-red-500">
+          <button @click="article_delete(props.feedModalSeq)" class="flex text-sm items-start bg-transparent">
+            <div class="h-full flex items-center">게시글 삭제</div>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
       </div>
     </div>
     <div>댓글 <span class="font-semibold text-red-600"> {{ commentListCount }}</span>개</div>
@@ -52,6 +60,15 @@
               {{comment.registeredTime}}
             </div>
             
+            
+            <div v-if="myUserSeq == userSeq" class="w-full flex justify-end">
+              <button
+              @click="comment_delete(comment.seq)" class="bg-transparent">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
           </div>
 
           <div :class="$style.comment_content">
@@ -74,6 +91,7 @@ import { useUserStore } from "@/stores/user.js";
 import { storeToRefs } from "pinia";
 
 import commentAPI from "@/api/comment.js";
+import articleAPI from "@/api/article.js";
 import LikeButton from "./LikeButton.vue";
 import FollowButton from "@/components/FollowButton.vue";
 
@@ -91,6 +109,7 @@ const props = defineProps({
   commentList : Object,
   commentCount : Number,
   updateFeedModal :Function,
+  feedModalState : Boolean
 });
 
 let commentList = comments;
@@ -130,6 +149,16 @@ const comment_add = async () => {
     commentList = comments;
     feedArticle.commentCount = feedArticle.commentCount + 1;
   }
+}
+
+const comment_delete = async (seq) => {
+  await commentAPI.deleteComment(seq, props.feedModalSeq);
+  commentList = comments;
+}
+
+const article_delete = (articleSeq) => {
+  articleAPI.deleteArticle(articleSeq);
+  // props.feedModalState.value = false;
 }
 
 onMounted(() => {
