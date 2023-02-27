@@ -87,9 +87,20 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public void updatePassword(Long seq, String password) {
+    public void updatePassword(Long seq, String password) throws NoSuchAlgorithmException {
         User findUser = userRepository.findById(seq).orElseThrow(() -> new NoSuchElementException("NoUser"));
-        findUser.updatePassword(password);
+
+        // salt 생성
+        String salt = "";
+        salt = createsalt(salt);
+
+        // 비밀번호 암호화
+        String pw = password + salt;
+        pw = encryption(pw, KEY_STRETCHING);
+
+        findUser.updatePassword(pw);
+        findUser.updateSalt(salt);
+
         userRepository.save(findUser);
     }
 
@@ -102,6 +113,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserResponse findUserBySeq(Long seq) {
         User findUser = userRepository.findById(seq).orElseThrow(() -> new NoSuchElementException("NoUser"));
+        UserResponse userResponse = new UserResponse(findUser);
+        return userResponse;
+    }
+    public UserResponse findUserByEmail(String email) {
+        User findUser = userRepository.findUserByEmail(email).orElseThrow(() -> new NoSuchElementException("NoUser"));
         UserResponse userResponse = new UserResponse(findUser);
         return userResponse;
     }

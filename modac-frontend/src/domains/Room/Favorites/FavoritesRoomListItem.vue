@@ -5,9 +5,9 @@ import CardContent from "@/components/CardContent.vue";
 import CommonButton from "@/components/CommonButton.vue";
 import Wrapper from "@/components/Wrapper.vue";
 import { storeToRefs } from "pinia";
-import { useRoomStore } from "@/stores/user";
 import { useUserStore } from "@/stores/user";
 import { defineProps } from "vue";
+
 const roomStore = useRoomStore();
 const userStore = useUserStore();
 const { loginUser } = storeToRefs(userStore);

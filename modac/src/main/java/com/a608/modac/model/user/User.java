@@ -90,6 +90,10 @@ public class User implements UserDetails {
 		this.password = password;
 	}
 
+	public void updateSalt(String salt) {
+		this.salt = salt;
+	}
+
 	public void changeCatSkin(Byte no) {
 		this.catSkin = no;
 	}

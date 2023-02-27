@@ -31,7 +31,7 @@ export default {
     http
       .get(`/users/${userSeq}`)
       .then((response) => {
-        console.log(response.data);
+        // console.log(response.data);
         // const code = response.status;
         return response.data;
         // if (code == 200) {
@@ -44,6 +44,25 @@ export default {
         console.log(error);
       });
   },
+
+    // 회원정보 조회
+    fetchUserByEmail(email) {
+      http
+        .get(`/users/find-by-email`, {
+          params: {
+            email: email,
+          },
+        })
+        .then((response) => {
+          const store = useUserStore();
+          const { authUser } = storeToRefs(store);
+          authUser.value = response.data;
+          router.push({ name: "UserChangePassword" });
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
 
   // 회원정보 수정
   updateUser(payload) {
@@ -80,7 +99,8 @@ export default {
         const code = response.status;
 
         if (code == 201) {
-          Message.success("비밀번호 변경이 완료되었습니다 :-)",{closable:true});
+          Message.success("비밀번호 변경이 완료되었습니다 :-)", { closable: true });
+          router.push({ name: "login" });
         } else if (code == 204) {
           Message.error("존재하지 않는 회원입니다 :-(",{closable:true});
         }
