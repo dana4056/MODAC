@@ -14,6 +14,9 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 -- -----------------------------------------------------
 -- Schema modac
 -- -----------------------------------------------------
+
+drop database `modac`;
+
 CREATE SCHEMA IF NOT EXISTS `modac` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci ;
 USE `modac` ;
 
@@ -28,7 +31,6 @@ ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
-
 -- -----------------------------------------------------
 -- Table `modac`.`users`
 -- -----------------------------------------------------
@@ -37,16 +39,17 @@ CREATE TABLE IF NOT EXISTS `modac`.`users` (
   `email` VARCHAR(30) NOT NULL,
   `id` VARCHAR(20) NOT NULL,
   `nickname` VARCHAR(20) NOT NULL,
-  `password` VARCHAR(20) NOT NULL,
+  `password` VARCHAR(1000) NOT NULL,
   `cat_skin` INT NULL DEFAULT NULL,
   `single_theme` VARCHAR(45) NULL DEFAULT NULL,
   `total_second` INT NULL DEFAULT '0',
   `membership_level` VARCHAR(20) NULL DEFAULT 'BRONZE_LV1',
   `point` INT NULL DEFAULT '0',
   `max_point` INT NULL DEFAULT '50',
+  `salt` VARCHAR(1000) NOT NULL,
   PRIMARY KEY (`seq`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 11
+AUTO_INCREMENT = 13
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -86,11 +89,11 @@ COLLATE = utf8mb4_0900_ai_ci;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `modac`.`chat_rooms` (
   `seq` INT NOT NULL AUTO_INCREMENT,
-  `last_message_seq` VARCHAR(30) NULL DEFAULT NULL,
+  `last_message_seq` VARCHAR(100) NULL DEFAULT NULL,
   `last_message_time` DATETIME NULL DEFAULT NULL,
   PRIMARY KEY (`seq`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 33
+AUTO_INCREMENT = 34
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -99,7 +102,7 @@ COLLATE = utf8mb4_0900_ai_ci;
 -- Table `modac`.`chat_messages`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `modac`.`chat_messages` (
-  `seq` INT NOT NULL AUTO_INCREMENT,
+  `seq` VARCHAR(100) NOT NULL,
   `users_seq` INT NOT NULL,
   `chat_rooms_seq` INT NOT NULL,
   `send_time` DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
@@ -164,7 +167,7 @@ CREATE TABLE IF NOT EXISTS `modac`.`followings` (
     FOREIGN KEY (`to_seq`)
     REFERENCES `modac`.`users` (`seq`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 11
+AUTO_INCREMENT = 13
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -229,7 +232,7 @@ CREATE TABLE IF NOT EXISTS `modac`.`notifications` (
     FOREIGN KEY (`to_users_seq`)
     REFERENCES `modac`.`users` (`seq`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 15
+AUTO_INCREMENT = 17
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -258,7 +261,7 @@ CREATE TABLE IF NOT EXISTS `modac`.`rooms` (
     FOREIGN KEY (`users_seq`)
     REFERENCES `modac`.`users` (`seq`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 24
+AUTO_INCREMENT = 25
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -309,6 +312,12 @@ AUTO_INCREMENT = 65
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
+
+INSERT `modac`.`categories` (`name`, `template_filepath`) VALUES ('알고리즘', 'markdown_templates/알고리즘.md');
+INSERT `modac`.`categories` (`name`, `template_filepath`) VALUES ('CS', 'markdown_templates/CS.md');
+INSERT `modac`.`categories` (`name`, `template_filepath`) VALUES ('개발', 'markdown_templates/개발.md');
+INSERT `modac`.`categories` (`name`, `template_filepath`) VALUES ('면접', 'markdown_templates/면접.md');
+INSERT `modac`.`categories` (`name`, `template_filepath`) VALUES ('공통', 'markdown_templates/공통.md');
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;

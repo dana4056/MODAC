@@ -51,6 +51,13 @@ public class UserController {
 		return new ResponseEntity<UserResponse>(userResponse, HttpStatus.OK);
 	}
 
+	@GetMapping("/find-by-email")            // 이메일로 특정 회원 조회
+	public ResponseEntity<?> findUserByEmail(@RequestParam("email") String email) {
+		UserResponse userResponse = userService.findUserByEmail(email);
+		return new ResponseEntity<UserResponse>(userResponse, HttpStatus.OK);
+	}
+
+
 	@PutMapping("/{seq}")            // 회원 수정
 	public ResponseEntity<?> updateUser(@PathVariable("seq") Long seq, @RequestBody UserRequest userRequest) {
 		UserResponse userResponse = userService.updateUser(seq, userRequest);
@@ -58,7 +65,8 @@ public class UserController {
 	}
 
 	@PutMapping("/{seq}/password")    // 비밀번호 수정
-	public ResponseEntity<?> updatePassword(@PathVariable("seq") Long seq, @RequestBody String password) {
+	public ResponseEntity<?> updatePassword(@PathVariable("seq") Long seq, @RequestBody String password) throws
+		NoSuchAlgorithmException {
 		userService.updatePassword(seq, password);
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	}

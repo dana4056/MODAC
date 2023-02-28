@@ -171,6 +171,9 @@ export default {
 
             if(code == 200){
                 console.log("스터디룸 목록: " + JSON.stringify(response.data));
+                const roomStore = useRoomStore();
+                const { favorite_room_list } = storeToRefs(roomStore);
+                favorite_room_list.value = response.data;
             }
         })
         .catch((error) => {

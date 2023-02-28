@@ -78,10 +78,13 @@
   import emojiChartIncreasing from '../../assets/emojis/emoji-chart-increasing.png'
   import Message from "vue-m-message"
   import { computed, ref } from "vue";
+  import { useUserStore } from '@/stores/user';
+  import { storeToRefs } from "pinia";
   import emailjs from "emailjs-com";
   import router from '@/router/index';
 
-  
+  const userStore = useUserStore();
+  const { authUser } = storeToRefs(userStore);
   let user_email1 = "";
   let user_email2 = "naver.com";
   let auth_code = ref("");
@@ -108,7 +111,7 @@
   const checkCode = () => {
     if(auth_code.value == input_auth_code.value){
       Message.success("인증번호를 확인하였습니다 :-)",{closable:true});
-      router.push("/changepw");
+      userStore.api.fetchUserByEmail(user_email1+"@"+user_email2);
     }else{
       Message.error("인증번호가 틀렸습니다 :-(",{closable:true});
 

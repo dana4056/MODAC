@@ -15,15 +15,26 @@
 }
 
 .dropdown {
-  @apply absolute right-0 z-10 mt-2 w-fit origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none text-black;
+  @apply absolute right-[2rem] top-[-7rem] mt-2 w-fit origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none text-black;
   font-family: "Pretendard";
-  top: -7rem;
 }
 
 .user_dropdown_div {
-  @apply flex flex-col p-4 gap-2 w-fit
+  @apply flex flex-col p-4 gap-2 w-fit;
 }
 
 .user_dropdown_title {
-  @apply font-semibold gap-2 flex items-center flex-wrap w-fit
+  @apply font-semibold gap-2 flex items-center flex-wrap w-fit text-center;
+}
+
+.chat_button {
+  @apply bg-[#a5a5a5] hover:bg-gray-300 text-white font-semibold text-xs py-2 px-4 rounded-full;
+}
+
+.follow_to_unfollow {
+  @apply bg-[#6474ad] hover:bg-gray-300 text-white font-semibold text-xs py-2 px-4 rounded-full;
+}
+
+.unfollow_to_follow {
+  @apply bg-[#f26365] hover:bg-[#f33d40] text-white font-semibold text-xs py-2 px-4 rounded-full;
 }

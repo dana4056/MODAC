@@ -7,7 +7,7 @@ export const useUserStore = defineStore(
   "user",
   () => {
     const loginUser = ref(null); // 로그인한 사용자
-
+    const authUser = ref(null);     // 이메일 인증한 사용자
     const followingList = ref([]); // 팔로잉한 사용자 리스트
     const followerList = ref([]); // 팔로워 사용자 리스트
     const isFollowing = ref(false);
@@ -23,6 +23,7 @@ export const useUserStore = defineStore(
 
     return {
       loginUser,
+      authUser,
       followingList,
       followerList,
       isFollowing,
