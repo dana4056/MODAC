@@ -47,7 +47,7 @@ SSAFY 8기 2학기 공통 프로젝트
 | :-----------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------: |
 |                                      &nbsp;&nbsp;HTML5&nbsp;&nbsp;                                      |                         &nbsp;&nbsp;&nbsp;&nbsp;CSS3&nbsp;&nbsp;&nbsp;&nbsp;                         |                                                JavaScript                                                 |
 
-|<div align="center"><img src="/assets/images/vue.png" alt="Vue" width="50px" height="50px" /> </div>      | <div align="center"><img src="/assets/images/axios.png" alt="axios" width="50px" height="50px" /> </div>   | 
+|<div align="center"><img src="/assets/images/vue.png" alt="vue" width="50px" height="50px" /> </div>      | <div align="center"><img src="/assets/images/axios.png" alt="axios" width="50px" height="50px" /> </div>   | 
 | :------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------: | 
 |                  &nbsp;&nbsp;&nbsp;&nbsp;Vue&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                               |                                               &nbsp;&nbsp;&nbsp;&nbsp;          AXIOS                                  
 
@@ -90,14 +90,14 @@ Jira는 개발 이슈 트랙킹 용도로 사용합니다.
 
 - 계층
 
-  1. ![epic](/assets/jira/epic.svg) (epic)
-  2. ![story](/assets/jira/story.svg), ![task](/assets/jira/task.svg) (BE), ![bug](/assets/jira/bug.svg) (bug)
+  1. ![epic](/assets/images/epic.svg) (epic)
+  2. ![story](/assets/images/story.svg), ![task](/assets/images/task.svg) (BE)
 
 - 이름 규칙
 
   - Epic은 대분류입니다. Front, Back 작업의 부모 항목입니다.
   - Front, Back 작업은 각각 프론트엔드 작업과 백엔드 작업 세부 이름입니다. (한글로 상세히 작성해 주세요)
-  - 예시) ![story](/assets/jira/story.svg) 유저 로그인 레이아웃 제작- Front
+  - 예시) ![story](/assets/images/story.svg) 유저 로그인 레이아웃 제작- Front
 
 - 이슈
 
