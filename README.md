@@ -43,11 +43,11 @@ SSAFY 8기 2학기 공통 프로젝트
 
 ### FrontEnd
 
-| <div align="center"><img src="/assets/readme/html.svg" alt="HTML5" width="50px" height="50px" /> </div> | <div align="center"><img src="/assets/readme/css.svg" alt="CSS3" width="50px" height="50px" /></div> | <div align="center"><img src="/assets/readme/js.png" alt="JavaScript" width="50px" height="50px" /></div> |
+| <div align="center"><img src="/assets/images/html.svg" alt="HTML5" width="50px" height="50px" /> </div> | <div align="center"><img src="/assets/images/css.svg" alt="CSS3" width="50px" height="50px" /></div> | <div align="center"><img src="/assets/images/js.png" alt="JavaScript" width="50px" height="50px" /></div> |
 | :-----------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------: |
 |                                      &nbsp;&nbsp;HTML5&nbsp;&nbsp;                                      |                         &nbsp;&nbsp;&nbsp;&nbsp;CSS3&nbsp;&nbsp;&nbsp;&nbsp;                         |                                                JavaScript                                                 |
 
-|<div align="center"><img src="/assets/readme/vue.svg" alt="Vue" width="50px" height="50px" /> </div>      | <div align="center"><img src="/assets/images/axios.png" alt="axios" width="50px" height="50px" /> </div>   | 
+|<div align="center"><img src="/assets/images/vue.svg" alt="Vue" width="50px" height="50px" /> </div>      | <div align="center"><img src="/assets/images/axios.png" alt="axios" width="50px" height="50px" /> </div>   | 
 | :------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------: | 
 |                  &nbsp;&nbsp;&nbsp;&nbsp;Vue&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                               |                                               &nbsp;&nbsp;&nbsp;&nbsp;          AXIOS                                  
 
