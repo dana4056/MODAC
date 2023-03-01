@@ -3,7 +3,7 @@ import UserLogin from "../domains/User/UserLogin.vue";
 import UserSignUp from "../domains/User/UserSignUp.vue";
 import UserFindId from "../domains/User/UserFindId.vue";
 import UserFindPassword from "../domains/User/UserFindPassword.vue";
-import UserChangePassword from "../domains/User/UserChangePassword.vue"
+import UserChangePassword from "../domains/User/UserChangePassword.vue";
 import RoomView from "@/views/RoomView.vue";
 import ArticleView from "../views/ArticleView.vue";
 import TestView from "@/views/TestView.vue";
@@ -118,6 +118,13 @@ const router = createRouter({
       path: "/article",
       name: "article",
       component: ArticleView,
+      children: [
+        {
+          path: "/before",
+          name: "before",
+          component: GithubTest,
+        },
+      ],
       beforeEnter(to, from, next) {
         const userStore = useUserStore();
         const { loginUser } = storeToRefs(userStore);
@@ -127,25 +134,6 @@ const router = createRouter({
           next();
         }
       },
-    },
-    {
-      path: "/feed",
-      name: "feed",
-      component: FeedView,
-      beforeEnter(to, from, next) {
-        const userStore = useUserStore();
-        const { loginUser } = storeToRefs(userStore);
-        if (!loginUser.value) {
-          next({ name: "login" });
-        } else {
-          next();
-        }
-      },
-    },
-    {
-      path: "/before",
-      name: "before",
-      component: GithubTest,
     },
     {
       path: "/after",
@@ -166,6 +154,20 @@ const router = createRouter({
       path: "/repo/:user/:repo",
       name: "repo",
       component: GithubTest4,
+    },
+    {
+      path: "/feed",
+      name: "feed",
+      component: FeedView,
+      beforeEnter(to, from, next) {
+        const userStore = useUserStore();
+        const { loginUser } = storeToRefs(userStore);
+        if (!loginUser.value) {
+          next({ name: "login" });
+        } else {
+          next();
+        }
+      },
     },
     {
       path: "/ApiTest",

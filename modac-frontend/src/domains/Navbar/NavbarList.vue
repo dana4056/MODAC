@@ -15,15 +15,6 @@ import NavbarLogo from "./NavbarLogo.vue";
           aria-current="page"
           >스터디룸</RouterLink
         >
-
-        <!-- <RouterLink
-          id="routerlink"
-          to="/article"
-          href="#"
-          :class="$style.navbar_item_unselected"
-          >TIL</RouterLink
-        > -->
-
         <RouterLink
           id="routerlink"
           to="/feed"

@@ -1,7 +1,7 @@
 import http from "@/api/http";
 import { useFeedStore } from "@/stores/feed";
 import { storeToRefs } from "pinia";
-import Message from "vue-m-message"
+import Message from "vue-m-message";
 
 export default {
   // 게시글 작성
@@ -18,38 +18,41 @@ export default {
   // 사용자 게시글 전체 조회
   async findArticleByUsersSeq(payload) {
     const response = await http.get(`/articles`, {
-        params: {
-          user: payload.usersSeq,
-          offset: payload.offset,
-          limit: payload.limit,
-        },
-    })
-      
+      params: {
+        user: payload.usersSeq,
+        offset: payload.offset,
+        limit: payload.limit,
+      },
+    });
+
     const feedStore = useFeedStore();
     const { userArticles } = storeToRefs(feedStore);
     userArticles.value = response.data;
     console.log("userArticles.value api", userArticles.value);
-      
-      // .then((response) => {
-      //   const code = response.status;
 
-      //           if (code == 200) {
-      //               console.log("찾은 게시글들 "+ JSON.stringify(response.data));
-      //           } else if (code == 204) {
-      //               alert("게시글 찾기 실패: 사용자없음");
-      //           }
-      //       })
-      //       .catch((error) => {
-      //           console.log(error);
-      //       })
+    return response;
+    // .then((response) => {
+    //   const code = response.status;
+
+    //           if (code == 200) {
+    //               console.log("찾은 게시글들 "+ JSON.stringify(response.data));
+    //           } else if (code == 204) {
+    //               alert("게시글 찾기 실패: 사용자없음");
+    //           }
+    //       })
+    //       .catch((error) => {
+    //           console.log(error);
+    //       })
   },
-    // 게시글 조회
-    async findArticle(seq){
-        const response = await http.get(`/articles/${seq}`)
+  // 게시글 조회
+  async findArticle(seq) {
+    const response = await http.get(`/articles/${seq}`);
 
     const feedStore = useFeedStore();
     const { article } = storeToRefs(feedStore);
     article.value = response.data;
+
+    return response;
 
     // .then((response) => {
     //     const code = response.status;
@@ -86,7 +89,10 @@ export default {
           console.log(response.data);
         } else if (code == 204) {
           // alert("게시글 조회 실패: 게시글 없음");
-          Message.error("존재하지 않는 게시글입니다 :-(",{position:"top-right",closable:true});
+          Message.error("존재하지 않는 게시글입니다 :-(", {
+            position: "top-right",
+            closable: true,
+          });
         }
       })
       .catch((error) => {
@@ -104,7 +110,10 @@ export default {
           console.log(response.data);
         } else if (code == 204) {
           // alert("게시글 조회 실패: 게시글 없음");
-          Message.error("존재하지 않는 게시글입니다 :-(",{position:"top-right",closable:true});
+          Message.error("존재하지 않는 게시글입니다 :-(", {
+            position: "top-right",
+            closable: true,
+          });
         }
       })
       .catch((error) => {
@@ -130,7 +139,10 @@ export default {
           articles.value = response.data;
         } else if (code == 204) {
           // alert("게시글 찾기 실패: 사용자없음");
-          Message.error("존재하지 않는 사용자입니다 :-(",{position:"top-right",closable:true});
+          Message.error("존재하지 않는 사용자입니다 :-(", {
+            position: "top-right",
+            closable: true,
+          });
         }
       })
       .catch((error) => {
@@ -148,7 +160,10 @@ export default {
           console.log(response.data);
         } else if (code == 204) {
           // alert("게시글 좋아요 실패: 게시글 없음");
-          Message.error("존재하지 않는 게시글입니다 :-(",{position:"top-right",closable:true});
+          Message.error("존재하지 않는 게시글입니다 :-(", {
+            position: "top-right",
+            closable: true,
+          });
         }
       })
       .catch((error) => {
@@ -171,7 +186,10 @@ export default {
           console.log(response.data);
         } else if (code == 204) {
           // alert("게시글 좋아요 취소 실패: 게시글 없음");
-          Message.error("존재하지 않는 게시글입니다 :-(",{position:"top-right",closable:true});
+          Message.error("존재하지 않는 게시글입니다 :-(", {
+            position: "top-right",
+            closable: true,
+          });
         }
       })
       .catch((error) => {
@@ -194,7 +212,10 @@ export default {
           console.log(response.data);
         } else if (code == 204) {
           // alert("게시글 조회 실패: 게시글 없음");
-          Message.error("존재하지 않는 게시글입니다 :-(",{position:"top-right",closable:true});
+          Message.error("존재하지 않는 게시글입니다 :-(", {
+            position: "top-right",
+            closable: true,
+          });
         }
       })
       .catch((error) => {

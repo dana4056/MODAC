@@ -45,8 +45,8 @@ const backGroundImg = computed(() => {
 
 const unLoadEvent = (event) => {
   roomStore.exitRoom();
-  event.preventDefault();
-  event.returnValue = "";
+  // event.preventDefault();
+  // event.returnValue = "";
 };
 
 onMounted(() => {
