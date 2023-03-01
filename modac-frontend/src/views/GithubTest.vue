@@ -63,7 +63,7 @@ checkHaveAccessToken();
 
 <template>
   <div id="wrap">
-    <div v-if="!isAccessToken" class="github_div_1">
+    <div class="github_div_1">
       <GithubTestIcon />
       <h3>github 계정 연결이 필요합니다.</h3>
       <div class="flex gap-3">
