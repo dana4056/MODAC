@@ -1,7 +1,7 @@
 import user from "../api/user";
 import { ref } from "vue";
 import { defineStore } from "pinia";
-import Message from "vue-m-message"
+import Message from "vue-m-message";
 
 export const useUserStore = defineStore(
   "user",
@@ -15,7 +15,7 @@ export const useUserStore = defineStore(
     const logout = () => {
       loginUser.value = null; // store의 로그인 유저 삭제
       localStorage.removeItem("jwt"); // 로컬 스토리지 토큰 삭제
-      Message.success("로그아웃 되었습니다 :-)",{closable:true});
+      Message.success("로그아웃 되었습니다 :-)", { closable: true });
     };
 
     //action (API)
