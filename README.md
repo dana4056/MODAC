@@ -162,31 +162,24 @@ Jira는 개발 이슈 트랙킹 용도로 사용합니다.
 
 Branch Types
 
-- main: 제품으로 출시될 수 있는 브랜치
-- develop: 제품 출시 전 기능 개발 후 버그 수정 브랜치
-- front: Frontend 개발 브랜치
-- Back: Backend 개발 브랜치
-- front: Frontend 기능 개발 브랜치
-- feature/기능명-back: Backend 기능 개발 브랜치
-- feature/기능명-front: Frontend 기능 개발 브랜치
-- hotfix/기능명-back: Frontend 버그 수정 브랜치
-- hotfix/기능명-front: Backend 버그 수정 브랜치
+ 🌳 master: 제품으로 출시될 수 있는 브랜치<br>
+ 🌳 develop: 제품 출시 전 기능 개발 후 버그 수정 브랜치<br>
+ 🌳 front: Frontend 개발 브랜치<br>
+ 🌳 Back: Backend 개발 브랜치<br>
+ 🌳 feature/기능명-back: Backend 기능 개발 브랜치<br>
+ 🌳 feature/기능명-front: Frontend 기능 개발 브랜치<br>
+
 
 <br>
 
-![link](https://techblog.woowahan.com/wp-content/uploads/img/2017-10-30/git-flow_overall_graph.png)
+![epic](/assets/images/branch.png)
 
-1. origin/back 브랜치에서 작업 브랜치를 생성합니다
-
-2. 작업 브랜치에서 작업합니다
-
-3. 작업 브랜치에서 소스를 커밋합니다
-
-4. 작업 브랜치를 origin에 push합니다
-
-5. Gitlab에서 작업 브랜치를 develop에 합치도록 Merge Request 를 생성합니다
-
-6. 동료에게 승인받고, merge 합니다
+ 1️⃣ origin/back 브랜치에서 작업 브랜치 생성<br>
+ 2️⃣ 작업 브랜치에서 작업<br>
+ 3️⃣ 작업 브랜치에서 소스를 커밋<br>
+ 4️⃣ 작업 브랜치를 origin에 push<br>
+ 5️⃣ Gitlab에서 작업 브랜치를 develop에 합치도록 Merge Request 생성<br>
+ 6️⃣ 동료에게 승인받고, merge<br>
 
 <!-- [ref](https://techblog.woowahan.com/2553/) -->
 
