@@ -160,7 +160,7 @@ Jira는 개발 이슈 트랙킹 용도로 사용합니다.
 └── back
 ```
 
-Branch Types
+### Branch Types
 
  🌳 master: 제품으로 출시될 수 있는 브랜치<br>
  🌳 develop: 제품 출시 전 기능 개발 후 버그 수정 브랜치<br>
