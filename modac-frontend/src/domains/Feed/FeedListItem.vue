@@ -3,7 +3,7 @@
     <Card :class="$style.card_div" >
       <div :class="$style.card_img">
         <!-- <img src="https://picsum.photos/640/480/?random" :class="$style.img_class"/> -->
-        <img src="https://source.unsplash.com/random/600×300/?programming" :class="$style.img_class"/>
+        <img :src="categoryImg" :class="$style.img_class"/>
       </div>
 
       <div :class="$style.card_description">
@@ -66,10 +66,20 @@
 
 <script setup>
 import Card from "@/components/Card.vue";
+import csImg from "@/assets/feed/CS.png"
+import developImg from "@/assets/feed/개발.png"
+import etcImg from "@/assets/feed/공통.png"
+import interviewImg from "@/assets/feed/면접.png"
+import algorithmImg from "@/assets/feed/알고리즘.png"
+import { defineProps, computed } from 'vue';
+
 // import { ref } from "vue";
 // import { useFeedStore } from "../../stores/feed";
+const props = defineProps({
+  feed: Object,
+});
 
-defineProps(['feed'])
+// defineProps(['feed'])
 // const store = useFeedStore()
 // let getFeeds = ref([]);
 // getFeeds.value = store.getFeeds;
@@ -77,6 +87,23 @@ defineProps(['feed'])
 // const test = () => {
 //   console.log(feed);
 // }
+const categoryImg = computed(() => {
+  if( props.feed.categoryName === 'CS'){
+    return csImg
+  }
+  else if(props.feed.categoryName === '개발'){
+    return developImg
+  }
+  else if(props.feed.categoryName === '면접'){
+    return interviewImg
+  }
+  else if(props.feed.categoryName === '알고리즘'){
+    return algorithmImg
+  }
+  else if(props.feed.categoryName === '공통'){
+    return etcImg
+  }
+});
 
 
 </script>

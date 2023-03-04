@@ -54,7 +54,6 @@ selectedArticleItemSeq.value =
 
 const handleClickArticleItem = (seq) => {
   selectedArticleItemSeq.value = seq;
-  console.log(completeWriteArticleState.value);
   if (completeWriteArticleState.value) {
     changeCompleteWriteArticleState.value(false);
   }

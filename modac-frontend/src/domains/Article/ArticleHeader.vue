@@ -16,12 +16,13 @@ const requestCreateArticle = async () => {
   const { loginUser } = toRefs(userStore);
   const usersSeq = loginUser.value.seq;
   const articleStore = useArticleStore();
-  const { selectedArticleItemSeq, activeEditor } = toRefs(articleStore);
+  const { selectedArticleItemSeq, activeEditor } = toRefs(articleStore, "activeEditor");
   const todosSeq = selectedArticleItemSeq.value;
   const publicType = publicTypeSelectedValue.value;
 
   const currentActiveEditor = activeEditor.value;
   const content = currentActiveEditor.getMarkdown();
+  console.log("content:",content)
   await articleAPI.postArticle({
     usersSeq,
     todosSeq,
@@ -42,6 +43,9 @@ const deleteTodoAndArticle = async () => {
 };
 
 const handleClickCompleteWriteButton = async () => {
+  const articleStore = useArticleStore();
+  const { selectedArticleItemSeq, completeWriteArticleState } = toRefs(articleStore);
+  
   await requestCreateArticle();
   await deleteTodoAndArticle();
   completeWriteArticleState.value = true;

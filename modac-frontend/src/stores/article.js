@@ -13,7 +13,7 @@ export const useArticleStore = defineStore(
 
     const activeEditor = ref({});
 
-    const completeWriteArticleState = ref(false);
+    const completeWriteArticleState = ref(true);
     const changeCompleteWriteArticleState = (state) => {
       completeWriteArticleState.value = state;
     };

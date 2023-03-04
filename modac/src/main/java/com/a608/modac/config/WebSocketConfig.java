@@ -13,8 +13,11 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 	@Override
 	public void registerStompEndpoints(final StompEndpointRegistry registry) {
 		registry.addEndpoint("/ws") // 연결될 엔드포인트 설정. stomp 접속 url -> /ws
-			.setAllowedOriginPatterns("*")
+			.setAllowedOriginPatterns("http://127.0.0.1:5173")
 			.withSockJS(); // SocketJS 연결 설정
+
+
+
 	}
 
 	@Override
