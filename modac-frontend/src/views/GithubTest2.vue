@@ -149,12 +149,14 @@ console.log("GithubTest2 끝");
           </h2>
           <p class="text-gray-400 text-xs">last push: {{ el.pushed_at }}</p>
           <p class="text-sm">{{ el.description }}</p>
-          <small
+          <div id="github_topic_box">
+            <small
             class="github_topic"
             v-for="(topic, index) in el.topics"
             :key="index"
             >#{{ topic }}&nbsp;&nbsp;</small
-          >
+            >
+          </div>
         </div>
       </div>
     </div>
@@ -183,8 +185,12 @@ console.log("GithubTest2 끝");
 .user_github_id {
   @apply font-semibold text-yellow-700 bg-yellow-200 border border-yellow-600 px-3 py-1 rounded-lg;
 }
+.github_topic_box{
+  display: flex;
+}
 .github_topic {
   @apply font-semibold text-blue-700 bg-blue-200 border border-blue-600 px-3 py-1 rounded-full;
+  margin-right: 6px;
 }
 .github_new_repo_button {
   @apply bg-black py-2 px-5 rounded-xl text-white text-sm w-fit self-end;

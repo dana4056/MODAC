@@ -32,7 +32,7 @@ const requestCreateArticle = async () => {
 
 const deleteTodoAndArticle = async () => {
   const articleStore = useArticleStore();
-  const { selectedArticleItemSeq, deleteArticle } = toRefs(articleStore);
+  const { selectedArticleItemSeq, deleteArticle, completeWriteArticleState } = toRefs(articleStore);
   const todoStore = useTodoStore();
   const { deleteTodoItem } = toRefs(todoStore);
   deleteTodoItem.value(selectedArticleItemSeq.value);
@@ -44,7 +44,7 @@ const deleteTodoAndArticle = async () => {
 const handleClickCompleteWriteButton = async () => {
   await requestCreateArticle();
   await deleteTodoAndArticle();
-  changeCompleteWriteArticleState.value(true);
+  completeWriteArticleState.value = true;
 };
 
 const publicTypeSelectedValue = ref(1);

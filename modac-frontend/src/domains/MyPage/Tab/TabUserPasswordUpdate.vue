@@ -64,6 +64,8 @@ import { useUserStore } from "@/stores/user";
 import { storeToRefs } from "pinia";
 import { ref, computed } from "vue";
 import { useRouter } from "vue-router";
+import Message from "vue-m-message";
+
 const userStore = useUserStore()
 const { loginUser } = storeToRefs(userStore)
 const router = useRouter();
@@ -85,7 +87,9 @@ const updatePassword = () => {
       password : user_new_password.value
     }
     userStore.api.updatePW(payload)
-    alert("비밀번호 변경 완료");   
+    Message.success("비밀번호 변경 완료 :-)", {
+      closable: true,
+    });
   }
 }
 

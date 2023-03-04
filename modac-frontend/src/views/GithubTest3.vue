@@ -7,6 +7,7 @@ import { useRoute } from "vue-router";
 import router from "../router/index";
 import articleAPI from "@/api/article";
 import { useUserStore } from "@/stores/user";
+import Message from "vue-m-message";
 
 const title = ref("");
 const commitMSG = ref("");
@@ -37,7 +38,6 @@ async function commitToRepo() {
   const res = await articleAPI.findArticle(lastestArticleSeq);
   const content = res.data.filepath; // String
 
-  alert("msg:" + commitMSG.value);
   const GITHUB_API_SERVER = "https://api.github.com";
   const user = route.params.user;
   const repo = route.params.repo;
@@ -66,7 +66,10 @@ async function commitToRepo() {
       }
     )
     .then((response) => {
-      alert("원격저장소에 정상적으로 Commit 되었습니다 :->");
+      Message.success("원격저장소에 정상적으로 Commit 되었습니다 :->", {
+        position: "top-right",
+        closable: true,
+      });
       router.push(`/repo/${user}/${repo}`);
     })
     .catch((err) => console.log(err));

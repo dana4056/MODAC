@@ -38,3 +38,13 @@
 .no_item {
   @apply h-5/6 flex items-center text-xl;
 }
+
+.complete_box {
+  background-color: #232428;
+  width: 80%;
+  height: 90%;
+  margin: 14px 0px 0px 12px;
+  border-radius: 10px;
+  text-align: center;
+  padding: 20% 0;
+}

@@ -4,6 +4,7 @@ import { useArticleStore } from "@/stores/article";
 import { useRoute } from "vue-router";
 import router from "../router/index";
 import { ref } from "vue";
+import Message from "vue-m-message";
 
 const GITHUB_API_SERVER = "https://api.github.com";
 
@@ -36,7 +37,9 @@ function createRepo() {
     .post(GITHUB_API_SERVER + "/user/repos", body, { headers })
     .then((response) => {
       console.log(response);
-      alert("저장소가 생성되었습니다 :->");
+      Message.success("저장소가 생성되었습니다 :->", {
+        closable: true,
+      });
       writeCommitMSG(body.name);
     })
     .catch((err) => console.log(err));

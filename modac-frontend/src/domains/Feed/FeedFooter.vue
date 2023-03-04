@@ -94,6 +94,7 @@ import commentAPI from "@/api/comment.js";
 import articleAPI from "@/api/article.js";
 import LikeButton from "./LikeButton.vue";
 import FollowButton from "@/components/FollowButton.vue";
+import Message from "vue-m-message";
 
 const commentStore = useCommentStore();
 const feedStore = useFeedStore();
@@ -132,7 +133,9 @@ const resizeTextarea = () => {
 
 const comment_add = async () => {
   if (comment.value === "") {
-    alert("댓글을 입력해주세요.")
+    Message.info("댓글을 입력해주세요", {
+      closable: true,
+    });
   }
   else {
     // comment.value를 댓글 작성 시 보내면 됨!
