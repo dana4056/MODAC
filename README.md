@@ -1,20 +1,29 @@
-# MODAC (학습 내용 기록 및 공유 플랫폼)
+# 🔥MODAC (학습 내용 기록 및 공유 플랫폼)
+
+![modac](/assets/images/modac.png)
 
 ## Table of Content
 
+<!-- 1. [시연 영상](#0-시연-영상) -->
 1. [프로젝트 진행 기간](#1-프로젝트-진행-기간)
 1. [서비스 기획 배경](#2-서비스-기획-배경)
 1. [서비스 개요](#3-서비스-개요)
-1. [주요 기술](#4-주요-기술)
-1. [팀원 소개](#5-팀원-소개)
-1. [협업](#6-협업)
-1. [Backend Convention](#7-backend-convention)
-1. [Frontend Convention](#8-frontend-convention)
+1. [주요 서비스 화면](#4-주요-서비스-화면)
+1. [기술 스택](#5-기술-스택)
+1. [팀원 소개](#6-팀원-소개)
+1. [협업](#7-협업)
+1. [Backend Convention](#8-backend-convention)
+1. [Frontend Convention](#9-frontend-convention)
+
+<!-- <br>
+
+## 시연 영상
+📺 https://youtu.be/E_fv5XTlvFE  -->
 
 <br>
 
 ## 프로젝트 진행 기간
-2023.01.09(월) ~ 2023.02.17(금) (30일간 진행) <br>
+📅 2023.01.09(월) ~ 2023.02.17(금) (30일간 진행) <br>
 SSAFY 8기 2학기 공통 프로젝트
 
 
@@ -32,14 +41,43 @@ SSAFY 8기 2학기 공통 프로젝트
 ## 서비스 개요
 저희 서비스가 추구하는 목표는 **학습 내용 기록 및 공유 플랫폼**입니다.
 
-- Todo 리스트를 작성해 목표를 설정하고 학습할 수 있습니다.
-- 공부한 내용을 Markdown 파일로 작성할 수 있습니다.
-- 편리하게 Github에 Commit 할 수 있습니다.
-- 공부한 기록을 Feed를 통해 모아 볼 수 있습니다.
+ ✅ Todo 리스트를 작성해 목표를 설정하고 학습할 수 있습니다.<br>
+ ✅ 공부한 내용을 Markdown 파일로 작성할 수 있습니다.<br>
+ ✅ Todo 항목 카테고리별 Markdown 템플릿을 제공해줍니다.<br>
+ ✅ 편리하게 Github에 Commit 할 수 있습니다.<br>
+ ✅ 공부한 기록을 Feed를 통해 모아 볼 수 있습니다.<br>
 
 <br>
 
-## 주요 기술
+## 주요 서비스 화면
+
+### 스터디룸 실시간 사용자 참여
+
+![modac](/assets/images/gif/실시간참여.gif)
+
+### todo 리스트 작성 및 정리하러 가기
+
+![modac](/assets/images/gif/todo생성.gif)
+
+### todo 카테고리별 마크다운 템플릿 제공
+
+![modac](/assets/images/gif/템플릿.gif)
+
+### 마크다운 작성
+
+![modac](/assets/images/gif/게시글작성복사다운.gif)
+
+### 깃허브 원격저장소 커밋
+
+![modac](/assets/images/gif/깃허브.gif)
+
+### 친구 기반 피드
+
+![modac](/assets/images/gif/피드.gif)
+
+<br>
+
+## 기술 스택
 
 ### FrontEnd
 
@@ -73,12 +111,14 @@ SSAFY 8기 2학기 공통 프로젝트
 
 ## 팀원 소개
 
-이민수 (팀장): Backend 개발 + Infra + 협업툴 관리<br>
-정다은 (팀원): Backend 개발총괄 + API 설계 및 관리<br>
-김동현 (팀원): Backend 개발 + DB 설계 + 발표<br>
-김성수 (팀원): Frontend 개발총괄 + 아키텍쳐 설계<br>
-윤지영 (팀원): Frontend 개발 + 디자인<br>
-권용재 (팀원): Frontend 개발 + 일정관리<br>
+|이름||담당|
+|------|---|---|
+|이민수|팀장|Backend 개발 + Infra + 협업툴 관리|
+|정다은|팀원|Backend 개발총괄 + API 설계 및 관리|
+|김동현|팀원|Backend 개발 + DB 설계 + 발표|
+|김성수|팀원|Frontend 개발총괄 + 아키텍쳐 설계|
+|윤지영|팀원|Frontend 개발 + 디자인|
+|권용재|팀원|Frontend 개발 + 일정관리|
 
 <br>
 
