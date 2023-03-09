@@ -2,26 +2,19 @@
 import FavoritesRoomListItem from "./FavoritesRoomListItem.vue";
 import RightSideBarHeader from "../Sidebar/RightSideBarHeader.vue";
 import RightSideBarBody from "../Sidebar/RightSideBarBody.vue";
+import { useRoomStore } from '@/stores/room';
+import { storeToRefs } from "pinia";
 
-import { ref } from "vue";
-
-const favortiesRoomList = ref([
-  {
-    id: 1,
-    name: "즐찾방 1",
-    description: "설명 1",
-    host: "방장1",
-    theme: "모닥불",
-  },
-]);
+const roomStore = useRoomStore();
+const { favorite_room_list } = storeToRefs(roomStore);
 </script>
 
 <template>
   <RightSideBarHeader>즐겨찾는 스터디룸</RightSideBarHeader>
   <RightSideBarBody>
     <FavoritesRoomListItem
-      v-for="favoritesRoom in favortiesRoomList"
-      :key="favoritesRoom.id"
+      v-for="favoritesRoom in favorite_room_list"
+      :key="favoritesRoom.seq"
       :favoritesRoom="favoritesRoom"
     />
   </RightSideBarBody>

@@ -19,11 +19,11 @@ export const useRoomStore = defineStore(
 
     // 변수
     const isEnteredRoom = ref(false);
-    const isDeleteRoom = ref(false);
     const api = room;
     const checkCode = ref(false);
     const room_info = ref({});
     const room_list = ref([]);
+    const favorite_room_list = ref([]);
     const isOpenedLeftSideBar = ref(false);
     const isOpenedRightSideBar = ref(false);
     const currentRightSideBarContent = ref(0); // 초깃값 : Room Chat
@@ -46,7 +46,10 @@ export const useRoomStore = defineStore(
   // 함수
   const enterRoom = async (roomSeq) => {
     console.log("store의 enterRoom  seq:"+roomSeq)
-    await api.findRoom(roomSeq);      // 입장한 룸 정보 불러오기
+    await api.findRoom(roomSeq)      // 입장한 룸 정보 불러오기
+    .then(() => {
+      api.findPrivateRoomList(loginUser.value.seq); // 방 입장시 즐겨찾기 방 목록 조회
+    })
     connect2();                 // 소켓 연결 
     isEnteredRoom.value = true;
   };
@@ -63,6 +66,7 @@ export const useRoomStore = defineStore(
     isEnteredRoom.value = false;
   };
 
+  
   const exitPrivateRoom = () => {
     if (stompClient != null) {
       stompClient.disconnect(function () {
@@ -72,8 +76,21 @@ export const useRoomStore = defineStore(
     isEnteredRoom.value = false;
   };
 
-  const deleteRoom = () => {
-    isDeleteRoom.value = true;
+  // 즐겨찾기 이동시 Socket 해제
+  const disconnectSocket = () => {
+    if (stompClient != null) {
+      stompClient.disconnect(function () {
+        console.log("DISCONNECT 소켓 연결해제")
+      });
+    }
+  };
+
+  const deleteRoom = (roomseq) => {
+    const payload = {
+      seq : roomseq,
+      usersSeq : loginUser.value.seq
+    }
+    api.exitRoom(payload)
   };
 
   const toggleLeftSideBar = () => {
@@ -225,7 +242,6 @@ export const useRoomStore = defineStore(
       api,
       checkCode,
       isEnteredRoom,
-      isDeleteRoom,
       enterRoom,
       exitRoom,
       exitPrivateRoom,
@@ -253,6 +269,9 @@ export const useRoomStore = defineStore(
       enterChat,
       chatListElement,
       chatFormElement,
+      // 즐겨찾기 관련
+      favorite_room_list,
+      disconnectSocket,
     };
   }
   // {

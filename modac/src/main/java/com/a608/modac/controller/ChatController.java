@@ -31,7 +31,7 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin(origins = { "*" })
+@CrossOrigin
 @RequestMapping("/chat")
 public class ChatController {
 	// ChatController 역할

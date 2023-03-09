@@ -10,16 +10,19 @@
       1. 계정 탈퇴 시, MODAC 서비스에서 계정이 탈퇴됩니다.<br>
       2. 탈퇴 시 계정과 관련된 모든 권한이 사라지며 복구할 수 없습니다.<br>
       3. 직접 작성한 콘텐츠(피드, 댓글 등)는 자동으로 삭제되지 않으며,<br> 만일 삭제를 원하시면 탈퇴 이전에 삭제가 필요합니다.<br>
-      4. 현재 비밀번호를 입력하고 탈퇴하기를 누르시면 위 내용에 동의하는 것으로 간주됩니다.<br>
-    </p>
+      4. 아래에 안내된 문구를 입력하시고 탈퇴하기를 누르시면 위 내용에 동의하는 것으로 간주됩니다.<br>
+    </p><br>
+    <b>
+      <h1>"탈퇴를 동의합니다"</h1>
+    </b>
 
     <div :class="$style.delete_user_password">
-      <label for="delete_user_password" :class="$style.delete_user_password_label">현재 비밀번호</label>
+      <!-- <label for="delete_user_password" :class="$style.delete_user_password_label">현재 비밀번호</label> -->
       <input :class="$style.delete_user_password_input" 
               type="text" 
               v-model="delete_user_password" 
               id="delete_user_password" 
-              placeholder="현재 비밀번호" 
+              placeholder="문구를 입력하세요." 
               required>
     </div>
     <div :class="$style.delete_user_password_button_div">
@@ -37,17 +40,21 @@
 </template>
 
 <script setup>
-
+import { useUserStore } from "@/stores/user";
+import { storeToRefs } from "pinia";
 import { ref } from "vue";
+import { useRouter } from "vue-router";
+const userStore = useUserStore()
+const { loginUser } = storeToRefs(userStore)
+const router = useRouter();
 
 let delete_user_password = ref("");
-let user_password = "password";
+let user_password = "탈퇴를 동의합니다";
 
 const deleteUser = () => {
   if (confirm("정말 탈퇴하시겠습니까?") == true) {
     // 회원 탈퇴 함수 실행!!
-    alert("탈퇴 완료");
-
+    userStore.api.deleteUser(loginUser.value.seq)
     // 홈으로 돌아가서 로그인 화면을 띄워줄 것
   }
 }

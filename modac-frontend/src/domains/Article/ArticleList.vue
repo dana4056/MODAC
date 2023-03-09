@@ -5,6 +5,7 @@ import OverflowDiv from "@/components/OverflowDiv.vue";
 import { useTodoStore } from "@/stores/todo";
 import { useArticleStore } from "@/stores/article";
 import { ref, toRefs, computed } from "vue";
+import { storeToRefs } from "pinia";
 import articleAPI from "@/api/article";
 import article from "@/api/article";
 import todoAPI from "@/api/todo";
@@ -53,7 +54,6 @@ selectedArticleItemSeq.value =
 
 const handleClickArticleItem = (seq) => {
   selectedArticleItemSeq.value = seq;
-  console.log(completeWriteArticleState.value);
   if (completeWriteArticleState.value) {
     changeCompleteWriteArticleState.value(false);
   }
@@ -75,12 +75,16 @@ const handleClickArticleItem = (seq) => {
             />
           </div>
         </OverflowDiv>
-        <div :class="$style.editor">
+        <div v-if="!completeWriteArticleState" :class="$style.editor">
           <ArticleEditor2
             v-for="articleItem in articles"
             :key="articleItem.seq"
             :articleItem="articleItem"
           />
+        </div>
+        <div :class="$style.complete_box" v-else>
+          <p>작성이 완료되었습니다 :-></p>
+          <small>우측 상단의 원하시는 버튼을 눌러 md 파일을 활용하세요!</small>
         </div>
       </div>
     </div>
@@ -90,4 +94,5 @@ const handleClickArticleItem = (seq) => {
 
 <style lang="css" module>
 @import "./ArticleList.module.css";
+
 </style>

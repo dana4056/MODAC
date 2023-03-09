@@ -11,17 +11,14 @@ export const useArticleStore = defineStore(
 
     const selectedArticleItemSeq = ref(null);
 
-    // const articleContent = ref("");
-    // const setArticleContent = (value) => {
-    //   articleContent.value = value;
-    // };
+    const activeEditor = ref({});
 
-    const activeEditor = ref(undefined);
-
-    const completeWriteArticleState = ref(false);
+    const completeWriteArticleState = ref(true);
     const changeCompleteWriteArticleState = (state) => {
       completeWriteArticleState.value = state;
     };
+
+    const access_token = ref("");
 
     return {
       articles,
@@ -32,6 +29,7 @@ export const useArticleStore = defineStore(
       activeEditor,
       completeWriteArticleState,
       changeCompleteWriteArticleState,
+      access_token,
     };
   },
   {

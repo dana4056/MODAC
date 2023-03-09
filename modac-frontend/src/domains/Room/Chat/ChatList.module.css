@@ -1,5 +1,5 @@
 .chatbox_body_size {
-  @apply flex flex-col h-[64vh];
+  @apply flex flex-col h-[68vh];
   overflow: auto;
   /* overflow: scroll; */
   overflow-x: hidden;

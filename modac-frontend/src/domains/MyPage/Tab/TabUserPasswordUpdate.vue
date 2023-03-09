@@ -1,6 +1,6 @@
 <template lang="">
 <div :class="$style.tabs_flex">
-    <form @submit.prevent="submitUpdatePassword(updatePassword)" :class="$style.update_password_form">
+    <form @submit.prevent="updatePassword" :class="$style.update_password_form">
       <!-- 입력 전 -->
       <div :class="$style.update_password_div">
         <label for="user_new_password_input" 
@@ -60,8 +60,15 @@
 </template>
 
 <script setup>
-
+import { useUserStore } from "@/stores/user";
+import { storeToRefs } from "pinia";
 import { ref, computed } from "vue";
+import { useRouter } from "vue-router";
+import Message from "vue-m-message";
+
+const userStore = useUserStore()
+const { loginUser } = storeToRefs(userStore)
+const router = useRouter();
 
 // let reg_pass = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,16}$/;
 let reg_pass1 = /^(?=.*[a-z]).*$/; // 영문 소문자
@@ -75,7 +82,14 @@ let user_new_password_check = ref("");
 const updatePassword = () => {
   if (confirm("비밀번호를 변경하시겠습니까?") == true) {
     // 비밀번호 변경 함수 실행!!
-    alert("비밀번호 변경 완료");
+    const payload = {
+      userSeq : loginUser.value.seq,
+      password : user_new_password.value
+    }
+    userStore.api.updatePW(payload)
+    Message.success("비밀번호 변경 완료 :-)", {
+      closable: true,
+    });
   }
 }
 

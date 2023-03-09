@@ -38,11 +38,15 @@ onMounted(async () => {
 });
 
 watch(selectedArticleItemSeq, () => {
+  console.log("☆ editor.value",editor.value)
+  console.log("★ selectedArticleItemSeq.value",selectedArticleItemSeq.value)
+  console.log("＠ articleItem.value.seq",articleItem.value.seq)
   if (
     editor.value !== null &&
     selectedArticleItemSeq.value === articleItem.value.seq
   ) {
     activeEditor.value = editor.value;
+    console.log("※※※※※※※※※※※ activeEditor.value2",activeEditor.value.getMarkdown())
   }
 });
 

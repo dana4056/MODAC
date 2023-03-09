@@ -32,6 +32,13 @@
   height: 85%;
 }
 
+.chatbox_none_text {
+  text-align: center;
+  margin: 175px auto;
+  color: #b2b2b2;
+  font-size: 14.5px;
+}
+
 .form_box{
   height: 10%;
   padding-right: 15px;

@@ -1,6 +1,7 @@
 import http from "@/api/http";
 import { useCommentStore } from "@/stores/comment";
 import { storeToRefs } from "pinia";
+import Message from "vue-m-message"
 
 export default {
     // 댓글 작성
@@ -56,15 +57,17 @@ export default {
         // });
     },
     // 댓글 삭제
-    deleteComment(seq){
+    deleteComment(seq, articleSeq){
         http.delete(`/comments/${seq}`)
         .then((response) => {
             const code = response.status;
 
             if (code == 200) {
-                console.log(response.data)
+                console.log("삭제 성공", response)
+                this.findCommentList(articleSeq)
             } else if (code == 204) {
-                alert("댓글 찾기 실패: 댓글 없음");
+                // alert("댓글 찾기 실패: 댓글 없음");
+                Message.error("존재하지 않는 댓글입니다 :-(",{position:"top-right",closable:true});
             }
         })
         .catch((error) => {

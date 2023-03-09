@@ -16,12 +16,13 @@ const requestCreateArticle = async () => {
   const { loginUser } = toRefs(userStore);
   const usersSeq = loginUser.value.seq;
   const articleStore = useArticleStore();
-  const { selectedArticleItemSeq, activeEditor } = toRefs(articleStore);
+  const { selectedArticleItemSeq, activeEditor } = toRefs(articleStore, "activeEditor");
   const todosSeq = selectedArticleItemSeq.value;
   const publicType = publicTypeSelectedValue.value;
 
   const currentActiveEditor = activeEditor.value;
   const content = currentActiveEditor.getMarkdown();
+  console.log("content:",content)
   await articleAPI.postArticle({
     usersSeq,
     todosSeq,
@@ -32,7 +33,7 @@ const requestCreateArticle = async () => {
 
 const deleteTodoAndArticle = async () => {
   const articleStore = useArticleStore();
-  const { selectedArticleItemSeq, deleteArticle } = toRefs(articleStore);
+  const { selectedArticleItemSeq, deleteArticle, completeWriteArticleState } = toRefs(articleStore);
   const todoStore = useTodoStore();
   const { deleteTodoItem } = toRefs(todoStore);
   deleteTodoItem.value(selectedArticleItemSeq.value);
@@ -42,9 +43,12 @@ const deleteTodoAndArticle = async () => {
 };
 
 const handleClickCompleteWriteButton = async () => {
+  const articleStore = useArticleStore();
+  const { selectedArticleItemSeq, completeWriteArticleState } = toRefs(articleStore);
+  
   await requestCreateArticle();
   await deleteTodoAndArticle();
-  changeCompleteWriteArticleState.value(true);
+  completeWriteArticleState.value = true;
 };
 
 const publicTypeSelectedValue = ref(1);

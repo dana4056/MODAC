@@ -112,6 +112,7 @@ public class RoomController {
 
 
 
+	@CrossOrigin(origins = { "*" })
 	@MessageMapping(value = "/message/enter")		// @PostMapping("/{seq}/join") '멀티룸에 참여'였던것
 	public ResponseEntity<Void> sendDirectMessage(@RequestBody final ParticipantRequest participantRequest) {
 		//참가자 번호, 입퇴장문자열("ENTER", "EXIT"), 방번호가 담긴 DTO로 받아서

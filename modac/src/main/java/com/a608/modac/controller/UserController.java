@@ -1,5 +1,6 @@
 package com.a608.modac.controller;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.a608.modac.model.follow.Follow;
 import com.a608.modac.model.follow.FollowRequest;
+import com.a608.modac.model.follow.FollowResponse;
 import com.a608.modac.model.user.UserRequest;
 import com.a608.modac.model.user.UserResponse;
 import com.a608.modac.service.UserService;
@@ -36,7 +38,7 @@ public class UserController {
 	}
 
 	@PostMapping                        //회원 가입
-	public ResponseEntity<?> signUp(@RequestBody final UserRequest userRequest) {
+	public ResponseEntity<?> signUp(@RequestBody final UserRequest userRequest) throws NoSuchAlgorithmException {
 		System.out.println("user info: " + userRequest.toString());
 		log.info("user info:" + userRequest.toString());
 		UserResponse userResponse = userService.saveUser(userRequest);
@@ -49,6 +51,13 @@ public class UserController {
 		return new ResponseEntity<UserResponse>(userResponse, HttpStatus.OK);
 	}
 
+	@GetMapping("/find-by-email")            // 이메일로 특정 회원 조회
+	public ResponseEntity<?> findUserByEmail(@RequestParam("email") String email) {
+		UserResponse userResponse = userService.findUserByEmail(email);
+		return new ResponseEntity<UserResponse>(userResponse, HttpStatus.OK);
+	}
+
+
 	@PutMapping("/{seq}")            // 회원 수정
 	public ResponseEntity<?> updateUser(@PathVariable("seq") Long seq, @RequestBody UserRequest userRequest) {
 		UserResponse userResponse = userService.updateUser(seq, userRequest);
@@ -56,7 +65,8 @@ public class UserController {
 	}
 
 	@PutMapping("/{seq}/password")    // 비밀번호 수정
-	public ResponseEntity<?> updatePassword(@PathVariable("seq") Long seq, @RequestBody String password) {
+	public ResponseEntity<?> updatePassword(@PathVariable("seq") Long seq, @RequestBody String password) throws
+		NoSuchAlgorithmException {
 		userService.updatePassword(seq, password);
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
@@ -103,7 +113,7 @@ public class UserController {
 	}
 
 	@PostMapping("/login")            // 로그인
-	public ResponseEntity<?> login(@RequestBody UserRequest userRequest) {
+	public ResponseEntity<?> login(@RequestBody UserRequest userRequest) throws NoSuchAlgorithmException {
 		UserResponse loginUser = userService.login(userRequest);
 		return new ResponseEntity<>(loginUser, HttpStatus.OK);
 	}
@@ -133,8 +143,8 @@ public class UserController {
 
 	@GetMapping("/follow")
 	public ResponseEntity<?> isFollowingThatUser(@RequestParam("from") Long fromSeq, @RequestParam("to") Long toSeq) {
-		boolean isFollowing = userService.isFollowing(fromSeq, toSeq);
-		return new ResponseEntity<>(isFollowing, HttpStatus.OK);
+		FollowResponse followResponse = userService.isFollowing(fromSeq, toSeq);
+		return new ResponseEntity<>(followResponse, HttpStatus.OK);
 	}
 
 }

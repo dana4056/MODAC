@@ -150,7 +150,11 @@
 
           <FeedViewer :feedModalSeq="feedModalSeq"></FeedViewer>
 
-          <FeedFooter :feedModalSeq="feedModalSeq" :commentList="commentList" :commentCount="myArticle.commentCount" :updateFeedModal="updateFeedModal"></FeedFooter>
+          <FeedFooter :feedModalSeq="feedModalSeq" 
+                      :commentList="commentList" 
+                      :commentCount="myArticle.commentCount" 
+                      :updateFeedModal="updateFeedModal" 
+                      :feedModalState="feedModalState"></FeedFooter>
 
           <div class="fixed bottom-16 right-[23%] bg-white border shadow-xl rounded-full p-3">
             <a href="#title">

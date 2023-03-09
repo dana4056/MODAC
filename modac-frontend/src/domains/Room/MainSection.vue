@@ -46,24 +46,6 @@ const exitRoom = () => {
   }
 }
 
-// const exitRoom = () => {
-//   // 공개방
-//   if (room_info.value.publicType === 1) {
-//     const payload = {
-//     seq: room_info.value.seq,
-//     usersSeq: loginUser.value.seq
-//   }
-//     roomStore.api.exitRoom(payload)
-//     roomStore.exitRoom();
-//   }
-// }
-
-
-
-
-
-
-
 
 const categoryValue = ref("기획");
 const changeCategoryValue = () => {

@@ -62,8 +62,8 @@ const user_data6 = {
 
 const user_data7 = {
   // 팔로잉 여부 조회 데이터
-  fromSeq: 1,
-  toSeq: 14,
+  fromSeq: 421,
+  toSeq: 43,
 };
 
 // ================================

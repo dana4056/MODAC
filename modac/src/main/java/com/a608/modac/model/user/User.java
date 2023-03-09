@@ -46,6 +46,9 @@ public class User implements UserDetails {
 	@Column(name = "password")
 	private String password;
 
+	@Column(name = "salt")
+	private String salt;
+
 	@Column(name = "cat_skin")
 	private Byte catSkin;        // UI로 표시될 고양이 스킨 번호 (일단 12개..)
 
@@ -65,13 +68,14 @@ public class User implements UserDetails {
 	private Integer maxPoint;
 
 	@Builder
-	public User(Long seq, String id, String nickname, String email, String password, Byte catSkin, String singleTheme,
+	public User(Long seq, String id, String nickname, String email, String password, String salt,  Byte catSkin, String singleTheme,
 		Long totalSecond) {
 		this.seq = seq;
 		this.id = id;
 		this.nickname = nickname;
 		this.email = email;
 		this.password = password;
+		this.salt = salt;
 		this.catSkin = catSkin;
 		this.singleTheme = singleTheme;
 		this.totalSecond = totalSecond;
@@ -84,6 +88,10 @@ public class User implements UserDetails {
 
 	public void updatePassword(String password) {
 		this.password = password;
+	}
+
+	public void updateSalt(String salt) {
+		this.salt = salt;
 	}
 
 	public void changeCatSkin(Byte no) {
