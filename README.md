@@ -13,8 +13,8 @@
 1. [기술 스택](#5-기술-스택)
 1. [팀원 소개](#6-팀원-소개)
 1. [협업](#7-협업)
-1. [Backend Convention](#8-backend-convention)
-1. [Frontend Convention](#9-frontend-convention)
+1. [Backend Convention](#8-Backend-Convention)
+1. [Frontend Convention](#9-Frontend-Convention)
 
 <!-- <br>
 
@@ -23,14 +23,14 @@
 
 <br>
 
-## 프로젝트 진행 기간
+## 1. 프로젝트 진행 기간
 
 📅 2023.01.09(월) ~ 2023.02.17(금) (30일간 진행) <br>
 SSAFY 8기 2학기 공통 프로젝트
 
 <br>
 
-## 서비스 기획 배경
+## 2. 서비스 기획 배경
 
 개발자가 되기 위해 '공부하는' 사람들은 공부한 내용을 정리할 때 어떤 서비스를 사용하고 있을까요? <br>
 바로 블로그, 노션, 깃허브입니다. <br>
@@ -39,7 +39,7 @@ SSAFY 8기 2학기 공통 프로젝트
 
 <br>
 
-## 서비스 개요
+## 3. 서비스 개요
 
 저희 서비스가 추구하는 목표는 **학습 내용 기록 및 공유 플랫폼**입니다.
 
@@ -51,7 +51,7 @@ SSAFY 8기 2학기 공통 프로젝트
 
 <br>
 
-## 주요 서비스 화면
+## 4. 주요 서비스 화면
 
 ### 스터디룸 실시간 사용자 참여
 
@@ -79,7 +79,7 @@ SSAFY 8기 2학기 공통 프로젝트
 
 <br>
 
-## 기술 스택
+## 5. 기술 스택
 
 ### FrontEnd
 
@@ -109,7 +109,7 @@ SSAFY 8기 2학기 공통 프로젝트
 
 <br>
 
-## 팀원 소개
+## 6. 팀원 소개
 
 | 이름   | 역할 | 담당                                |
 | ------ | ---- | ----------------------------------- |
@@ -122,7 +122,7 @@ SSAFY 8기 2학기 공통 프로젝트
 
 <br>
 
-## 협업
+## 7. 협업
 
 ### Jira Convention
 
@@ -225,7 +225,7 @@ Jira는 개발 이슈 트랙킹 용도로 사용합니다.
 
 <br>
 
-## Backend Convention
+## 8. Backend Convention
 
 - Style Guide
   - [캠퍼스 핵데이 Java 코딩 컨벤션](https://naver.github.io/hackday-conventions-java/)
@@ -265,7 +265,7 @@ Jira는 개발 이슈 트랙킹 용도로 사용합니다.
 
 ```
 
-## Frontend Convention
+## 9. Frontend Convention
 
 - Project Structure
 
