@@ -2,6 +2,9 @@
 
 ![modac](/assets/images/modac.png)
 
+🎬 https://youtu.be/E_fv5XTlvFE
+
+
 ## Table of Content
 
 <!-- 1. [시연 영상](#0-시연-영상) -->
