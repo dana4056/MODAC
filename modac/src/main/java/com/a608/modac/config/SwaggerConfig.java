@@ -19,7 +19,7 @@ public class SwaggerConfig {
 			.apiInfo(apiInfo())
 			.useDefaultResponseMessages(false)
 			.select()
-			.apis(RequestHandlerSelectors.basePackage("com.example.springswagger.controller"))
+			.apis(RequestHandlerSelectors.basePackage("com.a608.modac.controller"))
 			.paths(PathSelectors.any())
 			.build();
 	}
