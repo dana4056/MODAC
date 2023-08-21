@@ -95,16 +95,9 @@ public class UserController {
 	@Operation(summary = "아이디 찾기", description = "이메일 통해 아이디 찾기")
 	@GetMapping("/find-id")            // 아이디 찾기(이메일로)
 	public ResponseEntity<?> findIdByEmail(@RequestParam("email") String email) {
-		String id = userService.findIdByEmail(email);
+		String id = userService.findUserByEmail(email).getId();
 		return new ResponseEntity<String>(id, HttpStatus.OK);
 	}
-
-	// @Operation(summary = "비밀 번호 찾기", description = "이메일로 비밀번호 찾기 (근데 비밀번호 암호화 해놔서 더이상 사용하지 않는 API 인듯)")
-	// @GetMapping("/find-password")    // 비밀번호 찾기(이메일로)
-	// public ResponseEntity<?> findPasswordByEmail(@RequestParam("email") String email) {
-	// 	String password = userService.findPasswordByEmail(email);
-	// 	return new ResponseEntity<String>(password, HttpStatus.OK);
-	// }
 
 	@Operation(summary = "닉네임 중복확인", description = "해당 닉네임(nick)의 중복 여부 확인")
 	@GetMapping("/check-nick")        // 닉네임 중복확인
