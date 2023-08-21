@@ -211,7 +211,7 @@ public class UserServiceImpl implements UserService {
         return list;
     }
 
-    // 출석체크시 20포인트 적립
+    // 포인트 수정
     @Override
     public UserResponse updatePoint(Long seq, String point) {
         User user = userRepository.findById(seq).orElseThrow(() -> new NoSuchElementException("NoUser"));
