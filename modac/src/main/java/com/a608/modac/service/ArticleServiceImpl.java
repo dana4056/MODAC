@@ -74,7 +74,7 @@ public class ArticleServiceImpl implements ArticleService {
 		String objectKey = articleRequest.getContent();
 
 		// 게시글 내용 s3에 저장
-		objectKey = s3Service.save(s3Service.createMultipartFile(articleRequest.getContent()));
+//		objectKey = s3Service.save(s3Service.createMultipartFile(articleRequest.getContent()));
 		System.out.println(objectKey);
 
 		// Todo 정보를 불러와서 Article 객체 빌드
@@ -96,7 +96,7 @@ public class ArticleServiceImpl implements ArticleService {
 		}
 		User user = userRepository.findById(articleRequest.getUsersSeq())
 			.orElseThrow(() -> new NoSuchElementException("NoUser"));
-		user.updatePoint(point);
+//		user.updatePoint(point);
 		userRepository.save(user);
 
 		return new ArticleResponse.ArticleInfo(save);
@@ -155,7 +155,7 @@ public class ArticleServiceImpl implements ArticleService {
 		Article article = articleRepository.findById(seq).orElseThrow(() -> new NoSuchElementException("NoArticle"));
 		ArticleResponse.ArticleInfo articleResponse = new ArticleResponse.ArticleInfo(article);
 		// S3 서버에 백업된 게시글 내용 조회
-		articleResponse.readContentByFilepath(s3Service.read(article.getFilepath()));
+//		articleResponse.readContentByFilepath(s3Service.read(article.getFilepath()));
 		return articleResponse;
 	}
 
