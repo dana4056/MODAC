@@ -27,8 +27,11 @@ import com.a608.modac.model.user.UserResponse;
 import com.a608.modac.service.ChatService;
 import com.a608.modac.service.UserService;
 
+import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 
+@Api(tags = "Chat Controller", description = "채팅 관련 API")
 @RestController
 @RequiredArgsConstructor
 @CrossOrigin
@@ -48,13 +51,17 @@ public class ChatController {
 	private final SimpMessageSendingOperations simpMessageSendingOperations;
 	private final UserService userService;
 
+	// 유저의 1:1 모든 채팅방 조회 -> 모든 1:1 채팅방 리스트 반환. -> 다나가 바꿈.
+	@Operation(summary = "일대일 채팅방 목록 조회", description = "특정 사용자(user)가 참가 중인 일대일 채팅방 전부 조회")
 	@GetMapping("/rooms")
 	public ResponseEntity<List<ChatRoomDto>> findAllChatRoom(@RequestParam("user") final Long userSeq) {
 		final List<ChatRoomDto> chatRoomDto = chatService.findAllChatRoomsByFollowingsSeq(userSeq);
 		System.out.println(chatRoomDto);
 		return new ResponseEntity<>(chatRoomDto, HttpStatus.OK);
-	} // 유저의 1:1 모든 채팅방 조회 -> 모든 1:1 채팅방 리스트 반환. -> 다나가 바꿈.
+	}
 
+	// redis DM 특정 채팅방 메시지 전체 조회.
+	@Operation(summary = "특정 일대일 채팅방 메시지 목로 조회", description = "특정 일대일 채팅방(chatRoomsSeq)에 기록된 메시지 전체 조회")
 	@GetMapping("/rooms/{chatRoomsSeq}/messages")
 	public ResponseEntity<?> findAllMessageFromRedis(@PathVariable final Long chatRoomsSeq,
 		@PageableDefault(size = 20, sort = "sendTime", direction = Sort.Direction.ASC)
@@ -63,10 +70,7 @@ public class ChatController {
 			String.valueOf(chatRoomsSeq), pageable);
 
 		return new ResponseEntity<>(allMessagesFromRedis, HttpStatus.OK);
-	} // redis DM 특정 채팅방 메시지 전체 조회.
-
-
-
+	}
 
 	// =================================== DM ==============================================================
 
@@ -86,8 +90,7 @@ public class ChatController {
 
 	// ====================================================================================================
 
-
-
+	// 채팅방 입장(구독) -> 그룹 대화.
 	@MessageMapping(value = "/rooms/enter/group")
 	public void enterGroupChatRoom(ChatMessageRequest chatMessageRequest) {
 		final UserResponse user = userService.findUserBySeq(chatMessageRequest.getUsersSeq());
@@ -103,8 +106,10 @@ public class ChatController {
 		simpMessageSendingOperations.convertAndSend(
 			"/topic/chat/rooms/enter/group/" + chatMessageRequest.getChatRoomsSeq(),
 			chatMessageRequest);
-	} // 채팅방 입장(구독) -> 그룹 대화.
+	}
 
+
+	// (채팅방 구독자에게) 메시지 보내기. -> 그룹 대화.
 	@MessageMapping("/messages/group")
 	public void sendGroupMessage(final ChatMessageRequest chatMessageRequest) {
 		final UserResponse userResponse = userService.findUserBySeq(chatMessageRequest.getUsersSeq());
@@ -119,7 +124,7 @@ public class ChatController {
 		simpMessageSendingOperations.convertAndSend(
 			"/topic/chat/rooms/enter/group/" + chatMessageResponse.getChatRoomsSeq(),
 			chatMessageResponse);
-	} // (채팅방 구독자에게) 메시지 보내기. -> 그룹 대화.
+	}
 
 
 

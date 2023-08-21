@@ -123,18 +123,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String findIdByEmail(String email) {
-        User user = userRepository.findUserByEmail(email).orElseThrow(() -> new NoSuchElementException("NoUser"));
-        return user.getId();
-    }
-
-    @Override
-    public String findPasswordByEmail(String email) {
-        User user = userRepository.findUserByEmail(email).orElseThrow(() -> new NoSuchElementException("NoUser"));
-        return user.getPassword();
-    }
-
-    @Override
     public void checkAvailableNick(String nick) {
         User user = userRepository.findUserByNickname(nick).orElseThrow(() -> new NoSuchElementException("NoUser"));
     }
@@ -223,7 +211,7 @@ public class UserServiceImpl implements UserService {
         return list;
     }
 
-    // 출석체크시 20포인트 적립
+    // 포인트 수정
     @Override
     public UserResponse updatePoint(Long seq, String point) {
         User user = userRepository.findById(seq).orElseThrow(() -> new NoSuchElementException("NoUser"));

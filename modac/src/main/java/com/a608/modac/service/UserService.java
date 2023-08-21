@@ -23,10 +23,6 @@ public interface UserService {
 
 	UserResponse findUserByEmail(final String email);	// 이메일로 회원 조회
 
-	String findIdByEmail(final String email);		// 아이디 찾기 (이메일로)
-
-	String findPasswordByEmail(final String email);	// 비밀번호 찾기 (이메일로)
-
 	void checkAvailableNick(final String nick);	// 닉네임 중복확인
 
 	void checkAvailableId(final String id);		// 아이디 중복확인
