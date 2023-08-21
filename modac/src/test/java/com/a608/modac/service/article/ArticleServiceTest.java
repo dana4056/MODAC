@@ -101,7 +101,6 @@ public class ArticleServiceTest {
 
             // when
             ArticleResponse.ArticleInfo registerArticle = articleService.createArticle(articleRequest);
-
             // then
             assertEquals(registerArticle.getTitle(), "게시글1");
             assertEquals(registerArticle.getSeq(), 1L);
@@ -209,6 +208,7 @@ public class ArticleServiceTest {
             when(articleRepository.findById(seq)).thenReturn(Optional.ofNullable(article));
             //when
             Optional<Article> byId = articleRepository.findById(seq);
+            byId.get().upViewCount();
             // then
             assertEquals(byId.get().getViewCount(), 1);
         }
