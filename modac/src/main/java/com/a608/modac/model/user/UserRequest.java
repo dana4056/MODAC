@@ -1,10 +1,12 @@
 package com.a608.modac.model.user;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;
 
 @Getter
 @ToString
+@AllArgsConstructor
 public class UserRequest {
 	private Long seq;
 	private String id;

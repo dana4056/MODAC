@@ -79,6 +79,8 @@ public class User implements UserDetails {
 		this.catSkin = catSkin;
 		this.singleTheme = singleTheme;
 		this.totalSecond = totalSecond;
+		this.point = 0;
+		this.maxPoint = 50;
 	}
 
 	public void updateUser(String nickname, String email){
