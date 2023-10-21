@@ -20,8 +20,8 @@ public class RedisConfig implements Serializable {
 	private int port;
 
 	@Bean
-	public RedisTemplate<String, DirectMessage> redisTemplate() {
-		final RedisTemplate<String, DirectMessage> redisTemplate = new RedisTemplate<>();
+	public RedisTemplate<String, ?> redisTemplate() {
+		final RedisTemplate<String, ?> redisTemplate = new RedisTemplate<>();
 		final LettuceConnectionFactory lettuceConnectionFactory = new LettuceConnectionFactory(host, port);
 
 		lettuceConnectionFactory.afterPropertiesSet();

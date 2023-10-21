@@ -18,7 +18,7 @@ public interface ArticleService {
 	// 게시글 번호로 게시글 조회
 	ArticleResponse.ArticleInfo readArticleBySeq(final Long seq);
 
-	void upViewCount(final Long seq);
+	void upViewCount(final Long seq, final Long usersSeq);
 
 	// 게시글 번호로 게시글 삭제
 	void deleteArticleBySeq(final Long seq);
