@@ -1,6 +1,8 @@
 package com.a608.modac.service;
 
 import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +22,16 @@ public class RedisService {
         final ValueOperations<String, String> readArticleValueOperations = redisTemplate.opsForValue();
         readArticleValueOperations.append(String.valueOf(memberSeq), articleSeq + DELIMITER);
 
-        redisTemplate.expire(String.valueOf(memberSeq), Duration.ofDays(1).getSeconds(), TimeUnit.SECONDS); // 만료일자 1일
+        // 오늘 자정 - 현재시간 -> 남은시간으로 만료일 지정.
+        // 만료일자 해당일 자정
+        redisTemplate.expire(String.valueOf(memberSeq), calculateExpire().getSeconds(), TimeUnit.SECONDS);
+    }
+
+    private static Duration calculateExpire() {
+        LocalDateTime expire = LocalDateTime.now().with(LocalTime.MAX);
+        LocalDateTime now = LocalDateTime.now();
+        Duration between = Duration.between(now, expire);
+        return between;
     }
 
     public Optional<String> findById(final Long memberSeq) {
