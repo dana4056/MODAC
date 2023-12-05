@@ -9,18 +9,18 @@ import lombok.Getter;
 
 @Getter
 public class ArticleResponse {
-	private List<ArticleInfo> articleInfoList;
+	private List<ArticleInfoResponse> articleInfoList;
 	private Integer totalArticleCnt;
 	private Integer totalPageCnt;
 
-	public ArticleResponse(List<ArticleInfo> articleInfoList, Integer totalArticleCnt, Integer totalPageCnt) {
+	public ArticleResponse(List<ArticleInfoResponse> articleInfoList, Integer totalArticleCnt, Integer totalPageCnt) {
 		this.articleInfoList = articleInfoList;
 		this.totalArticleCnt = totalArticleCnt;
 		this.totalPageCnt = totalPageCnt;
 	}
 
 	@Getter
-	public static class ArticleInfo {
+	public static class ArticleInfoResponse {
 		private Long seq;
 		private String title;
 		private String filepath;
@@ -33,7 +33,7 @@ public class ArticleResponse {
 		private User user;
 		private String categoryName;
 
-		public ArticleInfo(Article article) {
+		public ArticleInfoResponse(Article article) {
 			this.seq = article.getSeq();
 			this.title = article.getTitle();
 			this.filepath = article.getFilepath();

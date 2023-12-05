@@ -1,6 +1,9 @@
 package com.a608.modac.controller;
 
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -22,6 +25,8 @@ import com.a608.modac.service.ArticleService;
 import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;
 
+import static com.a608.modac.model.article.ArticleResponse.*;
+
 @Api(tags = "Article Controller", description = "게시글 관련 API")
 @CrossOrigin(origins = {"*"})
 @RestController
@@ -41,7 +46,7 @@ public class ArticleController {
     @Operation(summary = "게시글 작성")
     @PostMapping
     public ResponseEntity<?> createArticle(@RequestBody final ArticleRequest articleRequest) {
-        return new ResponseEntity<ArticleResponse.ArticleInfo>(articleService.createArticle(articleRequest),
+        return new ResponseEntity<ArticleInfoResponse>(articleService.createArticle(articleRequest),
                 HttpStatus.CREATED);
     }
 
@@ -57,8 +62,8 @@ public class ArticleController {
     // 게시글 조회 (GET)
     @Operation(summary = "게시글 조회", description = "특정 게시글(seq) 조회")
     @GetMapping("/{seq}")
-    public ResponseEntity<?> selectArticle(@PathVariable("seq") final Long seq) {
-        return new ResponseEntity<ArticleResponse.ArticleInfo>(articleService.readArticleBySeq(seq), HttpStatus.OK);
+    public ResponseEntity<?> selectArticle(@PathVariable("seq") final Long seq, final HttpServletRequest httpServletRequest, final HttpServletResponse httpServletResponse) {
+        return new ResponseEntity<ArticleInfoResponse>(articleService.readArticleBySeq(seq, httpServletRequest, httpServletResponse), HttpStatus.OK);
     }
 
     // 게시글 조회수 올리기

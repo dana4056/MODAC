@@ -3,7 +3,9 @@ package com.a608.modac.service;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.Period;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -14,6 +16,9 @@ import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,11 +38,16 @@ import com.a608.modac.repository.LikeRepository;
 import com.a608.modac.repository.NotificationRepository;
 import com.a608.modac.repository.TodoRepository;
 import com.a608.modac.repository.UserRepository;
+import org.springframework.transaction.annotation.Transactional;
+
+import static com.a608.modac.model.article.ArticleResponse.*;
 
 @Service
 public class ArticleServiceImpl implements ArticleService {
 
     public static final String DELIMITER = "_";
+    public static final String COOKIE_NAME_PREFIX = "CheckedArticle";
+    public static final String NO_ARTICLE = "NoArticle";
     @Resource(name = "articleRepository")
     private final ArticleRepository articleRepository;
 
@@ -76,7 +86,7 @@ public class ArticleServiceImpl implements ArticleService {
 
     // 게시글 저장
     @Override
-    public ArticleResponse.ArticleInfo createArticle(final ArticleRequest articleRequest) {
+    public ArticleInfoResponse createArticle(final ArticleRequest articleRequest) {
         String objectKey = articleRequest.getContent();
 
         // 게시글 내용 s3에 저장
@@ -105,7 +115,7 @@ public class ArticleServiceImpl implements ArticleService {
 //		user.updatePoint(point);
         userRepository.save(user);
 
-        return new ArticleResponse.ArticleInfo(save);
+        return new ArticleInfoResponse(save);
     }
 
     // 사용자 아이디로 게시글 목록 조회
@@ -122,7 +132,7 @@ public class ArticleServiceImpl implements ArticleService {
 
         return new ArticleResponse(findArticles.subList(st, ed)
                 .stream()
-                .map(ArticleResponse.ArticleInfo::new)
+                .map(ArticleInfoResponse::new)
                 .collect(Collectors.toList()),
                 totalArticleCnt, totalPageCnt);
     }
@@ -150,19 +160,30 @@ public class ArticleServiceImpl implements ArticleService {
 
         return new ArticleResponse(findArticles.subList(st, ed)
                 .stream()
-                .map(ArticleResponse.ArticleInfo::new)
+                .map(ArticleInfoResponse::new)
                 .collect(Collectors.toList()),
                 totalArticleCnt, totalPageCnt);
     }
 
     // 게시글 번호로 게시글 조회
+
     @Override
-    public ArticleResponse.ArticleInfo readArticleBySeq(final Long seq) {
-        Article article = articleRepository.findById(seq).orElseThrow(() -> new NoSuchElementException("NoArticle"));
-        ArticleResponse.ArticleInfo articleResponse = new ArticleResponse.ArticleInfo(article);
-        // S3 서버에 백업된 게시글 내용 조회
-//		articleResponse.readContentByFilepath(s3Service.read(article.getFilepath()));
-        return articleResponse;
+    @Transactional
+    public ArticleInfoResponse readArticleBySeq(final Long articleId, final HttpServletRequest request,
+                                                final HttpServletResponse response) {
+        Article article = articleRepository.findById(articleId).orElseThrow(() -> new NoSuchElementException(NO_ARTICLE));
+        Cookie[] cookies = request.getCookies();
+
+        if (cookies == null || Arrays.stream(cookies).noneMatch(cookie -> cookie.getName().equals(COOKIE_NAME_PREFIX + articleId))) {
+            Cookie cookie = new Cookie(COOKIE_NAME_PREFIX + articleId, String.valueOf(articleId));
+            cookie.setMaxAge((int) LocalDateTime.now().until(LocalDate.now().atTime(LocalTime.MAX), ChronoUnit.SECONDS));
+            cookie.setHttpOnly(true);
+
+            response.addCookie(cookie);
+            article.upViewCount();
+        }
+
+        return new ArticleInfoResponse(article);
     }
 
     // 게시글 조회수 업
