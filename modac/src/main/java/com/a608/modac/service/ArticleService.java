@@ -6,6 +6,10 @@ import com.a608.modac.model.article.LikeRequest;
 import com.a608.modac.model.article.StatisticsResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.jpa.repository.Query;
 
 import static com.a608.modac.model.article.ArticleResponse.*;
 
@@ -13,8 +17,7 @@ public interface ArticleService {
     // 게시글 저장
     ArticleInfoResponse createArticle(final ArticleRequest articleRequest);
 
-	// 사용자 아이디로 게시글 목록 조회
-	ArticleResponse readArticlesByUsersSeq(final Long usersSeq, final Integer offset, final Integer limit);
+    Page<ArticleInfoResponse> selectArticlesByUsersSeq(final Long usersSeq, final Pageable pageable, final Long articleSeq, final Integer size);
 
     // 팔로잉 게시글 목록 조회
     ArticleResponse readArticlesByFollowing(final Long usersSeq, final Integer offset, final Integer limit);

@@ -1,5 +1,6 @@
 package com.a608.modac.service;
 
+import com.a608.modac.repository.ArticleQueryRepository;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -20,6 +21,11 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.a608.modac.model.article.Article;
@@ -66,6 +72,9 @@ public class ArticleServiceImpl implements ArticleService {
     @Resource(name = "notificationRepository")
     private final NotificationRepository notificationRepository;
 
+    @Resource(name = "articleQueryRepository")
+    private final ArticleQueryRepository articleQueryRepository;
+
     @Autowired
     private S3Service s3Service;
 
@@ -75,13 +84,14 @@ public class ArticleServiceImpl implements ArticleService {
     public ArticleServiceImpl(ArticleRepository articleRepository, TodoRepository todoRepository,
                               LikeRepository likeRepository,
                               UserRepository userRepository, FollowRepository followRepository,
-                              NotificationRepository notificationRepository) {
+                              NotificationRepository notificationRepository, final ArticleQueryRepository articleQueryRepository) {
         this.articleRepository = articleRepository;
         this.todoRepository = todoRepository;
         this.likeRepository = likeRepository;
         this.userRepository = userRepository;
         this.followRepository = followRepository;
         this.notificationRepository = notificationRepository;
+        this.articleQueryRepository = articleQueryRepository;
     }
 
     // 게시글 저장
@@ -120,21 +130,13 @@ public class ArticleServiceImpl implements ArticleService {
 
     // 사용자 아이디로 게시글 목록 조회
     @Override
-    public ArticleResponse readArticlesByUsersSeq(final Long usersSeq, final Integer offset, final Integer limit) {
+    public Page<ArticleInfoResponse> selectArticlesByUsersSeq(final Long usersSeq, final Pageable pageable, final Long articleSeq, final Integer size) {
+//    public Page<ArticleInfoResponse> selectArticlesByUsersSeq(final Long usersSeq, final Pageable pageable, final Integer articleSeq, final Integer size) {
         User myUser = userRepository.findById(usersSeq).orElseThrow(() -> new NoSuchElementException("NoUser"));
-        List<Article> findArticles = articleRepository.findByUser(myUser);
-        // 최신 날짜를 우선으로 정렬
-        Collections.sort(findArticles, (o1, o2) -> o1.getRegisteredTime().isBefore(o2.getRegisteredTime()) ? 1 : -1);
-        final Integer totalArticleCnt = findArticles.size(); // 총 게시글 수
-        final Integer totalPageCnt = ((totalArticleCnt - 1) / limit) + 1; // 총 페이지 수
-        final Integer st = (offset - 1) * limit; // 해당 페이지 시작 게시글 인덱스
-        final Integer ed = Math.min(offset * limit, totalArticleCnt); // 해당 페이지 마지막 게시글 인덱스
+//        Pageable pageRequest = PageRequest.of(articleSeq, size, Sort.Direction.DESC, "seq");
+//        return articleRepository.findArticlesByUser(myUser, pageRequest).map(ArticleInfoResponse::new); // 4.21초
 
-        return new ArticleResponse(findArticles.subList(st, ed)
-                .stream()
-                .map(ArticleInfoResponse::new)
-                .collect(Collectors.toList()),
-                totalArticleCnt, totalPageCnt);
+        return articleQueryRepository.searchArticleByUser(usersSeq, articleSeq, pageable); // 2.7초
     }
 
     // 팔로잉 게시글 목록 조회
@@ -144,15 +146,18 @@ public class ArticleServiceImpl implements ArticleService {
         List<Follow> followingList = followRepository.findAllByFromUser_Seq(usersSeq);
         // 팔로잉하는 모든 사람의 게시글 가져오기
         List<Article> findArticles = new ArrayList<>();
+
         for (Follow following : followingList) {
             User user = userRepository.findById(following.getToUser().getSeq())
                     .orElseThrow(() -> new NoSuchElementException("NoUser"));
             findArticles.addAll(articleRepository.findAllByUserAndPublicType(user, (byte) 1));
         }
+
         // 내 게시글 전부 가져오기
         findArticles.addAll(articleRepository.findByUser(myUser));
         // 최신 날짜를 우선으로 정렬
         Collections.sort(findArticles, (o1, o2) -> o1.getRegisteredTime().isBefore(o2.getRegisteredTime()) ? 1 : -1);
+
         final Integer totalArticleCnt = findArticles.size(); // 총 게시글 수
         final Integer totalPageCnt = ((totalArticleCnt - 1) / limit) + 1; // 총 페이지 수
         final Integer st = (offset - 1) * limit; // 해당 페이지 시작 게시글 인덱스
@@ -166,7 +171,6 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     // 게시글 번호로 게시글 조회
-
     @Override
     @Transactional
     public ArticleInfoResponse readArticleBySeq(final Long articleId, final HttpServletRequest request,
@@ -256,6 +260,7 @@ public class ArticleServiceImpl implements ArticleService {
         Article article = articleRepository.findById(articlesSeq).orElseThrow(() -> new NoSuchElementException("NoArticle"));
         User user = userRepository.findById(usersSeq).orElseThrow(() -> new NoSuchElementException("NoUser"));
         Like like = likeRepository.findByArticleAndUser(article, user);
+
         if (like == null) {
             throw new NoSuchElementException("NoLike");
         }

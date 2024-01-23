@@ -1,15 +1,19 @@
 package com.a608.modac.repository;
 
+import io.lettuce.core.dynamic.annotation.Param;
 import java.time.LocalDateTime;
 import java.util.List;
 
 import com.a608.modac.model.article.Article;
 import com.a608.modac.model.user.User;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-@Repository
 public interface ArticleRepository extends JpaRepository<Article, Long> {
 
 	// user가 일치하는 게시글 리스트 반환

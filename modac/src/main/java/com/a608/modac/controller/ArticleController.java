@@ -4,6 +4,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -51,12 +53,21 @@ public class ArticleController {
     }
 
     // 사용자 게시글 전체 조회 (GET)
+//    @Operation(summary = "사용자 게시글 전체 조회", description = "특정 사용자(user)가 작성한 게시글 목록 조회")
+//    @GetMapping
+//    public ResponseEntity<?> selectAllArticle(@RequestParam("user") final Long usersSeq,
+//                                              @RequestParam("offset") final Integer offset, @RequestParam("limit") final Integer limit) {
+//        return new ResponseEntity<ArticleResponse>(articleService.readArticlesByUsersSeq(usersSeq, offset, limit),
+//                HttpStatus.OK);
+//    }
+
     @Operation(summary = "사용자 게시글 전체 조회", description = "특정 사용자(user)가 작성한 게시글 목록 조회")
     @GetMapping
     public ResponseEntity<?> selectAllArticle(@RequestParam("user") final Long usersSeq,
-                                              @RequestParam("offset") final Integer offset, @RequestParam("limit") final Integer limit) {
-        return new ResponseEntity<ArticleResponse>(articleService.readArticlesByUsersSeq(usersSeq, offset, limit),
-                HttpStatus.OK);
+                                              @RequestParam("articleSeq") final Long articleSeq,
+                                              @RequestParam("size") final Integer size,
+                                              final Pageable pageable) {
+         return new ResponseEntity<>(articleService.selectArticlesByUsersSeq(usersSeq, pageable, articleSeq, size), HttpStatus.OK);
     }
 
     // 게시글 조회 (GET)
